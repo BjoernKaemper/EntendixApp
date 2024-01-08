@@ -52,7 +52,7 @@
           <!-- <div class='d-flex justify-end'> -->
             <v-col>
             <v-card >Lorem ipsum dolor sit amet, consectetur adipisicing elit. At nesciunt reprehenderit commodi dolores perferendis ad nostrum nam sapiente necessitatibus enim ipsam rerum, eligendi ab provident tenetur possimus? Consectetur, at nisi?
-              <v-img height="100px" src="@/assets/logo_TH.png"></v-img>
+              <v-img height="100px" src="@/assets/plyteq_schriftzug.svg"></v-img>
             </v-card>
           </v-col>   
         </div>

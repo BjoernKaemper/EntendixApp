@@ -20,14 +20,13 @@
       </div>
       <v-divider></v-divider>
       <div>
-        {{ new Date().getFullYear() }} — <strong>TH Köln</strong>
-        <p>Institut für Technische Gebäudeausrüstung</p>
+        {{ new Date().getFullYear() }} — <strong>PLYTEQ</strong>
       </div>
     </div>
       
       <div >
-      <v-avatar size="150px" rounded="0">
-              <v-img src="@/assets/logo_TH.png">
+      <v-avatar size="100px" rounded="0">
+              <v-img src="@/assets/plyteq_schriftzug.svg">
             </v-img>
           </v-avatar>
 

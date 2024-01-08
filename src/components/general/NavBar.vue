@@ -11,7 +11,9 @@
             <v-toolbar-title
                 id="navbar-title" 
                 >
-                GART-Labor</v-toolbar-title>           
+                <v-img
+                max-width="78" src="@/assets/plyteq_schriftzug_weiß.svg"></v-img>
+                </v-toolbar-title>           
             <v-spacer></v-spacer>
             <div v-for="solution in solutions" :key="solution.title">
               <v-btn plain @click="() => {}" :to="solution.link">

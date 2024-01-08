@@ -3,8 +3,8 @@
     <Authenticator>
       <template v-slot:header>
         <div style="padding: var(--amplify-space-large); text-align: center">
-          <img
-            src="@/assets/logo_TH.png"
+          <img id="auth-logo"
+            src="@/assets/plyteq_schriftzug.svg"
           />
         </div>
       </template>
@@ -53,6 +53,7 @@
   })
   const auth = useAuthenticator();
   const store = useGeneralStore()
+  console.log(auth)
 
   watchEffect(() => {
     // Check if auth.user is available and contains the necessary properties.
@@ -81,34 +82,34 @@
 }
 [data-amplify-authenticator] {
   --amplify-components-tabs-item-active-border-color: var(
-    --amplify-colors-brand-secondary-100
+    --amplify-colors-green-90
   );
   --amplify-components-tabs-item-active-color: var(
-    --amplify-colors-brand-secondary-100
+    --amplify-colors-green-90
   );
   --amplify-components-button-primary-background-color: var(
-    --amplify-colors-brand-secondary-80
+    --amplify-colors-green-90
   );
   --amplify-components-button-primary-hover-background-color: var(
-    --amplify-colors-brand-secondary-90
+    --amplify-colors-green-60
   );
   --amplify-components-button-primary-focus-background-color: var(
-    --amplify-colors-brand-secondary-90
+    --amplify-colors-green-90
   );
   --amplify-components-button-primary-active-background-color: var(
-    --amplify-colors-brand-secondary-100
+    --amplify-colors-green-90
   );
   --amplify-components-button-link-color: var(
-    --amplify-colors-brand-secondary-80
+    --amplify-colors-green-90
   );
   --amplify-components-button-link-hover-color: var(
-    --amplify-colors-brand-secondary-90
+    --amplify-colors-green-90
   );
   --amplify-components-button-link-focus-color: var(
-    --amplify-colors-brand-secondary-90
+    --amplify-colors-green-90
   );
   --amplify-components-button-link-active-color: var(
-    --amplify-colors-brand-secondary-100
+    --amplify-colors-green-90
   );
   --amplify-components-button-link-active-background-color: transparent;
   --amplify-components-button-link-focus-background-color: transparent;
@@ -116,6 +117,11 @@
 }
 .card-background {
   background-color: whitesmoke;
+}
+#auth-logo {
+  margin-top: 50px;
+  max-width: 50%;
+  height: auto;
 }
 </style>
 

@@ -21,7 +21,7 @@
                 </v-card-title>
                 <v-divider 
                 class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
-                <v-card-subtitle class="title-center">Gebäude</v-card-subtitle>
+                <v-card-subtitle class="title-center">Gebäude  hallo</v-card-subtitle>
                 <v-card-title v-for="aasId in site['buildings']" :key="aasId" style="font-size: 18px">
                     <v-row v-for="(building, key) in aasId" :key="key">
                         <v-col cols="2"></v-col>

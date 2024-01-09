@@ -71,19 +71,26 @@ export default {
   },
   methods: {
     zoomXAxes(period) {
+      //console.log(period)
 
       const currentTime = new Date();
+      
+      
       const updatedYear = currentTime.getFullYear();
       const updatedMonth = currentTime.getMonth();
       const updatedDay = currentTime.getDate();
       const updatedHours = currentTime.getHours();
       const updatedMinutes = currentTime.getMinutes();
       const updatedSeconds = currentTime.getSeconds();
-      const updatedTime = new Date();
+      
+      let updatedTime = new Date();
+      /*
       updatedTime.setFullYear(updatedYear);
       updatedTime.setMonth(updatedMonth);
       updatedTime.setDate(updatedDay - 1);
       updatedTime.setHours(updatedHours, updatedMinutes, updatedSeconds);
+      */
+      
 
       // Zwei zeilen könenn dann weg
       //let currentTime
@@ -91,12 +98,12 @@ export default {
       if (period === 'day') {
         // Funktioneirt mit echten Daten
         
-        const updatedTime = new Date();
+        //let updatedTime = new Date();
         updatedTime.setFullYear(updatedYear);
         updatedTime.setMonth(updatedMonth);
         updatedTime.setDate(updatedDay - 1);
         updatedTime.setHours(updatedHours, updatedMinutes, updatedSeconds);
-
+        //console.log(updatedTime)
         // Hier als Ersatz, sodass es mit den daten funktioniert
 
         //currentTime = new Date(2023, 8, 28)
@@ -105,7 +112,7 @@ export default {
 
         // Funktioniert mit echten Daten
       
-        const updatedTime = new Date();
+        //let updatedTime = new Date();
         updatedTime.setFullYear(updatedYear);
         updatedTime.setMonth(updatedMonth);
         updatedTime.setDate(updatedDay - 7);
@@ -117,7 +124,7 @@ export default {
 
         // funktioniert mit echten daten
       
-        const updatedTime = new Date();
+        //let updatedTime = new Date();
         updatedTime.setFullYear(updatedYear);
         updatedTime.setMonth(updatedMonth-1);
         updatedTime.setDate(updatedDay);
@@ -126,7 +133,7 @@ export default {
         //currentTime = new Date(2023, 7, 28)
         //updatedTime = new Date(2023, 8, 28)
       }
-
+      //console.log(updatedTime)
 
       if (this.chart && this.elementsToDisplay.length > 0) {
 

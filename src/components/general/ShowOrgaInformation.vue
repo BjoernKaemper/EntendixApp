@@ -13,9 +13,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(value, key, index) in generalStore.loadedOrganizationInformation[0]" :key="key">
-                    <td class="text-left">{{ orgaPropertyNames[index] }}</td>
-                    <td class="text-left">{{ value }}</td>
+                <tr v-for="(key, index) in desiredOrder" :key="index">
+                    <td class="text-left">{{ orgaPropertyNames[key] }}</td>
+                    <td class="text-left">{{ generalStore.loadedOrganizationInformation[0][key] }}</td>
                 </tr>
             </tbody>
         </v-table>
@@ -31,20 +31,14 @@ import { useGeneralStore } from "@/store/general"
 export default {
     data() {
         return {
-            orgaPropertyNames: [
-                'Name Unternehmen',
-                'Sitz des Unternehmens (Land)',
-                'Sitz des Unternehmens (Stadt)',
-                'Sitz des Unternehmens (Postleitzahl)',
-                'Straße und Hausnummer'
-               /*
-               'Company name',
-               'Head office (Country)',
-               'Head office (City)',
-               'Head office (Postal code)',
-               'Street'
-               */
-            ]
+            orgaPropertyNames: {
+                organizationName: 'Name Unternehmen',
+                country: 'Sitz des Unternehmens (Land)',
+                city: 'Sitz des Unternehmens (Stadt)',
+                zipcode: 'Sitz des Unternehmens (Postleitzahl)',
+                street: 'Straße und Hausnummer'
+            },
+            desiredOrder: ['organizationName', 'country', 'city', 'zipcode', 'street']
         }
     },
     components: { EditOrganizationInformation },

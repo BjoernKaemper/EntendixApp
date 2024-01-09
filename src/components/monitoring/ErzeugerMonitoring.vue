@@ -19,49 +19,23 @@
               <v-card
                 style="border-radius: 20px; background-color: whitesmoke"
                 variant="outlined" class="pa-4 anlagen-card">
-                <!--
                 <v-card-text class="center-content">
-                  <div class="heizkreis">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        viewBox="0 0 90 94.3" style="enable-background:new 0 0 90 94.3;" xml:space="preserve">
-                    <g id="Ebene_2">
-                    </g>
-                    <g id="Ebene_1" xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
-                        <g>
-                            <path class="st0" d=""/>
-                            <line id="vorlauf1" class="st1" x1="0" y1="85.7" x2="90" y2="85.7"
-                            @click="handleAreaClick('Vorlauf')"/>
-                            <line id="rücklauf1" class="st2" x1="0" y1="92.8" x2="89.9" y2="92.8"
-                            @click="handleAreaClick('Rücklauf')"/>
-                            <polyline class="st3" points="65.1,92.8 65.1,11 59.7,11 		"/>
-                            <polyline id = 'rücklauf' class="st4" points="65.1,92.8 65.1,11 59.7,11"
-                            @click="handleAreaClick('Rücklauf')"/>
-                            <circle class="st5" cx="46.5" cy="11.8" r="7.8"/>
-                            <circle id = 'hkAllgemein' class="st5" cx="46.5" cy="11.8" r="11.3"
-                            @click="handleAreaClick('Heizkreis allgemein')"/>
-                            <circle id = 'pumpe' class="st5" cx="28.7" cy="39.8" r="6.4"
-                              @click="handleAreaClick('Pumpe')"/>
-                            <polyline class="st3" points="35,39.8 28.7,33.5 22.3,39.8 		"/>
-                            <path class="st3" d="M25,55l3.4,5.9l3.4-5.9C31.7,55,25,55,25,55z"/>
-                            <path class="st6" d="M25,66.7l3.4-5.9l3.4,5.9C31.7,66.7,25,66.7,25,66.7z"/>
-                            <path class="st6" d="M34.2,64.2l-5.9-3.4l5.9-3.4V64.2z"/>
-                            <circle id ='ventil' class="st5" cx="16.7" cy="60.9" r="5.7"
-                              @click="handleAreaClick('Ventil')"/>
-                            <line class="st3" x1="22.4" y1="60.9" x2="28.4" y2="60.9"/>
-                            <line id ='vorlauf2' class="st7" x1="28.4" y1="68.1" x2="28.4" y2="85.7"
-                            @click="handleAreaClick('Vorlauf')"/>
-                            <line id="vorlauf3" class="st7" x1="28.7" y1="47.4" x2="28.7" y2="53.9"
-                            @click="handleAreaClick('Vorlauf')"/>
-                            <polyline id ='vorlauf' class="st7" points="28.6,32.1 28.6,11 33.4,11"
-                            @click="handleAreaClick('Vorlauf')"/>
-                            <line id="rücklauf2" class="st4" x1="35.8" y1="60.9" x2="65.1" y2="60.9"
-                            @click="handleAreaClick('Rücklauf')"/>
-                        </g>
-                    </g>
+                  <v-container class="mx-6 px-12">
+                    <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.88 274.58">
+            
+                      <g id="Ebene_1-2" data-name="Ebene_1">
+                        <rect class="cls-1" x="2" y="2" width="207.48" height="228.89" rx="37.01" ry="37.01"/>
+                        <path class="cls-1" d="M39.01,230.9h49.83v12.72c0,5.09-4.16,9.25-9.25,9.25h-31.32c-5.09,0-9.25-4.16-9.25-9.25v-12.72h0Z"/>
+                        <path class="cls-1" d="M122.28,230.9h49.83v12.72c0,5.09-4.16,9.25-9.25,9.25h-31.32c-5.09,0-9.25-4.16-9.25-9.25v-12.72h0Z"/>
+                        <path class="cls-1" d="M48.26,252.87h32.62v15.09c0,2.54-2.08,4.63-4.63,4.63h-23.37c-2.54,0-4.63-2.08-4.63-4.63v-15.09h0Z"/>
+                        <path class="cls-1" d="M131.53,252.87h32.62v15.09c0,2.54-2.08,4.63-4.63,4.63h-23.37c-2.54,0-4.63-2.08-4.63-4.63v-15.09h0Z"/>
+                        <line class="cls-2" x1="68.28" y1="199.1" x2="144.98" y2="199.1"/>
+                        <circle class="cls-2" cx="103.38" cy="86.16" r="39.32"/>
+                        <line class="cls-1" x1="2" y1="162.06" x2="211.88" y2="162.06"/>
+                      </g>
                     </svg>
-                  </div>
+                  </v-container>
                 </v-card-text>
-            -->
               </v-card>
             </v-col>
             <v-col cols="8">
@@ -261,36 +235,23 @@ export default {
 
 <style>
   
-	.st0{fill:none;}
-	.st1{fill:none;stroke:#FF4A1C;stroke-width:2.9999;stroke-miterlimit:10;}
-	.st2{fill:none;stroke:#372772;stroke-width:2.9999;stroke-miterlimit:10;}
-	.st3{fill:none;stroke:#2B2A29;stroke-width:0.5669;stroke-miterlimit:10;}
-	.st4{fill:none;stroke:#372772;stroke-width:1.5001;stroke-miterlimit:10;}
-	.st5{fill:transparent;stroke:#2B2A29;stroke-width:1.0001;stroke-miterlimit:10;}
-	.st6{fill:#2B2A29;stroke:#2B2A29;stroke-width:0.5669;stroke-miterlimit:10;}
-	.st7{fill:none;stroke:#FF4A1C;stroke-width:1.5001;stroke-miterlimit:10;}
+.cls-1 {
+  stroke: #372772;
+  stroke-width: 4px;
+}
 
-  .pointer {
-    cursor: pointer;
-  }
-  .pumpe:hover {
-    fill: #e6bcbc;
-  }
-  .ventil:hover {
-    fill: #e6bcbc;
-  }
-  .hkAllgemein:hover {
-    fill: #e6bcbc;
-  }
-  .rücklauf:hover {
-    stroke: #5c3ec9;
-  }
-  .vorlauf:hover {
-    stroke: #8c260d;
-  }
+.cls-1, .cls-2 {
+  fill: none;
+  stroke-miterlimit: 10;
+}
 
-.heizkreis {
-    width:80%;
+.cls-2 {
+  stroke: #ff4a1c;
+  stroke-width: 8px;
+}
+
+.pointer {
+  cursor: pointer;
 }
 .anlagen-card {
   background-color: #ffffff;

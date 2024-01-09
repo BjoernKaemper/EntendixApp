@@ -42,8 +42,14 @@ export default {
           siteInformation['Straße'] = this.site[element]
         }
       }
+      const desiredOrder = ['Land', 'Stadt', 'Straße']
+      const sortedSiteInformation = Object.fromEntries(
+        Object.entries(siteInformation)
+          .sort(([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB))
+      );
+
       //console.log(siteInformation)
-      return siteInformation
+      return sortedSiteInformation
     }
   }
 }

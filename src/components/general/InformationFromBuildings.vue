@@ -49,7 +49,12 @@ export default {
                   }
                 }
             }
-            buildings.push(buildingInformationDict)
+            const desiredOrder = ['Name Gebäude', 'Land', 'Stadt', 'Straße']
+            const sortedInformation = Object.fromEntries(
+              Object.entries(buildingInformationDict)
+                .sort(([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB))
+            );
+            buildings.push(sortedInformation)
         }
         console.log(buildings)
         return buildings

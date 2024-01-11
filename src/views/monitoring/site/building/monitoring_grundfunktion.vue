@@ -83,7 +83,7 @@
                                                 <v-btn
                                                 variant="flat" color="rgba(255, 74, 28, 0.8)" 
                                                 @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion_Anlage', 
-                                                params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, anlage:anlage.idShort}}), 
+                                                params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, zweiteFunktion:funktion, anlage:anlage.idShort}}), 
                                                 monitoringStore.aasAnlage = anlage"
                                                 icon="mdi-chart-line">
                                                 </v-btn>

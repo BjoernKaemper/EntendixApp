@@ -53,7 +53,8 @@ export default {
     };
   },
   props: {
-      allElements: Array
+      allElements: Array, 
+      zweiteFunktion: String
     },
   mounted() {
     let presetTime = 'month'
@@ -158,15 +159,31 @@ export default {
     async initChart(time) {
       let elementsToDisplay = [];
 
+      // Define semantic id mappings for each function type
       const semanticIdMappings = {
-        'https://th-koeln.de/gart/vocabulary/MeasuredValueReturnTemperature/1/0': 0x372772,
-        'https://th-koeln.de/gart/vocabulary/MeasuredValueFlowTemperature/1/0': 0xFF4A1C,
-        // Alles was hier hinzugefügt wird, wird in dem Chart visualisiert, wenn es
-        // auch in this.allElements enthalten ist
-        //'https://th-koeln.de/gart/vocabulary/AlarmMessage/1/0': 0xFF4A1C
-        // Add more mappings as needed
+        WärmeVerteilen: {
+          'https://th-koeln.de/gart/vocabulary/MeasuredValueReturnTemperature/1/0': 0x372772,
+          'https://th-koeln.de/gart/vocabulary/MeasuredValueFlowTemperature/1/0': 0xFF4A1C,
+        },
+        WärmeErzeugen: {
+          'https://th-koeln.de/gart/vocabulary/OperatingHours/1/0': 0x372772,
+          "https://th-koeln.de/gart/vocabulary/MeasuredValuePower/1/0": 0xFF4A1C, 
+        },
+        LuftBereitstellen: {
+          'https://th-koeln.de/gart/vocabulary/OutdoorAirTemperature/1/0': 0x372772,
+          "https://th-koeln.de/gart/vocabulary/SwitchingCommand/1/0": 0xFF4A1C,
+        },
+        WärmeSpeichern: {
+          "https://th-koeln.de/gart/vocabulary/MeasuredValueStorageTankTemperature/1/0": 0x372772,
+          "https://th-koeln.de/gart/vocabulary/SetPointStorageTankTemperature/1/0": 0xFF4A1C,
+        }
       };
 
+      // Assign the appropriate mapping based on zweiteFunktion
+      const selectedMappings = semanticIdMappings[this.zweiteFunktion];
+      console.log(selectedMappings)
+
+      console.log(this.allElements)
       for (let komponente in this.allElements) {
         let component = this.allElements[komponente].elements;
 
@@ -174,17 +191,18 @@ export default {
           let element = component[elementInformation];
           let semanticId = element.semanticId;
 
-          if (semanticIdMappings.hasOwnProperty(semanticId)) {
+          if (selectedMappings.hasOwnProperty(semanticId)) {
 
             let aasId = this.allElements[komponente].anlagenInformation.aasId;
             let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(element.idShort, element.submodelName, aasId);
+            console.log(timeSeriesData)
             //console.log(timeSeriesData)
             //data.push(timeSeriesData)
             //names.push(element.name)
             elementsToDisplay.push({
               'name': element.datenpunktLabel,
               'data': timeSeriesData,
-              'color': semanticIdMappings[semanticId]
+              'color': selectedMappings[semanticId]
             });
           }
         }

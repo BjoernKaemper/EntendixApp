@@ -225,23 +225,29 @@ export const useMonitoringStore = defineStore('monitoring', {
             let responseBasyx = ''        
             const actualTime = Math.floor(new Date().getTime() / 1000)
             console.log(actualTime)
+            console.log(this.userId)
+            console.log(aasId)
             let path = submodelElementPath + '/PresentValue'
+            console.log(path)
+            console.log(submodelRefIdShort)
             try {
                 const response = await axios.post(url, {
                     userId: this.userId,
                     aasIdentifier: aasId,
-                    submodelRefIdShort:submodelRefIdShort,
-                    submodelElementPath:path,
+                    submodelRefIdShort: submodelRefIdShort,
+                    submodelElementPath: path,
                     timestampStart: 0,
                     timestampStop: actualTime,
                     //timestampStop: 1696878572
                 },{
                   timeout: 600000
                 })
+                console.log(response)
                 responseBasyx = response.data
             } catch (error) {
                 console.log(error)
             }
+            
             this.roomTemperature = responseBasyx
             this.loadingLineChart = false
 

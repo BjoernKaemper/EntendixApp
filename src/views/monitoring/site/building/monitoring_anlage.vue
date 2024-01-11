@@ -8,8 +8,9 @@
             <v-img class="mx-auto" max-width="400" href="#" contain src="@/assets/heizkreis.svg">
             </v-img>
 
-        -->
-            <HeizkreisMonitoring v-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantDistributionCircuitAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
+        --> 
+            <WärmeSpeicherMonitoring v-if='monitoringStore.aasAnlage.komponentenAas[0].semanticId == "https://th-koeln.de/gart/ComponentTankAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
+            <HeizkreisMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantDistributionCircuitAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <ErzeugerMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantGeneratorAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <RLTAnlageMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantVentilationSystemAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <MedienBereitstellenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantMediaSupplyAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
@@ -25,11 +26,12 @@ import RLTAnlageMonitoring from "@/components/monitoring/RLTAnlageMonitoring.vue
 import ErzeugerMonitoring from "@/components/monitoring/ErzeugerMonitoring.vue"
 import MedienBereitstellenMonitoring from "@/components/monitoring/MedienBereitstellenMonitoring.vue"
 import LuftVerteilenMonitoring from "@/components/monitoring/LuftVerteilenMonitoring.vue"
+import WärmeSpeicherMonitoring from "@/components/monitoring/WärmeSpeicherMonitoring.vue"
 
 export default {
     components: {
     HeizkreisMonitoring, RLTAnlageMonitoring, ErzeugerMonitoring, MedienBereitstellenMonitoring,
-    LuftVerteilenMonitoring
+    LuftVerteilenMonitoring, WärmeSpeicherMonitoring
 },
     computed: {
         monitoringStore () {

@@ -11,7 +11,7 @@
           <KpisMonitoringAnlage />
         </v-container>
         <v-container>
-          <LineChartAll :allElements="this.allSes"/> 
+          <LineChartAll :allElements="this.allSes" zweiteFunktion="WärmeVerteilen"/> 
         </v-container>
         <v-container>
           <v-row>

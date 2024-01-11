@@ -11,7 +11,7 @@
           <KpisMonitoringAnlage />
         </v-container>
         <v-container>
-          <LineChartAll :allElements="this.allSes" zweiteFunktion="WärmeErzeugen"/> 
+          <LineChartAll :allElements="this.allSes" zweiteFunktion="WärmeSpeichern"/> 
         </v-container>
         <v-container>
           <v-row>
@@ -20,18 +20,23 @@
                 style="border-radius: 20px; background-color: whitesmoke"
                 variant="outlined" class="pa-4 anlagen-card">
                 <v-card-text class="center-content">
-                  <v-container class="mx-0 mx-lg-10 mx-xl-16 px-lg-10 px-xl-16">
-                        <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.88 274.58">
+                  <v-container class="mx-0 mx-lg-6 mx-xl-16 px-lg-6 px-xl-16">
+                    <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 202.21 230.5">
             
                         <g id="Ebene_1-2" data-name="Ebene_1">
-                          <rect class="cls-1" x="2" y="2" width="207.48" height="228.89" rx="37.01" ry="37.01"/>
-                          <path class="cls-1" d="M39.01,230.9h49.83v12.72c0,5.09-4.16,9.25-9.25,9.25h-31.32c-5.09,0-9.25-4.16-9.25-9.25v-12.72h0Z"/>
-                          <path class="cls-1" d="M122.28,230.9h49.83v12.72c0,5.09-4.16,9.25-9.25,9.25h-31.32c-5.09,0-9.25-4.16-9.25-9.25v-12.72h0Z"/>
-                          <path class="cls-1" d="M48.26,252.87h32.62v15.09c0,2.54-2.08,4.63-4.63,4.63h-23.37c-2.54,0-4.63-2.08-4.63-4.63v-15.09h0Z"/>
-                          <path class="cls-1" d="M131.53,252.87h32.62v15.09c0,2.54-2.08,4.63-4.63,4.63h-23.37c-2.54,0-4.63-2.08-4.63-4.63v-15.09h0Z"/>
-                          <line class="cls-2" x1="68.28" y1="199.1" x2="144.98" y2="199.1"/>
-                          <circle class="cls-2" cx="103.38" cy="86.16" r="39.32"/>
-                          <line class="cls-1" x1="2" y1="162.06" x2="211.88" y2="162.06"/>
+                            <path class="cls-2" d="M83,2h86.41c17,0,30.79,13.37,30.79,29.86V198.64c0,16.49-13.78,29.86-30.79,29.86H83c-17,0-30.79-13.37-30.79-29.86V31.86c0-16.49,13.78-29.86,30.79-29.86Z"/>
+                            <polygon class="cls-3" points="89.53 149.84 167.93 149.84 167.93 153.84 89.53 153.84 89.53 149.84"/>
+                            <path class="cls-3" d="M84.49,156.08h-.4l.04-1.28,.07-.72,.06-.42,.07-.3,.07-.25,.08-.23,.09-.21,.1-.2,.11-.2,.12-.19,.13-.18,.14-.18,.15-.17,.16-.16,.17-.16,.18-.15,.18-.14,.19-.13,.2-.13,.21-.12,.21-.11,.22-.1,.23-.09,.23-.09,.24-.08,.24-.07,.25-.06,.25-.05,.26-.04,.26-.03,.27-.02h.27s0,3.99,0,3.99h-.27s-.27,.02-.27,.02l-.26,.03-.26,.04-.25,.05-.25,.06-.24,.07-.24,.08-.23,.08-.22,.09-.22,.1-.21,.11-.2,.12-.2,.13-.19,.13-.18,.14-.17,.15-.16,.15-.15,.16-.14,.16-.13,.17-.12,.17-.11,.18-.1,.18-.09,.18-.07,.18-.06,.17-.04,.16-.03,.12h0s.02-.28,.02-.28l.02-.84h0Zm5.04,2.24v4h-.27s-.27-.02-.27-.02l-.26-.03-.26-.04-.25-.05-.25-.06-.24-.07-.24-.08-.23-.09-.23-.09-.22-.1-.21-.11-.21-.12-.2-.13-.19-.13-.18-.14-.18-.15-.17-.16-.16-.16-.15-.17-.14-.18-.13-.18-.12-.19-.11-.2-.1-.2-.09-.21-.08-.23-.07-.25-.07-.3-.06-.42-.07-.72-.04-1.28h.4l-.02-.84-.02-.28h0s.03,.12,.03,.12l.04,.16,.06,.17,.07,.18,.09,.18,.1,.18,.11,.18,.12,.17,.13,.17,.14,.16,.15,.16,.16,.15,.17,.15,.18,.14,.19,.13,.2,.13,.2,.12,.21,.11,.22,.1,.22,.09,.23,.08,.24,.08,.24,.07,.25,.06,.25,.05,.26,.04,.26,.03,.27,.02h.27s0,0,0,0Z"/>
+                            <path class="cls-3" d="M172.98,147.6h.4l-.04,1.28-.07,.72-.06,.42-.07,.3-.07,.25-.08,.23-.09,.21-.1,.2-.11,.2-.12,.19-.13,.18-.14,.18-.15,.17-.16,.16-.17,.16-.18,.15-.18,.14-.19,.13-.2,.13-.21,.12-.21,.11-.22,.1-.23,.09-.23,.09-.24,.08-.24,.07-.25,.06-.25,.05-.26,.04-.26,.03-.27,.02h-.27s0-3.99,0-3.99h.27s.27-.02,.27-.02l.26-.03,.26-.04,.25-.05,.25-.06,.24-.07,.24-.08,.23-.08,.22-.09,.22-.1,.21-.11,.2-.12,.2-.13,.19-.13,.18-.14,.17-.15,.16-.15,.15-.16,.14-.16,.13-.17,.12-.17,.11-.18,.1-.18,.09-.18,.08-.18,.06-.17,.04-.16,.03-.12h0s-.02,.28-.02,.28l-.02,.84h0Zm-5.04-2.24v-4h.27s.27,.02,.27,.02l.26,.03,.26,.04,.25,.05,.25,.06,.24,.07,.24,.08,.23,.09,.23,.09,.22,.1,.21,.11,.21,.12,.2,.13,.19,.13,.18,.14,.18,.15,.17,.16,.16,.16,.15,.17,.14,.18,.13,.18,.12,.19,.11,.2,.1,.2,.09,.21,.08,.23,.07,.25,.07,.3,.06,.42,.07,.72,.04,1.28h-.4l.02,.84,.02,.28h0s-.03-.12-.03-.12l-.04-.16-.06-.17-.08-.18-.09-.18-.1-.18-.11-.18-.12-.17-.13-.17-.14-.16-.15-.16-.16-.15-.17-.15-.18-.14-.19-.13-.2-.13-.2-.12-.21-.11-.22-.1-.22-.09-.23-.08-.24-.08-.24-.07-.25-.06-.25-.05-.26-.04-.26-.03-.27-.02h-.27s0,0,0,0Z"/>
+                            <polygon class="cls-3" points="167.93 145.35 4 145.35 4 141.35 167.93 141.35 167.93 145.35"/>
+                            <path class="cls-1" d="M167.93,160.48c2.9,0,5.24,1.9,5.24,4.24s-2.35,4.24-5.24,4.24"/>
+                            <path class="cls-1" d="M170.21,187.94c2.34,0,4.24-2.35,4.24-5.24"/>
+                            <line class="cls-1" x1="89.53" y1="168.81" x2="167.93" y2="168.81"/>
+                            <path class="cls-1" d="M89.53,168.81c-2.9,0-5.24,1.9-5.24,4.24s2.35,4.24,5.24,4.24"/>
+                            <line class="cls-1" x1="167.93" y1="177.29" x2="89.53" y2="177.29"/>
+                            <path class="cls-1" d="M170.21,177.45c2.34,0,4.24,2.35,4.24,5.24"/>
+                            <line class="cls-1" x1="167.93" y1="187.78" y2="187.78"/>
+                            <polygon class="cls-3" points="89.53 158.32 167.93 158.32 167.93 162.32 89.53 162.32 89.53 158.32"/>
                         </g>
                       </svg>
                   </v-container>
@@ -77,16 +82,8 @@ export default {
   data() {
     return {
       viewBox: '0 0 400 120', // Adjust the viewBox dimensions to fit your image
-      wärmepumpe: [],
-      wärmepumpeEnthalten: false,
-      kessel: [],
-      kesselEnthalten: false,
-      bhkw: [],
-      bhkwEnthalten: [],
-      pellet: [],
-      pelletEnthalten: false,
-      wärmeerzeugerAllgemein: [],
-      wärmeerzeugerAllgemeinEnthalten: false,
+      speicher: [],
+      speicherEnthalten: false,
       komponenteZeigen: [],
       allComponents: null,
       allSes: null
@@ -157,26 +154,14 @@ export default {
         this.allSes = allSE
         //console.log(this.allSes)
     
-        if (semanticId === 'https://th-koeln.de/gart/ComponentChpAAS/1/0') {
-          this.bhkw = elements;
-          this.bhkwEnthalten = true
-          allComponents.push('BHKW')
+        if (semanticId === 'https://th-koeln.de/gart/ComponentTankAAS/1/0') {
+          this.speicher = elements;
+          this.speicherEnthalten = true
+          allComponents.push('Speicher')
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentBoilerAAS/1/0') {
           this.kesel = elements;
           this.kesselEnthalten = true
           allComponents.push('Kessel')
-        } else if (semanticId === 'https://th-koeln.de/gart/ComponentPelletBoilersAAS/1/0') {
-          this.pellet = elements;
-          this.pelletEnthalten = true
-          allComponents.push('Pelletkessel')
-        } else if (semanticId === 'https://th-koeln.de/gart/ComponentHeatSupplierGeneralAAS/1/0') {
-          this.wärmeerzeugerAllgemein = elements;
-          this.wärmeerzeugerAllgemeinEnthalten = true
-          allComponents.push('Wärmeerzeuger Allgemein')
-        } else if (semanticId === 'https://th-koeln.de/gart/ComponentHeatPumpAAS/1/0') {
-          this.wärmepumpe = elements;
-          this.wärmepumpeEnthalten = true
-          allComponents.push('Wärmepumpe')
         } 
       }
       this.allComponents = allComponents
@@ -237,18 +222,22 @@ export default {
 <style>
   
 .cls-1 {
-  stroke: #372772;
-  stroke-width: 4px;
+    stroke: #372772;
+    stroke-dasharray: 0 0 4 4;
 }
 
 .cls-1, .cls-2 {
-  fill: none;
-  stroke-miterlimit: 10;
+    fill: none;
+    stroke-miterlimit: 10;
+    stroke-width: 4px;
 }
 
 .cls-2 {
-  stroke: #ff4a1c;
-  stroke-width: 8px;
+    stroke: #2b2a29;
+}
+
+.cls-3 {
+    fill: #ff4a1c;
 }
 
 .pointer {

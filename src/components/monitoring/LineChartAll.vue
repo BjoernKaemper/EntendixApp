@@ -182,6 +182,12 @@ export default {
         },
         MedienBereitstellen: {
           'https://th-koeln.de/gart/vocabulary/SwitchingCommandPlant/1/0': 0x372772,
+        },
+        MedienEntsorgen: {
+
+        },
+        MedienSpeichern: {
+          
         }
       };
 

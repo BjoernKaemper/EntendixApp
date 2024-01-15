@@ -187,6 +187,9 @@ export default {
 
         },
         MedienSpeichern: {
+
+        },
+        MedienVerteilen: {
           
         }
       };

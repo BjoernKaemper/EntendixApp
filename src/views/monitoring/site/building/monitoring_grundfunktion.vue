@@ -118,7 +118,9 @@ export default {
     },
     mounted() {
         let firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
+
         this.funktionZweiteEbene = firstFunktion
+
         console.log(firstFunktion)
     },
     computed: {

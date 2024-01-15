@@ -172,13 +172,16 @@ export default {
         WärmeBeziehen: {
           'https://th-koeln.de/gart/vocabulary/OperatingHours/1/0': 0x372772,
         },
+        WärmeSpeichern: {
+          "https://th-koeln.de/gart/vocabulary/MeasuredValueStorageTankTemperature/1/0": 0x372772,
+          "https://th-koeln.de/gart/vocabulary/SetPointStorageTankTemperature/1/0": 0xFF4A1C,
+        },
         LuftBereitstellen: {
           'https://th-koeln.de/gart/vocabulary/OutdoorAirTemperature/1/0': 0x372772,
           "https://th-koeln.de/gart/vocabulary/SwitchingCommand/1/0": 0xFF4A1C,
         },
-        WärmeSpeichern: {
-          "https://th-koeln.de/gart/vocabulary/MeasuredValueStorageTankTemperature/1/0": 0x372772,
-          "https://th-koeln.de/gart/vocabulary/SetPointStorageTankTemperature/1/0": 0xFF4A1C,
+        MedienBereitstellen: {
+          'https://th-koeln.de/gart/vocabulary/SwitchingCommandPlant/1/0': 0x372772,
         }
       };
 

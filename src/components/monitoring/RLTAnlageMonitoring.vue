@@ -21,123 +21,130 @@
                 variant="outlined" class="pa-4 anlagen-card">
                   <v-card-text class="center-content">
                     <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 519.14 160.95">
-                          <rect id ="außenluftfilter" class="cls-2" x="55.19" y="112.82" width="31.86" height="47.62"
-                          @click="handleAreaClick('Außenluftfilter')"/>
-                          <polyline class="cls-2" points="71.12 160.44 87.05 136.63 71.12 112.82"
-                          @click="handleAreaClick('Außenluftklappe')"/>
-                          <rect id ="außenluftklappe" class="cls-2" x=".51" y="112.82" width="26.33" height="47.62"/>
-                          <path class="cls-3" d="M13.46,126.71c2.32,0,4.25-1.9,4.25-4.25s-1.93-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.9,4.25,4.25,4.25h0Z"/>
-                          <path class="cls-3" d="M13.46,155.06c2.32,0,4.25-1.9,4.25-4.25s-1.93-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.9,4.25,4.25,4.25h0Z"/>
-                          <line class="cls-2" x1="8.39" y1="128.27" x2="13.46" y2="122.46"/>
-                          <line class="cls-2" x1="18.51" y1="144.99" x2="13.46" y2="150.8"/>
-                          <line class="cls-2" x1="13.46" y1="122.46" x2="18.51" y2="116.65"/>
-                          <line class="cls-2" x1="8.39" y1="156.61" x2="13.46" y2="150.8"/>
-                          <rect id ="wrg" class="cls-2" x="115.4" y=".51" width="31.69" height="159.93"
-                          @click="handleAreaClick('WRG')"/>
-                          <path class="cls-2" d="M131.39,88.07c4.31,0,7.8-3.49,7.8-7.8s-3.49-7.8-7.8-7.8-7.8,3.51-7.8,7.8,3.51,7.8,7.8,7.8h0Z"/>
-                          <line class="cls-2" x1="147.09" y1=".51" x2="115.4" y2="160.44"/>
-                          <line class="cls-2" x1="115.4" y1=".51" x2="147.09" y2="160.44"/>
-                          <rect id ="vorerhitzer" class="cls-2" x="175.44" y="112.82" width="31.89" height="47.62"
-                          @click="handleAreaClick('Erhitzer')"/>
-                          <line class="cls-2" x1="175.44" y1="160.44" x2="207.33" y2="112.82"/>
-                          <rect id ="kühler" class="cls-2" x="235.67" y="112.82" width="31.86" height="47.62"
-                          @click="handleAreaClick('Kühler')"/>
-                          <line class="cls-2" x1="235.67" y1="112.82" x2="267.53" y2="160.44"/>
-                          <line class="cls-2" x1="267.53" y1="112.82" x2="235.67" y2="160.44"/>
-                          <rect id ="zuluftventilator" class="cls-2" x="295.88" y="112.82" width="47.62" height="47.62"
-                          @click="handleAreaClick('Zuluftventilator')"/>
-                          <path class="cls-2" d="M319.69,150.8c7.82,0,14.17-6.38,14.17-14.17s-6.35-14.17-14.17-14.17-14.17,6.38-14.17,14.17,6.38,14.17,14.17,14.17h0Z"/>
-                          <line class="cls-2" x1="333.35" y1="140.17" x2="310.34" y2="146.95"/>
-                          <line class="cls-2" x1="310.34" y1="125.72" x2="333.35" y2="132.49"/>
-                          <rect id ="nacherhitzer" class="cls-2" x="371.85" y="112.82" width="31.89" height="47.62"/>
-                          <line class="cls-2" x1="371.85" y1="160.44" x2="403.74" y2="112.82"/>
-                          <rect id ="zuluftfilter" class="cls-2" x="432.09" y="112.82" width="31.86" height="47.62"
-                          @click="handleAreaClick('Zuluftfilter')"/>
-                          <polyline class="cls-2" points="448.02 160.44 463.95 136.63 448.02 112.82"/>
-                          <rect id="abluftfilter" class="cls-2" x="432.09" y="1.93" width="31.86" height="47.62" 
-                          @click="handleAreaClick('Abluftfilter')"/>
-                          <polyline class="cls-2" points="448.02 49.55 432.09 25.74 448.02 1.93"/>
-                          <rect id ="abluftventilator" class="cls-2" x="295.88" y="1.93" width="47.62" height="47.62"
-                          @click="handleAreaClick('Abluftventilator')"/>
-                          <path class="cls-2" d="M319.69,39.91c7.82,0,14.17-6.38,14.17-14.17s-6.35-14.17-14.17-14.17-14.17,6.35-14.17,14.17,6.38,14.17,14.17,14.17h0Z"/>
-                          <line class="cls-2" x1="306.06" y1="29.25" x2="329.07" y2="36.06"/>
-                          <line class="cls-2" x1="329.07" y1="14.8" x2="306.06" y2="21.6"/>
-                          <rect class="cls-2" x=".51" y="112.82" width="26.33" height="47.62"/>
-                          <path class="cls-3" d="M13.46,126.71c2.32,0,4.25-1.9,4.25-4.25s-1.93-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.9,4.25,4.25,4.25h0Z"/>
-                          <path class="cls-3" d="M13.46,155.06c2.32,0,4.25-1.9,4.25-4.25s-1.93-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.9,4.25,4.25,4.25h0Z"/>
-                          <line class="cls-2" x1="8.39" y1="128.27" x2="13.46" y2="122.46"/>
-                          <line class="cls-2" x1="18.51" y1="144.99" x2="13.46" y2="150.8"/>
-                          <line class="cls-2" x1="13.46" y1="122.46" x2="18.51" y2="116.65"/>
-                          <line class="cls-2" x1="8.39" y1="156.61" x2="13.46" y2="150.8"/>
-                          <rect class="cls-2" x="492.29" y="112.82" width="26.33" height="47.62"/>
-                          <path class="cls-3" d="M505.25,126.71c2.35,0,4.25-1.9,4.25-4.25s-1.9-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.93,4.25,4.25,4.25h0Z"/>
-                          <path class="cls-3" d="M505.25,155.06c2.35,0,4.25-1.9,4.25-4.25s-1.9-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.93,4.25,4.25,4.25h0Z"/>
-                          <line class="cls-2" x1="500.2" y1="128.27" x2="505.25" y2="122.46"/>
-                          <line class="cls-2" x1="510.32" y1="144.99" x2="505.25" y2="150.8"/>
-                          <line class="cls-2" x1="505.25" y1="122.46" x2="510.32" y2="116.65"/>
-                          <line class="cls-2" x1="500.2" y1="156.61" x2="505.25" y2="150.8"/>
-                          <rect id ="zuluftklappe" class="cls-2" x="492.29" y="112.82" width="26.33" height="47.62"
-                          @click="handleAreaClick('Zuluftklappe')"/>
-                          <path class="cls-3" d="M505.25,126.71c2.35,0,4.25-1.9,4.25-4.25s-1.9-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.93,4.25,4.25,4.25h0Z"/>
-                          <path class="cls-3" d="M505.25,155.06c2.35,0,4.25-1.9,4.25-4.25s-1.9-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.93,4.25,4.25,4.25h0Z"/>
-                          <line class="cls-2" x1="500.2" y1="128.27" x2="505.25" y2="122.46"/>
-                          <line class="cls-2" x1="510.32" y1="144.99" x2="505.25" y2="150.8"/>
-                          <line class="cls-2" x1="505.25" y1="122.46" x2="510.32" y2="116.65"/>
-                          <line class="cls-2" x1="500.2" y1="156.61" x2="505.25" y2="150.8"/>
-                          <rect id="abluftklappe" class="cls-2" x="491.36" y="1.93" width="26.33" height="47.62"
-                          @click="handleAreaClick('Abluftklappe')"/>
-                          <path class="cls-3" d="M504.31,15.82c2.35,0,4.25-1.93,4.25-4.25s-1.9-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.93,4.25,4.25,4.25h0Z"/>
-                          <path class="cls-3" d="M504.31,44.16c2.35,0,4.25-1.93,4.25-4.25s-1.9-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.93,4.25,4.25,4.25h0Z"/>
-                          <line class="cls-2" x1="499.27" y1="17.35" x2="504.31" y2="11.57"/>
-                          <line class="cls-2" x1="509.39" y1="34.1" x2="504.31" y2="39.91"/>
-                          <line class="cls-2" x1="504.31" y1="11.57" x2="509.39" y2="5.75"/>
-                          <line class="cls-2" x1="499.27" y1="45.69" x2="504.31" y2="39.91"/>
-                          <rect class="cls-2" x="491.36" y="1.93" width="26.33" height="47.62"/>
-                          <path class="cls-3" d="M504.31,15.82c2.35,0,4.25-1.93,4.25-4.25s-1.9-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.93,4.25,4.25,4.25h0Z"/>
-                          <path class="cls-3" d="M504.31,44.16c2.35,0,4.25-1.93,4.25-4.25s-1.9-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.93,4.25,4.25,4.25h0Z"/>
-                          <line class="cls-2" x1="499.27" y1="17.35" x2="504.31" y2="11.57"/>
-                          <line class="cls-2" x1="509.39" y1="34.1" x2="504.31" y2="39.91"/>
-                          <line class="cls-2" x1="504.31" y1="11.57" x2="509.39" y2="5.75"/>
-                          <line class="cls-2" x1="499.27" y1="45.69" x2="504.31" y2="39.91"/>
-                          <rect class="cls-2" x=".51" y="1.93" width="26.33" height="47.62"/>
-                          <path class="cls-3" d="M13.46,15.82c2.32,0,4.25-1.93,4.25-4.25s-1.93-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.9,4.25,4.25,4.25h0Z"/>
-                          <path class="cls-3" d="M13.46,44.16c2.32,0,4.25-1.93,4.25-4.25s-1.93-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.9,4.25,4.25,4.25h0Z"/>
-                          <line class="cls-2" x1="8.39" y1="17.35" x2="13.46" y2="11.57"/>
-                          <line class="cls-2" x1="18.51" y1="34.1" x2="13.46" y2="39.91"/>
-                          <line class="cls-2" x1="13.46" y1="11.57" x2="18.51" y2="5.75"/>
-                          <line class="cls-2" x1="8.39" y1="45.69" x2="13.46" y2="39.91"/>
-                          <rect id="fortluftklappe" class="cls-2" x=".51" y="1.93" width="26.33" height="47.62"
-                          @click="handleAreaClick('Fortluftklappe')"/>
-                          <path class="cls-3" d="M13.46,15.82c2.32,0,4.25-1.93,4.25-4.25s-1.93-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.9,4.25,4.25,4.25h0Z"/>
-                          <path class="cls-3" d="M13.46,44.16c2.32,0,4.25-1.93,4.25-4.25s-1.93-4.25-4.25-4.25-4.25,1.9-4.25,4.25,1.9,4.25,4.25,4.25h0Z"/>
-                          <line class="cls-2" x1="8.39" y1="17.35" x2="13.46" y2="11.57"/>
-                          <line class="cls-2" x1="18.51" y1="34.1" x2="13.46" y2="39.91"/>
-                          <line class="cls-2" x1="13.46" y1="11.57" x2="18.51" y2="5.75"/>
-                          <line class="cls-2" x1="8.39" y1="45.69" x2="13.46" y2="39.91"/>
-                          <line id="zuluftAllgemein" class="cls-1" x1="26.84" y1="136.63" x2="55.19" y2="136.63"
-                          @click="handleAreaClick('Zuluft allgemein')"/>
-                          <line id="zuluftAllgemein" class="cls-1" x1="87.05" y1="136.63" x2="115.4" y2="136.63"
-                          @click="handleAreaClick('Zuluft allgemein')"/>
-                          <line id="zuluftAllgemein" class="cls-1" x1="147.09" y1="136.63" x2="175.44" y2="136.63"
-                          @click="handleAreaClick('Zuluft allgemein')"/>
-                          <line id="zuluftAllgemein" class="cls-1" x1="207.33" y1="136.63" x2="235.67" y2="136.63"
-                          @click="handleAreaClick('Zuluft allgemein')"/>
-                          <line id="zuluftAllgemein" class="cls-1" x1="267.53" y1="136.63" x2="295.88" y2="136.63"
-                          @click="handleAreaClick('Zuluft allgemein')"/>
-                          <line id="zuluftAllgemein" class="cls-1" x1="343.5" y1="136.63" x2="371.85" y2="136.63"
-                          @click="handleAreaClick('Zuluft allgemein')"/>
-                          <line id="zuluftAllgemein" class="cls-1" x1="403.74" y1="136.63" x2="432.09" y2="136.63"
-                          @click="handleAreaClick('Zuluft allgemein')"/>
-                          <line id="zuluftAllgemein" class="cls-1" x1="463.95" y1="136.63" x2="492.29" y2="136.63"
-                          @click="handleAreaClick('Zuluft allgemein')"/>
-                          <line id ="abluftAllgemein" class="cls-1" x1="463.95" y1="25.74" x2="491.36" y2="25.74"
-                          @click="handleAreaClick('Abluft allgemein')"/>
-                          <line id ="abluftAllgemein" class="cls-1" x1="343.5" y1="25.74" x2="432.09" y2="25.74"
-                          @click="handleAreaClick('Abluft allgemein')"/>
-                          <line id ="abluftAllgemein" class="cls-1" x1="147.09" y1="25.74" x2="295.88" y2="25.74"
-                          @click="handleAreaClick('Abluft allgemein')"/>
-                          <line id ="abluftAllgemein" class="cls-1" x1="115.4" y1="25.74" x2="26.84" y2="25.74"
-                          @click="handleAreaClick('Abluft allgemein')"/>
+
+                      <g id="Ebene_1-2" data-name="Ebene_1">
+                        <rect id ="außenluftfilter" class="cls-1" x="55.18" y="112.81" width="31.87" height="47.63"
+                        @click="handleAreaClick('Außenluftfilter')"/>
+                        <polyline class="cls-4" points="71.12 160.44 87.06 136.63 71.12 112.81"
+                        @click="handleAreaClick('Außenluftklappe')"/>
+                        <rect id ="außenluftklappe" class="cls-1" x=".5" y="112.81" width="26.34" height="47.63"/>
+                        <circle class="cls-5" cx="13.45" cy="122.45" r="4.25"/>
+                        <circle class="cls-5" cx="13.45" cy="150.8" r="4.25"/>
+                        <line class="cls-4" x1="8.4" y1="128.25" x2="13.45" y2="122.45"/>
+                        <line class="cls-4" x1="18.5" y1="145" x2="13.45" y2="150.8"/>
+                        <line class="cls-4" x1="13.45" y1="122.45" x2="18.5" y2="116.65"/>
+                        <line class="cls-4" x1="8.4" y1="156.6" x2="13.45" y2="150.8"/>
+                        <rect id="wrg" class="cls-1" x="115.41" y=".5" width="31.69" height="159.94"
+                        @click="handleAreaClick('WRG')"/>
+                        <circle class="cls-3" cx="131.38" cy="80.28" r="7.8"/>
+                        <line class="cls-4" x1="147.09" y1=".5" x2="115.41" y2="160.44"/>
+                        <line class="cls-4" x1="115.41" y1=".5" x2="147.09" y2="160.44"/>
+                        <rect id="vorerhitzer" class="cls-1" x="175.44" y="112.81" width="31.87" height="47.63"
+                        @click="handleAreaClick('Erhitzer')"/>
+                        <line class="cls-3" x1="175.44" y1="160.44" x2="207.32" y2="112.81"/>
+                        <rect id="kühler" class="cls-1" x="235.66" y="112.81" width="31.87" height="47.63"
+                        @click="handleAreaClick('Kühler')"/>
+                        <line class="cls-4" x1="235.66" y1="112.81" x2="267.54" y2="160.44"/>
+                        <line class="cls-4" x1="267.54" y1="112.81" x2="235.66" y2="160.44"/>
+                        <rect id="zuluftventilator" class="cls-1" x="295.88" y="112.81" width="47.62" height="47.63"
+                        @click="handleAreaClick('Zuluftventilator')"/>
+                        <circle class="cls-4" cx="319.7" cy="136.63" r="14.17"/>
+                        <line class="cls-4" x1="333.34" y1="140.16" x2="310.34" y2="146.95"/>
+                        <line class="cls-4" x1="310.34" y1="125.7" x2="333.34" y2="132.49"/>
+                        <rect id="zuluftfilter" class="cls-1" x="371.86" y="112.81" width="31.87" height="47.63"
+                        @click="handleAreaClick('Zuluftfilter')"/>
+                        <line class="cls-3" x1="371.86" y1="160.44" x2="403.73" y2="112.81"/>
+                        <rect id="abluftfilter" class="cls-1" x="432.08" y="112.81" width="31.87" height="47.63"
+                        @click="handleAreaClick('Abluftfilter')"/>
+                        <polyline class="cls-4" points="448.02 160.44 463.95 136.63 448.02 112.81"/>
+                        <rect class="cls-1" x="432.08" y="1.91" width="31.87" height="47.63"/>
+                        <polyline class="cls-4" points="448.02 49.54 432.08 25.73 448.02 1.91"/>
+                        <rect id="abluftventilator" class="cls-1" x="295.88" y="1.91" width="47.62" height="47.63"
+                        @click="handleAreaClick('Abluftventilator')"/>
+                        <circle class="cls-4" cx="319.7" cy="25.73" r="14.17"/>
+                        <line class="cls-4" x1="306.05" y1="29.26" x2="329.06" y2="36.05"/>
+                        <line class="cls-4" x1="329.06" y1="14.8" x2="306.05" y2="21.6"/>
+                        <rect class="cls-1" x=".5" y="112.81" width="26.34" height="47.63"/>
+                        <circle class="cls-5" cx="13.45" cy="122.45" r="4.25"/>
+                        <circle class="cls-5" cx="13.45" cy="150.8" r="4.25"/>
+                        <line class="cls-4" x1="8.4" y1="128.25" x2="13.45" y2="122.45"/>
+                        <line class="cls-4" x1="18.5" y1="145" x2="13.45" y2="150.8"/>
+                        <line class="cls-4" x1="13.45" y1="122.45" x2="18.5" y2="116.65"/>
+                        <line class="cls-4" x1="8.4" y1="156.6" x2="13.45" y2="150.8"/>
+                        <rect id="zuluftklappe" class="cls-1" x="492.3" y="112.81" width="26.34" height="47.63"
+                        @click="handleAreaClick('Zuluftklappe')"/>
+                        <circle class="cls-5" cx="505.25" cy="122.45" r="4.25"/>
+                        <circle class="cls-5" cx="505.25" cy="150.8" r="4.25"/>
+                        <line class="cls-4" x1="500.2" y1="128.25" x2="505.25" y2="122.45"/>
+                        <line class="cls-4" x1="510.31" y1="145" x2="505.25" y2="150.8"/>
+                        <line class="cls-4" x1="505.25" y1="122.45" x2="510.31" y2="116.65"/>
+                        <line class="cls-4" x1="500.2" y1="156.6" x2="505.25" y2="150.8"/>
+                        <rect id="abluftklappe" class="cls-1" x="492.3" y="112.81" width="26.34" height="47.63"
+                        @click="handleAreaClick('Abluftklappe')"/>
+                        <circle class="cls-5" cx="505.25" cy="122.45" r="4.25"/>
+                        <circle class="cls-5" cx="505.25" cy="150.8" r="4.25"/>
+                        <line class="cls-4" x1="500.2" y1="128.25" x2="505.25" y2="122.45"/>
+                        <line class="cls-4" x1="510.31" y1="145" x2="505.25" y2="150.8"/>
+                        <line class="cls-4" x1="505.25" y1="122.45" x2="510.31" y2="116.65"/>
+                        <line class="cls-4" x1="500.2" y1="156.6" x2="505.25" y2="150.8"/>
+                        <rect class="cls-1" x="491.36" y="1.91" width="26.34" height="47.63"
+                        @click="handleAreaClick('Fortluftklappe')"/>
+                        <circle class="cls-5" cx="504.31" cy="11.55" r="4.25"/>
+                        <circle class="cls-5" cx="504.31" cy="39.9" r="4.25"/>
+                        <line class="cls-4" x1="499.26" y1="17.35" x2="504.31" y2="11.55"/>
+                        <line class="cls-4" x1="509.37" y1="34.1" x2="504.31" y2="39.9"/>
+                        <line class="cls-4" x1="504.31" y1="11.55" x2="509.37" y2="5.75"/>
+                        <line class="cls-4" x1="499.26" y1="45.7" x2="504.31" y2="39.9"/>
+                        <rect class="cls-1" x="491.36" y="1.91" width="26.34" height="47.63"/>
+                        <circle class="cls-5" cx="504.31" cy="11.55" r="4.25"/>
+                        <circle class="cls-5" cx="504.31" cy="39.9" r="4.25"/>
+                        <line class="cls-4" x1="499.26" y1="17.35" x2="504.31" y2="11.55"/>
+                        <line class="cls-4" x1="509.37" y1="34.1" x2="504.31" y2="39.9"/>
+                        <line class="cls-4" x1="504.31" y1="11.55" x2="509.37" y2="5.75"/>
+                        <line class="cls-4" x1="499.26" y1="45.7" x2="504.31" y2="39.9"/>
+                        <rect class="cls-1" x=".5" y="1.91" width="26.34" height="47.63"/>
+                        <circle class="cls-5" cx="13.45" cy="11.55" r="4.25"/>
+                        <circle class="cls-5" cx="13.45" cy="39.9" r="4.25"/>
+                        <line class="cls-4" x1="8.4" y1="17.35" x2="13.45" y2="11.55"/>
+                        <line class="cls-4" x1="18.5" y1="34.1" x2="13.45" y2="39.9"/>
+                        <line class="cls-4" x1="13.45" y1="11.55" x2="18.5" y2="5.75"/>
+                        <line class="cls-4" x1="8.4" y1="45.7" x2="13.45" y2="39.9"/>
+                        <rect class="cls-1" x=".5" y="1.91" width="26.34" height="47.63"/>
+                        <circle class="cls-5" cx="13.45" cy="11.55" r="4.25"/>
+                        <circle class="cls-5" cx="13.45" cy="39.9" r="4.25"/>
+                        <line class="cls-4" x1="8.4" y1="17.35" x2="13.45" y2="11.55"/>
+                        <line class="cls-4" x1="18.5" y1="34.1" x2="13.45" y2="39.9"/>
+                        <line class="cls-4" x1="13.45" y1="11.55" x2="18.5" y2="5.75"/>
+                        <line class="cls-4" x1="8.4" y1="45.7" x2="13.45" y2="39.9"/>
+                        <line id ="zuluftAllgemein" class="cls-2" x1="26.84" y1="136.63" x2="55.18" y2="136.63"
+                        @click="handleAreaClick('Zuluft allgemein')"/>
+                        <line id ="zuluftAllgemein" class="cls-2" x1="87.06" y1="136.63" x2="115.41" y2="136.63"
+                        @click="handleAreaClick('Zuluft allgemein')"/>
+                        <line id ="zuluftAllgemein" class="cls-2" x1="147.09" y1="136.63" x2="175.44" y2="136.63"
+                        @click="handleAreaClick('Zuluft allgemein')"/>
+                        <line id ="zuluftAllgemein" class="cls-2" x1="207.32" y1="136.63" x2="235.66" y2="136.63"
+                        @click="handleAreaClick('Zuluft allgemein')"/>
+                        <line id ="zuluftAllgemein" class="cls-2" x1="267.54" y1="136.63" x2="295.88" y2="136.63"
+                        @click="handleAreaClick('Zuluft allgemein')"/>
+                        <line id ="zuluftAllgemein" class="cls-2" x1="343.51" y1="136.63" x2="371.86" y2="136.63"
+                        @click="handleAreaClick('Zuluft allgemein')"/>
+                        <line id ="zuluftAllgemein" class="cls-2" x1="403.73" y1="136.63" x2="432.08" y2="136.63"
+                        @click="handleAreaClick('Zuluft allgemein')"/>
+                        <line id ="zuluftAllgemein" class="cls-2" x1="463.95" y1="136.63" x2="492.3" y2="136.63"
+                        @click="handleAreaClick('Zuluft allgemein')"/>
+                        <line id ="abluftAllgemein" class="cls-2" x1="463.95" y1="25.73" x2="491.36" y2="25.73"
+                        @click="handleAreaClick('Abluft allgemein')"/>
+                        <line id ="abluftAllgemein" class="cls-2" x1="343.51" y1="25.73" x2="432.08" y2="25.73"
+                        @click="handleAreaClick('Abluft allgemein')"/>
+                        <line id ="abluftAllgemein" class="cls-2" x1="147.09" y1="25.73" x2="295.88" y2="25.73"
+                        @click="handleAreaClick('Abluft allgemein')"/>
+                        <line id ="abluftAllgemein" class="cls-2" x1="115.41" y1="25.73" x2="26.84" y2="25.73"
+                        @click="handleAreaClick('Abluft allgemein')"/>
+                      </g>
+
+
+
+                          
                       </svg>
                   </v-card-text>
                 </v-card>
@@ -478,27 +485,37 @@ export default {
 
 <style scoped>
   
-  .cls-1 {
-        stroke-width: 3px;
-    }
+  .cls-1, .cls-2 {
+        stroke: #2b2a29;
+      }
 
-    .cls-1, .cls-2 {
+      .cls-1, .cls-2, .cls-3, .cls-4 {
         fill: none;
-    }
+      }
 
-    .cls-1, .cls-2, .cls-3 {
-        stroke: #141515;
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
         stroke-miterlimit: 10;
-    }
+      }
 
-    .cls-2, .cls-3 {
-        stroke-width: 1.02px;
-    }
+      .cls-1, .cls-3, .cls-4, .cls-5 {
+        stroke-width: 1px;
+      }
 
-    .cls-3 {
-        fill: #141515;
-        fill-rule: evenodd;
-    }
+      .cls-2 {
+        stroke-width: 3px;
+      }
+
+      .cls-3 {
+        stroke: #ff4a1c;
+      }
+
+      .cls-4, .cls-5 {
+        stroke: #372772;
+      }
+
+      .cls-5 {
+        fill: #372772;
+      }
 
   .pointer {
     cursor: pointer;

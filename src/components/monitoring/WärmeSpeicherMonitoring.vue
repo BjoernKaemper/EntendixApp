@@ -158,11 +158,7 @@ export default {
           this.speicher = elements;
           this.speicherEnthalten = true
           allComponents.push('Speicher')
-        } else if (semanticId === 'https://th-koeln.de/gart/ComponentBoilerAAS/1/0') {
-          this.kesel = elements;
-          this.kesselEnthalten = true
-          allComponents.push('Kessel')
-        } 
+        }
       }
       this.allComponents = allComponents
       await this.monitoringStore.setLoadingMonitoringComponent('false')
@@ -219,7 +215,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   
 .cls-1 {
     stroke: #372772;

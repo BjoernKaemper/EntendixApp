@@ -169,6 +169,9 @@ export default {
           'https://th-koeln.de/gart/vocabulary/OperatingHours/1/0': 0x372772,
           "https://th-koeln.de/gart/vocabulary/MeasuredValuePower/1/0": 0xFF4A1C, 
         },
+        WärmeBeziehen: {
+          'https://th-koeln.de/gart/vocabulary/OperatingHours/1/0': 0x372772,
+        },
         LuftBereitstellen: {
           'https://th-koeln.de/gart/vocabulary/OutdoorAirTemperature/1/0': 0x372772,
           "https://th-koeln.de/gart/vocabulary/SwitchingCommand/1/0": 0xFF4A1C,

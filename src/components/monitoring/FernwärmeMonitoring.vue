@@ -11,7 +11,7 @@
           <KpisMonitoringAnlage />
         </v-container>
         <v-container>
-          <LineChartAll :allElements="this.allSes" zweiteFunktion="WärmeErzeugen"/> 
+          <LineChartAll :allElements="this.allSes" zweiteFunktion="WärmeBeziehen"/> 
         </v-container>
         <v-container>
           <v-row>
@@ -21,18 +21,32 @@
                 variant="outlined" class="pa-4 anlagen-card">
                 <v-card-text class="center-content">
                   <v-container class="mx-0 mx-lg-10 mx-xl-16 px-lg-10 px-xl-16">
-                        <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.88 274.58">
+                    <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216.56 220.26">
             
-                          <g id="Ebene_1-2" data-name="Ebene_1">
-                          <rect class="cls-1" x="2" y="2" width="207.48" height="228.89" rx="37.01" ry="37.01"/>
-                          <path class="cls-1" d="M39.01,230.9h49.83v12.72c0,5.09-4.16,9.25-9.25,9.25h-31.32c-5.09,0-9.25-4.16-9.25-9.25v-12.72h0Z"/>
-                          <path class="cls-1" d="M122.28,230.9h49.83v12.72c0,5.09-4.16,9.25-9.25,9.25h-31.32c-5.09,0-9.25-4.16-9.25-9.25v-12.72h0Z"/>
-                          <path class="cls-1" d="M48.26,252.87h32.62v15.09c0,2.54-2.08,4.63-4.63,4.63h-23.37c-2.54,0-4.63-2.08-4.63-4.63v-15.09h0Z"/>
-                          <path class="cls-1" d="M131.53,252.87h32.62v15.09c0,2.54-2.08,4.63-4.63,4.63h-23.37c-2.54,0-4.63-2.08-4.63-4.63v-15.09h0Z"/>
-                          <line class="cls-2" x1="68.28" y1="199.1" x2="144.98" y2="199.1"/>
-                          <circle class="cls-2" cx="103.38" cy="86.16" r="39.32"/>
-                          <line class="cls-1" x1="2" y1="162.06" x2="211.88" y2="162.06"/>
-                        </g>
+                            <g id="Ebene_1-2" data-name="Ebene_1">
+                                <line class="cls-2" x1="6.6" y1="170.08" x2="6.6" y2="64.33"/>
+                                <line class="cls-2" x1="148.34" y1="170.08" x2="148.34" y2="64.33"/>
+                                <polygon class="cls-2" points="5.39 64.33 77.11 2.64 148.83 64.33 5.39 64.33"/>
+                                <path class="cls-3" d="M216.18,200.38c-89.54,6.09-131.92-9.66-127.13-47.25"/>
+                                <path class="cls-3" d="M216.4,216.55c-105.03,8.17-154.73-12.97-149.11-63.43"/>
+                                <line class="cls-2" x1="4.81" y1="168.32" x2="55.03" y2="168.32"/>
+                                <line class="cls-2" x1="100.1" y1="170.08" x2="150.32" y2="170.08"/>
+                                <g id="_1700032706960" data-name=" 1700032706960">
+                                <path class="cls-1" d="M47.09,92.55c5.37,5.93,5.37,11.18,0,15.75"/>
+                                <path class="cls-1" d="M47.16,124.04c-5.37-5.93-5.37-11.18,0-15.75"/>
+                                <path class="cls-1" d="M47.09,124.02c5.37,5.93,5.37,11.18,0,15.75"/>
+                                </g>
+                                <g id="_1700032705952" data-name=" 1700032705952">
+                                <path class="cls-1" d="M75.44,92.55c5.37,5.93,5.37,11.18,0,15.75"/>
+                                <path class="cls-1" d="M75.5,124.04c-5.37-5.93-5.37-11.18,0-15.75"/>
+                                <path class="cls-1" d="M75.44,124.02c5.37,5.93,5.37,11.18,0,15.75"/>
+                                </g>
+                                <g id="_1700032708880" data-name=" 1700032708880">
+                                <path class="cls-1" d="M103.78,92.55c5.37,5.93,5.37,11.18,0,15.75"/>
+                                <path class="cls-1" d="M103.85,124.04c-5.37-5.93-5.37-11.18,0-15.75"/>
+                                <path class="cls-1" d="M103.78,124.02c5.37,5.93,5.37,11.18,0,15.75"/>
+                                </g>
+                            </g>
                       </svg>
                   </v-container>
                 </v-card-text>
@@ -77,16 +91,8 @@ export default {
   data() {
     return {
       viewBox: '0 0 400 120', // Adjust the viewBox dimensions to fit your image
-      wärmepumpe: [],
-      wärmepumpeEnthalten: false,
-      kessel: [],
-      kesselEnthalten: false,
-      bhkw: [],
-      bhkwEnthalten: [],
-      pellet: [],
-      pelletEnthalten: false,
-      wärmeerzeugerAllgemein: [],
-      wärmeerzeugerAllgemeinEnthalten: false,
+      fernwärme: [],
+      fernwärmeEnthalten: false,
       komponenteZeigen: [],
       allComponents: null,
       allSes: null
@@ -157,27 +163,11 @@ export default {
         this.allSes = allSE
         //console.log(this.allSes)
     
-        if (semanticId === 'https://th-koeln.de/gart/ComponentChpAAS/1/0') {
-          this.bhkw = elements;
-          this.bhkwEnthalten = true
-          allComponents.push('BHKW')
-        } else if (semanticId === 'https://th-koeln.de/gart/ComponentBoilerAAS/1/0') {
-          this.kesel = elements;
-          this.kesselEnthalten = true
-          allComponents.push('Kessel')
-        } else if (semanticId === 'https://th-koeln.de/gart/ComponentPelletBoilersAAS/1/0') {
-          this.pellet = elements;
-          this.pelletEnthalten = true
-          allComponents.push('Pelletkessel')
-        } else if (semanticId === 'https://th-koeln.de/gart/ComponentHeatSupplierGeneralAAS/1/0') {
-          this.wärmeerzeugerAllgemein = elements;
-          this.wärmeerzeugerAllgemeinEnthalten = true
-          allComponents.push('Wärmeerzeuger Allgemein')
-        } else if (semanticId === 'https://th-koeln.de/gart/ComponentHeatPumpAAS/1/0') {
-          this.wärmepumpe = elements;
-          this.wärmepumpeEnthalten = true
-          allComponents.push('Wärmepumpe')
-        } 
+        if (semanticId === 'https://th-koeln.de/gart/ComponentDistrictHeatingAAS/1/0') {
+          this.fernwärme = elements;
+          this.fernwärmeEnthalten = true
+          allComponents.push('Fernwärme')
+        }
       }
       this.allComponents = allComponents
       await this.monitoringStore.setLoadingMonitoringComponent('false')
@@ -237,17 +227,21 @@ export default {
 <style scoped>
   
 .cls-1 {
-  stroke: #372772;
-  stroke-width: 4px;
-  fill: none;
-  stroke-miterlimit: 10;
+stroke: #ff4a1c;
+}
+
+.cls-1, .cls-2, .cls-3 {
+fill: none;
+stroke-miterlimit: 10;
+stroke-width: 4px;
 }
 
 .cls-2 {
-  stroke: #ff4a1c;
-  stroke-width: 8px;
-  fill: none;
-  stroke-miterlimit: 10;
+stroke: #2b2a29;
+}
+
+.cls-3 {
+stroke: #372772;
 }
 
 .pointer {

@@ -33,8 +33,18 @@ export default {
         submodelElementPath: String
     },
     async mounted() {
+        let valueType = 'number'
         let data = await this.getTimeSeriesData()
+        console.log(data)
         //let data = this.data
+
+        for (let i = 0; i < data.length; i++) {
+            if (typeof data[i].value === 'boolean') {
+                data[i].value = data[i].value ? 1 : 0;
+                valueType = 'boolean'
+            }
+        }
+        
         let root = am5.Root.new(this.$refs.lineChart);
 
         let customTheme = am5themes_Animated.new(root);
@@ -45,7 +55,7 @@ export default {
                 panY: true,
                 wheelX: "panX",
                 wheelY: "zoomX",
-                pinchZoomX:true
+                pinchZoomX:true,
             })
         );
 
@@ -93,11 +103,25 @@ export default {
             fontFamily: "Montserrat"
         });
 
-        let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-            renderer: am5xy.AxisRendererY.new(root, {
-                pan:"zoom"
-            })  
-        }));
+        let yAxis
+
+        if (valueType == 'boolean') {
+            yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {
+                    pan:"zoom",
+                }),
+                maxPrecision: 0,
+                min: 0, // Set minimum value to 0
+                max: 1, // Set maximum value to 1  
+            }));
+        } else {
+            yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {
+                    pan:"zoom",
+                }),
+            }));
+        }
+
         let yRenderer = yAxis.get("renderer");
         yRenderer.labels.template.setAll({
             //fill: am5.color(0xFF0000),

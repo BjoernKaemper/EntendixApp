@@ -289,7 +289,7 @@ export default {
   }
 
   .cls-4 {
-    fill: #fefefe;
+    fill: whitesmoke;
   }
 
   .pointer {

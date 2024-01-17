@@ -164,6 +164,7 @@ export default {
         WärmeVerteilen: {
           'https://th-koeln.de/gart/vocabulary/MeasuredValueReturnTemperature/1/0': 0x372772,
           'https://th-koeln.de/gart/vocabulary/MeasuredValueFlowTemperature/1/0': 0xFF4A1C,
+          'https://th-koeln.de/gart/vocabulary/FeedbackOperation/1/0': 0x38761d,
         },
         WärmeErzeugen: {
           'https://th-koeln.de/gart/vocabulary/OperatingHours/1/0': 0x372772,
@@ -194,34 +195,6 @@ export default {
         }
       };
 
-      // Assign the appropriate mapping based on zweiteFunktion
-      const selectedMappings = semanticIdMappings[this.zweiteFunktion];
-      console.log(selectedMappings)
-
-      console.log(this.allElements)
-      for (let komponente in this.allElements) {
-        let component = this.allElements[komponente].elements;
-
-        for (let elementInformation in component) {
-          let element = component[elementInformation];
-          let semanticId = element.semanticId;
-
-          if (selectedMappings.hasOwnProperty(semanticId)) {
-
-            let aasId = this.allElements[komponente].anlagenInformation.aasId;
-            let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(element.idShort, element.submodelName, aasId);
-            console.log(timeSeriesData)
-            //console.log(timeSeriesData)
-            //data.push(timeSeriesData)
-            //names.push(element.name)
-            elementsToDisplay.push({
-              'name': element.datenpunktLabel,
-              'data': timeSeriesData,
-              'color': selectedMappings[semanticId]
-            });
-          }
-        }
-      }
       let root = am5.Root.new("chartdiv");
 
       root.setThemes([am5themes_Animated.new(root)]);
@@ -251,12 +224,15 @@ export default {
             
       let xAxis = chart.xAxes.push(
         am5xy.DateAxis.new(root, {
-          maxDeviation: 0.2,
+          maxDeviation: 0.1,
           baseInterval: {
             timeUnit: "minute",
             count: 1,
           },
-          renderer: am5xy.AxisRendererX.new(root, {}),
+          renderer: am5xy.AxisRendererX.new(root, {
+            minGridDistance: 80,
+            minorGridEnabled: true
+          }),
           tooltip: am5.Tooltip.new(root, {}),
         })
       );
@@ -269,25 +245,94 @@ export default {
           fontFamily: "Montserrat"
       });
 
-      let yAxis = chart.yAxes.push(
-        am5xy.ValueAxis.new(root, {
-          renderer: am5xy.AxisRendererY.new(root, {}),
-        })
-      );
-      let yRenderer = yAxis.get("renderer");
-        yRenderer.labels.template.setAll({
-          //fill: am5.color(0xFF0000),
-          fontSize: "12px",
-          fontFamily: "Montserrat"
-      });
+      // Assign the appropriate mapping based on zweiteFunktion
+      const selectedMappings = semanticIdMappings[this.zweiteFunktion];
+      console.log(selectedMappings)
+
+      console.log(this.allElements)
+
+      for (let komponente in this.allElements) {
+        let component = this.allElements[komponente].elements;
+
+        for (let elementInformation in component) {
+          let element = component[elementInformation];
+          let semanticId = element.semanticId;
+
+          if (selectedMappings.hasOwnProperty(semanticId)) {
+
+            let aasId = this.allElements[komponente].anlagenInformation.aasId;
+            let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(element.idShort, element.submodelName, aasId);
+            let valueType = 'number'
+            for (let i = 0; i < timeSeriesData.length; i++) {
+              if (typeof timeSeriesData[i].value === 'boolean') {
+                  timeSeriesData[i].value = timeSeriesData[i].value ? 1 : 0;
+                  valueType = 'boolean'
+              } 
+            }
+
+            //console.log(timeSeriesData)
+            //data.push(timeSeriesData)
+            //names.push(element.name)
+            elementsToDisplay.push({
+              'name': element.datenpunktLabel,
+              'data': timeSeriesData,
+              'color': selectedMappings[semanticId],
+              'valueType': valueType
+            });
+            
+          }
+        }
+      }
+      
       this.elementsToDisplay = elementsToDisplay
+      let yAxesTypesEnthalten = []
+
+      let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+          //maxDeviation: 0,
+          renderer: am5xy.AxisRendererY.new(root, {
+            
+          }),
+      }));
+      yAxesTypesEnthalten.push('number')
+
       for (var i = 0; i < elementsToDisplay.length; i++) {
+        
+        let seriesYAxis
+        if (elementsToDisplay[i].valueType === 'boolean') {
+          if (!yAxesTypesEnthalten.includes('boolean')){
+            seriesYAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                //syncWithAxis: yAxis,
+                renderer: am5xy.AxisRendererY.new(root, {
+                  opposite: 'opposite'
+                }),
+                maxPrecision: 0,
+                min: 0,
+                max: 1,
+            }));
+            yAxesTypesEnthalten.push('boolean');
+          } else {
+            // Use the existing boolean axis
+            seriesYAxis = chart.yAxes.getIndex(1); // Assuming boolean axis is at index 1
+          }
+        } else {
+            // For number values, use the default Y-axis
+            //seriesYAxis = chart.yAxes.getIndex(0);
+            seriesYAxis = yAxis
+        }
+
+        console.log(seriesYAxis)
+        /*
+        if (chart.yAxes.indexOf(seriesYAxis) > 0) {
+          seriesYAxis.set("syncWithAxis", chart.yAxes.getIndex(0));
+        }
+        */
+        
         let series = chart.series.push(
           am5xy.LineSeries.new(root, {
             //name: "Series " + i,
             name: elementsToDisplay[i].name,
             xAxis: xAxis,
-            yAxis: yAxis,
+            yAxis: seriesYAxis,
             valueYField: "value",
             valueXField: "date",
             legendValueText: "{valueY}",
@@ -297,6 +342,13 @@ export default {
             }),
           })
         );
+
+        let yRenderer = seriesYAxis.get("renderer");
+        yRenderer.labels.template.setAll({
+          //fill: am5.color(0xFF0000),
+          fontSize: "12px",
+          fontFamily: "Montserrat"
+        });
 
         date = new Date();
         date.setHours(0, 0, 0, 0);
@@ -310,8 +362,6 @@ export default {
         series.set("stroke", am5.color(elementsToDisplay[i].color))
         //series.set("fill", am5.color(0x3B5249)); -> Die ist für den tooltip, könnte auch noch angepasst werden
         series.data.setAll(data);
-
-
         series.appear();
       }
 

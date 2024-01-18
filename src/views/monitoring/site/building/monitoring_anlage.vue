@@ -19,6 +19,7 @@
             <MedienSpeichernMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantMediaStoreAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <MedienVerteilenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantMediaDistributionAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <LuftVerteilenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantVentilationLineAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
+            <KälteErzeugenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantColdGenerationAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
         </v-container>
     </div>
 </template>
@@ -35,12 +36,13 @@ import FernwärmeMonitoring from "@/components/monitoring/FernwärmeMonitoring.v
 import MedienEntsorgenMonitoring from "@/components/monitoring/MedienEntsorgenMonitoring.vue"
 import MedienSpeichernMonitoring from "@/components/monitoring/MedienSpeichernMonitoring.vue"
 import MedienVerteilenMonitoring from "@/components/monitoring/MedienVerteilenMonitoring.vue"
+import KälteErzeugenMonitoring from "@/components/monitoring/KälteErzeugenMonitoring.vue"
 
 export default {
     components: {
     HeizkreisMonitoring, RLTAnlageMonitoring, ErzeugerMonitoring, MedienBereitstellenMonitoring,
     LuftVerteilenMonitoring, WärmeSpeicherMonitoring, FernwärmeMonitoring, MedienEntsorgenMonitoring,
-    MedienSpeichernMonitoring, MedienVerteilenMonitoring
+    MedienSpeichernMonitoring, MedienVerteilenMonitoring, KälteErzeugenMonitoring
 },
     computed: {
         monitoringStore () {

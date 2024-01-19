@@ -9,17 +9,27 @@
             </v-img>
 
         --> 
-            <WärmeSpeicherMonitoring v-if='monitoringStore.aasAnlage.komponentenAas[0].semanticId == "https://th-koeln.de/gart/ComponentTankAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
-            <FernwärmeMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantDistrictHeatingAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
-            <HeizkreisMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantDistributionCircuitAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
-            <ErzeugerMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantGeneratorAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
+
+            <WärmeSpeicherMonitoring 
+                v-if='monitoringStore.aasAnlage.komponentenAas[0].semanticId == "https://th-koeln.de/gart/ComponentTankAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
+            <FernwärmeMonitoring 
+                v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantDistrictHeatingAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
+            <HeizkreisMonitoring 
+                v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantDistributionCircuitAAS/1/0" && this.monitoringStore.zweiteGrundfunktionForMonitoring == "https://th-koeln.de/gart/FunctionLevelTwoDistributeHeatAAS/1/0"'
+                :anlage="monitoringStore.aasAnlage.komponentenAas"/>
+            <ErzeugerMonitoring 
+                v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantGeneratorAAS/1/0" && this.monitoringStore.zweiteGrundfunktionForMonitoring == "https://th-koeln.de/gart/FunctionLevelTwoGenerateHeatAAS/1/0"' 
+                :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <RLTAnlageMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantVentilationSystemAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <MedienBereitstellenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantMediaSupplyAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <MedienEntsorgenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantMediaDisposeAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <MedienSpeichernMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantMediaStoreAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <MedienVerteilenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantMediaDistributionAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
             <LuftVerteilenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantVentilationLineAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
-            <KälteErzeugenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantColdGenerationAAS/1/0"' :anlage="monitoringStore.aasAnlage.komponentenAas"/>
+            <KälteErzeugenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantGeneratorAAS/1/0" && this.monitoringStore.zweiteGrundfunktionForMonitoring == "https://th-koeln.de/gart/FunctionLevelTwoGenerateColdAAS/1/0"' 
+            :anlage="monitoringStore.aasAnlage.komponentenAas"/>
+            <KälteVerteilenMonitoring v-else-if='monitoringStore.aasAnlage.semanticId == "https://th-koeln.de/gart/PlantDistributionCircuitAAS/1/0" && this.monitoringStore.zweiteGrundfunktionForMonitoring =="https://th-koeln.de/gart/FunctionLevelTwoDistributeColdAAS/1/0"' 
+            :anlage="monitoringStore.aasAnlage.komponentenAas"/>
         </v-container>
     </div>
 </template>
@@ -37,13 +47,17 @@ import MedienEntsorgenMonitoring from "@/components/monitoring/MedienEntsorgenMo
 import MedienSpeichernMonitoring from "@/components/monitoring/MedienSpeichernMonitoring.vue"
 import MedienVerteilenMonitoring from "@/components/monitoring/MedienVerteilenMonitoring.vue"
 import KälteErzeugenMonitoring from "@/components/monitoring/KälteErzeugenMonitoring.vue"
+import KälteVerteilenMonitoring from "@/components/monitoring/KälteVerteilenMonitoring.vue"
 
 export default {
     components: {
     HeizkreisMonitoring, RLTAnlageMonitoring, ErzeugerMonitoring, MedienBereitstellenMonitoring,
     LuftVerteilenMonitoring, WärmeSpeicherMonitoring, FernwärmeMonitoring, MedienEntsorgenMonitoring,
-    MedienSpeichernMonitoring, MedienVerteilenMonitoring, KälteErzeugenMonitoring
-},
+    MedienSpeichernMonitoring, MedienVerteilenMonitoring, KälteErzeugenMonitoring, KälteVerteilenMonitoring
+    },
+    props: {
+        zweiteFunktion: String
+    },
     computed: {
         monitoringStore () {
             return useMonitoringStore()

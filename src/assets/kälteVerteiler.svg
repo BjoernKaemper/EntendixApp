@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2020 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="31.7408mm" height="33.2752mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 23640.85 24783.68"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#372772;stroke-width:788.23;stroke-miterlimit:22.9256}
+    .str1 {stroke:#FF4A1C;stroke-width:788.23;stroke-miterlimit:22.9256}
+    .str5 {stroke:#372772;stroke-width:394.15;stroke-miterlimit:22.9256}
+    .str6 {stroke:#372772;stroke-width:394.15;stroke-miterlimit:22.9256}
+    .str3 {stroke:#FF4A1C;stroke-width:394.15;stroke-miterlimit:22.9256}
+    .str4 {stroke:#2B2A29;stroke-width:262.77;stroke-miterlimit:22.9256}
+    .str2 {stroke:#2B2A29;stroke-width:148.96;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+    .fil1 {fill:none;fill-rule:nonzero}
+   ]]>
+  </style>
+ </defs>
+ <g id="Ebene_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <line class="fil0 str0" x1="-0" y1="22527.51" x2="23640.85" y2= "22527.51" />
+  <line class="fil0 str1" x1="-0" y1="24389.53" x2="23624.46" y2= "24389.53" />
+  <polyline class="fil0 str2" points="17111.77,24389.53 17111.77,2886.73 15699.39,2886.73 "/>
+  <polyline class="fil0 str3" points="17111.77,24389.53 17111.77,2886.73 15699.39,2886.73 "/>
+  <circle class="fil0 str4" cx="12224.41" cy="3110.62" r="2048.23"/>
+  <circle class="fil0 str4" cx="12224.41" cy="3110.62" r="2979.24"/>
+  <circle class="fil0 str4" cx="7529.28" cy="10467.7" r="1675.82"/>
+  <polyline class="fil0 str2" points="9205.1,10467.7 7529.28,8791.88 5853.46,10467.7 "/>
+  <path class="fil1 str4" d="M10740.38 16875.07l1542.2 -880.44 -1542.2 -880.59 0 1761.03zm771.1 -440.26m0 -880.44m-771.1 440.26"/>
+  <path class="fil1 str4" d="M13824.78 16875.07l-1542.2 -880.44 1542.2 -880.59 0 1761.03zm-771.1 -440.26m0 -880.44m771.1 440.26"/>
+  <polyline class="fil0 str5" points="7506.41,8435.79 7506.41,2886.73 8779.59,2886.73 "/>
+  <line class="fil0 str3" x1="7453.38" y1="15994.63" x2="10416.23" y2= "15994.63" />
+  <line class="fil0 str3" x1="14148.92" y1="16028.82" x2="17111.77" y2= "16028.82" />
+  <line class="fil0 str6" x1="7453.38" y1="12506.32" x2="7453.38" y2= "22527.51" />
+ </g>
+</svg>

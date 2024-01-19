@@ -75,16 +75,19 @@
                                             <v-col></v-col>
                                         </v-row>
                                         </v-expansion-panel-title>
+                                        <!--
                                         <v-expansion-panel-text>
                                             Hier könnten übergeordnete KPIs stehen oder so
                                         </v-expansion-panel-text>
+                                    -->
                                         <v-expansion-panel-text>
+                                            
                                             <div class="text-center">
                                                 <v-btn
                                                 variant="flat" color="rgba(255, 74, 28, 0.8)" 
                                                 @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion_Anlage', 
                                                 params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, zweiteFunktion:funktion, anlage:anlage.idShort}}), 
-                                                monitoringStore.aasAnlage = anlage"
+                                                monitoringStore.aasAnlage = anlage, monitoringStore.zweiteGrundfunktionForMonitoring = this.funktionZweiteEbene.semanticId"
                                                 icon="mdi-chart-line">
                                                 </v-btn>
                                             </div>

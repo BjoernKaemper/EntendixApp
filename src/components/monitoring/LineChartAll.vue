@@ -196,6 +196,9 @@ export default {
         KälteErzeugen: {
           
         },
+        KälteVerteilen: {
+          
+        }
       };
 
       let root = am5.Root.new("chartdiv");

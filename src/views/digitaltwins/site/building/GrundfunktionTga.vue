@@ -22,7 +22,7 @@
                                     <v-virtual-scroll id="virtualScroll" :items="funktion.anlagenAas" height="100">
                                         <template v-slot:default="{ item }">
                                             <div class="text-center">
-                                                <v-btn variant="text" size="small" @click="getAnlagenData(item)">
+                                                <v-btn variant="text" size="small" @click="getAnlagenData(item, funktion)">
                                                     {{ item.idShort }}
                                                 </v-btn>
                                             </div>
@@ -62,7 +62,7 @@
                                             size="x-small"
                                             @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion_Anlage', 
                                             params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, anlage:anlage.idShort}}), 
-                                            monitoringStore.aasAnlage = this.anlage">Monitoring
+                                            monitoringStore.aasAnlage = this.anlage, monitoringStore.zweiteGrundfunktionForMonitoring = this.selectedZweiteFunktionForMonitoring">Monitoring
                                         </v-btn>
                                     </v-col>
                                 </v-row>
@@ -157,7 +157,8 @@ export default{
             selectedComponentIdShort: null,
             activeButtonIndex: null,
             loadingAnlage: false,
-            anlage: null
+            anlage: null,
+            selectedZweiteFunktionForMonitoring: ''
         }
     },
     components: {
@@ -201,7 +202,8 @@ export default{
             this.selectedComponentIdShort = componentIdShort
             this.activeButtonIndex = index
         },
-        async getAnlagenData(anlage) {
+        async getAnlagenData(anlage, funktion) {
+            this.selectedZweiteFunktionForMonitoring = funktion.semanticId
             this.activeButtonIndex = null
             this.anlage = anlage
             this.selectedComponentElements = null

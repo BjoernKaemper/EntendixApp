@@ -17,7 +17,8 @@ export const useMonitoringStore = defineStore('monitoring', {
             loadedElement: false,
             aasZweiteGrundfunktion: [],
             currentBuildingAas: '',
-            aasAnlage: []
+            aasAnlage: [],
+            zweiteGrundfunktionForMonitoring: 'hallo'
         }
     },
     actions: {

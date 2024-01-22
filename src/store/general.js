@@ -9,6 +9,7 @@ export const useGeneralStore = defineStore('general', {
     return {
         userId: '',
         aasServer: 'https://svmiv1rcci.execute-api.us-east-1.amazonaws.com/dev/v1/',
+        homeLoading: false,
         loading: false,
         loadedSiteInformation: [],
         loadedSiteInformationWithBuildings: [],
@@ -659,6 +660,7 @@ export const useGeneralStore = defineStore('general', {
     },
    
     async fetchGeneralInfos(userId) {
+        this.homeLoading = true
         await this.readCSV()
         this.userId = userId;
     
@@ -725,6 +727,8 @@ export const useGeneralStore = defineStore('general', {
         await this.loadGatewayInformation(aasGatewayIds)
     
         await this.loadBacnetInformation(aasBacnetIds);
+
+        this.homeLoading = false
     },
     
       

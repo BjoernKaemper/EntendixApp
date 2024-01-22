@@ -20,7 +20,7 @@
                         <v-row>
                             <v-col cols="2" class="ma-0 pa-0"></v-col>
                             <v-col cols="8" class="ma-0 pa-0 text-center">
-                                <v-btn variant="flat" color="rgba(255, 74, 28, 0.7)" size="x-small"
+                                <v-btn variant="outlined" color="#3B5249" size="x-small"
                                     icon="mdi-home" class="ma-2"
                                     @click="$router.push({name:'Home_Site', params:{siteid:site.siteName}})">
                                 </v-btn>
@@ -59,6 +59,26 @@
                             </v-btn>
                         </v-badge>
                     </v-col>
+                </v-row>
+                <v-row align="center" >
+                    <v-col cols="3" class="text-center">
+                        <v-btn 
+                            variant="outlined" 
+                            color="#455A64"
+                            icon="mdi-map-plus" class="mx-auto"
+                            @click="$router.push({name:'Register'})">
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="2">
+                        <v-row>
+                            <v-col cols="1" class="ma-0 pa-0"></v-col>
+                            <v-col cols="10" class="ma-0 pa-0 text-center">
+                                Neue Liegenschaft
+                            </v-col>
+                            <v-col cols="1" class="ma-0 pa-0"></v-col>
+                        </v-row>
+                    </v-col>
+                    <v-col cols="7"></v-col>
                 </v-row>
             </v-card-text>
         </v-card>

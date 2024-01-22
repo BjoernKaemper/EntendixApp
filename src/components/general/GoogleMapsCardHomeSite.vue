@@ -18,78 +18,67 @@ export default {
   data () {
       return {
         //siteId: '',
-        siteCoordinates: []
+        buildingCoordinates: []
       }
+  },
+  props: {
+    buildings: Array
   },
   
   async mounted () {
-    if (this.generalStore.loadedSiteInformation && Object.keys(this.generalStore.loadedSiteInformation).length > 0) {
-      await this.initMap();
-    }
+    console.log(this.buildings)
+    await this.initMap();
   },
-  watch: {
-    'generalStore.loadedSiteInformation': {
-      handler: 'initMap',
-      deep: true,
-      immediate: true, // Call the handler immediately on component creation
-    },
-  },
-  
-  /*
-  created() {
-      this.initMap()
-    },
-    */
     
-    computed: {
-        generalStore () {
+  computed: {
+      generalStore () {
         return useGeneralStore()
-        }
-    },
-    methods: {
-        async initMap() {
-            /* eslint-disable no-undef */
-            const siteCoordinates = [];
+      }
+  },
+  methods: {
+      async initMap() {
+          /* eslint-disable no-undef */
+          const buildingsCoordinates = [];
 
-            // Iterate through each site and add its coordinates to siteCoordinates
-            for (let site in this.generalStore.loadedSiteInformation) {
-              const lat = parseFloat(this.generalStore.loadedSiteInformation[site]['lat']);
-              const lng = parseFloat(this.generalStore.loadedSiteInformation[site]['lng']);
-              siteCoordinates.push({
-                lat,
-                lng
-              });
-            }
+          for (let i in this.buildings) {
+            let building = this.buildings[i]
+            const lat = parseFloat(Object.values(building)[0].lat);
+            const lng = parseFloat(Object.values(building)[0].lng);
+            buildingsCoordinates.push({
+              lat,
+              lng
+            });
+          }
 
-            // Load Google Maps API
-            const loader = new Loader({
-              apiKey: 'AIzaSyDrSZaSw1y8mnFuNa_ZYHTd-0kFxd4eCnQ',
-              version: 'weekly',
-              libraries: ['places']
+          // Load Google Maps API
+          const loader = new Loader({
+            apiKey: 'AIzaSyDrSZaSw1y8mnFuNa_ZYHTd-0kFxd4eCnQ',
+            version: 'weekly',
+            libraries: ['places']
+          });
+
+          try {
+            await loader.load();
+
+            // Create a new map centered at the first site
+            const map = new google.maps.Map(document.getElementById("map"), {
+              zoom: 10,
+              center: buildingsCoordinates[0]
             });
 
-            try {
-              await loader.load();
-
-              // Create a new map centered at the first site
-              const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 10,
-                center: siteCoordinates[0]
+            // Add markers for all sites
+            buildingsCoordinates.forEach((coordinates) => {
+              new google.maps.Marker({
+                position: coordinates,
+                map: map
               });
+            });
 
-              // Add markers for all sites
-              siteCoordinates.forEach((coordinates) => {
-                new google.maps.Marker({
-                  position: coordinates,
-                  map: map
-                });
-              });
-
-              return map;
-            } catch (error) {
-              console.error('Error loading Google Maps API:', error);
-            }
-        }
+            return map;
+          } catch (error) {
+            console.error('Error loading Google Maps API:', error);
+          }
+      }
     }
 };
 </script>

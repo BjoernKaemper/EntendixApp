@@ -3,27 +3,24 @@
         <v-card 
             style="border-radius: 20px; background-color: whitesmoke"
             variant="outlined" class="anlagen-card">
-            <v-card-title>Meine Gebäude</v-card-title>
+            <v-card-title>Meine Gebäude - {{ $route.params.siteid }}</v-card-title>
             <v-card-text>
-                <v-row align="center" v-for="site,i  in this.generalStore.loadedSiteInformationWithBuildings" :key="site">
+                <v-row align="center" v-for="building,i  in this.buildings" :key="i">
                     <v-col cols="3">
-                        <v-img class="mx-auto" href="#" contain :src="images[[Object.keys(images)[i]]]"></v-img>
+                        <v-img max-height="90" class="mx-auto" href="#" contain src="@/assets/no_image.svg"></v-img>
                     </v-col>
                     <v-col cols="2">
                         <v-row>
                             <v-col cols="2" class="ma-0 pa-0"></v-col>
                             <v-col cols="8" class="ma-0 pa-0">
-                                <div class="text-center">{{ site.siteName }}</div>
+                                <div class="text-center">{{ Object.values(building)[0].buildingName }}</div>
                             </v-col>
                             <v-col cols="2" class="ma-0 pa-0"></v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="2" class="ma-0 pa-0"></v-col>
                             <v-col cols="8" class="ma-0 pa-0 text-center">
-                                <v-btn variant="flat" color="rgba(255, 74, 28, 0.7)" size="x-small"
-                                    icon="mdi-home" class="ma-2"
-                                    @click="$router.push({name:'Home_Site', params:{siteid:site.siteName}})">
-                                </v-btn>
+                                
                             </v-col>
                             <v-col class="ma-0 pa-0" cols="2"></v-col>
                         </v-row>
@@ -38,8 +35,8 @@
                                 color="highlight"
                                 size="small"
                                 
-                                @click="$router.push({name:'DigitalTwins_Site', 
-                                params:{siteid: site.siteName}})">
+                                @click="$router.push({name:'DigitalTwins_Site_Building', 
+                                params:{siteid: $route.params.siteid, buildingid: Object.values(building)[0].buildingName, buildingaasid: Object.keys(building)[0]}})">
                                 <v-span v-html="zwillingText"></v-span>
                             </v-btn> 
                         </v-badge>                       
@@ -53,12 +50,32 @@
                                 variant="outlined" 
                                 color="highlight"
                                 size="small"
-                                @click="$router.push({name:'Monitoring_Site', 
-                                params:{siteid: site.siteName}})">
+                                @click="$router.push({name:'Monitoring_Site_Building', 
+                                params:{siteid: $route.params.siteid, buildingid: Object.values(building)[0].buildingName, buildingaasid: Object.keys(building)[0]}})">
                                 <v-span v-html="monitoringText"></v-span>
                             </v-btn>
                         </v-badge>
                     </v-col>
+                </v-row>
+                <v-row align="center">
+                    <v-col cols="3" class="text-center">
+                        <v-btn 
+                            variant="outlined" 
+                            color="#455A64"
+                            icon="mdi-office-building-plus" class="mx-auto"
+                            @click="$router.push({name:'Register'})">
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="2">
+                        <v-row>
+                            <v-col cols="2" class="ma-0 pa-0"></v-col>
+                            <v-col cols="8" class="ma-0 pa-0 text-center">
+                                Neues Gebäude
+                            </v-col>
+                            <v-col cols="2" class="ma-0 pa-0"></v-col>
+                        </v-row>
+                    </v-col>
+                    <v-col cols="7"></v-col>
                 </v-row>
             </v-card-text>
         </v-card>
@@ -73,9 +90,10 @@ export default {
       return {
         monitoringText: 'Technisches<br>Monitoring',
         zwillingText: 'Verwaltung<br>Digitaler Zwilling',
-        images: {'deutz': Object.values(import.meta.glob('@/assets/gebäude_deutz.png', {as:'url', eager:true}))[0],
-                    'südstadt': Object.values(import.meta.glob('@/assets/gebäude_südstadt.jpg', {as:'url', eager:true}))[0]}, 
       }
+    },
+    props: {
+        buildings: Array
     },
     computed: {
         generalStore () {

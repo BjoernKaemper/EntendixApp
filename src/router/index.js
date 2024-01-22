@@ -24,7 +24,7 @@ const routes = [
     meta: { 
       breadcrumb: (route) => {
         return [
-            { title: '', to: '/' }
+            { title: 'Home', to: '/' }
         ];
       } 
     }
@@ -36,7 +36,7 @@ const routes = [
     meta: { 
       breadcrumb: (route) => {
         return [
-          { title: '', to: '/' },
+          { title: 'Home', to: '/' },
           { title: `${route.params.siteid}`, to: `/${route.params.siteid}` }
         ];
       } 

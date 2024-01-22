@@ -90,7 +90,7 @@ export default {
     },
     solutions () {
       const solutions = [
-        // { icon: '', title: 'Home', link: '/' },
+        { icon: '', title: 'Home', link: '/' },
         //{ icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
         { icon: '', title: 'Digital Twins', link: '/digitaltwins' },
         { icon: '', title: 'Monitoring', link: '/monitoring' }, //vorher link:buildingperformance
@@ -99,7 +99,7 @@ export default {
     },
     appBarItems () {
       const appBar = [
-        // { icon: '', title: 'Home', link: '/home' },
+        { icon: '', title: 'Home', link: '/home' },
         { icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
         { icon: '', title: 'Monitoring', link: '/monitoring' }, //vorher link:buildingperformance
         { icon: '', title: 'Hinzufügen Standorte & Gebäude', link: '/register' }

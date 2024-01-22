@@ -25,10 +25,10 @@
                             <v-col class="ma-0 pa-0" cols="2"></v-col>
                         </v-row>
                     </v-col>
-                    <v-col cols="3.5">
+                    <v-col v-if="$route.name === 'Home_Site'" cols="3.5">
                         <v-badge color="info">
                             <v-btn
-                                class="button-span px-2"
+                                class="button-span px-3"
                                 rounded="xl"
                                 style="background-color: whitesmoke;"
                                 variant="outlined" 
@@ -41,10 +41,10 @@
                             </v-btn> 
                         </v-badge>                       
                     </v-col>
-                    <v-col cols="3.5">
+                    <v-col v-if="$route.name === 'Home_Site'" cols="3.5">
                         <v-badge color="info">
                             <v-btn
-                                class="button-span px-8"
+                                class="button-span px-9"
                                 rounded="xl"
                                 style="background-color: whitesmoke;"
                                 variant="outlined" 
@@ -56,8 +56,40 @@
                             </v-btn>
                         </v-badge>
                     </v-col>
+                    <v-col v-else-if="$route.name === 'DigitalTwins_Site'" cols="7" class="text-center">
+                        <v-badge color="info">
+                            <v-btn
+                                class="button-span px-3"
+                                rounded="xl"
+                                style="background-color: whitesmoke;"
+                                variant="outlined" 
+                                color="highlight"
+                                size="small"
+                                
+                                @click="$router.push({name:'DigitalTwins_Site_Building', 
+                                params:{siteid: $route.params.siteid, buildingid: Object.values(building)[0].buildingName, buildingaasid: Object.keys(building)[0]}})">
+                                <v-span v-html="zwillingText"></v-span>
+                            </v-btn> 
+                        </v-badge>      
+                    </v-col>
+                    <v-col v-else-if="$route.name === 'Monitoring_Site'" cols="7" class="text-center">
+                        <v-badge color="info">
+                            <v-btn
+                                class="button-span px-9"
+                                rounded="xl"
+                                style="background-color: whitesmoke;"
+                                variant="outlined" 
+                                color="highlight"
+                                size="small"
+                                
+                                @click="$router.push({name:'Monitoring_Site_Building', 
+                                params:{siteid: $route.params.siteid, buildingid: Object.values(building)[0].buildingName, buildingaasid: Object.keys(building)[0]}})">
+                                <v-span v-html="monitoringText"></v-span>
+                            </v-btn> 
+                        </v-badge>      
+                    </v-col>
                 </v-row>
-                <v-row align="center">
+                <v-row v-if="$route.name === 'Home_Site'" align="center">
                     <v-col cols="3" class="text-center">
                         <v-btn 
                             variant="outlined" 

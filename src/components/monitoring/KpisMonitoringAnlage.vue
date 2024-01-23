@@ -41,7 +41,7 @@
                             density="comfortable"
                             >
                             <template v-slot:title>
-                                <v-card-subtitle>
+                                <v-card-subtitle class="multiline text-center">
                                     {{ kpi.raw.name }}
                                 </v-card-subtitle>
                             </template>
@@ -107,8 +107,9 @@
 export default {
     data () {
         return {
+            kpis: [],
             kpisPerPage: 4,
-            kpis: [
+            kpisHeizung: [
                 {
                     name: 'Sollwertabweichung Vorlauftemperatur',
                     value: '1',
@@ -118,7 +119,9 @@ export default {
                     name: 'Erhöhte Raumtemperatur',
                     value: '9',
                     color: '#33FF33'
-                },
+                }
+            ],
+            kpisRLT: [
                 {
                     name: 'Erhöhte Zulufttemperatur',
                     value: '4',
@@ -126,10 +129,25 @@ export default {
                 },
                 {
                     name: 'Ventilatoren im Dauerbetrieb ',
-                    value: '7',
-                    color: '#99FF99'
+                    value: '10',
+                    color: '#00FF00'
                 }
+            ],
+            kpisMedien: [
+                {
+                    name: 'Erhöhte Speichertemperatur',
+                    value: '5',
+                    color: '#B0E57C'
+                },
+            ],
+            kpisKälte: [
+                {
+                    name: 'Erhöhter Massenstrom',
+                    value: '8',
+                    color: '#66FF66'
+                },
             ]
+
             /* color palette
             Green (for 10): #00FF00
             Lighter Green: #33FF33
@@ -142,6 +160,20 @@ export default {
             Red (for 1): #FF0000
             */
         }
+    },
+    props: {
+        grundfunktion: String
+    },
+    mounted () {
+        if (this.grundfunktion === 'Wärme') {
+            this.kpis = this.kpisHeizung
+        } else if (this.grundfunktion === 'Luft') {
+            this.kpis = this.kpisRLT
+        } else if (this.grundfunktion === 'Kälte') {
+            this.kpis = this.kpisKälte
+        } else if (this.grundfunktion === 'Medien') {
+            this.kpis = this.kpisMedien
+        } 
     }
 }
 </script>
@@ -157,6 +189,11 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.multiline {
+  white-space: pre-wrap;
+  font-weight: 900;
 }
 
 </style>

@@ -14,29 +14,28 @@
                         variant="outlined"
 
                         style="border-radius: 20px; background-color: rgba(178, 255, 169, 0.3)">
-                            <v-card-text class="center-content text-h6">
-                                <v-col cols="4">
+                            <v-card-text class="center-content text-h6 py-0">
+                                <v-col cols="2">
                                     <v-avatar :style="{ border: `2px solid ${kpi.raw.color}` }" 
-                                        size="50">
+                                        size="50"
+                                        color="#f5f5f5" >
                                             {{ kpi.raw.value }}
                                     </v-avatar>
                                 </v-col>
-                                <v-col cols="8">
+                                <v-col cols="10">
                                     <v-list-item
                                     :title="kpi.raw.name"
                                     lines="two"
                                     density="comfortable"
                                     >
                                     <template v-slot:title>
-                                        <v-card-subtitle>
-                                            {{ kpi.raw.name }}
-                                        </v-card-subtitle>
+                                        <v-card-subtitle class="multiline">{{ kpi.raw.name }}</v-card-subtitle>
                                     </template>
                                     </v-list-item>
                                 </v-col>
                             </v-card-text>
                             <v-divider></v-divider>
-                            <div class="px-4">
+                            <div class="px-8">
                                 <v-switch
                                     :model-value="isExpanded(kpi)"
                                     :label="`${isExpanded(kpi) ? 'Hide' : 'Show'} details`"
@@ -46,7 +45,7 @@
                             </div>
                             <v-divider></v-divider>
                             <v-expand-transition>
-                                <div v-if="isExpanded(kpi)">{{ kpi.raw.name }}</div>
+                                <div v-if="isExpanded(kpi)">To be done</div>
                             </v-expand-transition>
                         </v-card>
                         </v-col>
@@ -64,24 +63,14 @@ export default {
             kpisPerPage: 4,
             kpis: [
                 {
-                    name: 'Sollwertabweichung Vorlauftemperatur',
-                    value: '1',
-                    color: '#FF0000'
-                },
-                {
-                    name: 'Erhöhte Raumtemperatur',
-                    value: '9',
-                    color: '#33FF33'
-                },
-                {
-                    name: 'Erhöhte Zulufttemperatur',
+                    name: 'Behaglichkeit',
                     value: '4',
                     color: '#FF9966'
                 },
                 {
-                    name: 'Ventilatoren im Dauerbetrieb ',
-                    value: '7',
-                    color: '#99FF99'
+                    name: 'Energieeffizienz',
+                    value: '9',
+                    color: '#33FF33'
                 }
             ]
             /* color palette
@@ -111,6 +100,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.multiline {
+  white-space: pre-wrap;
+  font-size: medium;
+  font-weight: 400;
 }
 
 </style>

@@ -95,9 +95,9 @@ export default {
         currentTitle () {
             switch (this.step) {
             //case 1: return 'Registrierung Unternehmen'
-            case 1: return 'Registrierung Unternehmen'
+            default: return 'Registrierung Unternehmen'
             case 2: return 'Registrierung Liegenschaften'
-            default: return 'Registrierung Gebäude'
+            case 3: return 'Registrierung Gebäude'
             }
         },
         generalStore () {

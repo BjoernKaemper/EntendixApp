@@ -8,7 +8,7 @@
       </v-container>
       <v-container v-else-if="monitoringStore.loadingMonitoringComponent === false" class="my-4 justify-center align-center">
         <v-container>
-          <KpisMonitoringAnlage />
+          <KpisMonitoringAnlage grundfunktion="Luft"/>
         </v-container>
         <v-container>
           <LineChartAll :allElements="this.allSes" zweiteFunktion="LuftVerteilen"/> 

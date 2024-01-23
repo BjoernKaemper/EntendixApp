@@ -39,7 +39,7 @@
         -->
             <v-row>
                 <v-col>
-                    <v-card class="mx-auto" 
+                    <v-card class="mx-auto mb-12" 
                     max-width="70%"
                     variant="outlined"
                     style="border-radius: 20px; background-color: whitesmoke">

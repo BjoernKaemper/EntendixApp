@@ -44,7 +44,7 @@
                         <v-col>
                             <v-card v-if="selectedAnlage !== null"
                             style="border-radius: 20px;"
-                                variant="outlined" class="pa-4 anlagen-card">
+                                variant="outlined" class="pa-4 mb-12 anlagen-card">
                                 <v-row>
                                     <v-col cols="2"></v-col>
                                     <v-col cols="8">

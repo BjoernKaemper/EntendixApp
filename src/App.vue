@@ -13,8 +13,12 @@
         <NavBar />
         <NavigationDrawer />
         <v-main>
-          <Breadcrumbs />
-          <router-view />
+          <div id="page-container">
+            <div id="content-wrap">
+              <Breadcrumbs />
+              <router-view />
+            </div>
+          </div>
           <Footer />
         </v-main>
       </template>   
@@ -123,5 +127,12 @@
   max-width: 50%;
   height: auto;
 }
+#page-container {
+  position: relative;
+  min-height: 85vh;
+  margin-bottom: 10vh;
+}
+
+
 </style>
 

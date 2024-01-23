@@ -3,11 +3,10 @@
       id="footer"
       class="text-center d-flex justify-space-between" color="secondary-darken-1"
     >
-    <div>   
-    </div>
-
-    <div>
-      <div>
+    <v-row class="mb-0">
+      <v-col cols="2">
+      </v-col>
+      <v-col cols="8">
         <v-btn
           v-for="icon in icons"
           :key="icon"
@@ -15,26 +14,24 @@
           :icon="icon"
           variant="text"
         ></v-btn>
-      </div>
-      <div class="pt-0">
-      </div>
-      <v-divider></v-divider>
-      <div>
-        {{ new Date().getFullYear() }} — <strong>PLYTEQ</strong>
-      </div>
-    </div>
-      
-      <div >
-      <v-avatar size="100px" rounded="0">
-              <v-img src="@/assets/plyteq_schriftzug.svg">
-            </v-img>
-          </v-avatar>
-
-     </div>
+        <div class="pt-0">
+        </div>
+        <v-divider></v-divider>
+        <div>
+          {{ new Date().getFullYear() }} — <strong>PLYTEQ</strong>
+        </div>
+      </v-col>
+      <v-col cols="2">
+        <v-avatar size="100px" rounded="0" class="mr-6">
+        <v-img src="@/assets/plyteq_schriftzug.svg"></v-img>
+      </v-avatar>
+      </v-col>
+    </v-row>
     </v-footer>
-  </template>
+
+</template>
   
-  <script>
+<script>
   export default {
     data: () => ({
       icons: [
@@ -45,20 +42,18 @@
       ],
     }),
   }
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   #footer {
     width: 100%;
-    margin-top: 10%;
-    padding-top: 0 ;
+    padding-top: 0;
     padding-bottom: 0;
+    position: absolute;
+    margin-top: 10%;
+    bottom: 0;
   }
-  #footer-button {
-    width: 10%;
-  }
-  .container {
-    padding: 0;
-  }
-  </style>
+
+
+</style>
   

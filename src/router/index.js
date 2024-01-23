@@ -22,7 +22,7 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: { 
-      breadcrumb: (route) => {
+      breadcrumb: () => {
         return [
             { title: 'Home', to: '/' }
         ];

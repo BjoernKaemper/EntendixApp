@@ -16,13 +16,25 @@
                 </v-toolbar-title>           
             <v-spacer></v-spacer>
             <div v-for="solution in solutions" :key="solution.title">
-              <v-btn plain @click="() => {}" :to="solution.link">
+              <v-btn plain @click="() => {}" :to="solution.link" class="mr-2" exact>
                 {{ solution.title }}
               </v-btn>
             </div>
+            <!--
             <v-btn @click="auth.signOut">
                 Sign out
             </v-btn>
+          -->
+          <v-tooltip text="Sign out">
+            <template v-slot:activator="{ props }">
+              <v-btn 
+                v-bind="props"
+                  plain
+                  icon="mdi-logout"
+                  @click="auth.signOut">
+              </v-btn>
+            </template>
+          </v-tooltip>
 
             <!-- <v-menu left bottom>
                 <template v-slot:activator="{ on, attrs }">

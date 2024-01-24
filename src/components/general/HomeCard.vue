@@ -2,7 +2,7 @@
     <div>
         <v-card 
             style="border-radius: 20px; background-color: whitesmoke"
-            variant="outlined" class="anlagen-card">
+            variant="outlined" class="anlagen-card mb-12">
             <v-card-title>Meine Liegenschaften</v-card-title>
             <v-card-text>
                 <v-row align="center" v-for="site,i  in this.generalStore.loadedSiteInformationWithBuildings" :key="site">

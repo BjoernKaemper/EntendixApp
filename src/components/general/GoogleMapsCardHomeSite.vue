@@ -2,7 +2,7 @@
   <div>
     <v-card
           style="border-radius: 20px; background-color: whitesmoke"
-          class="pa-2" variant="outlined">
+          class="pa-2 mb-12" variant="outlined">
       <div class="google-map-card">
         <div id="map"></div>
       </div>

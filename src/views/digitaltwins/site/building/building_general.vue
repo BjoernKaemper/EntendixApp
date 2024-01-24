@@ -25,7 +25,7 @@
                     color="success"
                     ></v-progress-linear>
                 </div>
-                <v-row>
+                <v-row class="mb-8">
                     <v-col 
                     v-for="aasGrundfunktion in monitoringStore.aasTree" :key="aasGrundfunktion" 
                     cols = '4'>

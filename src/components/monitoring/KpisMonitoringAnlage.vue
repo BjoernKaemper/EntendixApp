@@ -28,7 +28,7 @@
                             height="150"
                             ></v-img>
                             -->
-                            <v-card-text class="center-content text-h6">
+                            <v-card-text class="text-h6 text-center">
                                 <v-avatar :style="{ border: `2px solid ${kpi.raw.color}` }" 
                                 size="70">
                                     {{ kpi.raw.value }}

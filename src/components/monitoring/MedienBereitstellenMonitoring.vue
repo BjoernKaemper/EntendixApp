@@ -23,7 +23,7 @@
                   <v-container class="mx-0 mx-lg-10 mx-xl-16 px-lg-10 px-xl-16">
                     <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.48 254.38">
             
-                          <g id="Ebene_1-2" data-name="Ebene_1">
+                      <g id="Ebene_1-2" data-name="Ebene_1">
                           <rect class="cls-2" x="2" y="23.49" width="207.48" height="228.89" rx="37.01" ry="37.01"/>
                           <line class="cls-1" x1="19.42" y1="221.25" x2="191.17" y2="221.25"/>
                           <line class="cls-1" x1="147.74" y1="221.25" x2="147.74" y2="145.14"/>
@@ -261,36 +261,36 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   
-	.cls-1, .cls-2, .cls-3 {
-    fill: none;
-  }
+.cls-1, .cls-2, .cls-3 {
+  fill: none;
+}
 
-  .cls-1, .cls-2, .cls-3, .cls-4 {
-    stroke-miterlimit: 10;
-  }
+.cls-1, .cls-2, .cls-3, .cls-4 {
+  stroke-miterlimit: 10;
+}
 
-  .cls-1, .cls-2, .cls-4 {
-    stroke-width: 4px;
-  }
+.cls-1, .cls-2, .cls-4 {
+  stroke-width: 4px;
+}
 
-  .cls-1, .cls-4 {
-    stroke: #372772;
-  }
+.cls-1, .cls-4 {
+  stroke: #372772;
+}
 
-  .cls-2 {
-    stroke: #000;
-  }
+.cls-2 {
+  stroke: #000;
+}
 
-  .cls-3 {
-    stroke: #ff4a1c;
-    stroke-width: 8px;
-  }
+.cls-3 {
+  stroke: #ff4a1c;
+  stroke-width: 8px;
+}
 
-  .cls-4 {
-    fill: whitesmoke;
-  }
+.cls-4 {
+  fill: #fefefe;
+}
 
   .pointer {
     cursor: pointer;

@@ -281,7 +281,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   
 	.st0{fill:none;}
 	.st1{fill:none;stroke:#FF4A1C;stroke-width:2.9999;stroke-miterlimit:10;}

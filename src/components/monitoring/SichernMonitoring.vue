@@ -258,7 +258,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .cls-1 {
 fill: #fff;

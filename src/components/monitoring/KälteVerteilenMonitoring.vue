@@ -281,7 +281,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
   fill: none;

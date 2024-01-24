@@ -1,75 +1,77 @@
 <template>
-    <v-card class="mx-auto my-16"
-        max-width="65%"
-        variant="outlined"
-        style="border-radius: 20px; background-color: whitesmoke;">
-        <v-toolbar
-        style="background-color: whitesmoke;"
-            >
-            <v-toolbar-title style="color: #3B5249;"
-            class="d-flex justify-center align-center">
-                <span>{{ currentTitle }}</span>
-            </v-toolbar-title>
-        </v-toolbar>
-        <v-divider :thickness="4"></v-divider>
-        <v-window v-model="step"
-        style="background-color: whitesmoke;">
-        <v-window-item
-            v-for="n in length"
-            :key="`card-${n}`"
-            :value="n"
-        >
-            <div v-if="n == 1 && !generalStore.loadedOrganizationInformation.length">
-                <AddOrgaInformation />
-            </div>
-            <div v-else-if="n == 1 && generalStore.loadedOrganizationInformation.length != 0">
-                <ShowOrgaInformation />
-            </div>
-            <div v-else-if="n == 2">
-                <AddSites />
-            </div>
-            <div v-else-if="n == 3">
-                <Buildings />
-            </div>
-        </v-window-item>
-        </v-window>
-
-        <v-card-actions class="justify-space-between">
-        <v-btn
-            rounded="xl"
+    <v-container class="mb-8">
+        <v-card class="mx-auto mt-8 mb-12"
+            max-width="65%"
+            variant="outlined"
+            style="border-radius: 20px; background-color: whitesmoke;">
+            <v-toolbar
             style="background-color: whitesmoke;"
-            variant="plain" 
-            color="highlight"
-            icon="mdi-chevron-left"
-            @click="prev"
-        ></v-btn>
-        <v-item-group
-            v-model="step"
-            class="text-center"
-            mandatory
-        >
-            <v-item
-            v-for="n in length"
-            :key="`btn-${n}`"
-            v-slot="{ isSelected, toggle }"
-            :value="n"
+                >
+                <v-toolbar-title style="color: #3B5249;"
+                class="d-flex justify-center align-center">
+                    <span>{{ currentTitle }}</span>
+                </v-toolbar-title>
+            </v-toolbar>
+            <v-divider :thickness="4"></v-divider>
+            <v-window v-model="step"
+            style="background-color: whitesmoke;">
+            <v-window-item
+                v-for="n in length"
+                :key="`card-${n}`"
+                :value="n"
             >
+                <div v-if="n == 1 && !generalStore.loadedOrganizationInformation.length">
+                    <AddOrgaInformation />
+                </div>
+                <div v-else-if="n == 1 && generalStore.loadedOrganizationInformation.length != 0">
+                    <ShowOrgaInformation />
+                </div>
+                <div v-else-if="n == 2">
+                    <AddSites />
+                </div>
+                <div v-else-if="n == 3">
+                    <Buildings />
+                </div>
+            </v-window-item>
+            </v-window>
+
+            <v-card-actions class="justify-space-between mb-6">
             <v-btn
-                :variant="isSelected ? 'outlined' : 'text'"
-                icon="mdi-record"
+                rounded="xl"
+                style="background-color: whitesmoke;"
+                variant="plain" 
                 color="highlight"
-                @click="toggle"
+                icon="mdi-chevron-left"
+                @click="prev"
             ></v-btn>
-            </v-item>
-        </v-item-group>
-        <v-btn
-            variant="plain"
-            color="highlight"
-            icon="mdi-chevron-right"
-            @click="next"
-        ></v-btn>
-        </v-card-actions>
-    </v-card>
+            <v-item-group
+                v-model="step"
+                class="text-center"
+                mandatory
+            >
+                <v-item
+                v-for="n in length"
+                :key="`btn-${n}`"
+                v-slot="{ isSelected, toggle }"
+                :value="n"
+                >
+                <v-btn
+                    :variant="isSelected ? 'outlined' : 'text'"
+                    icon="mdi-record"
+                    color="highlight"
+                    @click="toggle"
+                ></v-btn>
+                </v-item>
+            </v-item-group>
+            <v-btn
+                variant="plain"
+                color="highlight"
+                icon="mdi-chevron-right"
+                @click="next"
+            ></v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-container>
 </template>
 
 <script>

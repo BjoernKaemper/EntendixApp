@@ -62,6 +62,7 @@
   watchEffect(() => {
     // Check if auth.user is available and contains the necessary properties.
     if (auth.user && auth.user.signInUserSession) {
+      console.log(auth.user)
       const userId = auth.user.signInUserSession.idToken.payload.sub
       //console.log(userId)
       store.fetchGeneralInfos(userId)

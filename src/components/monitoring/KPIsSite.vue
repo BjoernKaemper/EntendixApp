@@ -14,25 +14,27 @@
                         variant="outlined"
 
                         style="border-radius: 20px; background-color: rgba(178, 255, 169, 0.3)">
-                            <v-card-text class="center-content text-h6 py-0">
-                                <v-col cols="2">
-                                    <v-avatar :style="{ border: `2px solid ${kpi.raw.color}` }" 
-                                        size="50"
-                                        color="#f5f5f5" >
-                                            {{ kpi.raw.value }}
-                                    </v-avatar>
-                                </v-col>
-                                <v-col cols="10">
-                                    <v-list-item
-                                    :title="kpi.raw.name"
-                                    lines="two"
-                                    density="comfortable"
-                                    >
-                                    <template v-slot:title>
-                                        <v-card-subtitle class="multiline">{{ kpi.raw.name }}</v-card-subtitle>
-                                    </template>
-                                    </v-list-item>
-                                </v-col>
+                            <v-card-text class="text-h6">
+                                <v-row>
+                                    <v-col cols="3">
+                                        <v-avatar :style="{ border: `2px solid ${kpi.raw.color}` }" 
+                                            size="50"
+                                            color="#f5f5f5" >
+                                                {{ kpi.raw.value }}
+                                        </v-avatar>
+                                    </v-col>
+                                    <v-col cols="9">
+                                        <v-list-item
+                                        :title="kpi.raw.name"
+                                        lines="two"
+                                        density="comfortable"
+                                        >
+                                        <template v-slot:title>
+                                            <v-card-subtitle class="multiline">{{ kpi.raw.name }}</v-card-subtitle>
+                                        </template>
+                                        </v-list-item>
+                                    </v-col>
+                                </v-row>
                             </v-card-text>
                             <v-divider></v-divider>
                             <div class="px-8">

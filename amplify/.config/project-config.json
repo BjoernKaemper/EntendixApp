@@ -1,14 +1,14 @@
 {
-  "projectName": "zukunftbauapp",
+  "projectName": "plyteqapp",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
     "framework": "vue",
     "config": {
-      "SourceDir": "zukunft-bau-app",
+      "SourceDir": "src",
       "DistributionDir": "dist",
-      "BuildCommand": "yarn run build",
-      "StartCommand": "yarn run serve"
+      "BuildCommand": "npm.cmd run-script build",
+      "StartCommand": "npm.cmd run-script serve"
     }
   },
   "providers": [

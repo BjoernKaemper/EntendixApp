@@ -21,9 +21,17 @@ import { registerPlugins } from '@/plugins';
 // import * as VueGoogleMaps from "vue3-google-maps" 
 import  { Loader } from '@googlemaps/js-api-loader'
 // import VueGoogleMaps from '@fawmi/vue-google-maps'
+
+
+
+// Alt
+//import { Amplify } from 'aws-amplify';
+//import awsExports from '../aws-exports';
+//Amplify.configure(awsExports);
+
 import { Amplify } from 'aws-amplify';
-import awsExports from '../aws-exports';
-Amplify.configure(awsExports);
+import config from './amplifyconfiguration.json';
+Amplify.configure(config);
 
 const app = createApp(App)
 app.use(AmplifyVue)

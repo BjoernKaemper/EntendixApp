@@ -9,7 +9,7 @@ export const useMonitoringStore = defineStore('monitoring', {
             timeSeriesSubmodelElementsIdShorts: [],
             userId: '',
             loadingLineChart: false,
-            aasServer: 'https://svmiv1rcci.execute-api.us-east-1.amazonaws.com/dev/v1/',
+            aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
             roomTemperature: [],
             aasTree: [],
             loadingAasTree: false,
@@ -150,7 +150,7 @@ export const useMonitoringStore = defineStore('monitoring', {
             }
         },
         async getTimeSeriesSubmodelElements(aasId) {
-            const getSubmodelElements = 'submodel/getsubmodelelementbypath'
+            const getSubmodelElements = 'submodelServices/getSubmodelElementByPath'
             const url = this.aasServer + getSubmodelElements
             let responseBasyx = ''
             const generalStore = useGeneralStore()
@@ -195,7 +195,7 @@ export const useMonitoringStore = defineStore('monitoring', {
         },
 
         async getSeValueAnlagenmonitoring(aasId, submodelIdShort, idShort, elementData) {
-          const getSeValue = 'submodel/getsubmodelelementvalue';
+          const getSeValue = 'submodelServices/getSubmodelElementValue';
           const urlSeValue = this.aasServer + getSeValue;
           //let supplementInfos = {}
       
@@ -221,7 +221,7 @@ export const useMonitoringStore = defineStore('monitoring', {
         async getTimeSeriesValues(submodelElementPath, submodelRefIdShort, aasId) {
             this.loadingLineChart = true
 
-            const readTimeSeries = 'submodel/timeseries/readtimeseries'
+            const readTimeSeries = 'timeseriesServices/readTimeSeries'
             const url = this.aasServer + readTimeSeries
             let responseBasyx = ''        
             const actualTime = Math.floor(new Date().getTime() / 1000)
@@ -236,7 +236,8 @@ export const useMonitoringStore = defineStore('monitoring', {
                     userId: this.userId,
                     aasIdentifier: aasId,
                     submodelRefIdShort: submodelRefIdShort,
-                    submodelElementPath: path,
+                    //submodelElementPath: path,
+                    sempath: path,
                     timestampStart: 0,
                     timestampStop: actualTime,
                     //timestampStop: 1696878572

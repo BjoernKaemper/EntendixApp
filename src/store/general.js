@@ -8,7 +8,7 @@ export const useGeneralStore = defineStore('general', {
   state: () => {
     return {
         userId: '',
-        aasServer: 'https://svmiv1rcci.execute-api.us-east-1.amazonaws.com/dev/v1/',
+        aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
         homeLoading: false,
         loading: false,
         loadedSiteInformation: [],
@@ -31,11 +31,12 @@ export const useGeneralStore = defineStore('general', {
     async createAas(semanticIdType, aasIdShort) {
         let aasId = ''
         try {
-            const createAas = 'aas/createaasbyaastype'
+            const createAas = 'aasServices/createAasByAasType'
             const url = this.aasServer + createAas
             const response = await axios.post(url, {
                 userId: this.userId,
-                semanticIdAasType: semanticIdType,
+                //semanticIdAasType: semanticIdType,
+                semanticId: semanticIdType,
                 idShort: aasIdShort
             })
             aasId = response.data
@@ -47,7 +48,7 @@ export const useGeneralStore = defineStore('general', {
 
     async addSubmodelElements(companyAasId, submodelIdShort, semanticIdSubmodel, submodelElementValues) {
         try {
-            const updateSubmodel = 'submodel/addsubmodelelements'
+            const updateSubmodel = 'submodelServices/addSubmodelElements'
             const url = this.aasServer + updateSubmodel
             const response = await axios.post(url, {
                 userId: this.userId,
@@ -60,10 +61,10 @@ export const useGeneralStore = defineStore('general', {
             console.log(error)
         }
     },
-
+    /*
     async inititalPostBomHasPart(parentId, partId) {
 
-        const bom = 'submodel/bom/initialpost'
+        const bom = 'submodelServices/bom/initalPost'
         const urlBom = this.aasServer + bom
         try {
             const response = await axios.post(urlBom, {
@@ -86,6 +87,7 @@ export const useGeneralStore = defineStore('general', {
             console.log(error)
         }
     },
+    
 
     async inititalPostBomIsPartOf(parentId, partId) {
         
@@ -111,9 +113,10 @@ export const useGeneralStore = defineStore('general', {
             console.log(error)
         }
     },
+    */
 
     async getSemanticIdAas(aasId) {
-        const path = 'aas/getaassemanticidbyidentifier'
+        const path = 'aasServices/getAasSemanticIdByIdentifier'
         const url = this.aasServer + path
         let semanticId = []
         try {
@@ -129,17 +132,13 @@ export const useGeneralStore = defineStore('general', {
     },
 
     async addHasPart(parentId, partId) {
-        const bom = 'submodel/bom/addhaspartelement'
+        const bom = 'submodelServices/bom/addHasPartElement'
         const urlBom = this.aasServer + bom
         try {
             const response = await axios.post(urlBom, {
                 userId: this.userId,
                 aasIdentifier: parentId,
-                submodelIdShort:"HierarchicalStructures",
-                BomValues: {
-                    EntitiyAasIdentifier: parentId,
-                    HasPart: partId
-                }	
+                HasPart_AasIdentifier: partId
             })
             console.log(response.data)
         } catch (error) {
@@ -148,14 +147,13 @@ export const useGeneralStore = defineStore('general', {
     },
 
     async getBomChilds(aasId) {
-        const bomChilds = 'submodel/bom/getchilds'
+        const bomChilds = 'submodelServices/bom/getChilds'
         const urlBomChilds = this.aasServer + bomChilds
         let childAasIds = []
         try {
             const response = await axios.post(urlBomChilds, {
                 userId: this.userId,
-                aasIdentifier: aasId,
-                submodelIdShort: 'HierarchicalStructures'
+                aasIdentifier: aasId
             })
             if ('status' in response.data) {
                 // 'status' property exists in the object
@@ -169,14 +167,13 @@ export const useGeneralStore = defineStore('general', {
         return childAasIds
     },
     async getBomParent(aasId) {
-        const bomParent = 'submodel/bom/getparents'
+        const bomParent = 'submodelServices/bom/getParents'
         const urlBomParent = this.aasServer + bomParent
         let parentAasId = []
         try {
             const response = await axios.post(urlBomParent, {
                 userId: this.userId,
-                aasIdentifier: aasId,
-                submodelIdShort: 'HierarchicalStructures'
+                aasIdentifier: aasId
             })
 
             parentAasId = response.data
@@ -186,23 +183,25 @@ export const useGeneralStore = defineStore('general', {
         return parentAasId
     },
     async getAasByType (semanticId) {
-        const getAasByType = 'aas/getallaasidentifierbyaastype'
+        const getAasByType = 'aasServices/getAllAasIdentifierByAasType'
         const url = this.aasServer + getAasByType
         let aasIds = ''
         try {
             const response = await axios.post(url, {
-                userId: this.userId,
-                semanticIdAasType: semanticId
+                //semanticIdAasType: semanticId
+                semanticId: semanticId,
+                userId: this.userId
             })
             aasIds = response.data
         } catch (error) {
             console.log(error)
         }
+        console.log(aasIds)
 
         return aasIds
     },
     async getSubmodel(aasId, submodelId) {
-        const getSubmodel = 'submodel/getsubmodel'
+        const getSubmodel = 'submodelServices/getSubmodelByIdShort'
         const url = this.aasServer + getSubmodel
         let responseBasyx = ''       
         
@@ -211,6 +210,7 @@ export const useGeneralStore = defineStore('general', {
                 userId: this.userId,
                 aasIdentifier: aasId,
                 submodelIdShort :submodelId
+                //submodelIdentifier: submodelId
             })
             responseBasyx = response.data
         } catch (error) {
@@ -218,56 +218,9 @@ export const useGeneralStore = defineStore('general', {
         }
         return responseBasyx
     },
-    /*
-    async getSeValue (aasId, submodelIdShort, idShortPaths) {
 
-        let allSeInformations = {}
-        const getSeValue = 'submodel/getsubmodelelementvalue'
-        const urlSeValue = this.aasServer + getSeValue
-
-        for (let element in idShortPaths) {
-            let value = idShortPaths[element] 
-            if (value.length == 1) {
-                try {
-                    const response = await axios.post(urlSeValue, {
-                        userId: this.userId,
-                        aasIdentifier: aasId,
-                        submodelIdShort: submodelIdShort,
-                        submodelElementShortIdPath: [
-                            value[0]
-                        ]
-                    })
-                    
-                    if (response.data !== '') {
-                        allSeInformations[element] = response.data['value']
-                    } 
-                } catch (error) {
-                    console.log(error)
-                }
-            } else if (value.length == 2) {
-                try {
-                    const response = await axios.post(urlSeValue, {
-                        userId: this.userId,
-                        aasIdentifier: aasId,
-                        submodelIdShort: submodelIdShort,
-                        submodelElementShortIdPath: [
-                            value[0],
-                            value[1]
-                        ]
-                    })
-                    if (response.data !== '') {
-                        allSeInformations[element] = response.data['value']
-                    } 
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-        }
-        return allSeInformations
-    },
-    */
     async getSeValue(aasId, submodelIdShort, idShortPaths) {
-        const getSeValue = 'submodel/getsubmodelelementvalue';
+        const getSeValue = 'submodelServices/getSubmodelElementValue';
         const urlSeValue = this.aasServer + getSeValue;
         const allSeInformations = {};
     
@@ -294,7 +247,7 @@ export const useGeneralStore = defineStore('general', {
 
     async editSeValue (aasId, submodelIdShort, idShort, value) {
 
-        const editSeValue = 'submodel/editsubmodelelementvalue'
+        const editSeValue = 'submodelServices/editSubmodelElementValue'
         const url = this.aasServer + editSeValue
 
         if (idShort.length == 1) {
@@ -306,7 +259,8 @@ export const useGeneralStore = defineStore('general', {
                     submodelElementShortIdPath: [
                         idShort[0]
                     ],
-                    value: value
+                    //value: value
+                    submodelElementValues: value
                 })
                 console.log(response)
             
@@ -323,7 +277,8 @@ export const useGeneralStore = defineStore('general', {
                         idShort[0],
                         idShort[1]
                     ],
-                    value: value
+                    //value: value
+                    submodelElementValues: value
                 })
                 console.log(response)
             } catch (error) {
@@ -332,7 +287,7 @@ export const useGeneralStore = defineStore('general', {
         }
     },
     async getAasIdShortByIdentifier(aasId) {
-        const getAasIdShort = 'aas/getaasidshortbyidentifier'
+        const getAasIdShort = 'aasServices/getAasIdShortByIdentifier'
         const url = this.aasServer + getAasIdShort
         let idShort = ''
         try {
@@ -530,7 +485,7 @@ export const useGeneralStore = defineStore('general', {
     */
     async postDataGetAllAasIdentifier() {
 
-        const getAasIdentifier = 'aas/getallaasidentifier'
+        const getAasIdentifier = 'aasServices/getAllAasIdentifier'
         const url = this.aasServer + getAasIdentifier
         try {
             const response = await axios.post(url, {
@@ -543,88 +498,6 @@ export const useGeneralStore = defineStore('general', {
       }
     },
     
-    /*
-    async fetchGeneralInfos(userId) {
-        
-        // Test Amplify
-        //await this.helloServer()
-        this.userId = userId
-        console.log(this.userId)
-        //await this.postDataGetAllAasIdentifier()
-
-        // this.loading=true
-        const companyIdShortPaths = {
-            organizationName: ['CompanyName'],
-            country: ['Address', 'NationalCode'],
-            city: ['Address', 'CityTown'],
-            zipcode: ['Address', 'Zipcode'],
-            street: ['Address', 'Street'],
-        }
-        const siteIdShortPaths = {
-            siteName: ['SiteName'],
-            country: ['Address', 'NationalCode'],
-            city: ['Address', 'CityTown'],
-            zipcode: ['Address', 'Zipcode'],
-            lat: ['Address', 'Lattitude'],
-            lng: ['Address', 'Longitude'],
-            street: ['Address', 'Street'],
-        }
-        this.loadedOrganizationInformation = []
-        this.loadedSiteInformation = []
-
-        const semanticIdAasType = 'https://th-koeln.de/gart/CompanyAAS/1/0'        
-        const aasIds = await this.getAasByType(semanticIdAasType)
-        console.log(aasIds)
-        const companyAasId = aasIds[0]
-        console.log(companyAasId)
-
-        
-        const companySubmodelId = 'CompanyInformation'
-        if (companyAasId == undefined) {
-            this.loadedOrganizationInformation = []
-        } else {
-            const organizationInformation =  await this.getSeValue (companyAasId, companySubmodelId, companyIdShortPaths)
-            this.loadedOrganizationInformation.push(organizationInformation) 
-        }
-        console.log(this.loadedOrganizationInformation)
-        //const organizationInformation =  await this.getSeValue (companyAasId, companySubmodelId, companyIdShortPaths)
-        //console.log(Object.keys(organizationInformation).length)
-        //if (Object.keys(organizationInformation).length !== 0) {
-            //this.loadedOrganizationInformation.push(organizationInformation)  
-        //}
-        
-        let siteAasIds = []
-        siteAasIds = await this.getBomChilds(companyAasId)  
-        console.log(siteAasIds)
-        
-        const siteSubmodelId = 'SiteInformation'
-        for (let siteId in siteAasIds) {
-            console.log(siteId)
-            let siteAasId = siteAasIds[siteId]
-            let siteInformation = {}
-            siteInformation = await this.getSeValue (siteAasId, siteSubmodelId, siteIdShortPaths)
-
-            if (Object.keys(siteInformation).length !== 0) {
-                this.loadedSiteInformation.push(siteInformation)  
-            }
-        }
-
-        this.loadedSiteInformationWithBuildings = this.getBuildingsForEachSite()
-
-        const semanticIdAasTypeBacnet = 'https://th-koeln.de/gart/BACnetDeviceAAS/1/0'        
-        const aasBacnetIds = await this.getAasByType(semanticIdAasTypeBacnet)
-
-        this.loadedBacnetInformation = aasBacnetIds
-        await this.loadBacnetInformation(aasBacnetIds)
-        // this.loading=false
-    },
-    */
-
-    //import { ref } from 'vue';
-
-    //const data = ref([]); // initialize empty array
-
-    // function to read the CSV file
     async readCSV() {
         const reader = new FileReader();
         let rows = [];
@@ -732,26 +605,6 @@ export const useGeneralStore = defineStore('general', {
     },
     
       
-    /*
-    async addBacnetDevice() {
-        const bacnetName = 'BACnetAsset2'
-        const semanticIdType = 'https://th-koeln.de/gart/BACnetDeviceAAS/1/0'
-        const bacnetAasId = await this.createAas(semanticIdType, bacnetName)
-
-        const submodelIdShort = "Nameplate"
-        const semanticIdSubmodel = "https://admin-shell.io/zvei/nameplate/2/0/Nameplate"
-        const submodelElementValues = {
-            ManufacturerName:[
-                {
-                    "language":"de",
-                    "text":"TH Köln"
-                }
-            ],
-            SerialNumber: '123456'
-        }
-        await this.addSubmodelElements(bacnetAasId, submodelIdShort, semanticIdSubmodel, submodelElementValues)
-    },
-    */
     async addGatewayToBuilding(gateway, choosedBuilding, buildingsIdsWithSelectName) {
         
         this.loadingBacnetAdding = true
@@ -763,7 +616,7 @@ export const useGeneralStore = defineStore('general', {
                 
                 parentId = buildingAasId
                 await this.addHasPart(buildingAasId, gatewayAasId)
-                await this.inititalPostBomIsPartOf(buildingAasId, gatewayAasId)
+                //await this.inititalPostBomIsPartOf(buildingAasId, gatewayAasId)
             }
         }
         //this.fetchGeneralInfos()
@@ -882,12 +735,12 @@ export const useGeneralStore = defineStore('general', {
         await this.addSubmodelElements(siteAasId, submodelIdShort, semanticIdSubmodel, submodelElementValues)
 
         const companyChilds = await this.getBomChilds(companyAasId)
-        if (companyChilds.length === 0) {
-            await this.inititalPostBomHasPart(companyAasId, siteAasId)
-        } else if (companyChilds.length >= 1) {
-            await this.addHasPart(companyAasId, siteAasId)
-        }
-        await this.inititalPostBomIsPartOf(companyAasId, siteAasId)
+        //if (companyChilds.length === 0) {
+            //await this.inititalPostBomHasPart(companyAasId, siteAasId)
+        //} else if (companyChilds.length >= 1) {
+        await this.addHasPart(companyAasId, siteAasId)
+        //}
+        //await this.inititalPostBomIsPartOf(companyAasId, siteAasId)
 
         const siteIdShortPaths = {
             siteName: ['SiteName'],
@@ -907,58 +760,7 @@ export const useGeneralStore = defineStore('general', {
 
         //this.fetchGeneralInfos()
     },
-    /*
-    async getBuildingsForEachSite() {
-        const buildingIdShortPaths = {
-            buildingName: ['BuildingName'],
-            country: ['Address', 'NationalCode'],
-            city: ['Address', 'CityTown'],
-            zipcode: ['Address', 'Zipcode'],
-            lat: ['Address', 'Lattitude'],
-            lng: ['Address', 'Longitude'],
-            street: ['Address', 'Street'],
-        }
-
-        this.loadedSiteInformationWithBuildings = []
-
-        const semanticIdAasTypeSite = 'https://th-koeln.de/gart/SiteAAS/1/0'        
-        const siteAasIds = await this.getAasByType(semanticIdAasTypeSite)
-        let allSitesWithBuildings = []
-        const siteSubmodelId = 'SiteInformation' 
-        const siteIdShortPaths = {
-            siteName: ['SiteName']
-        }
-        let buildingsWithGrundfunktionen = []
-        for (let siteId in siteAasIds) {
-            let buildings = []
-            let buildingIds = await this.getBomChilds(siteAasIds[siteId])
-            let siteName = await this.getSeValue(siteAasIds[siteId], siteSubmodelId, siteIdShortPaths)
-            const buildingSubmodelId = 'BuildingInformation'
-            let buildingInformationDict = {}
-            for (let building in buildingIds) {
-                let grundfunktionenPerBuilding = {}
-                let buildingAasId = buildingIds[building]
-                let buildingInformation =  await this.getSeValue(buildingAasId, buildingSubmodelId, buildingIdShortPaths)
-                let grundfunktionenInBuildings = await this.getBomChilds(buildingAasId)
-                grundfunktionenPerBuilding[buildingAasId] = grundfunktionenInBuildings
-                buildingInformationDict[buildingAasId] = buildingInformation
-                console.log(grundfunktionenPerBuilding)
-                buildingsWithGrundfunktionen.push(grundfunktionenPerBuilding)
-            }
-            buildings.push(buildingInformationDict)
-            let siteDict = {
-                siteName: siteName['siteName'],
-                siteAasId: siteAasIds[siteId],
-                buildings: buildings
-            }
-            allSitesWithBuildings.push(siteDict)
-        }
-        this.loadedBuildingWithGrundfunktion = buildingsWithGrundfunktionen
-        this.loadedSiteInformationWithBuildings = allSitesWithBuildings
-
-        return allSitesWithBuildings
-    },
-    */
+    
     async getBuildingsForEachSite() {
         const buildingIdShortPaths = {
           buildingName: ['BuildingName'],
@@ -1030,7 +832,7 @@ export const useGeneralStore = defineStore('general', {
         await this.addSubmodelElements(buildingAasId, submodelIdShort, semanticIdSubmodel, submodelElementValues)
 
         await this.addHasPart(siteAasId, buildingAasId)
-        await this.inititalPostBomIsPartOf(siteAasId, buildingAasId)
+        //await this.inititalPostBomIsPartOf(siteAasId, buildingAasId)
 
         await this.getBuildingsForEachSite()
 

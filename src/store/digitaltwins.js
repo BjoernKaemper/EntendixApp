@@ -8,7 +8,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
     state: () => {
       return {
         showProgressUploadAas: false,
-        aasServer: 'https://svmiv1rcci.execute-api.us-east-1.amazonaws.com/dev/v1/',
+        aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
         showProgressEditDatenpunkt: false,
         aasId: '',
         aasIdShort: '',
@@ -46,7 +46,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                 //description: [idShort, 'DataSource', 'Description'],
                 //objectIdentifier: [idShort, 'DataSource', 'ObjectIdentifier'],
             }
-            const getSeValue = 'submodel/getsubmodelelementvalue';
+            const getSeValue = 'submodelServices/getSubmodelElementValue';
             const urlSeValue = this.aasServer + getSeValue;
 
             const requests = Object.entries(bacnetNlpInformationPaths).map(async ([element, value]) => {
@@ -324,7 +324,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
 
         },
         async getSubmodel(aasId) {
-            const getSubmodel = 'submodel/getsubmodel'
+            const getSubmodel = 'submodelServices/getSubmodelByIdShort'
             const url = this.aasServer + getSubmodel
             let responseBasyx = ''    
             console.log(url)      
@@ -344,7 +344,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             return responseBasyx
         },
         async getBomParent(aasId) {
-            const bomParent = 'submodel/bom/getparents'
+            const bomParent = 'submodelServices/bom/getParents'
             const urlBomParent = this.aasServer + bomParent
             let parentAasId = []
             const generalStore = useGeneralStore()
@@ -353,7 +353,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                 const response = await axios.post(urlBomParent, {
                     userId: userId,
                     aasIdentifier: aasId,
-                    submodelIdShort: 'HierarchicalStructures'
+                    //submodelIdShort: 'HierarchicalStructures'
                 })
     
                 console.log(response.data)
@@ -364,7 +364,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             return parentAasId
         },
         async getAasIdShortByIdentifier(aasId) {
-            const getAasIdShort = 'aas/getaasidshortbyidentifier'
+            const getAasIdShort = 'aasServices/getAasIdShortByIdentifier'
             const url = this.aasServer + getAasIdShort
             let idShort = ''
             const generalStore = useGeneralStore()

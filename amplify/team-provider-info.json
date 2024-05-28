@@ -94,5 +94,29 @@
         }
       }
     }
+  },
+  "plyteq": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-zukunftbauapp-plyteq-85054-authRole",
+      "UnauthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-plyteq-85054-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-plyteq-85054-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-zukunftbauapp-plyteq-85054-deployment",
+      "UnauthRoleName": "amplify-zukunftbauapp-plyteq-85054-unauthRole",
+      "StackName": "amplify-zukunftbauapp-plyteq-85054",
+      "StackId": "arn:aws:cloudformation:eu-central-1:331025072115:stack/amplify-zukunftbauapp-plyteq-85054/2b8a8580-fe19-11ee-9b44-06c3c6d4d863",
+      "AmplifyAppId": "d39z5kin5bjdue"
+    },
+    "categories": {
+      "auth": {
+        "zukunftbauapp51707ce0": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d39z5kin5bjdue",
+          "type": "manual"
+        }
+      }
+    }
   }
 }

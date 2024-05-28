@@ -157,6 +157,9 @@ export default {
     },
     methods: {
         async getTimeSeriesData () {
+            console.log(this.submodelElementPath)
+            console.log(this.submodelRefIdShort)
+            console.log(this.aasId)
             let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(this.submodelElementPath, this.submodelRefIdShort, this.aasId)
             //this.data = timeSeriesData
             return timeSeriesData

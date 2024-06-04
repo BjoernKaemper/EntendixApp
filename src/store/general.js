@@ -159,7 +159,8 @@ export const useGeneralStore = defineStore('general', {
                 // 'status' property exists in the object
                 childAasIds = []
             } else {
-                childAasIds = response.data
+                //console.log(response.data.body)
+                childAasIds = response.data.body
             }
         } catch (error) {
             console.log(error)
@@ -192,7 +193,7 @@ export const useGeneralStore = defineStore('general', {
                 semanticId: semanticId,
                 userId: this.userId
             })
-            aasIds = response.data
+            aasIds = response.data.body
         } catch (error) {
             console.log(error)
         }
@@ -225,6 +226,7 @@ export const useGeneralStore = defineStore('general', {
         const allSeInformations = {};
     
         const requests = Object.entries(idShortPaths).map(async ([element, value]) => {
+
             try {
                 const response = await axios.post(urlSeValue, {
                     userId: this.userId,
@@ -232,6 +234,7 @@ export const useGeneralStore = defineStore('general', {
                     submodelIdShort: submodelIdShort,
                     submodelElementShortIdPath: value
                 });
+                console.log(response.data)
     
                 if (response.data !== '') {
                     allSeInformations[element] = response.data['value'];
@@ -556,6 +559,8 @@ export const useGeneralStore = defineStore('general', {
             lng: ['Address', 'Longitude'],
             street: ['Address', 'Street'],
         }
+        //console.log(aasIds.body.length)
+
     
         if (aasIds.length > 0) {
             const companyAasId = aasIds[0];

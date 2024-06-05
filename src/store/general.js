@@ -39,7 +39,7 @@ export const useGeneralStore = defineStore('general', {
                 semanticId: semanticIdType,
                 idShort: aasIdShort
             })
-            aasId = response.data
+            aasId = response.data.body
         } catch (error) {
             console.log(error)
         }
@@ -124,7 +124,7 @@ export const useGeneralStore = defineStore('general', {
                 userId: this.userId,
                 aasIdentifier: aasId
             })
-            semanticId = response.data
+            semanticId = response.data.body
         } catch(error) {
             console.log(error)
         }
@@ -140,7 +140,7 @@ export const useGeneralStore = defineStore('general', {
                 aasIdentifier: parentId,
                 HasPart_AasIdentifier: partId
             })
-            console.log(response.data)
+            console.log(response.data.body)
         } catch (error) {
             console.log(error)
         }
@@ -155,8 +155,12 @@ export const useGeneralStore = defineStore('general', {
                 userId: this.userId,
                 aasIdentifier: aasId
             })
+            /*
             if ('status' in response.data) {
                 // 'status' property exists in the object
+                childAasIds = []
+            */
+            if (response.data.body == []) {
                 childAasIds = []
             } else {
                 //console.log(response.data.body)
@@ -177,7 +181,7 @@ export const useGeneralStore = defineStore('general', {
                 aasIdentifier: aasId
             })
 
-            parentAasId = response.data
+            parentAasId = response.data.body
         } catch (error) {
             console.log(error)
         }
@@ -213,7 +217,7 @@ export const useGeneralStore = defineStore('general', {
                 submodelIdShort :submodelId
                 //submodelIdentifier: submodelId
             })
-            responseBasyx = response.data
+            responseBasyx = response.data.body
         } catch (error) {
             console.log(error)
         }
@@ -226,18 +230,18 @@ export const useGeneralStore = defineStore('general', {
         const allSeInformations = {};
     
         const requests = Object.entries(idShortPaths).map(async ([element, value]) => {
-
             try {
                 const response = await axios.post(urlSeValue, {
+                    
                     userId: this.userId,
                     aasIdentifier: aasId,
                     submodelIdShort: submodelIdShort,
                     submodelElementShortIdPath: value
                 });
-                console.log(response.data)
+                console.log(response.data.body)
     
-                if (response.data !== '') {
-                    allSeInformations[element] = response.data['value'];
+                if (response.data.body !== '') {
+                    allSeInformations[element] = response.data.body;
                 }
             } catch (error) {
                 console.error(error);
@@ -298,7 +302,7 @@ export const useGeneralStore = defineStore('general', {
                 userId: this.userId,
                 aasIdentifier: aasId
             })
-            idShort = response.data
+            idShort = response.data.body
         } catch (error) {
             console.log(error)
         }
@@ -495,7 +499,7 @@ export const useGeneralStore = defineStore('general', {
                 // Hier kannst du die Daten angeben, die du senden möchtest
                 userId: this.userId
             });
-        console.log('Response-2:', response.data);
+        console.log('Response-2:', response.data.body);
       } catch (error) {
         console.error('Error-2:', error.message);
       }
@@ -567,7 +571,7 @@ export const useGeneralStore = defineStore('general', {
     
             const companySubmodelId = 'CompanyInformation';
             const organizationInformation = await this.getSeValue(companyAasId, companySubmodelId, companyIdShortPaths);
-    
+            console.log(organizationInformation)
             if (Object.keys(organizationInformation).length > 0) {
                 this.loadedOrganizationInformation.push(organizationInformation);
             }
@@ -578,11 +582,13 @@ export const useGeneralStore = defineStore('general', {
             const siteSubmodelId = 'SiteInformation';
     
             const siteInformationPromises = siteAasIds.map(async (siteAasId) => {
+
                 const siteInformation = await this.getSeValue(siteAasId, siteSubmodelId, siteIdShortPaths);
                 return Object.keys(siteInformation).length > 0 ? siteInformation : null;
             });
     
             const siteInformationResults = await Promise.all(siteInformationPromises);
+            console.log(siteInformationResults)
             this.loadedSiteInformation = siteInformationResults.filter((info) => info);
     
             this.loadedSiteInformationWithBuildings = this.getBuildingsForEachSite();

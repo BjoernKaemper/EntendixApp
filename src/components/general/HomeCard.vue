@@ -1,5 +1,14 @@
 <template>
     <div>
+        <v-card  style="border-radius: 20px; background-color: whitesmoke"
+        variant="outlined" class="anlagen-card mb-12">
+            <v-card-title align="center">Willkommen</v-card-title>
+            <v-card-text>
+                <v-row v-for="product in products" :key="product.title">
+                    <div>{{ product.title }}</div>
+                </v-row>
+            </v-card-text>
+        </v-card>
         <v-card 
             style="border-radius: 20px; background-color: whitesmoke"
             variant="outlined" class="anlagen-card mb-12">
@@ -100,7 +109,16 @@ export default {
     computed: {
         generalStore () {
             return useGeneralStore()
-        }
+        },
+        products () {
+            const products = [
+                //{ icon: '', title: 'Home', link: '/' },
+                //{ icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
+                { icon: '', title: 'Digital Twins', link: '/digitaltwins' },
+                { icon: '', title: 'Monitoring', link: '/monitoring' }, //vorher link:buildingperformance
+            ]
+            return products
+        },
     }
 };
 </script>

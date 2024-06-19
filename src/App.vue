@@ -73,7 +73,7 @@
   })
   const auth = useAuthenticator();
   const store = useGeneralStore()
-  console.log(auth)
+  //console.log(auth)
 /*
 async function handleSignUp({ username, password, email, phone_number }) {
   try {
@@ -136,10 +136,10 @@ async function handleSignOut() {
   watchEffect(() => {
     // Check if auth.user is available and contains the necessary properties.
     if (auth.user && auth.user.signInUserSession) {
-      console.log(auth.user)
+      //console.log(auth.user)
       
       const userId = auth.user.signInUserSession.idToken.payload.sub
-      console.log(userId)
+      //console.log(userId)
       //console.log(userId)
       store.fetchGeneralInfos(userId)
     }

@@ -3,9 +3,18 @@
         <v-card  style="border-radius: 20px; background-color: whitesmoke"
         variant="outlined" class="anlagen-card mb-12">
             <v-card-title align="center">Willkommen</v-card-title>
+            <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
             <v-card-text>
                 <v-row v-for="product in products" :key="product.title">
-                    <div>{{ product.title }}</div>
+                    <v-col cols="4">{{ product.title }}</v-col>
+                    <v-col cols = "6">{{ product.text }}</v-col>
+                    <v-col cols="2">
+                        <v-btn variant="outlined" color="#3B5249" size="x-small"
+                            :icon= product.icon
+                            @click="() => {}" :to="product.link">
+                        </v-btn>
+
+                    </v-col>
                 </v-row>
             </v-card-text>
         </v-card>
@@ -114,8 +123,8 @@ export default {
             const products = [
                 //{ icon: '', title: 'Home', link: '/' },
                 //{ icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
-                { icon: '', title: 'Digital Twins', link: '/digitaltwins' },
-                { icon: '', title: 'Monitoring', link: '/monitoring' }, //vorher link:buildingperformance
+                { icon: 'mdi-home', title: 'Digital Twins', link: '/digitaltwins', text: 'Digitale Zwillinge der Liegenschaften' },
+                { icon: 'mdi-chart-line', title: 'Monitoring', link: '/monitoring', text:"Technisches Monitoring der Liegenschaften" }, //vorher link:buildingperformance
             ]
             return products
         },

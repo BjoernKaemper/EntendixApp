@@ -266,7 +266,7 @@ export const useGeneralStore = defineStore('general', {
                 aasIdentifier: aasId,
                 submodelIdShort: submodelIdShort
             })
-            console.log(response)
+            //console.log(response)
             values = response.data.body
         
         } catch (error) {
@@ -624,7 +624,7 @@ export const useGeneralStore = defineStore('general', {
             }
     
             const siteAasIds = await this.getBomChilds(companyAasId);
-            console.log(siteAasIds);
+            //console.log(siteAasIds);
     
             const siteSubmodelId = 'SiteInformation';
     
@@ -640,7 +640,7 @@ export const useGeneralStore = defineStore('general', {
             const siteInformationTest = siteAasIds.map(async (siteAasId) => {
 
                 const siteInformationBasyx = await this.getAllSubmodelElementValues(siteAasId, siteSubmodelId);
-                console.log(siteInformationBasyx)
+                //console.log(siteInformationBasyx)
                 const addressArray = siteInformationBasyx.Address
 
                 const siteIdShortPaths = {
@@ -658,7 +658,7 @@ export const useGeneralStore = defineStore('general', {
             });
 
             const siteInformationResults = await Promise.all(siteInformationTest);
-            console.log(siteInformationResults)
+            //console.log(siteInformationResults)
 
             //const siteInformationResults = await Promise.all(siteInformationPromises);
             //console.log(siteInformationResults)
@@ -680,8 +680,8 @@ export const useGeneralStore = defineStore('general', {
         const semanticIdAasTypeGateway = 'https://th-koeln.de/gart/MonKiGatewayAas/1/0';
         const aasGatewayIds = await this.getAasByType(semanticIdAasTypeGateway);
 
-        console.log(aasBacnetIds)
-        console.log(aasGatewayIds)
+        //console.log(aasBacnetIds)
+        //console.log(aasGatewayIds)
     
         this.loadedBacnetInformation = aasBacnetIds;
 
@@ -891,7 +891,7 @@ export const useGeneralStore = defineStore('general', {
                 lng: addressArrayBuilding.find(item => item.Longitude)?.Longitude || ''
             };
 
-            console.log(buildingInformation)
+            //console.log(buildingInformation)
 
             const grundfunktionenInBuildings = await this.getBomChilds(buildingAasId);
       

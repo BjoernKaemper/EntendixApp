@@ -2,40 +2,40 @@
     <div>
         <v-container>
           <v-row>
-            <v-col cols="4">
+            <v-col cols="5">
                 <GoogleMapsCardHome />
             </v-col>
-            <v-col cols="8">
+            <v-col cols="7">
                 <v-card 
                     style="border-radius: 20px; background-color: whitesmoke"
-                    variant="outlined" class="anlagen-card mb-12">
-                    <v-card-title align="center">Meine Liegenschaften</v-card-title>
+                    variant="outlined" class="anlagen-card mb-12 mx-10">
+                    <v-card-title align="center">Meine Liegenschaften - Digitale Zwillinge</v-card-title>
                     <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
                     <v-card-text>
                         <v-row align="center" v-for="site,i  in this.generalStore.loadedSiteInformationWithBuildings" :key="site">
-                            <v-col cols="6">
-                                <v-row>
-                                    <v-col>
-                                        <div>{{ site.siteName }}</div>
-                                    </v-col>
-                                </v-row>
-                            </v-col>
-                            <v-col cols="6">
-                                <v-badge color="info">
+                
+                            <v-col cols="4">
+                                <!--<v-badge color="info">-->
                                     <v-btn
                                         class="button-span px-2"
                                         rounded="xl"
-                                        style="background-color: whitesmoke;"
-                                        variant="outlined" 
+                                        style="background-color: whitesmoke; min-width: 180px;"
+                                        variant="text" 
                                         color="highlight"
-                                        size="small"
-                                        
+                                                                                
                                         @click="$router.push({name:'DigitalTwins_Site', 
                                         params:{siteid: site.siteName}})">
-                                        <v-span v-html="zwillingText"></v-span>
+                                        <span class="mr-2">{{ site.siteName }}</span>
+                                        
                                     </v-btn> 
-                                </v-badge>                       
+                                <!--</v-badge>-->              
                             </v-col>
+                            <v-col cols="4">
+                                <v-chip color="monitoring">
+                                    Test
+                                </v-chip>
+                            </v-col>
+                            <v-col cols="4"></v-col>
                            
                         </v-row>
                         <!--

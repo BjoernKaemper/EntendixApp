@@ -22,9 +22,10 @@
         </div>
       </v-col>
       <v-col cols="2">
+        <!--
         <v-avatar size="100px" rounded="0" class="mr-6">
         <v-img src="@/assets/plyteq_schriftzug.svg"></v-img>
-      </v-avatar>
+      </v-avatar>-->
       </v-col>
     </v-row>
     </v-footer>

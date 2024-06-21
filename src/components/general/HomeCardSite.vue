@@ -3,7 +3,7 @@
         <v-card 
             style="border-radius: 20px; background-color: whitesmoke"
             variant="outlined" class="anlagen-card mb-12">
-            <v-card-title>Gebäude - {{ $route.params.siteid }}</v-card-title>
+            <v-card-title>Gebäude der Liegenschaft {{ $route.params.siteid }}</v-card-title>
             <v-card-text>
                 <v-row align="center" v-for="building,i  in this.buildings" :key="i">
                     <v-col cols="3">

@@ -312,7 +312,7 @@ export const useGeneralStore = defineStore('general', {
                     //value: value
                     submodelElementValues: value
                 })
-                console.log(response)
+                //console.log(response)
             } catch (error) {
                 console.log(error)
             }
@@ -322,11 +322,14 @@ export const useGeneralStore = defineStore('general', {
         const getAasIdShort = 'aasServices/getAasIdShortByIdentifier'
         const url = this.aasServer + getAasIdShort
         let idShort = ''
+        //console.log(aasId)
+        //console.log(this.userId)
         try {
             const response = await axios.post(url, {
                 userId: this.userId,
                 aasIdentifier: aasId
             })
+            //console.log(response)
             idShort = response.data.body
         } catch (error) {
             console.log(error)
@@ -340,6 +343,7 @@ export const useGeneralStore = defineStore('general', {
     },
     */
     async loadBacnetInformation(aasBacnetIds) {
+        //console.log(aasBacnetIds)
         this.loadedBacnetInformationNotAssigned = []
         this.loadedBacnetInformationAssigned = []      
         const digitalNameplateIdShortPaths = {
@@ -353,12 +357,16 @@ export const useGeneralStore = defineStore('general', {
 
         for (let bacnetDevice in aasBacnetIds) {
             let aasId = aasBacnetIds[bacnetDevice]
+            
             //let bacnetGatewayInformation = []
             //console.log(aasId)
             let parent = await this.getBomParent(aasId)
+            
             if (parent.length === 0) {
                 let aasIdShort = await this.getAasIdShortByIdentifier(aasId)
                 let nameplateSeInformationAll = await this.getSeValue(aasId, digitalNameplate, digitalNameplateIdShortPaths)
+                //let nameplateSeInformation = await this.getAllSubmodelElementValues(aasId, digitalNameplate)
+                //console.log(nameplateSeInformation)
                 let manufacturerName = nameplateSeInformationAll['manufacturerName'][0]['text']
 
                 let bacnetNameplateInformation = {
@@ -369,7 +377,7 @@ export const useGeneralStore = defineStore('general', {
                     'AAS ID Short': aasIdShort,
                     'AAS ID': aasId
                 }
-                console.log(bacnetNameplateInformation)   
+                //console.log(bacnetNameplateInformation)   
                 //let aasIdDict = {aasId: aasId}
 
                 //bacnetGatewayInformation.push(aasIdDict) 
@@ -377,9 +385,22 @@ export const useGeneralStore = defineStore('general', {
                 allBacnetGatewayInformationNotAssigned.push(bacnetNameplateInformation)
             } else {
                 let aasIdShort = await this.getAasIdShortByIdentifier(aasId)
-                let parentAasIdShort = await this.getAasIdShortByIdentifier(parent)
-                let nameplateSeInformationAll = await this.getSeValue(aasId, digitalNameplate, digitalNameplateIdShortPaths)
-                let manufacturerName = nameplateSeInformationAll['manufacturerName'][0]['text']
+                let buildingAasId = await this.getBomParent(parent[0])
+
+                let buildingAasIdShort = await this.getAasIdShortByIdentifier(buildingAasId[0])
+                //let nameplateSeInformationAll = await this.getSeValue(aasId, digitalNameplate, digitalNameplateIdShortPaths)
+                let nameplateSeInformation = await this.getAllSubmodelElementValues(aasId, digitalNameplate)
+                //console.log(nameplateSeInformation)
+
+                const nameplateIdShortPaths = {
+                    Herstellername: nameplateSeInformation.ManufacturerName[0].de,
+                    Seriennummer: nameplateSeInformation.SerialNumber,
+                };
+
+                //console.log(nameplateIdShortPaths)
+                
+                //console.log(nameplateSeInformationAll)
+                //let manufacturerName = nameplateSeInformationAll['manufacturerName'][0]['text']
                 let basyxNlpResult = await this.getSubmodel(aasId, 'NLPClassificationResult')
                 let nlpDone
                 if (basyxNlpResult === '') {
@@ -389,15 +410,16 @@ export const useGeneralStore = defineStore('general', {
                 }
                 let bacnetNameplateInformation = {
                     'Digital Nameplate': {
-                        'Herstellername': manufacturerName,
-                        'Seriennummer': nameplateSeInformationAll['serialNumber']
+                        'Herstellername': nameplateIdShortPaths.Herstellername,
+                        'Seriennummer': nameplateIdShortPaths.Seriennummer
                     },
                     'AAS ID Short': aasIdShort,
                     'AAS ID': aasId,
                     'ParentAasId': parent,
-                    'ParentAasIdShort': parentAasIdShort,
+                    'ParentAasIdShort': buildingAasIdShort,
                     'NlpDone': nlpDone
                 }  
+                console.log(bacnetNameplateInformation)
                 //let aasIdDict = {aasId: aasId}
 
                 //bacnetGatewayInformation.push(aasIdDict) 
@@ -677,15 +699,16 @@ export const useGeneralStore = defineStore('general', {
         const semanticIdAasTypeBacnet = 'https://th-koeln.de/gart/BACnetDeviceAAS/1/0';
         const aasBacnetIds = await this.getAasByType(semanticIdAasTypeBacnet);
 
-        const semanticIdAasTypeGateway = 'https://th-koeln.de/gart/MonKiGatewayAas/1/0';
-        const aasGatewayIds = await this.getAasByType(semanticIdAasTypeGateway);
+        //const semanticIdAasTypeGateway = 'https://th-koeln.de/gart/MonKiGatewayAas/1/0';
+        //onst semanticIdAasTypeGateway = 'https://th-koeln.de/gart/PLYTEQGatewayAas/1/0'
+        //const aasGatewayIds = await this.getAasByType(semanticIdAasTypeGateway);
 
         //console.log(aasBacnetIds)
         //console.log(aasGatewayIds)
     
         this.loadedBacnetInformation = aasBacnetIds;
 
-        await this.loadGatewayInformation(aasGatewayIds)
+        //await this.loadGatewayInformation(aasGatewayIds)
     
         await this.loadBacnetInformation(aasBacnetIds);
 

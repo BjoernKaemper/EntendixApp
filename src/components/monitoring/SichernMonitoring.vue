@@ -137,7 +137,7 @@ export default {
             'aasId': aasId,
             'submodelName': submodelId,
             'idShort': element.idShort,
-            'name': element.descriptions[0].text,
+            'name': element.displayName[0].text,
             'semanticId': element.semanticId.keys[0].value
           };
           /*

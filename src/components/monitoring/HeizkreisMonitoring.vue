@@ -153,11 +153,13 @@ export default {
 
         // Define an array to store the promises for the asynchronous calls
         const elementPromises = submodelElements.map(async (element) => {
+          console.log(element)
           let elementData = {
             'aasId': aasId,
             'submodelName': submodelId,
             'idShort': element.idShort,
-            'name': element.descriptions[0].text,
+            //'name': element.descriptions[0].text,
+            'name': element.displayName[0].text,
             'semanticId': element.semanticId.keys[0].value
           };
           /*
@@ -168,12 +170,14 @@ export default {
           //elementData = await this.monitoringStore.getSeValueAnlagenmonitoring(aasId, submodelId, element.idShort, elementData)
           // elementData.presentValue = supplementaryInfos.presentValue;
           elementData = await this.digitalTwinStore.getSeElement(aasId, submodelId, element.idShort, elementData)
+         
           elementData['datenpunktLabel'] = elementData['datenpunkt'][0]['value']
           //console.log(elementData)
           return elementData
         });
 
         const elements = await Promise.all(elementPromises);
+        console.log(elements)
 
         if (this.komponenteZeigen.length === 0) {
           this.komponenteZeigen = elements

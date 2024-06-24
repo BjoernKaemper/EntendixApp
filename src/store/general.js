@@ -255,9 +255,9 @@ export const useGeneralStore = defineStore('general', {
     async getAllSubmodelElementValues(aasId, submodelIdShort) {
         const getValues = 'submodelServices/getAllSubmodelElementValues';
         const urlValues = this.aasServer + getValues;
-        //console.log(aasId)
-        //console.log(submodelIdShort)
-        //console.log(this.userId)
+        console.log(aasId)
+        console.log(submodelIdShort)
+        console.log(this.userId)
         let values = {}
 
         try {
@@ -266,7 +266,7 @@ export const useGeneralStore = defineStore('general', {
                 aasIdentifier: aasId,
                 submodelIdShort: submodelIdShort
             })
-            //console.log(response)
+            console.log(response)
             values = response.data.body
         
         } catch (error) {
@@ -342,6 +342,109 @@ export const useGeneralStore = defineStore('general', {
         const url = this.aasServer + editSeValue
     },
     */
+
+    async loadBacnetInformation(aasBacnetIds) {
+        this.loadedBacnetInformationNotAssigned = [];
+        this.loadedBacnetInformationAssigned = [];
+        const digitalNameplateIdShortPaths = {
+            manufacturerName: ['ManufacturerName'],
+            serialNumber: ['SerialNumber'],
+        };
+        const digitalNameplate = 'Nameplate';
+        
+        const allBacnetGatewayInformationNotAssigned = [];
+        const allBacnetGatewayInformationAssigned = [];
+    
+        const bacnetInfoPromises = aasBacnetIds.map(async (aasId) => {
+            let parent = await this.getBomParent(aasId);
+    
+            if (parent.length === 0) {
+                const [aasIdShort, nameplateSeInformationAll] = await Promise.all([
+                    this.getAasIdShortByIdentifier(aasId),
+                    this.getSeValue(aasId, digitalNameplate, digitalNameplateIdShortPaths)
+                ]);
+    
+                const manufacturerName = nameplateSeInformationAll['manufacturerName']?.[0]?.['text'] ?? 'Unknown';
+    
+                const bacnetNameplateInformation = {
+                    'Digital Nameplate': {
+                        'Herstellername': manufacturerName,
+                        'Seriennummer': nameplateSeInformationAll['serialNumber'] ?? 'Unknown'
+                    },
+                    'AAS ID Short': aasIdShort,
+                    'AAS ID': aasId
+                };
+    
+                allBacnetGatewayInformationNotAssigned.push(bacnetNameplateInformation);
+            } else {
+                const [aasIdShort, buildingAasId, nameplateSeInformation, basyxNlpResult] = await Promise.all([
+                    this.getAasIdShortByIdentifier(aasId),
+                    this.getBomParent(parent[0]),
+                    this.getAllSubmodelElementValues(aasId, digitalNameplate),
+                    this.getSubmodel(aasId, 'NLPClassificationResult')
+                ]);
+    
+                const buildingAasIdShort = await this.getAasIdShortByIdentifier(buildingAasId[0]);
+    
+                const nameplateIdShortPaths = {
+                    Herstellername: nameplateSeInformation.ManufacturerName?.[0]?.de ?? 'Unknown',
+                    Seriennummer: nameplateSeInformation.SerialNumber ?? 'Unknown',
+                };
+    
+                const nlpDone = basyxNlpResult !== '';
+    
+                const bacnetNameplateInformation = {
+                    'Digital Nameplate': {
+                        'Herstellername': nameplateIdShortPaths.Herstellername,
+                        'Seriennummer': nameplateIdShortPaths.Seriennummer
+                    },
+                    'AAS ID Short': aasIdShort,
+                    'AAS ID': aasId,
+                    'ParentAasId': parent,
+                    'ParentAasIdShort': buildingAasIdShort,
+                    'NlpDone': nlpDone
+                };
+    
+                allBacnetGatewayInformationAssigned.push(bacnetNameplateInformation);
+            }
+        });
+    
+        await Promise.all(bacnetInfoPromises);
+    
+        this.loadedBacnetInformationNotAssigned = allBacnetGatewayInformationNotAssigned;
+        this.loadedBacnetInformationAssigned = allBacnetGatewayInformationAssigned;
+    
+        const buildingsIdsWithSelectName = {};
+        const buildingsList = [];
+    
+        this.loadedSiteInformationWithBuildings.forEach(siteInformation => {
+            const siteName = siteInformation['siteName'];
+            const buildingsArray = Array.isArray(siteInformation['buildings']) ? siteInformation['buildings'] : [];
+            
+            buildingsArray.forEach(buildingInformation => {
+                if (Array.isArray(buildingInformation)) {
+                    buildingInformation.forEach(building => {
+                        const buildingName = building['buildingName'];
+                        const siteBuildingName = `${buildingName}, ${siteName}`;
+                        buildingsList.push(siteBuildingName);
+                        buildingsIdsWithSelectName[building['id']] = siteBuildingName;
+                    });
+                } else {
+                    const buildingName = buildingInformation['buildingName'];
+                    const siteBuildingName = `${buildingName}, ${siteName}`;
+                    buildingsList.push(siteBuildingName);
+                    buildingsIdsWithSelectName[buildingInformation['id']] = siteBuildingName;
+                }
+            });
+        });
+    
+        this.buildingsList = buildingsList;
+        this.buildingsIdsWithSelectName = buildingsIdsWithSelectName;
+    },    
+    
+        
+
+    /*
     async loadBacnetInformation(aasBacnetIds) {
         //console.log(aasBacnetIds)
         this.loadedBacnetInformationNotAssigned = []
@@ -452,6 +555,7 @@ export const useGeneralStore = defineStore('general', {
 
             }
     },
+    */
 
     async loadBacnetInformationForGateway(aasBacnetIds) {
         const digitalNameplateIdShortPaths = {
@@ -590,9 +694,11 @@ export const useGeneralStore = defineStore('general', {
         this.homeLoading = true
         await this.readCSV()
         this.userId = userId;
+        console.log('hiiii')
     
         const semanticIdAasType = 'https://th-koeln.de/gart/CompanyAAS/1/0';
         const aasIds = await this.getAasByType(semanticIdAasType);
+        console.log(aasIds)
 
         /*
 
@@ -631,6 +737,7 @@ export const useGeneralStore = defineStore('general', {
             */
 
             const organizationInformationBasyx = await this.getAllSubmodelElementValues(companyAasId, companySubmodelId);
+            
             const addressArrayOrganization = organizationInformationBasyx.Address
 
             const organizationInformation = {

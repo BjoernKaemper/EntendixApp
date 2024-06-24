@@ -28,6 +28,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       }
     },
     actions: {
+
         async getSeElement(aasId, submodelIdShort, idShort, elementData) {
             const generalStore = useGeneralStore()
             const monitoringStore = useMonitoringStore()
@@ -57,9 +58,12 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                         submodelIdShort: submodelIdShort,
                         submodelElementShortIdPath: value
                     });
-                    if (response.data !== '') {
-                        elementData[element] = response.data['value'];
+                    //if (response.data !== '') {
+                    if (response.data.body !== '') {
+                        //elementData[element] = response.data['value'];
+                        elementData[element] = response.data.body;
                     }
+                    //console.log(response.data.body)
                 } catch (error) {
                     console.error(error);
                 }

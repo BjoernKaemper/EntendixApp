@@ -80,7 +80,8 @@ export default {
     data() {
         return {
             headers: [
-                {title: 'Name', key: 'datenpunktLabel'},
+                //{title: 'Name', key: 'datenpunktLabel'},
+                {title: 'Name', key: 'name'},
                 {title: 'Present Value', key: 'presentValue'},
                 {title: 'Chart', align: 'center', key: 'actions', sortable: false }
             ], 

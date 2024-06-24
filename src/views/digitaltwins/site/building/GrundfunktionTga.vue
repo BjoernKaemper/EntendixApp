@@ -214,14 +214,14 @@ export default{
             for (const komponente in components) {
                 let component = components[komponente]
                 const aasId =  component.aasId
-                console.log(component)
+                //console.log(component)
                 //const semanticId = anlage.semanticId
                 const submodelId = 'OperatingInformation'
-                const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
-                const submodelElements = submodel.submodelElements;
-                console.log(submodelElements)
+                //const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
+                //const submodelElements = submodel.submodelElements;
+                //console.log(submodelElements)
                 const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
-                console.log(allElements)
+                //console.log(allElements)
                 let elements = []
 
                 for (let element in allElements) {
@@ -246,7 +246,7 @@ export default{
                         'anlageLabel': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
                         'anlageScore': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
                     }
-                    console.log(elementData)
+                    //console.log(elementData)
                     elements.push(elementData)
                 }
                 

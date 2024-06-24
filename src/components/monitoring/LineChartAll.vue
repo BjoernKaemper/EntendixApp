@@ -268,6 +268,7 @@ export default {
 
             let aasId = this.allElements[komponente].anlagenInformation.aasId;
             let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(element.idShort, element.submodelName, aasId);
+
             let valueType = 'number'
             for (let i = 0; i < timeSeriesData.length; i++) {
               if (typeof timeSeriesData[i].value === 'boolean') {
@@ -279,8 +280,10 @@ export default {
             //console.log(timeSeriesData)
             //data.push(timeSeriesData)
             //names.push(element.name)
+            console.log(element)
             elementsToDisplay.push({
-              'name': element.datenpunktLabel,
+              //'name': element.datenpunktLabel,
+              'name': element.name,
               'data': timeSeriesData,
               'color': selectedMappings[semanticId],
               'valueType': valueType

@@ -30,12 +30,14 @@
                                     </v-btn> 
                                 <!--</v-badge>-->              
                             </v-col>
+                            <!--
                             <v-col cols="4">
                                 <v-chip color="monitoring">
                                     Test
                                 </v-chip>
                             </v-col>
-                            <v-col cols="4"></v-col>
+                        -->
+                            <v-col cols="8"></v-col>
                            
                         </v-row>
                         <!--
@@ -65,14 +67,15 @@
             </v-col>
           </v-row>
         </v-container>
+        <!--
         <v-container>
-            <!--<h2 style="color: #3B5249;">Monitoring - Übersicht</h2>-->
             <v-row>
                 <v-col cols="6" v-for="site in generalStore.loadedSiteInformationWithBuildings" :key="Object.keys(site)[0]">
                     <MonitoringOverview :site="site"/>
                 </v-col>
             </v-row>
         </v-container>
+    -->
         <!--
         <AmCharts />
         <PieChart />

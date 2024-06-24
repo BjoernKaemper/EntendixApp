@@ -30,12 +30,14 @@
                                     </v-btn> 
                                 <!--</v-badge>-->              
                             </v-col>
+                            <!--
                             <v-col cols="4">
                                 <v-chip color="monitoring">
                                     Test
                                 </v-chip>
                             </v-col>
-                            <v-col cols="4"></v-col>
+                        -->
+                            <v-col cols="8"></v-col>
                            
                         </v-row>
                         <!--

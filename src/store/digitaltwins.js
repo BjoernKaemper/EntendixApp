@@ -103,7 +103,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             } catch (error) {
                 console.log(error)
             }
-            console.log(responseBasyx)
+            //console.log(responseBasyx)
             
             /*
             let formData = new FormData()
@@ -125,7 +125,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             */
             //const aas_id = '/TestAAS'
             const bacnetIds = generalStore.loadedBacnetInformation
-            console.log(bacnetIds)
+            //console.log(bacnetIds)
             await generalStore.loadBacnetInformation(bacnetIds)
             //await this.getBasyxNlpSubmodel(aasId, aasIdShort)
             this.showProgressUploadAas = false
@@ -146,7 +146,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                 idShort: datenpunkt['IdShort'],
                 aasId: this.aasId
             }
-            console.log(datapointInformation)
+            //console.log(datapointInformation)
             //let formData = new FormData()
             // formData.append('datapointInformation', datapointInformation)
             //formData.append('correctedLabel', predictedGrundfunktion)
@@ -198,7 +198,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                 idShort: datenpunkt['IdShort'],
                 aasId: this.aasId
             }
-            console.log(datapointInformation)
+            //console.log(datapointInformation)
             //let formData = new FormData()
             // formData.append('datapointInformation', datapointInformation)
             //formData.append('correctedLabel', predictedGrundfunktion)
@@ -360,7 +360,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                     //submodelIdShort: 'HierarchicalStructures'
                 })
     
-                console.log(response.data)
+                //console.log(response.data)
                 parentAasId = response.data
             } catch (error) {
                 console.log(error)

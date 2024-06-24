@@ -140,7 +140,7 @@ export const useGeneralStore = defineStore('general', {
                 aasIdentifier: parentId,
                 HasPart_AasIdentifier: partId
             })
-            console.log(response.data.body)
+            //console.log(response.data.body)
         } catch (error) {
             console.log(error)
         }
@@ -255,9 +255,9 @@ export const useGeneralStore = defineStore('general', {
     async getAllSubmodelElementValues(aasId, submodelIdShort) {
         const getValues = 'submodelServices/getAllSubmodelElementValues';
         const urlValues = this.aasServer + getValues;
-        console.log(aasId)
-        console.log(submodelIdShort)
-        console.log(this.userId)
+        //console.log(aasId)
+        //console.log(submodelIdShort)
+        //console.log(this.userId)
         let values = {}
 
         try {
@@ -266,7 +266,7 @@ export const useGeneralStore = defineStore('general', {
                 aasIdentifier: aasId,
                 submodelIdShort: submodelIdShort
             })
-            console.log(response)
+            //console.log(response)
             values = response.data.body
         
         } catch (error) {
@@ -294,7 +294,7 @@ export const useGeneralStore = defineStore('general', {
                     //value: value
                     submodelElementValues: value
                 })
-                console.log(response)
+                //console.log(response)
             
             } catch (error) {
                 console.log(error)
@@ -694,11 +694,11 @@ export const useGeneralStore = defineStore('general', {
         this.homeLoading = true
         await this.readCSV()
         this.userId = userId;
-        console.log('hiiii')
+        //console.log('hiiii')
     
         const semanticIdAasType = 'https://th-koeln.de/gart/CompanyAAS/1/0';
         const aasIds = await this.getAasByType(semanticIdAasType);
-        console.log(aasIds)
+        //console.log(aasIds)
 
         /*
 

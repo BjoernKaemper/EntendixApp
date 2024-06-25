@@ -11,12 +11,20 @@
                 
                 <v-row v-else-if="monitoringStore.loadingAasTree === false">
                     <v-col cols="4">
+                        <v-card 
+                            style="border-radius: 20px"
+                            variant="outlined" class="anlagen-card mb-8">
+                            <v-img
+                                src="@/assets/halle_west.jpeg"
+                                cover>
 
+                            </v-img>
+                        </v-card>
                     </v-col>
                     <v-col cols="8">
                         <v-card 
                             style="border-radius: 20px; background-color: whitesmoke"
-                            variant="outlined" class="anlagen-card">
+                            variant="outlined" class="anlagen-card mb-8">
                             <v-card-title align="center">Funktionserfüllung Anlagentechnik</v-card-title>
                             <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
                             <v-card-text>
@@ -134,6 +142,57 @@
                                 </v-container>
                             </v-card-text>
                         </v-card>
+                        <v-card 
+                            style="border-radius: 20px; background-color: whitesmoke"
+                            variant="outlined" class="anlagen-card mb-8">
+                            <v-card-title align="center">Raumkomfort</v-card-title>
+                            <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
+                            <v-card-text>
+                                <v-container :style="{ width: '100%' }">
+                                    <v-row align="center" v-for="(element, i) in raumkomfort" :key="i">
+                                        <v-col  
+                                            cols="8"
+                                        >
+                                            <v-btn
+                                                class="button-span px-2"
+                                                rounded="xl"
+                                                style="background-color: whitesmoke; min-width: 180px;"
+                                                variant="text" 
+                                                color="highlight">
+                                                <span class="mr-2">{{ element.name }}</span>
+                                            
+                                            </v-btn> 
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card-text>
+                        </v-card>
+                        <v-card 
+                            style="border-radius: 20px; background-color: whitesmoke"
+                            variant="outlined" class="anlagen-card mb-8">
+                            <v-card-title align="center">Effizienz</v-card-title>
+                            <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
+                            <v-card-text>
+                                <v-container :style="{ width: '100%' }">
+                                    <v-row align="center" v-for="(element, i) in effizienz" :key="i">
+                                        <v-col  
+                                            cols="8"
+                                        >
+                                            <v-btn
+                                                class="button-span px-2"
+                                                rounded="xl"
+                                                style="background-color: whitesmoke; min-width: 180px;"
+                                                variant="text" 
+                                                color="highlight">
+                                                <span class="mr-2">{{ element.name }}</span>
+                                            
+                                            </v-btn> 
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card-text>
+                        </v-card>
+        
                     </v-col>
                 </v-row>
             <!--
@@ -296,6 +355,14 @@ import { useMonitoringStore } from "@/store/monitoring"
       return {
         aasTree: [],
         grundfunktionen: [],
+        effizienz: [
+            {name: 'Energieeffizienz'},
+            {name: 'Kosteneffizienz'}
+        ],
+        raumkomfort: [
+            {name: 'Temperatur'},
+            {name: 'Luiftqualität'}
+        ],
         wärmePic: {'Wärme versorgen': Object.values(import.meta.glob('@/assets/Wärmeversorgen.svg', {as:'url', eager:true}))[0]},
         luftPic: {'Luft versorgen': Object.values(import.meta.glob('@/assets/Luftversorgen.svg', {as:'url', eager:true}))[0]},
         kältePic: {'Kälte versorgen': Object.values(import.meta.glob('@/assets/Kälteversorgen.svg', {as:'url', eager:true}))[0]},

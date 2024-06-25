@@ -265,8 +265,9 @@ export default {
           let semanticId = element.semanticId;
 
           if (selectedMappings.hasOwnProperty(semanticId)) {
-
+            console.log('test')
             let aasId = this.allElements[komponente].anlagenInformation.aasId;
+
             let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(element.idShort, element.submodelName, aasId);
 
             let valueType = 'number'
@@ -282,8 +283,8 @@ export default {
             //names.push(element.name)
             console.log(element)
             elementsToDisplay.push({
-              //'name': element.datenpunktLabel,
-              'name': element.name,
+              'name': element.datenpunktLabel,
+              //'name': element.name,
               'data': timeSeriesData,
               'color': selectedMappings[semanticId],
               'valueType': valueType

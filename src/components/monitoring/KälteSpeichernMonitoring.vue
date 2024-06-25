@@ -140,6 +140,58 @@ export default {
       let allComponents = []
       for (const komponente in this.anlage) {
         const { aasId, semanticId } = this.anlage[komponente];
+        //let component = components[komponente]
+        //console.log(component)
+        //const semanticId = anlage.semanticId
+        const submodelId = 'OperatingInformation'
+        //const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
+        //const submodelElements = submodel.submodelElements;
+        //console.log(submodelElements)
+        const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
+        //console.log(allElements)
+        let elements = []
+
+        for (let element in allElements) {
+            const dataContent = allElements[element]
+            let elementData = {
+                'aasId': aasId,
+                'submodelName': submodelId,
+                'idShort': element,
+                //'name': dataContent[2].DataSource,
+                //'semanticId': element.semanticId.keys[0].value
+                'objectName': dataContent[2].DataSource[6].ObjectName,
+                'objectType': dataContent[2].DataSource[7].ObjectType,
+                'description': dataContent[2].DataSource[8].Description,
+                'grundfunktionLabel': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[0].LabelName,
+                'grundfunktionScore': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[1].LabelScore,
+                'zweiteEbeneLabel': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[0].LabelName,
+                'zweiteEbeneScore': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[1].LabelScore,
+                'komponenteLabel': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[0].LabelName,
+                'komponenteScore': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[1].LabelScore,
+                'datenpunktLabel': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[0].LabelName,
+                'datenpunktScore': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
+                'anlageLabel': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
+                'anlageScore': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
+            }
+            //console.log(elementData)
+            elements.push(elementData)
+        }
+
+        if (this.komponenteZeigen.length === 0) {
+          this.komponenteZeigen = elements
+        }
+
+        allSE.push(
+            {
+            'anlagenInformation': this.anlage[komponente],
+            'elements': elements
+            }
+        )
+
+        this.allSes = allSE
+      /*
+      for (const komponente in this.anlage) {
+        const { aasId, semanticId } = this.anlage[komponente];
         const submodelId = 'OperatingInformation';
         const submodel = await this.generalStore.getSubmodel(aasId, submodelId);
         const submodelElements = submodel.submodelElements;
@@ -153,11 +205,7 @@ export default {
             'name': element.displayName[0].text,
             'semanticId': element.semanticId.keys[0].value
           };
-          /*
-          let valueIdShortpath = {
-            path: [element.idShort]
-          }
-          */
+
           elementData = await this.digitalTwinStore.getSeElement(aasId, submodelId, element.idShort, elementData)
           elementData['datenpunktLabel'] = elementData['datenpunkt'][0]['value']
           return elementData
@@ -176,6 +224,7 @@ export default {
             }
         )
         this.allSes = allSE
+        */
     
         if (semanticId === 'https://th-koeln.de/gart/ComponentIceTankAAS/1/0') {
           this.eisspeicher = elements;

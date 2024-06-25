@@ -156,17 +156,20 @@ export default {
         //const submodelElements = submodel.submodelElements;
         //console.log(submodelElements)
         const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
-        //console.log(allElements)
+        console.log(allElements)
         let elements = []
 
         for (let element in allElements) {
             const dataContent = allElements[element]
+            console.log(dataContent)
             let elementData = {
                 'aasId': aasId,
                 'submodelName': submodelId,
                 'idShort': element,
+                'presentValue': dataContent[0].PresentValue,
                 //'name': dataContent[2].DataSource,
-                //'semanticId': element.semanticId.keys[0].value
+                //'semanticId': element.semanticId.keys[0].value,
+                'semanticId': semanticId,
                 'objectName': dataContent[2].DataSource[6].ObjectName,
                 'objectType': dataContent[2].DataSource[7].ObjectType,
                 'description': dataContent[2].DataSource[8].Description,
@@ -181,6 +184,7 @@ export default {
                 'anlageLabel': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
                 'anlageScore': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
             }
+            
             //console.log(elementData)
             elements.push(elementData)
         }
@@ -195,6 +199,8 @@ export default {
             'elements': elements
             }
         )
+
+        this.allSes = allSE
       
       /*
       for (const komponente in this.anlage) {
@@ -216,7 +222,7 @@ export default {
           };
 
           //elementData = await this.monitoringStore.getSeValueAnlagenmonitoring(aasId, submodelId, element.idShort, elementData)
-          // elementData.presentValue = supplementaryInfos.presentValue;
+          //elementData.presentValue = supplementaryInfos.presentValue;
 
           elementData = await this.digitalTwinStore.getSeElement(aasId, submodelId, element.idShort, elementData)
          
@@ -239,7 +245,7 @@ export default {
             }
         )
         */
-        this.allSes = allSE
+        
         //console.log(elements);
         /*
         const elements = submodelElements.map(element => ({
@@ -250,6 +256,7 @@ export default {
           'semanticId': element.semanticId.keys[0].value
         }));
         */
+       console.log(semanticId)
       
         if (semanticId === 'https://th-koeln.de/gart/ComponentReturnAAS/1/0') {
           this.rücklauf = elements;

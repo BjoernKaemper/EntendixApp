@@ -81,7 +81,7 @@ export default {
         return {
             headers: [
                 //{title: 'Name', key: 'datenpunktLabel'},
-                {title: 'Name', key: 'name'},
+                {title: 'Name', key: 'datenpunktLabel'},
                 {title: 'Present Value', key: 'presentValue'},
                 {title: 'Chart', align: 'center', key: 'actions', sortable: false }
             ], 

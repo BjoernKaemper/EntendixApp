@@ -144,6 +144,7 @@ export default {
                 'aasId': aasId,
                 'submodelName': submodelId,
                 'idShort': element,
+                'presentValue': dataContent[0].PresentValue,
                 //'name': dataContent[2].DataSource,
                 //'semanticId': element.semanticId.keys[0].value
                 'objectName': dataContent[2].DataSource[6].ObjectName,

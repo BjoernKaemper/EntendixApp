@@ -162,6 +162,45 @@ export default {
       // Define semantic id mappings for each function type
       const semanticIdMappings = {
         WärmeVerteilen: {
+          'Messwert Rücklauftemperatur': 0x372772,
+          'Messwert Vorlauftemperatur': 0xFF4A1C,
+          'Rückmeldung Betrieb': 0x38761d,
+        },
+        WärmeErzeugen: {
+          'Rückmeldung Betriebsstunden': 0x372772,
+          "Messwert Leistung": 0xFF4A1C, 
+        },
+        WärmeBeziehen: {
+          'Rückmeldung Betriebsstunden': 0x372772,
+        },
+        WärmeSpeichern: {
+          "Messwert Speichertemperatur": 0x372772,
+          "Sollwert Speichertemperatur": 0xFF4A1C,
+        },
+        LuftBereitstellen: {
+          'Außentemperatur': 0x372772,
+          "Schaltbefehl Anlage": 0xFF4A1C,
+        },
+        MedienBereitstellen: {
+          'Schaltbefehl Anlage': 0x372772,
+        },
+        MedienEntsorgen: {
+
+        },
+        MedienSpeichern: {
+
+        },
+        MedienVerteilen: {
+          
+        },
+        KälteErzeugen: {
+          
+        },
+        KälteVerteilen: {
+          
+        }
+        /*
+        WärmeVerteilen: {
           'https://th-koeln.de/gart/vocabulary/MeasuredValueReturnTemperature/1/0': 0x372772,
           'https://th-koeln.de/gart/vocabulary/MeasuredValueFlowTemperature/1/0': 0xFF4A1C,
           'https://th-koeln.de/gart/vocabulary/FeedbackOperation/1/0': 0x38761d,
@@ -199,6 +238,7 @@ export default {
         KälteVerteilen: {
           
         }
+        */
       };
 
       let root = am5.Root.new("chartdiv");
@@ -262,10 +302,12 @@ export default {
 
         for (let elementInformation in component) {
           let element = component[elementInformation];
-          let semanticId = element.semanticId;
 
-          if (selectedMappings.hasOwnProperty(semanticId)) {
-            console.log('test')
+          //let semanticId = element.semanticId;
+          let datenpunktName = element.datenpunktLabel;
+
+          //if (selectedMappings.hasOwnProperty(semanticId)) {
+          if (selectedMappings.hasOwnProperty(datenpunktName)) {
             let aasId = this.allElements[komponente].anlagenInformation.aasId;
 
             let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(element.idShort, element.submodelName, aasId);
@@ -286,7 +328,8 @@ export default {
               'name': element.datenpunktLabel,
               //'name': element.name,
               'data': timeSeriesData,
-              'color': selectedMappings[semanticId],
+              //'color': selectedMappings[semanticId],
+              'color': selectedMappings[datenpunktName],
               'valueType': valueType
             });
             

@@ -156,12 +156,13 @@ export default {
         //const submodelElements = submodel.submodelElements;
         //console.log(submodelElements)
         const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
-        console.log(allElements)
+        //console.log(allElements)
         let elements = []
 
         for (let element in allElements) {
             const dataContent = allElements[element]
             console.log(dataContent)
+            //console.log(element)
             let elementData = {
                 'aasId': aasId,
                 'submodelName': submodelId,

@@ -8,7 +8,12 @@
             <v-card-text>
                 <v-row align="center" v-for="building,i  in this.buildings" :key="i">
                     <v-col cols="3">
+                        <!--
                         <v-img max-height="90" class="mx-auto" href="#" contain src="@/assets/no_image.svg"></v-img>
+                    -->
+                    <v-container class="py-0">
+                        <v-img class="mx-auto rounded-lg" href="#" src="@/assets/halle_west.jpeg"></v-img>
+                    </v-container>
                     </v-col>
                     <v-col cols="2">
                         <v-row>

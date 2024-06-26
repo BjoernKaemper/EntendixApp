@@ -141,6 +141,7 @@ export default {
     }
   },
   methods: {
+
     async getSubmodelInformations() {
       await this.monitoringStore.setLoadingMonitoringComponent('true')
       let allSE = []
@@ -185,8 +186,9 @@ export default {
                 'anlageLabel': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
                 'anlageScore': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
             }
-            
-            //console.log(elementData)
+
+            let value = this.monitoringStore.checkvalue(elementData.presentValue)
+            elementData.presentValue = value
             elements.push(elementData)
         }
 

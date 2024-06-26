@@ -22,7 +22,23 @@ export const useMonitoringStore = defineStore('monitoring', {
         }
     },
     actions: {
-        
+      checkvalue (value) {
+        if (!isNaN(value)) {
+          // Convert the string to a number
+          let numberValue = parseFloat(value);
+  
+          // Check if it's an integer or float
+          if (Number.isInteger(numberValue)) {
+              return numberValue;
+          } else {
+              // Round to two decimal places if it's a float
+              return parseFloat(numberValue.toFixed(2));
+          }
+        } else {
+          return value
+        }
+      }, 
+              
         async setLoadingMonitoringComponent(value) {
           if (value == 'true') {
             this.loadingMonitoringComponent = true

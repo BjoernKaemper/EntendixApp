@@ -161,6 +161,8 @@ export default {
                 'anlageScore': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
             }
             //console.log(elementData)
+            let value = this.monitoringStore.checkvalue(elementData.presentValue)
+            elementData.presentValue = value
             elements.push(elementData)
         }
 

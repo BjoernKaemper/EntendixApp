@@ -311,7 +311,7 @@ export default {
             let aasId = this.allElements[komponente].anlagenInformation.aasId;
 
             let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(element.idShort, element.submodelName, aasId);
-
+            console.log(timeSeriesData)
             let valueType = 'number'
             for (let i = 0; i < timeSeriesData.length; i++) {
               if (typeof timeSeriesData[i].value === 'boolean') {
@@ -410,7 +410,7 @@ export default {
         //let data = generateDatas(100);
         let data = elementsToDisplay[i].data
         this.data = data
-        //console.log(data)
+        console.log(data)
         //series.set("stroke", am5.color(0xFF4A1C));
         series.set("stroke", am5.color(elementsToDisplay[i].color))
         //series.set("fill", am5.color(0x3B5249)); -> Die ist für den tooltip, könnte auch noch angepasst werden

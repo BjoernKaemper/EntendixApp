@@ -22,7 +22,7 @@
                 <v-toolbar-title style="color: white;">{{ datenpunkt['datenpunktLabel'] }}</v-toolbar-title>
                 </v-toolbar>
                 <v-container>
-                    <LineChart v-if="datenpunkt.chartType.trim() === 'LineChart'" :aasId="datenpunkt.aasId" :submodelRefIdShort="datenpunkt.submodelName" :submodelElementPath="datenpunkt.idShort"/>
+                    <LineChart v-if="datenpunktToDisplay.chartType.trim() === 'LineChart'" :aasId="datenpunkt.aasId" :submodelRefIdShort="datenpunkt.submodelName" :submodelElementPath="datenpunkt.idShort"/>
                     <div v-else>Kein Chart vorhanden, da binärer Wert.</div>
                 </v-container>
             </v-card>
@@ -37,10 +37,18 @@ export default {
     data () {
       return {
         dialog: false,
+        datenpunktToDisplay: []
       }
     },
     props: {
         datenpunkt: Object
+    },
+    mounted() {
+        // Das hier nur als Ersatz weil das andere mit der CSV einalden nicht mehr geklappt hat,
+        let showDatenpunkt = this.datenpunkt
+        showDatenpunkt['chartType'] = 'LineChart'
+        this.datenpunktToDisplay = showDatenpunkt
+        console.log(this.datenpunktToDisplay)
     },
     components: {
         LineChart

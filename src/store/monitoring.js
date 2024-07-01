@@ -230,6 +230,7 @@ export const useMonitoringStore = defineStore('monitoring', {
 
           const chartType = await this.getChartType(elementData.semanticId) 
           elementData['chartType'] = chartType  
+          console.log(elementData)
           //await Promise.all(requests);
           this.loadedElement = true
           return elementData;
@@ -241,18 +242,19 @@ export const useMonitoringStore = defineStore('monitoring', {
             const url = this.aasServer + readTimeSeries
             let responseBasyx = ''        
             const actualTime = Math.floor(new Date().getTime() / 1000)
-            //console.log(actualTime)
-            //console.log(this.userId)
-            //console.log(aasId)
+            console.log(actualTime)
+            console.log(this.userId)
+            console.log(aasId)
             //let path = submodelElementPath + '/PresentValue'
             let path = [submodelElementPath, 'PresentValue']
-            //console.log(path)
-            //console.log(submodelRefIdShort)
+            console.log(path)
+            console.log(submodelRefIdShort)
             try {
                 const response = await axios.post(url, {
                     userId: this.userId,
                     aasIdentifier: aasId,
-                    submodelRefIdShort: submodelRefIdShort,
+                    //submodelRefIdShort: submodelRefIdShort,
+                    submodelIdentifier: submodelRefIdShort,
                     //submodelElementPath: path,
                     sempath: path,
                     timestampStart: 0,
@@ -262,7 +264,8 @@ export const useMonitoringStore = defineStore('monitoring', {
                   timeout: 600000
                 })
                 console.log(response)
-                responseBasyx = response.data
+                responseBasyx = response.data.body
+                console.log(responseBasyx)
             } catch (error) {
                 console.log(error)
             }

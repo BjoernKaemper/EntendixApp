@@ -8,7 +8,10 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
     state: () => {
       return {
         showProgressUploadAas: false,
-        aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
+        // Dev
+        //aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
+        //Live
+        aasServer: 'https://4w6tu92q6h.execute-api.eu-central-1.amazonaws.com/Live',
         showProgressEditDatenpunkt: false,
         aasId: '',
         aasIdShort: '',

@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "zukunftbauapp51707ce0_identitypool_51707ce0",
+    "identityPoolName": "plyteqapp406ddbe1_identitypool_406ddbe1",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "zukunf51707ce0",
-    "userPoolName": "zukunftbauapp51707ce0_userpool_51707ce0",
+    "resourceNameTruncated": "plyteq406ddbe1",
+    "userPoolName": "plyteqapp406ddbe1_userpool_406ddbe1",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,10 +31,10 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "zukunf51707ce0_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "plyteq406ddbe1_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "51707ce0",
-    "resourceName": "zukunftbauapp51707ce0",
+    "sharedId": "406ddbe1",
+    "resourceName": "plyteqapp406ddbe1",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "default",
     "userPoolGroupList": [],

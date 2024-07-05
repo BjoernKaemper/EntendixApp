@@ -1,48 +1,118 @@
 <template>
     <div>
-        <!--
-        <h1>Digital Twins - General</h1>
-        <p> Wähle einen Standort aus, den du sehen möchtest</p>
-        <div v-for="site in sites" :key="site.id" >
-        <router-link :to="{name:'DigitalTwins_Site', params:{siteid:site.name}}">
-            <h2>{{ site.name }}</h2>
-        </router-link>  
-        </div>
-    -->
         <v-container>
-            <!--<h2 style="color: #3B5249;">Digital Twins - Übersicht</h2>-->
-            <!--
-            <v-btn
-            @click="generalStore.addBacnetDevice()">Create Bacnet
-            </v-btn>
-        -->
+          <v-row>
+            <v-col cols="5">
+                <GoogleMapsCardHome />
+            </v-col>
+            <v-col cols="7">
+                <v-card 
+                    style="border-radius: 20px; background-color: whitesmoke"
+                    variant="outlined" class="anlagen-card mb-12 mx-10">
+                    <v-card-title align="center">Meine Liegenschaften - Digitale Zwillinge</v-card-title>
+                    <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
+                    <v-card-text>
+                        <v-row align="center" v-for="site,i  in this.generalStore.loadedSiteInformationWithBuildings" :key="site">
+                
+                            <v-col cols="4">
+                                <!--<v-badge color="info">-->
+                                    <v-btn
+                                        class="button-span px-2"
+                                        rounded="xl"
+                                        style="background-color: whitesmoke; min-width: 180px;"
+                                        variant="text" 
+                                        color="highlight"
+                                                                                
+                                        @click="$router.push({name:'DigitalTwins_Site', 
+                                        params:{siteid: site.siteName}})">
+                                        <span class="mr-2">{{ site.siteName }}</span>
+                                        
+                                    </v-btn> 
+                                <!--</v-badge>-->              
+                            </v-col>
+                            <!--
+                            <v-col cols="4">
+                                <v-chip color="monitoring">
+                                    Test
+                                </v-chip>
+                            </v-col>
+                        -->
+                            <v-col cols="8"></v-col>
+                           
+                        </v-row>
+                        <!--
+                        <v-row align="center" >
+                            <v-col cols="3" class="text-center">
+                                <v-btn 
+                                    variant="outlined" 
+                                    color="#455A64"
+                                    icon="mdi-map-plus" class="mx-auto"
+                                    @click="$router.push({name:'Register'})">
+                                </v-btn>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-row>
+                                    <v-col cols="1" class="ma-0 pa-0"></v-col>
+                                    <v-col cols="10" class="ma-0 pa-0 text-center">
+                                        Neue Liegenschaft
+                                    </v-col>
+                                    <v-col cols="1" class="ma-0 pa-0"></v-col>
+                                </v-row>
+                            </v-col>
+                            <v-col cols="7"></v-col>
+                        </v-row>
+                    -->
+                    </v-card-text>
+                </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+        <!--
+        <v-container>
+
             <v-row>
                 <v-col cols="6" v-for="site in generalStore.loadedSiteInformationWithBuildings" :key="Object.keys(site)[0]">
                     <DigitalTwinOverview :site="site"/>
                 </v-col>
             </v-row>
-            <!--<GatewayInformation />-->
+            <GatewayInformation />
         </v-container>
+    -->
     </div>
 </template> 
 
 <script>
 import { useGeneralStore } from "@/store/general"
-import DigitalTwinOverview from "@/components/digitalTwin/DigitalTwinOverview.vue"
+//import DigitalTwinOverview from "@/components/digitalTwin/DigitalTwinOverview.vue"
 //import GatewayInformation from "@/components/digitalTwin/GatewayInformation.vue"
 
+import GoogleMapsCardHome from "@/components/general/GoogleMapsCardHome.vue"
+//import HomeCardSite from "@/components/general/HomeCardSite.vue"
+
 export default{
-    setup(){
-        // das hier dann aus deinem store laden:
-        const sites=[ {name:"Köln",id:"1"},{name:"Hamburg",id:"2"} ]
-    return{sites}},
+    data () {
+      return {
+        buildings: []
+      }
+    },
     components: {
-        DigitalTwinOverview, 
-        //GatewayInformation
+        //DigitalTwinOverview, 
+        GoogleMapsCardHome, 
+        //HomeCardSite
     },
     computed: {
         generalStore () {
             return useGeneralStore()
+        }
+    },
+    created() {
+
+        const site_id = this.$route.params.siteid
+        for (let site in this.generalStore.loadedSiteInformationWithBuildings) {
+            if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site]['siteName']) {
+                console.log(this.generalStore.loadedSiteInformationWithBuildings[site])
+                this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings
+            }
         }
     }
 }

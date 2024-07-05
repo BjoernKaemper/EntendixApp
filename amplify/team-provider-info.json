@@ -1,119 +1,23 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-zukunftbauapp-dev-170325-authRole",
-      "UnauthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-dev-170325-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-dev-170325-authRole",
+      "AuthRoleName": "amplify-plyteqapp-dev-acacf-authRole",
+      "UnauthRoleArn": "arn:aws:iam::891377235702:role/amplify-plyteqapp-dev-acacf-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::891377235702:role/amplify-plyteqapp-dev-acacf-authRole",
       "Region": "eu-central-1",
-      "DeploymentBucketName": "amplify-zukunftbauapp-dev-170325-deployment",
-      "UnauthRoleName": "amplify-zukunftbauapp-dev-170325-unauthRole",
-      "StackName": "amplify-zukunftbauapp-dev-170325",
-      "StackId": "arn:aws:cloudformation:eu-central-1:331025072115:stack/amplify-zukunftbauapp-dev-170325/edee96c0-1a7b-11ee-93ef-0a9120a5a920",
-      "AmplifyAppId": "d2231n2fdjjhx7"
-    },
-    "categories": {
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d2231n2fdjjhx7",
-          "type": "manual"
-        }
-      },
-      "auth": {
-        "zukunftbauapp51707ce0": {}
-      }
-    }
-  },
-  "zukunfbau": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-zukunftbauapp-zukunfbau-104541-authRole",
-      "UnauthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-zukunfbau-104541-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-zukunfbau-104541-authRole",
-      "Region": "eu-central-1",
-      "DeploymentBucketName": "amplify-zukunftbauapp-zukunfbau-104541-deployment",
-      "UnauthRoleName": "amplify-zukunftbauapp-zukunfbau-104541-unauthRole",
-      "StackName": "amplify-zukunftbauapp-zukunfbau-104541",
-      "StackId": "arn:aws:cloudformation:eu-central-1:331025072115:stack/amplify-zukunftbauapp-zukunfbau-104541/a4908150-2610-11ee-ab4f-0618c74244ae",
-      "AmplifyAppId": "d2231n2fdjjhx7"
+      "DeploymentBucketName": "amplify-plyteqapp-dev-acacf-deployment",
+      "UnauthRoleName": "amplify-plyteqapp-dev-acacf-unauthRole",
+      "StackName": "amplify-plyteqapp-dev-acacf",
+      "StackId": "arn:aws:cloudformation:eu-central-1:891377235702:stack/amplify-plyteqapp-dev-acacf/057143a0-1cfc-11ef-adcc-0695e543bb51",
+      "AmplifyAppId": "d117f01ohn5ym3"
     },
     "categories": {
       "auth": {
-        "zukunftbauapp51707ce0": {}
+        "plyteqapp406ddbe1": {}
       },
       "hosting": {
         "amplifyhosting": {
-          "appId": "d2231n2fdjjhx7",
-          "type": "manual"
-        }
-      }
-    }
-  },
-  "monki": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-zukunftbauapp-monki-105246-authRole",
-      "UnauthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-monki-105246-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-monki-105246-authRole",
-      "Region": "eu-central-1",
-      "DeploymentBucketName": "amplify-zukunftbauapp-monki-105246-deployment",
-      "UnauthRoleName": "amplify-zukunftbauapp-monki-105246-unauthRole",
-      "StackName": "amplify-zukunftbauapp-monki-105246",
-      "StackId": "arn:aws:cloudformation:eu-central-1:331025072115:stack/amplify-zukunftbauapp-monki-105246/a243dcc0-2611-11ee-b2e6-0a25f39fe0f6",
-      "AmplifyAppId": "d2231n2fdjjhx7"
-    },
-    "categories": {
-      "auth": {
-        "zukunftbauapp51707ce0": {}
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d2231n2fdjjhx7",
-          "type": "manual"
-        }
-      }
-    }
-  },
-  "zukunftbau": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-zukunftbauapp-zukunftbau-110202-authRole",
-      "UnauthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-zukunftbau-110202-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-zukunftbau-110202-authRole",
-      "Region": "eu-central-1",
-      "DeploymentBucketName": "amplify-zukunftbauapp-zukunftbau-110202-deployment",
-      "UnauthRoleName": "amplify-zukunftbauapp-zukunftbau-110202-unauthRole",
-      "StackName": "amplify-zukunftbauapp-zukunftbau-110202",
-      "StackId": "arn:aws:cloudformation:eu-central-1:331025072115:stack/amplify-zukunftbauapp-zukunftbau-110202/eddcc740-2612-11ee-bfaf-0605273b96be",
-      "AmplifyAppId": "d39z5kin5bjdue"
-    },
-    "categories": {
-      "auth": {
-        "zukunftbauapp51707ce0": {}
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d39z5kin5bjdue",
-          "type": "manual"
-        }
-      }
-    }
-  },
-  "plyteq": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-zukunftbauapp-plyteq-85054-authRole",
-      "UnauthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-plyteq-85054-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::331025072115:role/amplify-zukunftbauapp-plyteq-85054-authRole",
-      "Region": "eu-central-1",
-      "DeploymentBucketName": "amplify-zukunftbauapp-plyteq-85054-deployment",
-      "UnauthRoleName": "amplify-zukunftbauapp-plyteq-85054-unauthRole",
-      "StackName": "amplify-zukunftbauapp-plyteq-85054",
-      "StackId": "arn:aws:cloudformation:eu-central-1:331025072115:stack/amplify-zukunftbauapp-plyteq-85054/2b8a8580-fe19-11ee-9b44-06c3c6d4d863",
-      "AmplifyAppId": "d39z5kin5bjdue"
-    },
-    "categories": {
-      "auth": {
-        "zukunftbauapp51707ce0": {}
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d39z5kin5bjdue",
+          "appId": "d117f01ohn5ym3",
           "type": "manual"
         }
       }

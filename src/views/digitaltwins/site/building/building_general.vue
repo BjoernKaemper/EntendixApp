@@ -7,12 +7,14 @@
                     <template v-slot:activator="{ props }">
                         <v-btn 
                             v-bind="props"
+                            icon="mdi-server-network"
                             :style="{ marginTop: '-100px' }" 
                             variant="outlined" 
                             color="highlight"
                             @click="$router.push({name:'DigitalTwins_Site_Building_Bacnet',
                             params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid}})"
-                            size="x-small"></v-btn>
+                            size="x-small">
+                        </v-btn>
                     </template>
                 </v-tooltip>
             </v-col>

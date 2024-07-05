@@ -214,20 +214,54 @@ export default{
             for (const komponente in components) {
                 let component = components[komponente]
                 const aasId =  component.aasId
+                //console.log(component)
                 //const semanticId = anlage.semanticId
                 const submodelId = 'OperatingInformation'
-                const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
-                const submodelElements = submodel.submodelElements;
+                //const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
+                //const submodelElements = submodel.submodelElements;
+                //console.log(submodelElements)
+                const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
+                //console.log(allElements)
+                let elements = []
 
+                for (let element in allElements) {
+                    const dataContent = allElements[element]
+                    let elementData = {
+                        'aasId': aasId,
+                        'submodelName': submodelId,
+                        'idShort': element,
+                        //'name': dataContent[2].DataSource,
+                        //'semanticId': element.semanticId.keys[0].value
+                        'objectName': dataContent[2].DataSource[6].ObjectName,
+                        'objectType': dataContent[2].DataSource[7].ObjectType,
+                        'description': dataContent[2].DataSource[8].Description,
+                        'grundfunktionLabel': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[0].LabelName,
+                        'grundfunktionScore': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[1].LabelScore,
+                        'zweiteEbeneLabel': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[0].LabelName,
+                        'zweiteEbeneScore': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[1].LabelScore,
+                        'komponenteLabel': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[0].LabelName,
+                        'komponenteScore': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[1].LabelScore,
+                        'datenpunktLabel': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[0].LabelName,
+                        'datenpunktScore': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
+                        'anlageLabel': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
+                        'anlageScore': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
+                    }
+                    //console.log(elementData)
+                    elements.push(elementData)
+                }
+                
+                /*
                 const elementPromises = submodelElements.map(async (element) => {
                     let elementData = {
                         'aasId': aasId,
                         'submodelName': submodelId,
                         'idShort': element.idShort,
-                        'name': element.descriptions[0].text,
+                        'name': element.description[0].text,
                         'semanticId': element.semanticId.keys[0].value
                     };
+                    
                     elementData = await this.digitalTwinStore.getSeElement(aasId, submodelId, element.idShort, elementData)
+                    console.log(elementData)
                     elementData['objectName'] = elementData['bacnetData'][7]['value']
                     elementData['objectType'] = elementData['bacnetData'][8]['value']
                     elementData['description'] = elementData['bacnetData'][9]['value']
@@ -246,6 +280,7 @@ export default{
                 });
 
                 const elements = await Promise.all(elementPromises);
+                */
 
                 allSE.push(
                     {

@@ -3,11 +3,17 @@
         <v-card 
             style="border-radius: 20px; background-color: whitesmoke"
             variant="outlined" class="anlagen-card mb-12">
-            <v-card-title>Gebäude - {{ $route.params.siteid }}</v-card-title>
+            <v-card-title align ="center">Gebäude der Liegenschaft {{ $route.params.siteid }}</v-card-title>
+            <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
             <v-card-text>
                 <v-row align="center" v-for="building,i  in this.buildings" :key="i">
                     <v-col cols="3">
+                        <!--
                         <v-img max-height="90" class="mx-auto" href="#" contain src="@/assets/no_image.svg"></v-img>
+                    -->
+                    <v-container class="py-0">
+                        <v-img class="mx-auto rounded-lg" href="#" src="@/assets/halle_west.jpeg"></v-img>
+                    </v-container>
                     </v-col>
                     <v-col cols="2">
                         <v-row>

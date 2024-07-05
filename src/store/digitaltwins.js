@@ -8,7 +8,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
     state: () => {
       return {
         showProgressUploadAas: false,
-        aasServer: 'https://svmiv1rcci.execute-api.us-east-1.amazonaws.com/dev/v1/',
+        aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
         showProgressEditDatenpunkt: false,
         aasId: '',
         aasIdShort: '',
@@ -28,6 +28,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       }
     },
     actions: {
+
         async getSeElement(aasId, submodelIdShort, idShort, elementData) {
             const generalStore = useGeneralStore()
             const monitoringStore = useMonitoringStore()
@@ -46,7 +47,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                 //description: [idShort, 'DataSource', 'Description'],
                 //objectIdentifier: [idShort, 'DataSource', 'ObjectIdentifier'],
             }
-            const getSeValue = 'submodel/getsubmodelelementvalue';
+            const getSeValue = 'submodelServices/getSubmodelElementValue';
             const urlSeValue = this.aasServer + getSeValue;
 
             const requests = Object.entries(bacnetNlpInformationPaths).map(async ([element, value]) => {
@@ -57,9 +58,12 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                         submodelIdShort: submodelIdShort,
                         submodelElementShortIdPath: value
                     });
-                    if (response.data !== '') {
-                        elementData[element] = response.data['value'];
+                    //if (response.data !== '') {
+                    if (response.data.body !== '') {
+                        //elementData[element] = response.data['value'];
+                        elementData[element] = response.data.body;
                     }
+                    //console.log(response.data.body)
                 } catch (error) {
                     console.error(error);
                 }
@@ -99,7 +103,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             } catch (error) {
                 console.log(error)
             }
-            console.log(responseBasyx)
+            //console.log(responseBasyx)
             
             /*
             let formData = new FormData()
@@ -121,7 +125,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             */
             //const aas_id = '/TestAAS'
             const bacnetIds = generalStore.loadedBacnetInformation
-            console.log(bacnetIds)
+            //console.log(bacnetIds)
             await generalStore.loadBacnetInformation(bacnetIds)
             //await this.getBasyxNlpSubmodel(aasId, aasIdShort)
             this.showProgressUploadAas = false
@@ -142,7 +146,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                 idShort: datenpunkt['IdShort'],
                 aasId: this.aasId
             }
-            console.log(datapointInformation)
+            //console.log(datapointInformation)
             //let formData = new FormData()
             // formData.append('datapointInformation', datapointInformation)
             //formData.append('correctedLabel', predictedGrundfunktion)
@@ -194,7 +198,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                 idShort: datenpunkt['IdShort'],
                 aasId: this.aasId
             }
-            console.log(datapointInformation)
+            //console.log(datapointInformation)
             //let formData = new FormData()
             // formData.append('datapointInformation', datapointInformation)
             //formData.append('correctedLabel', predictedGrundfunktion)
@@ -324,7 +328,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
 
         },
         async getSubmodel(aasId) {
-            const getSubmodel = 'submodel/getsubmodel'
+            const getSubmodel = 'submodelServices/getSubmodelByIdShort'
             const url = this.aasServer + getSubmodel
             let responseBasyx = ''    
             console.log(url)      
@@ -344,7 +348,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             return responseBasyx
         },
         async getBomParent(aasId) {
-            const bomParent = 'submodel/bom/getparents'
+            const bomParent = 'submodelServices/bom/getParents'
             const urlBomParent = this.aasServer + bomParent
             let parentAasId = []
             const generalStore = useGeneralStore()
@@ -353,10 +357,10 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                 const response = await axios.post(urlBomParent, {
                     userId: userId,
                     aasIdentifier: aasId,
-                    submodelIdShort: 'HierarchicalStructures'
+                    //submodelIdShort: 'HierarchicalStructures'
                 })
     
-                console.log(response.data)
+                //console.log(response.data)
                 parentAasId = response.data
             } catch (error) {
                 console.log(error)
@@ -364,7 +368,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             return parentAasId
         },
         async getAasIdShortByIdentifier(aasId) {
-            const getAasIdShort = 'aas/getaasidshortbyidentifier'
+            const getAasIdShort = 'aasServices/getAasIdShortByIdentifier'
             const url = this.aasServer + getAasIdShort
             let idShort = ''
             const generalStore = useGeneralStore()

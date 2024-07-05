@@ -1,5 +1,6 @@
 <template>
     <v-container>
+        <!--
         <v-row>
             <v-col cols ="6" v-for="gateway in generalStore.loadedGatewayInformation" :key="gateway['AAS ID']">
                 <v-card v-if="gateway['ParentAasIdShort'][0] == buildingId"
@@ -51,7 +52,7 @@
                         </v-expansion-panel>
                     </v-expansion-panels>
                     <v-divider></v-divider>
-                    <!--
+                    
                     <v-card-actions v-if="gateway['NlpDone'] == false" class="d-flex justify-center align-center">
                         <v-btn class="max-3 mb-4"  variant="outlined" color="warning" 
                             @click= "digitalTwinStore.startNlp(gateway['AAS ID'], gateway['AAS ID Short']);
@@ -66,12 +67,86 @@
                             </v-expansion-panel-text>
                         </v-expansion-panel>
                     </v-expansion-panels>
-                -->
+                
+                </v-card>
+            </v-col>
+        </v-row>
+    --> 
+    <v-row>
+            <v-col cols ="6" v-for="gateway in generalStore.loadedBacnetInformationAssigned" :key="gateway['AAS ID']">
+                <v-card v-if="gateway['ParentAasIdShort'][0] == buildingId"
+                style="border-radius: 20px; background-color: whitesmoke"
+                variant="outlined" class="anlagen-card mb-12 mx-6" >
+                <v-card-title align="center">{{ gateway['AAS ID Short'][0] }}</v-card-title>
+                <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
+                    
+                    <v-card-text>
+                    <v-row align="center">
+                        <v-col cols="5">
+                            Hersteller: 
+                        </v-col>
+                        <v-col cols="7">
+                            <v-chip color="monitoring">
+                            {{ gateway['Digital Nameplate']['Herstellername'] }}
+                            </v-chip>
+                        </v-col>
+                    </v-row>
+                    <v-row align="center">
+                        <v-col cols="5">
+                            Seriennummer:
+                        </v-col>
+                        <v-col cols="7">
+                            <v-chip color="monitoring">
+                                {{ gateway['Digital Nameplate']['Seriennummer'] }}
+                            </v-chip>
+                        </v-col>
+                    </v-row>
+                    </v-card-text>
+                    <!--
+                    <v-expansion-panels 
+                    v-for="(bacnetDevice, key) in gateway['bacnetDevices']" :key="key"
+                    style="background-color: whitesmoke">
+                        <v-expansion-panel elevation="0" rounded="0">
+                            <v-expansion-panel-title style="font-size: 16px;" >{{ bacnetDevice['AAS ID Short'][0] }}</v-expansion-panel-title>
+                            <v-expansion-panel-text>
+                                <div v-for="(property, key) in bacnetDevice['Digital Nameplate']" :key="key">
+                                    <v-row>
+                                        <v-col cols="6">
+                                            {{ key }}:
+                                        </v-col>
+                                        <v-col cols ="6">
+                                            {{ property }}
+                                        </v-col>
+                                    </v-row>
+                                </div>
+                            </v-expansion-panel-text>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                
+                    <v-divider></v-divider>
+                    
+                    <v-card-actions v-if="gateway['NlpDone'] == false" class="d-flex justify-center align-center">
+                        <v-btn class="max-3 mb-4"  variant="outlined" color="warning" 
+                            @click= "digitalTwinStore.startNlp(gateway['AAS ID'], gateway['AAS ID Short']);
+                            buildingName = ''">Classify Datapoints
+                        </v-btn>
+                    </v-card-actions>
+                    <v-expansion-panels v-else-if ="gateway['NlpDone'] == true">
+                        <v-expansion-panel @click="this.digitalTwinStore.getBasyxNlpSubmodel(gateway['AAS ID'], gateway['AAS ID Short'])" elevation="0" rounded="0">
+                            <v-expansion-panel-title style="font-size: 18px;" >NLP Results</v-expansion-panel-title>
+                            <v-expansion-panel-text>
+                                <NlpResults />
+                            </v-expansion-panel-text>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                
+                
                 </v-card>
             </v-col>
         </v-row>
 
         <v-row v-for="gateway in generalStore.loadedBacnetInformationAssigned" :key="gateway['AAS ID']">
+            <div>{{ gateway }}</div>
             <v-col v-if="gateway['ParentAasIdShort'][0] == buildingId">
                 <v-card max-width="70%" class="mx-auto my-8" elevation="1" rounded="0">
                     <v-toolbar color="success">
@@ -104,6 +179,7 @@
                             buildingName = ''">Classify Datapoints
                         </v-btn>
                     </v-card-actions>
+                    
                     <v-expansion-panels v-else-if ="gateway['NlpDone'] == true">
                         <v-expansion-panel @click="this.digitalTwinStore.getBasyxNlpSubmodel(gateway['AAS ID'], gateway['AAS ID Short'])" elevation="0" rounded="0">
                             <v-expansion-panel-title style="font-size: 18px;" >NLP Results</v-expansion-panel-title>
@@ -112,8 +188,10 @@
                             </v-expansion-panel-text>
                         </v-expansion-panel>
                     </v-expansion-panels>
+                -->
                 </v-card>
             </v-col>
+        
         </v-row>
     </v-container>
 </template>

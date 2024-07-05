@@ -8,6 +8,14 @@
           ></v-progress-linear>
         </div>
         <v-row v-else>
+          <v-col cols="2"></v-col>
+          <v-col cols="8">
+            <HomeCard />
+          </v-col>
+          <v-col cols="2"></v-col>
+        </v-row>
+        <!--
+        <v-row v-else>
             <v-col cols="4">
               <GoogleMapsCardHome />
             </v-col>
@@ -15,6 +23,7 @@
               <HomeCard />
             </v-col>
           </v-row>
+        -->
         </v-container>
     </div> 
 </template>

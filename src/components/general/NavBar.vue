@@ -11,8 +11,9 @@
             <v-toolbar-title
                 id="navbar-title" 
                 >
-                <v-img
-                max-width="78" src="@/assets/plyteq_schriftzug_weiß.svg"></v-img>
+                <v-btn plain @click="() => {}" to="/">
+                  <v-icon class="custom-svg-icon"></v-icon>
+                </v-btn>
                 </v-toolbar-title>           
             <v-spacer></v-spacer>
             <div v-for="solution in solutions" :key="solution.title">
@@ -102,7 +103,7 @@ export default {
     },
     solutions () {
       const solutions = [
-        { icon: '', title: 'Home', link: '/' },
+        //{ icon: '', title: 'Home', link: '/' },
         //{ icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
         { icon: '', title: 'Digital Twins', link: '/digitaltwins' },
         { icon: '', title: 'Monitoring', link: '/monitoring' }, //vorher link:buildingperformance
@@ -150,5 +151,13 @@ export default {
 }
 #home-icon {
   margin-left: 20px;
+}
+
+.custom-svg-icon {
+  background: url('@/assets/plyteq_schriftzug_weiß.svg') no-repeat center center;
+  background-size: contain;
+  display: inline-block;
+  width: 78px; /* Adjust the width as needed */
+  height: 40px; /* Adjust the height as needed */
 }
 </style>

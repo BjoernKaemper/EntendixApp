@@ -11,7 +11,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         // Dev
         //aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
         //Live
-        aasServer: 'https://4w6tu92q6h.execute-api.eu-central-1.amazonaws.com/Live',
+        aasServer: 'https://4w6tu92q6h.execute-api.eu-central-1.amazonaws.com/Live/',
         showProgressEditDatenpunkt: false,
         aasId: '',
         aasIdShort: '',

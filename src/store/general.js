@@ -11,7 +11,7 @@ export const useGeneralStore = defineStore('general', {
         // Dev
         //aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
         // Live
-        aasServer: 'https://4w6tu92q6h.execute-api.eu-central-1.amazonaws.com/Live',
+        aasServer: 'https://4w6tu92q6h.execute-api.eu-central-1.amazonaws.com/Live/',
         homeLoading: false,
         loading: false,
         loadedSiteInformation: [],
@@ -178,6 +178,10 @@ export const useGeneralStore = defineStore('general', {
         const bomParent = 'submodelServices/bom/getParents'
         const urlBomParent = this.aasServer + bomParent
         let parentAasId = []
+
+        console.log(aasId)
+        console.log(this.userId)
+
         try {
             const response = await axios.post(urlBomParent, {
                 userId: this.userId,
@@ -345,6 +349,8 @@ export const useGeneralStore = defineStore('general', {
         const url = this.aasServer + editSeValue
     },
     */
+   
+    
 
     async loadBacnetInformation(aasBacnetIds) {
         this.loadedBacnetInformationNotAssigned = [];
@@ -355,9 +361,11 @@ export const useGeneralStore = defineStore('general', {
         };
         const digitalNameplate = 'Nameplate';
         
-        const allBacnetGatewayInformationNotAssigned = [];
-        const allBacnetGatewayInformationAssigned = [];
-    
+        let allBacnetGatewayInformationNotAssigned = [];
+        let allBacnetGatewayInformationAssigned = [];
+
+        
+            
         const bacnetInfoPromises = aasBacnetIds.map(async (aasId) => {
             let parent = await this.getBomParent(aasId);
     
@@ -413,6 +421,7 @@ export const useGeneralStore = defineStore('general', {
         });
     
         await Promise.all(bacnetInfoPromises);
+
     
         this.loadedBacnetInformationNotAssigned = allBacnetGatewayInformationNotAssigned;
         this.loadedBacnetInformationAssigned = allBacnetGatewayInformationAssigned;
@@ -741,6 +750,7 @@ export const useGeneralStore = defineStore('general', {
 
             const organizationInformationBasyx = await this.getAllSubmodelElementValues(companyAasId, companySubmodelId);
             
+            /*
             const addressArrayOrganization = organizationInformationBasyx.Address
 
             const organizationInformation = {
@@ -754,9 +764,26 @@ export const useGeneralStore = defineStore('general', {
             if (Object.keys(organizationInformation).length > 0) {
                 this.loadedOrganizationInformation.push(organizationInformation);
             }
+
+            */
+
+            const addressArrayOrganization = organizationInformationBasyx?.Address || [];
+
+            const organizationInformation = {
+                organizationName: organizationInformationBasyx?.CompanyName || '',
+                country: addressArrayOrganization.find(item => item?.NationalCode)?.NationalCode || '',
+                city: addressArrayOrganization.find(item => item?.CityTown)?.CityTown || '',
+                zipcode: addressArrayOrganization.find(item => item?.Zipcode)?.Zipcode || '',
+                street: addressArrayOrganization.find(item => item?.Street)?.Street || ''
+            };
+
+            if (Object.keys(organizationInformation).length > 0) {
+                this.loadedOrganizationInformation.push(organizationInformation);
+            }
+
     
             const siteAasIds = await this.getBomChilds(companyAasId);
-            //console.log(siteAasIds);
+            console.log(siteAasIds);
     
             const siteSubmodelId = 'SiteInformation';
     
@@ -773,10 +800,10 @@ export const useGeneralStore = defineStore('general', {
 
                 const siteInformationBasyx = await this.getAllSubmodelElementValues(siteAasId, siteSubmodelId);
                 //console.log(siteInformationBasyx)
-                const addressArray = siteInformationBasyx.Address
+                const addressArray = siteInformationBasyx?.Address || [];
 
                 const siteIdShortPaths = {
-                    siteName: siteInformationBasyx.SiteName,
+                    siteName: siteInformationBasyx?.SiteName || '',
                     country: addressArray.find(item => item.NationalCode)?.NationalCode || '',
                     city: addressArray.find(item => item.CityTown)?.CityTown || '',
                     zipcode: addressArray.find(item => item.Zipcode)?.Zipcode || '',
@@ -1012,10 +1039,10 @@ export const useGeneralStore = defineStore('general', {
 
             const buildingInformationBasyx = await this.getAllSubmodelElementValues(buildingAasId, buildingSubmodelId);
 
-            const addressArrayBuilding = buildingInformationBasyx.Address
+            const addressArrayBuilding = buildingInformationBasyx?.Address || [];
 
             const buildingInformation = {
-                buildingName: buildingInformationBasyx.BuildingName,
+                buildingName: buildingInformationBasyx?.BuildingName || '',
                 country: addressArrayBuilding.find(item => item.NationalCode)?.NationalCode || '',
                 city: addressArrayBuilding.find(item => item.CityTown)?.CityTown || '',
                 zipcode: addressArrayBuilding.find(item => item.Zipcode)?.Zipcode || '',

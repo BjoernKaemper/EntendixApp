@@ -8,10 +8,6 @@
     },
     "resolveJsonModule": true
   },
-
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  // Remove the referenced project that disables emit
+  "references": []
 }

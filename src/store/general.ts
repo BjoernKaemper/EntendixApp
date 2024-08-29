@@ -28,6 +28,26 @@ export const useGeneralStore = defineStore('general', {
       chartTypes: []
       //buildingIdsArray: []
       // all these properties will have their type inferred automatically
+    } as {
+      userId: string,
+      // Dev
+      //aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
+      // Live
+      aasServer: string,
+      homeLoading: boolean,
+      loading: boolean,
+      loadedSiteInformation: any[],
+      loadedSiteInformationWithBuildings: any[],
+      //loadedSiteBuildingInformation: [],
+      loadedOrganizationInformation: any[],
+      loadedBacnetInformationNotAssigned: any[],
+      loadedBacnetInformationAssigned: any[],
+      loadedGatewayInformation: any[],
+      loadingBacnetAdding: boolean,
+      buildingsList: any[],
+      buildingsIdsWithSelectName: any,
+      loadedBuildingWithGrundfunktion: any[],
+      chartTypes: any[]
     }
   },
   actions: {
@@ -361,7 +381,7 @@ export const useGeneralStore = defineStore('general', {
         let parent = await this.getBomParent(aasId)
 
         if (parent.length === 0) {
-          const [aasIdShort, nameplateSeInformationAll] = await Promise.all([
+          const [aasIdShort, nameplateSeInformationAll]: any[] = await Promise.all([
             this.getAasIdShortByIdentifier(aasId),
             this.getSeValue(aasId, digitalNameplate, digitalNameplateIdShortPaths)
           ])
@@ -380,7 +400,7 @@ export const useGeneralStore = defineStore('general', {
 
           allBacnetGatewayInformationNotAssigned.push(bacnetNameplateInformation)
         } else {
-          const [aasIdShort, buildingAasId, nameplateSeInformation, basyxNlpResult] =
+          const [aasIdShort, buildingAasId, nameplateSeInformation, basyxNlpResult]: any[] =
             await Promise.all([
               this.getAasIdShortByIdentifier(aasId),
               this.getBomParent(parent[0]),
@@ -419,7 +439,7 @@ export const useGeneralStore = defineStore('general', {
       this.loadedBacnetInformationAssigned = allBacnetGatewayInformationAssigned
 
       const buildingsIdsWithSelectName = {}
-      const buildingsList = []
+      const buildingsList: any[] = []
 
       this.loadedSiteInformationWithBuildings.forEach((siteInformation) => {
         const siteName = siteInformation['siteName']
@@ -561,7 +581,7 @@ export const useGeneralStore = defineStore('general', {
     },
     */
 
-    async loadBacnetInformationForGateway(aasBacnetIds) {
+    async loadBacnetInformationForGateway(aasBacnetIds: any) {
       const digitalNameplateIdShortPaths = {
         manufacturerName: ['ManufacturerName'],
         serialNumber: ['SerialNumber']
@@ -594,7 +614,7 @@ export const useGeneralStore = defineStore('general', {
       return allBacnetInformation
     },
 
-    async loadGatewayInformation(aasGatewayIds) {
+    async loadGatewayInformation(aasGatewayIds: any) {
       this.loadedGatewayInformation = []
 
       const monkiGatewayIdShortPaths = {
@@ -745,7 +765,7 @@ export const useGeneralStore = defineStore('general', {
             }
             */
 
-        const organizationInformationBasyx = await this.getAllSubmodelElementValues(
+        const organizationInformationBasyx: any = await this.getAllSubmodelElementValues(
           companyAasId,
           companySubmodelId
         )

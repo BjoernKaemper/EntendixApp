@@ -9007,7 +9007,7 @@ vue-google-autocomplete@^1.1.4:
   resolved "https://registry.npmjs.org/vue-google-autocomplete/-/vue-google-autocomplete-1.1.4.tgz"
   integrity sha512-a1aRG+F0A8crf/RnWW1EXxA/aaFh/Qpu6GSxOjfpWPNgvReNttYgAcwft1I+XvULuNjFc6YNciv/tHUHxxt0Qg==
 
-vue-router@^4.0.0:
+vue-router@^4.1.6:
   version "4.1.6"
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.1.6.tgz"
   integrity sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==
@@ -9023,7 +9023,7 @@ vue-tsc@^2.1.2:
     "@vue/language-core" "2.1.2"
     semver "^7.5.4"
 
-"vue@^2.6.0 || ^3.2.0", "vue@^2.6.14 || ^3.2.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.3.0, vue@>=2, vue@3.4.27:
+"vue@^2.6.0 || ^3.2.0", "vue@^2.6.14 || ^3.2.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.47, vue@^3.3.0, vue@>=2, vue@3.4.27:
   version "3.4.27"
   resolved "https://registry.npmjs.org/vue/-/vue-3.4.27.tgz"
   integrity sha512-8s/56uK6r01r1icG/aEOHqyMVxd1bkYcSe9j8HcKtr/xTOFWvnzIVTehNW+5Yt89f+DLBe4A569pnZLS5HzAMA==

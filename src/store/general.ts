@@ -31,7 +31,7 @@ export const useGeneralStore = defineStore('general', {
     }
   },
   actions: {
-    async createAas(semanticIdType, aasIdShort) {
+    async createAas(semanticIdType: any, aasIdShort: any) {
       let aasId = ''
       try {
         const createAas = 'aasServices/createAasByAasType'
@@ -50,10 +50,10 @@ export const useGeneralStore = defineStore('general', {
     },
 
     async addSubmodelElements(
-      companyAasId,
-      submodelIdShort,
-      semanticIdSubmodel,
-      submodelElementValues
+      companyAasId: any,
+      submodelIdShort: any,
+      semanticIdSubmodel: any,
+      submodelElementValues: any,
     ) {
       try {
         const updateSubmodel = 'submodelServices/addSubmodelElements'
@@ -123,7 +123,7 @@ export const useGeneralStore = defineStore('general', {
     },
     */
 
-    async getSemanticIdAas(aasId) {
+    async getSemanticIdAas(aasId: any) {
       const path = 'aasServices/getAasSemanticIdByIdentifier'
       const url = this.aasServer + path
       let semanticId = []
@@ -139,7 +139,7 @@ export const useGeneralStore = defineStore('general', {
       return semanticId
     },
 
-    async addHasPart(parentId, partId) {
+    async addHasPart(parentId: any, partId: any) {
       const bom = 'submodelServices/bom/addHasPartElement'
       const urlBom = this.aasServer + bom
       try {
@@ -154,7 +154,7 @@ export const useGeneralStore = defineStore('general', {
       }
     },
 
-    async getBomChilds(aasId) {
+    async getBomChilds(aasId: any) {
       const bomChilds = 'submodelServices/bom/getChilds'
       const urlBomChilds = this.aasServer + bomChilds
       let childAasIds = []
@@ -168,7 +168,7 @@ export const useGeneralStore = defineStore('general', {
                 // 'status' property exists in the object
                 childAasIds = []
             */
-        if (response.data.body == []) {
+        if (response.data.body.length === 0) {
           childAasIds = []
         } else {
           //console.log(response.data.body)
@@ -179,7 +179,7 @@ export const useGeneralStore = defineStore('general', {
       }
       return childAasIds
     },
-    async getBomParent(aasId) {
+    async getBomParent(aasId: any) {
       const bomParent = 'submodelServices/bom/getParents'
       const urlBomParent = this.aasServer + bomParent
       let parentAasId = []
@@ -199,7 +199,7 @@ export const useGeneralStore = defineStore('general', {
       }
       return parentAasId
     },
-    async getAasByType(semanticId) {
+    async getAasByType(semanticId: any) {
       const getAasByType = 'aasServices/getAllAasIdentifierByAasType'
       const url = this.aasServer + getAasByType
       let aasIds = ''
@@ -217,7 +217,7 @@ export const useGeneralStore = defineStore('general', {
 
       return aasIds
     },
-    async getSubmodel(aasId, submodelId) {
+    async getSubmodel(aasId: any, submodelId: any) {
       const getSubmodel = 'submodelServices/getSubmodelByIdShort'
       const url = this.aasServer + getSubmodel
       let responseBasyx = ''
@@ -236,10 +236,10 @@ export const useGeneralStore = defineStore('general', {
       return responseBasyx
     },
 
-    async getSeValue(aasId, submodelIdShort, idShortPaths) {
+    async getSeValue(aasId: any, submodelIdShort: any, idShortPaths: any) {
       const getSeValue = 'submodelServices/getSubmodelElementValue'
       const urlSeValue = this.aasServer + getSeValue
-      const allSeInformations = {}
+      const allSeInformations: { [key: string]: any } = {}
 
       const requests = Object.entries(idShortPaths).map(async ([element, value]) => {
         try {
@@ -263,7 +263,7 @@ export const useGeneralStore = defineStore('general', {
       return allSeInformations
     },
 
-    async getAllSubmodelElementValues(aasId, submodelIdShort) {
+    async getAllSubmodelElementValues(aasId: any, submodelIdShort: any) {
       const getValues = 'submodelServices/getAllSubmodelElementValues'
       const urlValues = this.aasServer + getValues
       //console.log(aasId)
@@ -286,7 +286,7 @@ export const useGeneralStore = defineStore('general', {
       return values
     },
 
-    async editSeValue(aasId, submodelIdShort, idShort, value) {
+    async editSeValue(aasId: any, submodelIdShort: any, idShort: any, value: any) {
       const editSeValue = 'submodelServices/editSubmodelElementValue'
       const url = this.aasServer + editSeValue
 
@@ -320,7 +320,7 @@ export const useGeneralStore = defineStore('general', {
         }
       }
     },
-    async getAasIdShortByIdentifier(aasId) {
+    async getAasIdShortByIdentifier(aasId: any) {
       const getAasIdShort = 'aasServices/getAasIdShortByIdentifier'
       const url = this.aasServer + getAasIdShort
       let idShort = ''
@@ -345,7 +345,7 @@ export const useGeneralStore = defineStore('general', {
     },
     */
 
-    async loadBacnetInformation(aasBacnetIds) {
+    async loadBacnetInformation(aasBacnetIds: any) {
       this.loadedBacnetInformationNotAssigned = []
       this.loadedBacnetInformationAssigned = []
       const digitalNameplateIdShortPaths = {
@@ -354,10 +354,10 @@ export const useGeneralStore = defineStore('general', {
       }
       const digitalNameplate = 'Nameplate'
 
-      let allBacnetGatewayInformationNotAssigned = []
-      let allBacnetGatewayInformationAssigned = []
+      let allBacnetGatewayInformationNotAssigned: any[] = []
+      let allBacnetGatewayInformationAssigned: any[] = []
 
-      const bacnetInfoPromises = aasBacnetIds.map(async (aasId) => {
+      const bacnetInfoPromises = aasBacnetIds.map(async (aasId: any) => {
         let parent = await this.getBomParent(aasId)
 
         if (parent.length === 0) {

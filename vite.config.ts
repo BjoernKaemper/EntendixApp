@@ -41,18 +41,8 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      /*
-      '/api': {
-        target: 'http://localhost:8001',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-      */
      '/awsBackend': {
         target: 'https://svmiv1rcci.execute-api.us-east-1.amazonaws.com',
-        //target: 'http://backend1-env.eba-qq8c86yd.us-east-1.elasticbeanstalk.com',
-        //target: 'https://d38a0dijjqq41h.cloudfront.net',
-        //target: 'http://139.6.140.49:5000/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/awsBackend/, ''),
      }, 

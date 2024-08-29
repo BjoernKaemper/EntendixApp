@@ -27,21 +27,7 @@
               rounded="xl"
               variant="text"
               color="rgba(255, 74, 28, 1.0)"
-              @click="
-                currentPlace = ''
-                generalStore.addBuildingInformation(
-                  site,
-                  buildingName,
-                  country,
-                  city,
-                  street,
-                  streetNumber,
-                  lat,
-                  lng,
-                  zipcode
-                )
-                buildingName = ''
-              "
+              @click="setBuildsindInformationToStore()"
               >Submit
             </v-btn>
           </v-container>
@@ -102,7 +88,22 @@ export default {
           this.zipCode = place[key]
         }
       }
-      //console.log(this.country, this.city, this.street, this.streetNumber, this.zipCode, this.lat, this.lng)
+    },
+
+    setBuildsindInformationToStore() {
+      this.currentPlace = ''
+      generalStore.addBuildingInformation(
+        this.site,
+        this.buildingName,
+        this.country,
+        this.city,
+        this.street,
+        this.streetNumber,
+        this.lat,
+        this.lng,
+        this.zipcode
+      )
+      this.buildingName = ''
     }
   }
 }

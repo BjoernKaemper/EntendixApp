@@ -38,20 +38,7 @@
               rounded="xl"
               variant="text"
               color="rgba(255, 74, 28, 1.0)"
-              @click="
-                currentPlace = ''
-                generalStore.addSiteInformation(
-                  country,
-                  city,
-                  street,
-                  streetNumber,
-                  lat,
-                  lng,
-                  zipCode,
-                  siteName
-                )
-                siteName = ''
-              "
+              @click="setPlaceInformationToStore()"
               >Submit
             </v-btn>
           </v-container>
@@ -90,12 +77,6 @@ export default {
     }
   },
   methods: {
-    /*
-    onPlaceChanged(place) {
-      console.log('Selected place:', place);
-      // Handle the selected place data as needed
-    },
-    */
     setPlace(place) {
       this.currentPlace = place['route'] + ', ' + place['locality'] + ', ' + place['country']
       // console.log(place)
@@ -119,44 +100,22 @@ export default {
           this.zipCode = place[key]
         }
       }
-      //console.log(this.street)
-      // this.lat = this.currentPlace.geometry.location.lat()
-      // this.lng = this.currentPlace.geometry.location.lng()
-      // console.log(this.country, this.city, this.street, this.streetNumber, this.zipCode, this.lat, this.lng)
+    },
+
+    setPlaceInformationToStore() {
+      this.currentPlace = ''
+      generalStore.addSiteInformation(
+        this.country,
+        this.city,
+        this.street,
+        this.streetNumber,
+        this.lat,
+        this.lng,
+        this.zipCode,
+        this.siteName
+      )
+      this.siteName = ''
     }
-    /*
-    addMarker () {
-      if (this.currentPlace) {
-        console.log(this.currentPlace.geometry.location.lat())
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
-        }
-        this.markers.push({ position: marker })
-        this.places.push(this.currentPlace)
-        this.center = marker
-        this.currentPlace = null
-        console.log(marker)
-        console.log(this.markers[0])
-      }
-    },
-    */
-    /*
-    showForm () {
-      console.log(this.site)
-      console.log(this.siteAlreadyFilled.length)
-      const card = document.getElementById('cardSiteForm')
-      // const alreadyFilled = this.siteAlreadyFilled[0].value
-      console.log('jiiii')
-      if (this.site <= this.siteAlreadyFilled.length) {
-        console.log('nicht null')
-        card.classList.add('d-none')
-      } else {
-        console.log('hääääää')
-        // card.classList.add('d-none')
-      }
-    },
-    */
   }
 }
 </script>

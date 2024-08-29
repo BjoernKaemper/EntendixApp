@@ -1,16 +1,15 @@
 <template>
-  <v-breadcrumbs 
-    :items="breadcrumbs"
-    class="custom-breadcrumbs">
+  <v-breadcrumbs :items="breadcrumbs" class="custom-breadcrumbs">
     <template v-slot:title="{ item }">
       <v-chip
         v-if="item.title !== ''"
         variant="outlined"
-        style="background-color: whitesmoke;"
+        style="background-color: whitesmoke"
         color="highlight"
         link
         size="large"
-        class="custom-chip">
+        class="custom-chip"
+      >
         {{ item.title }}
       </v-chip>
     </template>
@@ -24,23 +23,23 @@
 export default {
   data() {
     return {
-      breadcrumbs: [],
-    };
+      breadcrumbs: []
+    }
   },
   watch: {
-    $route: 'generateBreadcrumbs',
+    $route: 'generateBreadcrumbs'
   },
   created() {
-    this.generateBreadcrumbs();
+    this.generateBreadcrumbs()
   },
   methods: {
-  generateBreadcrumbs() {
-    //console.log(this.$route)
-    //console.log(this.$route.meta.breadcrumb(this.$route))
-    this.breadcrumbs = this.$route.meta.breadcrumb(this.$route)
-  },
-  },
-};
+    generateBreadcrumbs() {
+      //console.log(this.$route)
+      //console.log(this.$route.meta.breadcrumb(this.$route))
+      this.breadcrumbs = this.$route.meta.breadcrumb(this.$route)
+    }
+  }
+}
 </script>
 
 <style>
@@ -66,5 +65,3 @@ export default {
   padding-right: 0px !important;
 }
 </style>
-  
-  

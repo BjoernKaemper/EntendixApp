@@ -1,65 +1,73 @@
 <template>
-    <div>
-      <!-- <v-card-title id="card-title">Unternehmensinformationen</v-card-title> -->
-      <v-form>
-        <v-container :style="{ width: '80%' }">
-            <v-text-field
-            id="organization-name"
-            v-model="form.organizationName"
-            label="Name der Organisation"
-            required
-            ></v-text-field>
+  <div>
+    <!-- <v-card-title id="card-title">Unternehmensinformationen</v-card-title> -->
+    <v-form>
+      <v-container :style="{ width: '80%' }">
+        <v-text-field
+          id="organization-name"
+          v-model="form.organizationName"
+          label="Name der Organisation"
+          required
+        ></v-text-field>
 
-            <v-select :items="countries" v-model="form.country" label= 'Sitz des Unternehmens (Land)' />
+        <v-select :items="countries" v-model="form.country" label="Sitz des Unternehmens (Land)" />
 
-            <v-text-field
-            id="city"
-            v-model="form.city"
-            label="Sitz des Unternehmens (Stadt)"
-            required
-            ></v-text-field>
+        <v-text-field
+          id="city"
+          v-model="form.city"
+          label="Sitz des Unternehmens (Stadt)"
+          required
+        ></v-text-field>
 
-            <v-text-field
-            id="zipcode"
-            v-model.number="form.zipcode"
-            label="Sitz des Unternehmens (Postleitzahl)"
-            required
-            ></v-text-field>
+        <v-text-field
+          id="zipcode"
+          v-model.number="form.zipcode"
+          label="Sitz des Unternehmens (Postleitzahl)"
+          required
+        ></v-text-field>
 
-            <v-text-field
-            id="street"
-            v-model="form.street"
-            label="Straße und Hausnummer"
-            required
-            ></v-text-field>
+        <v-text-field
+          id="street"
+          v-model="form.street"
+          label="Straße und Hausnummer"
+          required
+        ></v-text-field>
 
-            <!-- <v-text-field
+        <!-- <v-text-field
             id="number-sites"
             v-model.number="form.numberOfSites"
             label="Anzahl der Standorte, die integriert werden"
             required
             type = number
             ></v-text-field> -->
-            <v-btn 
-            @click="generalStore.addOrganizationInformation(
-              form.organizationName, 
-              form.country, 
+        <v-btn
+          @click="
+            generalStore.addOrganizationInformation(
+              form.organizationName,
+              form.country,
               form.city,
               form.zipcode,
               form.street
-            )"
-            class="ma-3" variant="outlined" color="warning">Submit</v-btn>
-            <v-btn @click="onReset" class="max-3" type="reset" variant="outlined" color="warning">Reset</v-btn>
-        </v-container>
-      </v-form>
-    </div>
+            )
+          "
+          class="ma-3"
+          variant="outlined"
+          color="warning"
+          >Submit</v-btn
+        >
+        <v-btn @click="onReset" class="max-3" type="reset" variant="outlined" color="warning"
+          >Reset</v-btn
+        >
+      </v-container>
+    </v-form>
+  </div>
 </template>
 
 <script>
-import { useGeneralStore } from "@/store/general"
+import { useGeneralStore } from '@/store/general'
 
 export default {
-  data () {
+  data() {
     return {
       form: {
         organizationName: '',
@@ -73,10 +81,10 @@ export default {
     }
   },
   computed: {
-    generalStore () {
+    generalStore() {
       return useGeneralStore()
     },
-    organization () {
+    organization() {
       const loadedOrganizationInformation = this.generalStore.loadedOrganizationInformation
       console.log(loadedOrganizationInformation)
       return loadedOrganizationInformation
@@ -116,7 +124,7 @@ export default {
     },
    */
   methods: {
-    onReset () {
+    onReset() {
       // event.preventDefault()
       // Reset our form values
       this.form.organizationName = ''
@@ -131,34 +139,34 @@ export default {
 </script>
 <style scoped>
 .card {
-    margin-inline: 20%;
-    margin-bottom: 30px;
-    margin-top: 20px;
+  margin-inline: 20%;
+  margin-bottom: 30px;
+  margin-top: 20px;
 }
 .form-group {
-    text-align: left;
-    margin-bottom: 20px;
-    margin-right: 10%;
-    margin-left: 10%;
+  text-align: left;
+  margin-bottom: 20px;
+  margin-right: 10%;
+  margin-left: 10%;
 }
 .btn {
-    margin-left: 20px;
-    margin-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 #displayOrganizationInformation {
-    margin-inline: 10%;
+  margin-inline: 10%;
 }
 #header {
-    color: #0a322b;
-    font-size: 1em
+  color: #0a322b;
+  font-size: 1em;
 }
 #body {
-    font-size: 18px;
-    padding-top: 5px;
-    padding-bottom: 5px
+  font-size: 18px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .row {
-    border-bottom-style: solid;
-    border-color: #F2F2F2;
+  border-bottom-style: solid;
+  border-color: #f2f2f2;
 }
 </style>

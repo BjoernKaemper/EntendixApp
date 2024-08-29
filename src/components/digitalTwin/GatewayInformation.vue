@@ -1,55 +1,62 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col cols="6" v-for="gateway in generalStore.loadedBacnetInformationNotAssigned" :key="gateway['AAS ID']">
-                <v-card max-width="70%" class="mx-auto my-8" elevation="1" rounded="0">
-                    <v-toolbar color="success">
-                        <v-toolbar-title class="text-center" style="color: white; font-size: 20px">
-                            {{ gateway['AAS ID Short'][0] }}
-                        </v-toolbar-title>
-                    </v-toolbar>
-                    <v-divider></v-divider>
-                    <v-expansion-panels>
-                        <v-expansion-panel elevation="0" rounded="0">
-                            <v-expansion-panel-title style="font-size: 18px;" >Digital Nameplate</v-expansion-panel-title>
-                            <v-expansion-panel-text>
-                                <div v-for="(property, key) in gateway['Digital Nameplate']" :key="key">
-                                    <v-row>
-                                        <v-col cols="6">
-                                            {{ key }}:
-                                        </v-col>
-                                        <v-col cols ="6">
-                                            {{ property }}
-                                        </v-col>
-                                    </v-row>
-                                </div>
-                            </v-expansion-panel-text>
-                        </v-expansion-panel>
-                    </v-expansion-panels>
-                    <BuildingForGateway :buildingsList="buildingsList" :gateway="gateway" :buildingsIdsWithSelectName="buildingsIdsWithSelectName"/>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
+  <v-container>
+    <v-row>
+      <v-col
+        cols="6"
+        v-for="gateway in generalStore.loadedBacnetInformationNotAssigned"
+        :key="gateway['AAS ID']"
+      >
+        <v-card max-width="70%" class="mx-auto my-8" elevation="1" rounded="0">
+          <v-toolbar color="success">
+            <v-toolbar-title class="text-center" style="color: white; font-size: 20px">
+              {{ gateway['AAS ID Short'][0] }}
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-divider></v-divider>
+          <v-expansion-panels>
+            <v-expansion-panel elevation="0" rounded="0">
+              <v-expansion-panel-title style="font-size: 18px"
+                >Digital Nameplate</v-expansion-panel-title
+              >
+              <v-expansion-panel-text>
+                <div v-for="(property, key) in gateway['Digital Nameplate']" :key="key">
+                  <v-row>
+                    <v-col cols="6"> {{ key }}: </v-col>
+                    <v-col cols="6">
+                      {{ property }}
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <BuildingForGateway
+            :buildingsList="buildingsList"
+            :gateway="gateway"
+            :buildingsIdsWithSelectName="buildingsIdsWithSelectName"
+          />
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-
 <script>
-import { useGeneralStore } from "@/store/general"
-import BuildingForGateway from "@/components/digitalTwin/BuildingForGateway.vue"
+import { useGeneralStore } from '@/store/general'
+import BuildingForGateway from '@/components/digitalTwin/BuildingForGateway.vue'
 
-export default{
-    data () {
-      return {
-        // choosedBuilding: '',
-        // buildingsIdsWithSelectName: {},
-        // buildingsList: []
-      }
-    },    
-    components: {
-        BuildingForGateway
-    },
-    /*
+export default {
+  data() {
+    return {
+      // choosedBuilding: '',
+      // buildingsIdsWithSelectName: {},
+      // buildingsList: []
+    }
+  },
+  components: {
+    BuildingForGateway
+  },
+  /*
     mounted() {
         this.loadBuildingInformation()
     },
@@ -84,19 +91,19 @@ export default{
         }
     },
     */
-    computed: {
-        generalStore () {
-            return useGeneralStore()
-        },
-        buildingsIdsWithSelectName () {
-            const buildingsIds = this.generalStore.buildingsIdsWithSelectName
-            return buildingsIds
-        },
-        buildingsList () {
-            const buildingsList = this.generalStore.buildingsList
-            return buildingsList
-        }
-        /*
+  computed: {
+    generalStore() {
+      return useGeneralStore()
+    },
+    buildingsIdsWithSelectName() {
+      const buildingsIds = this.generalStore.buildingsIdsWithSelectName
+      return buildingsIds
+    },
+    buildingsList() {
+      const buildingsList = this.generalStore.buildingsList
+      return buildingsList
+    }
+    /*
         buildingsList () {
             //let buildingsIdsWithSelectName = {}
             let buildingsList = []
@@ -121,7 +128,6 @@ export default{
             return buildingsList
         }
         */
-    }
+  }
 }
-
 </script>

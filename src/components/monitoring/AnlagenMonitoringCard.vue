@@ -1,31 +1,29 @@
 <template>
-    <div>
-        <v-card
-        style="border-radius: 20px; background-color: whitesmoke;"
-        variant="outlined" class="pa-4 mt-6">
-        <v-data-table
-            style="background-color: whitesmoke;"
-            v-model:page="page"
-            :headers="headers"
-            :items="this.elements"
-            density="comfortable"
-            hover
-            :items-per-page="itemsPerPage"
-        >
-
-            <template v-slot:item.actions="{ item }">
-                <ShowChart :datenpunkt="item"/>
-            </template>
-            <template v-slot:bottom>
-                <div class="text-center pt-2">
-                    <v-pagination
-                        v-model="page"
-                        :length="pageCount"
-                    ></v-pagination>
-                </div>
-            </template>
-        </v-data-table>
-        <!--
+  <div>
+    <v-card
+      style="border-radius: 20px; background-color: whitesmoke"
+      variant="outlined"
+      class="pa-4 mt-6"
+    >
+      <v-data-table
+        style="background-color: whitesmoke"
+        v-model:page="page"
+        :headers="headers"
+        :items="this.elements"
+        density="comfortable"
+        hover
+        :items-per-page="itemsPerPage"
+      >
+        <template v-slot:item.actions="{ item }">
+          <ShowChart :datenpunkt="item" />
+        </template>
+        <template v-slot:bottom>
+          <div class="text-center pt-2">
+            <v-pagination v-model="page" :length="pageCount"></v-pagination>
+          </div>
+        </template>
+      </v-data-table>
+      <!--
             <div v-for="element in this.elements" :key="element.idShort">
                 <v-card 
                     variant="outlined"
@@ -67,36 +65,37 @@
                 <div v-if='element.chartType === "LineChart"'>{{ element.chartType }}</div>
             </div>
         -->
-        </v-card>
-    </div>
+    </v-card>
+  </div>
 </template>
 
 <script>
-import LineChart from "@/components/general/charts/LineChart.vue"
-import { useMonitoringStore } from "@/store/monitoring"
-import ShowChart from "@/components/monitoring/ShowChart.vue"
+import LineChart from '@/components/general/charts/LineChart.vue'
+import { useMonitoringStore } from '@/store/monitoring'
+import ShowChart from '@/components/monitoring/ShowChart.vue'
 
 export default {
-    data() {
-        return {
-            headers: [
-                //{title: 'Name', key: 'datenpunktLabel'},
-                {title: 'Name', key: 'datenpunktLabel'},
-                {title: 'Present Value', key: 'presentValue'},
-                {title: 'Chart', align: 'center', key: 'actions', sortable: false }
-            ], 
-        }
-    },
-    props: {
-        elements: Object
-    },
-    components: {
-        LineChart, ShowChart
-    },
-    computed: {
-        monitoringStore () {
-            return useMonitoringStore()
-        }
-    },
+  data() {
+    return {
+      headers: [
+        //{title: 'Name', key: 'datenpunktLabel'},
+        { title: 'Name', key: 'datenpunktLabel' },
+        { title: 'Present Value', key: 'presentValue' },
+        { title: 'Chart', align: 'center', key: 'actions', sortable: false }
+      ]
+    }
+  },
+  props: {
+    elements: Object
+  },
+  components: {
+    LineChart,
+    ShowChart
+  },
+  computed: {
+    monitoringStore() {
+      return useMonitoringStore()
+    }
+  }
 }
 </script>

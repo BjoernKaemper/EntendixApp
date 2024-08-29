@@ -1,68 +1,75 @@
 <template>
   <div>
     <div v-for="site in generalStore.loadedSiteInformation" :key="site">
-      <ShowSiteInformation :site="site"/>
+      <ShowSiteInformation :site="site" />
     </div>
     <v-divider :thickness="3"></v-divider>
     <v-container :style="{ width: '90%' }">
       <v-card-actions class="d-flex justify-center align-center">
         <v-btn
-            rounded="xl"
-            variant="text" color="rgba(255, 74, 28, 1.0)"
-            text
-            @click="show = !show"
+          rounded="xl"
+          variant="text"
+          color="rgba(255, 74, 28, 1.0)"
+          text
+          @click="show = !show"
         >
-            Hinzufügen Liegenschaft
+          Hinzufügen Liegenschaft
         </v-btn>
-
-    </v-card-actions>
-    <v-expand-transition>
-      <div v-show="show">
-        <v-text-field 
-          v-model='siteName'
-          label="Name der Liegenschaft"
-          required
-        ></v-text-field>
-        <v-text-field 
+      </v-card-actions>
+      <v-expand-transition>
+        <div v-show="show">
+          <v-text-field v-model="siteName" label="Name der Liegenschaft" required></v-text-field>
+          <v-text-field
             id="map"
-            v-model='currentPlace'
+            v-model="currentPlace"
             label="Standort der Liegenschaft"
             required
           ></v-text-field>
-        <vue-google-autocomplete class="autocomplete-container" id="map" v-model="place" v-on:placechanged="setPlace"></vue-google-autocomplete>
-        <v-container class="d-flex justify-center align-center">
-          <v-btn class="max-3" type="reset" 
-            rounded="xl"
-            variant="text" color="rgba(255, 74, 28, 1.0)"
-            @click= "currentPlace = '';
-            generalStore.addSiteInformation(
-              country,
-              city,
-              street,
-              streetNumber,
-              lat,
-              lng,
-              zipCode,
-              siteName
-            );
-            siteName = ''">Submit
-          </v-btn>
-        </v-container>
-      </div>
-    </v-expand-transition>
+          <vue-google-autocomplete
+            class="autocomplete-container"
+            id="map"
+            v-model="place"
+            v-on:placechanged="setPlace"
+          ></vue-google-autocomplete>
+          <v-container class="d-flex justify-center align-center">
+            <v-btn
+              class="max-3"
+              type="reset"
+              rounded="xl"
+              variant="text"
+              color="rgba(255, 74, 28, 1.0)"
+              @click="
+                currentPlace = ''
+                generalStore.addSiteInformation(
+                  country,
+                  city,
+                  street,
+                  streetNumber,
+                  lat,
+                  lng,
+                  zipCode,
+                  siteName
+                )
+                siteName = ''
+              "
+              >Submit
+            </v-btn>
+          </v-container>
+        </div>
+      </v-expand-transition>
     </v-container>
   </div>
 </template>
 
 <script>
 import ShowSiteInformation from '@/components/general/ShowSiteInformation.vue'
-import VueGoogleAutocomplete from "vue-google-autocomplete";
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
 //import { GMapAutocomplete } from 'vue3-google-maps'
 
-import { useGeneralStore } from "@/store/general"
+import { useGeneralStore } from '@/store/general'
 
 export default {
-  data () {
+  data() {
     return {
       show: false,
       siteName: '',
@@ -73,14 +80,14 @@ export default {
       streetNumber: '',
       lat: '',
       lng: '',
-      zipCode: '',
+      zipCode: ''
     }
   },
   components: { ShowSiteInformation, VueGoogleAutocomplete },
   computed: {
-    generalStore () {
+    generalStore() {
       return useGeneralStore()
-    },
+    }
   },
   methods: {
     /*
@@ -89,8 +96,8 @@ export default {
       // Handle the selected place data as needed
     },
     */
-    setPlace (place) {
-      this.currentPlace = place['route'] + ', ' + place['locality'] + ', '  + place['country']
+    setPlace(place) {
+      this.currentPlace = place['route'] + ', ' + place['locality'] + ', ' + place['country']
       // console.log(place)
       // this.currentPlace = place
       // const location = place
@@ -116,7 +123,7 @@ export default {
       // this.lat = this.currentPlace.geometry.location.lat()
       // this.lng = this.currentPlace.geometry.location.lng()
       // console.log(this.country, this.city, this.street, this.streetNumber, this.zipCode, this.lat, this.lng)
-    },
+    }
     /*
     addMarker () {
       if (this.currentPlace) {
@@ -155,28 +162,28 @@ export default {
 </script>
 <style scoped>
 .card {
-    margin-inline: 20%;
-    margin-bottom: 30px;
-    margin-top: 20px;
+  margin-inline: 20%;
+  margin-bottom: 30px;
+  margin-top: 20px;
 }
 .form-group {
-    text-align: left;
-    margin-bottom: 20px;
-    margin-right: 10%;
-    margin-left: 10%;
+  text-align: left;
+  margin-bottom: 20px;
+  margin-right: 10%;
+  margin-left: 10%;
 }
 .btn {
-    margin-left: 20px;
-    margin-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 #header {
-    color: #0a322b;
-    font-size: 1em
+  color: #0a322b;
+  font-size: 1em;
 }
 #body {
-    font-size: 18px;
-    padding-top: 5px;
-    padding-bottom: 5px
+  font-size: 18px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .autocomplete-container {
   position: relative;
@@ -194,7 +201,7 @@ export default {
   border-style: none;
 }
 #addSiteTitle {
-  color: #3B5249;
+  color: #3b5249;
   font-weight: 300;
   margin-top: 8px;
   margin-bottom: 12px;

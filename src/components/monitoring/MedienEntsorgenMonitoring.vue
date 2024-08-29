@@ -1,80 +1,104 @@
 <template>
-    <div>
-      <v-container v-if="monitoringStore.loadingMonitoringComponent === true">
-        <v-progress-linear
-        indeterminate
-        color="success"
-        ></v-progress-linear>
+  <div>
+    <v-container v-if="monitoringStore.loadingMonitoringComponent === true">
+      <v-progress-linear indeterminate color="success"></v-progress-linear>
+    </v-container>
+    <v-container
+      v-else-if="monitoringStore.loadingMonitoringComponent === false"
+      class="my-4 justify-center align-center"
+    >
+      <v-container>
+        <KpisMonitoringAnlage grundfunktion="Medien" />
       </v-container>
-      <v-container v-else-if="monitoringStore.loadingMonitoringComponent === false" class="my-4 justify-center align-center">
-        <v-container>
-          <KpisMonitoringAnlage grundfunktion="Medien"/>
-        </v-container>
-        <v-container>
-          <LineChartAll :allElements="this.allSes" zweiteFunktion="MedienEntsorgen"/> 
-        </v-container>
-        <v-container>
-          <v-row>
-            <v-col cols="4">
-              <v-card
+      <v-container>
+        <LineChartAll :allElements="this.allSes" zweiteFunktion="MedienEntsorgen" />
+      </v-container>
+      <v-container>
+        <v-row>
+          <v-col cols="4">
+            <v-card
               style="border-radius: 20px; background-color: whitesmoke"
-              variant="outlined" class="pa-4 anlagen-card">
+              variant="outlined"
+              class="pa-4 anlagen-card"
+            >
               <v-card-text class="center-content">
-                  <v-container class="mx-0 mx-lg-10 mx-xl-16 px-lg-10 px-xl-16">
-                    <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71.84 41.42">
-                        <g id="Ebene_1-2" data-name="Ebene_1">
-                            <g id="_1699756229424" data-name=" 1699756229424">
-                            <path class="cls-1" d="M23.48,35.95c5.93-5.38,11.18-5.38,15.75,0"/>
-                            <path class="cls-1" d="M54.97,35.89c-5.93,5.38-11.18,5.38-15.75,0"/>
-                            <path class="cls-1" d="M54.95,35.95c5.93-5.38,11.18-5.38,15.75,0"/>
-                            </g>
-                            <path class="cls-2" d="M1.92,2.58H24.73V19.73H1.92c-.78,0-1.42-.64-1.42-1.42V4c0-.78,.64-1.42,1.42-1.42Z"/>
-                            <path class="cls-3" d="M27.84,0h0c.93,0,1.69,1.58,1.69,3.52v15.5c0,1.95-.76,3.52-1.69,3.52h0c-.93,0-1.69-1.58-1.69-3.52V3.52c0-1.95,.76-3.52,1.69-3.52Z"/>
-                            <g id="_1699756236576" data-name=" 1699756236576">
-                            <path class="cls-2" d="M39.22,31.64c4.78,4.96,8.43,6.24,10.97,3.84,.64-18.47-5.3-27.59-17.81-27.37"/>
-                            <path class="cls-2" d="M32.37,8.11l-.09,5.71c7.09,2.86,9.4,8.8,6.94,17.82"/>
-                            </g>
-                            <path class="cls-4" d="M32.37,8.11l-.09,5.71c7.09,2.86,9.4,8.8,6.94,17.82,4.78,4.96,8.43,6.24,10.97,3.84,.64-18.47-5.3-27.59-17.81-27.37h0Z"/>
-                        </g>
-                      </svg>
-                  </v-container>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="8">
-              <v-card 
-              style="border-radius: 20px; background-color: whitesmoke"
-              variant="outlined" class="anlagen-card">
-                <v-tabs
-                  color="success"
-                >
-                  <v-tab v-for="komponente in this.allComponents" :key="komponente"
-                  @click="handleAreaClick(komponente)"
+                <v-container class="mx-0 mx-lg-10 mx-xl-16 px-lg-10 px-xl-16">
+                  <svg
+                    id="Ebene_1"
+                    data-name="Ebene 1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 71.84 41.42"
                   >
-                    {{ komponente }}
-                  </v-tab>
-                </v-tabs>
-              </v-card>
-              <AnlagenMonitoringCard :elements="this.komponenteZeigen"/>
-              <!--
+                    <g id="Ebene_1-2" data-name="Ebene_1">
+                      <g id="_1699756229424" data-name=" 1699756229424">
+                        <path class="cls-1" d="M23.48,35.95c5.93-5.38,11.18-5.38,15.75,0" />
+                        <path class="cls-1" d="M54.97,35.89c-5.93,5.38-11.18,5.38-15.75,0" />
+                        <path class="cls-1" d="M54.95,35.95c5.93-5.38,11.18-5.38,15.75,0" />
+                      </g>
+                      <path
+                        class="cls-2"
+                        d="M1.92,2.58H24.73V19.73H1.92c-.78,0-1.42-.64-1.42-1.42V4c0-.78,.64-1.42,1.42-1.42Z"
+                      />
+                      <path
+                        class="cls-3"
+                        d="M27.84,0h0c.93,0,1.69,1.58,1.69,3.52v15.5c0,1.95-.76,3.52-1.69,3.52h0c-.93,0-1.69-1.58-1.69-3.52V3.52c0-1.95,.76-3.52,1.69-3.52Z"
+                      />
+                      <g id="_1699756236576" data-name=" 1699756236576">
+                        <path
+                          class="cls-2"
+                          d="M39.22,31.64c4.78,4.96,8.43,6.24,10.97,3.84,.64-18.47-5.3-27.59-17.81-27.37"
+                        />
+                        <path
+                          class="cls-2"
+                          d="M32.37,8.11l-.09,5.71c7.09,2.86,9.4,8.8,6.94,17.82"
+                        />
+                      </g>
+                      <path
+                        class="cls-4"
+                        d="M32.37,8.11l-.09,5.71c7.09,2.86,9.4,8.8,6.94,17.82,4.78,4.96,8.43,6.24,10.97,3.84,.64-18.47-5.3-27.59-17.81-27.37h0Z"
+                      />
+                    </g>
+                  </svg>
+                </v-container>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="8">
+            <v-card
+              style="border-radius: 20px; background-color: whitesmoke"
+              variant="outlined"
+              class="anlagen-card"
+            >
+              <v-tabs color="success">
+                <v-tab
+                  v-for="komponente in this.allComponents"
+                  :key="komponente"
+                  @click="handleAreaClick(komponente)"
+                >
+                  {{ komponente }}
+                </v-tab>
+              </v-tabs>
+            </v-card>
+            <AnlagenMonitoringCard :elements="this.komponenteZeigen" />
+            <!--
               <div v-for="element in this.komponenteZeigen" :key="element.idShort">
                 <AnlagenMonitoringCard :elements="element"/>
               </div>
             -->
-            </v-col>
-          </v-row>
-        </v-container>
+          </v-col>
+        </v-row>
       </v-container>
-    </div>
+    </v-container>
+  </div>
 </template>
 
 <script>
-import { useGeneralStore } from "@/store/general"
-import { useMonitoringStore } from "@/store/monitoring"
-import { useDigitalTwinsStore } from "@/store/digitaltwins"
-import AnlagenMonitoringCard from "@/components/monitoring/AnlagenMonitoringCard.vue"
-import LineChartAll from "@/components/monitoring/LineChartAll.vue"
-import KpisMonitoringAnlage from "@/components/monitoring/KpisMonitoringAnlage.vue"
+import { useGeneralStore } from '@/store/general'
+import { useMonitoringStore } from '@/store/monitoring'
+import { useDigitalTwinsStore } from '@/store/digitaltwins'
+import AnlagenMonitoringCard from '@/components/monitoring/AnlagenMonitoringCard.vue'
+import LineChartAll from '@/components/monitoring/LineChartAll.vue'
+import KpisMonitoringAnlage from '@/components/monitoring/KpisMonitoringAnlage.vue'
 
 export default {
   data() {
@@ -97,10 +121,12 @@ export default {
       komponenteZeigen: [],
       allComponents: null,
       allSes: null
-    };
+    }
   },
   components: {
-    AnlagenMonitoringCard, KpisMonitoringAnlage, LineChartAll
+    AnlagenMonitoringCard,
+    KpisMonitoringAnlage,
+    LineChartAll
   },
   props: {
     anlage: Object
@@ -109,13 +135,13 @@ export default {
     this.getSubmodelInformations()
   },
   computed: {
-    generalStore () {
+    generalStore() {
       return useGeneralStore()
-    }, 
-    monitoringStore () {
+    },
+    monitoringStore() {
       return useMonitoringStore()
     },
-    digitalTwinStore () {
+    digitalTwinStore() {
       return useDigitalTwinsStore()
     }
   },
@@ -125,7 +151,7 @@ export default {
       let allSE = []
       let allComponents = []
       for (const komponente in this.anlage) {
-        const { aasId, semanticId } = this.anlage[komponente];
+        const { aasId, semanticId } = this.anlage[komponente]
         //let component = components[komponente]
         //console.log(component)
         //const semanticId = anlage.semanticId
@@ -138,47 +164,53 @@ export default {
         let elements = []
 
         for (let element in allElements) {
-            const dataContent = allElements[element]
-            let elementData = {
-                'aasId': aasId,
-                'submodelName': submodelId,
-                'idShort': element,
-                'presentValue': dataContent[0].PresentValue,
-                //'name': dataContent[2].DataSource,
-                //'semanticId': element.semanticId.keys[0].value
-                'objectName': dataContent[2].DataSource[6].ObjectName,
-                'objectType': dataContent[2].DataSource[7].ObjectType,
-                'description': dataContent[2].DataSource[8].Description,
-                'grundfunktionLabel': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[0].LabelName,
-                'grundfunktionScore': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[1].LabelScore,
-                'zweiteEbeneLabel': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[0].LabelName,
-                'zweiteEbeneScore': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[1].LabelScore,
-                'komponenteLabel': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[0].LabelName,
-                'komponenteScore': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[1].LabelScore,
-                'datenpunktLabel': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[0].LabelName,
-                'datenpunktScore': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
-                'anlageLabel': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
-                'anlageScore': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
-            }
-            //console.log(elementData)
-            let value = this.monitoringStore.checkvalue(elementData.presentValue)
-            elementData.presentValue = value
-            elements.push(elementData)
+          const dataContent = allElements[element]
+          let elementData = {
+            aasId: aasId,
+            submodelName: submodelId,
+            idShort: element,
+            presentValue: dataContent[0].PresentValue,
+            //'name': dataContent[2].DataSource,
+            //'semanticId': element.semanticId.keys[0].value
+            objectName: dataContent[2].DataSource[6].ObjectName,
+            objectType: dataContent[2].DataSource[7].ObjectType,
+            description: dataContent[2].DataSource[8].Description,
+            grundfunktionLabel:
+              dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[0].LabelName,
+            grundfunktionScore:
+              dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[1].LabelScore,
+            zweiteEbeneLabel:
+              dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[0].LabelName,
+            zweiteEbeneScore:
+              dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[1].LabelScore,
+            komponenteLabel:
+              dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[0].LabelName,
+            komponenteScore:
+              dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[1].LabelScore,
+            datenpunktLabel:
+              dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[0].LabelName,
+            datenpunktScore:
+              dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
+            anlageLabel: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
+            anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore
+          }
+          //console.log(elementData)
+          let value = this.monitoringStore.checkvalue(elementData.presentValue)
+          elementData.presentValue = value
+          elements.push(elementData)
         }
 
         if (this.komponenteZeigen.length === 0) {
           this.komponenteZeigen = elements
         }
 
-        allSE.push(
-            {
-            'anlagenInformation': this.anlage[komponente],
-            'elements': elements
-            }
-        )
+        allSE.push({
+          anlagenInformation: this.anlage[komponente],
+          elements: elements
+        })
 
         this.allSes = allSE
-      /*
+        /*
       for (const komponente in this.anlage) {
         const { aasId, semanticId } = this.anlage[komponente];
         const submodelId = 'OperatingInformation';
@@ -214,33 +246,35 @@ export default {
         )
         this.allSes = allSE
         */
-    
+
         if (semanticId === 'https://th-koeln.de/gart/ComponentDrainageAAS/1/0') {
-          this.drainage = elements;
+          this.drainage = elements
           this.drainageEnthalten = true
           allComponents.push('Drainage')
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentGreaseSeparatorAAS/1/0') {
-          this.fettabscheider = elements;
+          this.fettabscheider = elements
           this.fettabscheiderEnthalten = true
           allComponents.push('Fettabscheider')
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentLiftstationAAS/1/0') {
-          this.hebeanlage = elements;
+          this.hebeanlage = elements
           this.hebeanlageEnthalten = true
           allComponents.push('Hebeanlage')
-        } else if (semanticId === 'https://th-koeln.de/gart/ComponentCondensateNeutralizationAAS/1/0') {
-          this.neutralisationKondensat = elements;
+        } else if (
+          semanticId === 'https://th-koeln.de/gart/ComponentCondensateNeutralizationAAS/1/0'
+        ) {
+          this.neutralisationKondensat = elements
           this.neutralisationKondensatEnthalten = true
           allComponents.push('Neutralisation Kondensat')
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentRainwaterPumpAAS/1/0') {
-          this.regenwasserpumpe = elements;
+          this.regenwasserpumpe = elements
           this.regenwasserpumpeEnthalten = true
           allComponents.push('Regenwasserpumpe')
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentWasteWaterPumpAAS/1/0') {
-          this.schmutzwasserpumpe = elements;
+          this.schmutzwasserpumpe = elements
           this.schmutzwasserpumpeEnthalten = true
           allComponents.push('Schmutzwasserpumpe')
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentToiletWasteWaterAAS/1/0') {
-          this.wcAbwasser = elements;
+          this.wcAbwasser = elements
           this.wcAbwasserEnthalten = true
           allComponents.push('WC Abwasser')
         }
@@ -249,7 +283,7 @@ export default {
       this.allComponents = allComponents
       await this.monitoringStore.setLoadingMonitoringComponent('false')
       //this.getCssInfos(allComponents)
-    },
+    }
     /*
     getCssInfos(allComponents) {
       for (let element in allComponents) {
@@ -297,42 +331,43 @@ export default {
       }
     },
     */
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
-
 .cls-1 {
-stroke: #372772;
-stroke-width: 3px;
+  stroke: #372772;
+  stroke-width: 3px;
 }
 
-.cls-1, .cls-2 {
-fill: none;
-stroke-miterlimit: 2.4;
+.cls-1,
+.cls-2 {
+  fill: none;
+  stroke-miterlimit: 2.4;
 }
 
 .cls-3 {
-fill: #ff4a1c;
+  fill: #ff4a1c;
 }
 
-.cls-3, .cls-4 {
-fill-rule: evenodd;
+.cls-3,
+.cls-4 {
+  fill-rule: evenodd;
 }
 
 .cls-2 {
-stroke: #2b2a29;
-stroke-width: 1px;
+  stroke: #2b2a29;
+  stroke-width: 1px;
 }
 
 .cls-4 {
-fill: #372772;
+  fill: #372772;
 }
 
-  .pointer {
-    cursor: pointer;
-  }
+.pointer {
+  cursor: pointer;
+}
 .anlagen-card {
   background-color: #ffffff;
 }

@@ -1,43 +1,31 @@
 <template>
-    <div>
-        <v-app-bar
-            id="top-header"
-            color="monitoring"
-            elevation="1"
-            >
-            
-            <!--v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>-->
-            <!-- <v-btn id="home-icon" icon @click="$router.push('/home')"></v-btn> -->
-            <v-toolbar-title
-                id="navbar-title" 
-                >
-                <v-btn plain @click="() => {}" to="/">
-                  <v-icon class="custom-svg-icon"></v-icon>
-                </v-btn>
-                </v-toolbar-title>           
-            <v-spacer></v-spacer>
-            <div v-for="solution in solutions" :key="solution.title">
-              <v-btn plain @click="() => {}" :to="solution.link" class="mr-2" exact>
-                {{ solution.title }}
-              </v-btn>
-            </div>
-            <!--
+  <div>
+    <v-app-bar id="top-header" color="monitoring" elevation="1">
+      <!--v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>-->
+      <!-- <v-btn id="home-icon" icon @click="$router.push('/home')"></v-btn> -->
+      <v-toolbar-title id="navbar-title">
+        <v-btn plain @click="() => {}" to="/">
+          <v-icon class="custom-svg-icon"></v-icon>
+        </v-btn>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <div v-for="solution in solutions" :key="solution.title">
+        <v-btn plain @click="() => {}" :to="solution.link" class="mr-2" exact>
+          {{ solution.title }}
+        </v-btn>
+      </div>
+      <!--
             <v-btn @click="auth.signOut">
                 Sign out
             </v-btn>
           -->
-          <v-tooltip text="Sign out">
-            <template v-slot:activator="{ props }">
-              <v-btn 
-                v-bind="props"
-                  plain
-                  icon="mdi-logout"
-                  @click="auth.signOut">
-              </v-btn>
-            </template>
-          </v-tooltip>
+      <v-tooltip text="Sign out">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" plain icon="mdi-logout" @click="auth.signOut"> </v-btn>
+        </template>
+      </v-tooltip>
 
-            <!-- <v-menu left bottom>
+      <!-- <v-menu left bottom>
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn icon v-bind="attrs" v-on="on">
                         <v-icon
@@ -50,8 +38,8 @@
                     <v-list-item v-else  to="/signin">Sign In</v-list-item>
                 </v-list>
             </v-menu> -->
-            </v-app-bar>
-            <!--
+    </v-app-bar>
+    <!--
             <v-navigation-drawer
               v-model="drawer"
               absolute
@@ -78,7 +66,7 @@
               </v-list>
             </v-navigation-drawer>
           -->
-    </div>
+  </div>
 </template>
 
 <script>
@@ -91,26 +79,26 @@ export default {
     group: null
   }),
   methods: {
-    onLogout () {
+    onLogout() {
       console.log('test')
       this.$store.dispatch('logout')
     }
   },
   computed: {
-    auth () {
+    auth() {
       const auth = useAuthenticator()
       return auth
     },
-    solutions () {
+    solutions() {
       const solutions = [
         //{ icon: '', title: 'Home', link: '/' },
         //{ icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
         { icon: '', title: 'Digital Twins', link: '/digitaltwins' },
-        { icon: '', title: 'Monitoring', link: '/monitoring' }, //vorher link:buildingperformance
+        { icon: '', title: 'Monitoring', link: '/monitoring' } //vorher link:buildingperformance
       ]
       return solutions
     },
-    appBarItems () {
+    appBarItems() {
       const appBar = [
         { icon: '', title: 'Home', link: '/home' },
         { icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
@@ -118,7 +106,7 @@ export default {
         { icon: '', title: 'Hinzufügen Standorte & Gebäude', link: '/register' }
       ]
       return appBar
-    },
+    }
     // menuItems () {
     //   let menuItems = [
     //     { icon: '', title: 'Home', link: '/' },

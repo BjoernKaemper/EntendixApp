@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <v-container>
-            <!--<h2 style="color: #3B5249;">Monitoring - Gebäude {{ $route.params.buildingid  }}</h2>
+  <div>
+    <v-container>
+      <!--<h2 style="color: #3B5249;">Monitoring - Gebäude {{ $route.params.buildingid  }}</h2>
             <h3 style="color: #3B5249;">{{ $route.params.grundfunktion }}</h3>-->
-            <!--
+      <!--
             <v-row v-for="(funktion, key) in monitoringStore.aasZweiteGrundfunktion" :key="key">
                 <v-col cols = '12'>
                     <v-card max-width="70%" class="mx-auto my-8" elevation="1" rounded="0">
@@ -37,46 +37,62 @@
                 </v-col>
             </v-row>
         -->
-            <v-row>
-                <v-col>
-                    <v-card class="mx-auto mb-12" 
-                    max-width="70%"
-                    variant="outlined"
-                    style="border-radius: 20px; background-color: whitesmoke">
-                        <v-tabs
-                            color="success"
-                            grow
-                            center-active
-                        >
-                            <v-tab v-for="(funktion, key) in monitoringStore.aasZweiteGrundfunktion" :key="key"
-                            @click="showFunktion(funktion)"
-                            >
-                                <v-card-title class="text-center" style="font-size: 18px">
-                                {{ funktion.idShort }}
-                                </v-card-title>
-                            </v-tab>
-                        </v-tabs>
-                        <!--<div v-for="(anlage, key) in this.funktionZweiteEbene.anlagenAas" :key="key">-->
-                        <v-row class="my-1" align="center" v-for="(anlage, key) in this.funktionZweiteEbene.anlagenAas" :key="key">
-                            <v-col cols="4"></v-col>
-                            <v-col align="center" cols="4" class="py-1">
-                                <v-btn
-                                    
-                                    rounded="xl"
-                                    style="background-color: whitesmoke; min-width: 180px"
-                                    variant="text" 
-                                    color="highlight"
-                                                                            
-                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion_Anlage', 
-                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, zweiteFunktion:funktion, anlage:anlage.idShort}}), 
-                                    monitoringStore.aasAnlage = anlage, monitoringStore.zweiteGrundfunktionForMonitoring = this.funktionZweiteEbene.semanticId">
-                                    {{ anlage.idShort }}
-                                
-                                </v-btn> 
-                            </v-col>
-                            <v-col cols="4"></v-col>
-                        </v-row>
-                            <!--
+      <v-row>
+        <v-col>
+          <v-card
+            class="mx-auto mb-12"
+            max-width="70%"
+            variant="outlined"
+            style="border-radius: 20px; background-color: whitesmoke"
+          >
+            <v-tabs color="success" grow center-active>
+              <v-tab
+                v-for="(funktion, key) in monitoringStore.aasZweiteGrundfunktion"
+                :key="key"
+                @click="showFunktion(funktion)"
+              >
+                <v-card-title class="text-center" style="font-size: 18px">
+                  {{ funktion.idShort }}
+                </v-card-title>
+              </v-tab>
+            </v-tabs>
+            <!--<div v-for="(anlage, key) in this.funktionZweiteEbene.anlagenAas" :key="key">-->
+            <v-row
+              class="my-1"
+              align="center"
+              v-for="(anlage, key) in this.funktionZweiteEbene.anlagenAas"
+              :key="key"
+            >
+              <v-col cols="4"></v-col>
+              <v-col align="center" cols="4" class="py-1">
+                <v-btn
+                  rounded="xl"
+                  style="background-color: whitesmoke; min-width: 180px"
+                  variant="text"
+                  color="highlight"
+                  @click="
+                    $router.push({
+                      name: 'Monitoring_Site_Building_Grundfunktion_Anlage',
+                      params: {
+                        siteid: $route.params.siteid,
+                        buildingid: $route.params.buildingid,
+                        buildingaasid: $route.params.buildingaasid,
+                        grundfunktion: $route.params.grundfunktion,
+                        zweiteFunktion: funktion,
+                        anlage: anlage.idShort
+                      }
+                    }),
+                      (monitoringStore.aasAnlage = anlage),
+                      (monitoringStore.zweiteGrundfunktionForMonitoring =
+                        this.funktionZweiteEbene.semanticId)
+                  "
+                >
+                  {{ anlage.idShort }}
+                </v-btn>
+              </v-col>
+              <v-col cols="4"></v-col>
+            </v-row>
+            <!--
                             
                             <v-expansion-panels>
                                 <v-expansion-panel rounded="0">
@@ -122,41 +138,41 @@
                             </v-expansion-panels>
                         </div>
                     -->
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-    </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
-import { useMonitoringStore } from "@/store/monitoring"
-import GaugeChart from "@/components/general/charts/GaugeChart.vue"
+import { useMonitoringStore } from '@/store/monitoring'
+import GaugeChart from '@/components/general/charts/GaugeChart.vue'
 export default {
-    data() {
-        return {
-            funktionZweiteEbene: {}
-        }
-    },
-    components: {
-        GaugeChart
-    },
-    mounted() {
-        let firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
-
-        this.funktionZweiteEbene = firstFunktion
-
-        console.log(firstFunktion)
-    },
-    computed: {
-        monitoringStore () {
-            return useMonitoringStore()
-        }
-    },
-    methods: {
-        showFunktion(funktion) {
-            this.funktionZweiteEbene = funktion
-        }
+  data() {
+    return {
+      funktionZweiteEbene: {}
     }
+  },
+  components: {
+    GaugeChart
+  },
+  mounted() {
+    let firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
+
+    this.funktionZweiteEbene = firstFunktion
+
+    console.log(firstFunktion)
+  },
+  computed: {
+    monitoringStore() {
+      return useMonitoringStore()
+    }
+  },
+  methods: {
+    showFunktion(funktion) {
+      this.funktionZweiteEbene = funktion
+    }
+  }
 }
 </script>

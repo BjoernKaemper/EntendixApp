@@ -1,21 +1,14 @@
 <template>
   <v-container :style="{ width: '80%' }">
-    <v-table style="background-color: whitesmoke;">
+    <v-table style="background-color: whitesmoke">
       <thead>
         <tr>
-          <th class="text-left">
-            Name
-          </th>
-          <th class="text-left">
-            Wert
-          </th>
+          <th class="text-left">Name</th>
+          <th class="text-left">Wert</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="key, value in siteInformation"
-          :key="key"
-        >
+        <tr v-for="(key, value) in siteInformation" :key="key">
           <td class="text-left">{{ value }}</td>
           <td class="text-left">{{ key }}</td>
         </tr>
@@ -30,28 +23,28 @@ export default {
     site: Array
   },
   computed: {
-    siteInformation () {
+    siteInformation() {
       const siteInformation = {}
 
       for (let element in this.site) {
         if (element === 'country') {
           siteInformation['Land'] = this.site[element]
         } else if (element === 'city') {
-          siteInformation['Stadt'] =  this.site[element]
+          siteInformation['Stadt'] = this.site[element]
         } else if (element === 'street') {
           siteInformation['Straße'] = this.site[element]
         }
       }
       const desiredOrder = ['Land', 'Stadt', 'Straße']
       const sortedSiteInformation = Object.fromEntries(
-        Object.entries(siteInformation)
-          .sort(([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB))
-      );
+        Object.entries(siteInformation).sort(
+          ([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB)
+        )
+      )
 
       //console.log(siteInformation)
       return sortedSiteInformation
     }
   }
 }
-
 </script>

@@ -1,91 +1,105 @@
 <template>
-    <div>
-      <v-container v-if="monitoringStore.loadingMonitoringComponent === true">
-        <v-progress-linear
-        indeterminate
-        color="success"
-        ></v-progress-linear>
+  <div>
+    <v-container v-if="monitoringStore.loadingMonitoringComponent === true">
+      <v-progress-linear indeterminate color="success"></v-progress-linear>
+    </v-container>
+    <v-container
+      v-else-if="monitoringStore.loadingMonitoringComponent === false"
+      class="my-4 justify-center align-center"
+    >
+      <v-container>
+        <KpisMonitoringAnlage grundfunktion="Wärme" />
       </v-container>
-      <v-container v-else-if="monitoringStore.loadingMonitoringComponent === false" class="my-4 justify-center align-center">
-        <v-container>
-          <KpisMonitoringAnlage grundfunktion="Wärme"/>
-        </v-container>
-        <v-container>
-          <LineChartAll :allElements="this.allSes" zweiteFunktion="WärmeBeziehen"/> 
-        </v-container>
-        <v-container>
-          <v-row>
-            <v-col cols="4">
-              <v-card
-                style="border-radius: 20px; background-color: whitesmoke"
-                variant="outlined" class="pa-4 anlagen-card">
-                <v-card-text class="center-content">
-                  <v-container class="mx-0 mx-lg-10 mx-xl-16 px-lg-10 px-xl-16">
-                    <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216.56 220.26">
-            
-                            <g id="Ebene_1-2" data-name="Ebene_1">
-                                <line class="cls-2" x1="6.6" y1="170.08" x2="6.6" y2="64.33"/>
-                                <line class="cls-2" x1="148.34" y1="170.08" x2="148.34" y2="64.33"/>
-                                <polygon class="cls-2" points="5.39 64.33 77.11 2.64 148.83 64.33 5.39 64.33"/>
-                                <path class="cls-3" d="M216.18,200.38c-89.54,6.09-131.92-9.66-127.13-47.25"/>
-                                <path class="cls-3" d="M216.4,216.55c-105.03,8.17-154.73-12.97-149.11-63.43"/>
-                                <line class="cls-2" x1="4.81" y1="168.32" x2="55.03" y2="168.32"/>
-                                <line class="cls-2" x1="100.1" y1="170.08" x2="150.32" y2="170.08"/>
-                                <g id="_1700032706960" data-name=" 1700032706960">
-                                <path class="cls-1" d="M47.09,92.55c5.37,5.93,5.37,11.18,0,15.75"/>
-                                <path class="cls-1" d="M47.16,124.04c-5.37-5.93-5.37-11.18,0-15.75"/>
-                                <path class="cls-1" d="M47.09,124.02c5.37,5.93,5.37,11.18,0,15.75"/>
-                                </g>
-                                <g id="_1700032705952" data-name=" 1700032705952">
-                                <path class="cls-1" d="M75.44,92.55c5.37,5.93,5.37,11.18,0,15.75"/>
-                                <path class="cls-1" d="M75.5,124.04c-5.37-5.93-5.37-11.18,0-15.75"/>
-                                <path class="cls-1" d="M75.44,124.02c5.37,5.93,5.37,11.18,0,15.75"/>
-                                </g>
-                                <g id="_1700032708880" data-name=" 1700032708880">
-                                <path class="cls-1" d="M103.78,92.55c5.37,5.93,5.37,11.18,0,15.75"/>
-                                <path class="cls-1" d="M103.85,124.04c-5.37-5.93-5.37-11.18,0-15.75"/>
-                                <path class="cls-1" d="M103.78,124.02c5.37,5.93,5.37,11.18,0,15.75"/>
-                                </g>
-                            </g>
-                      </svg>
-                  </v-container>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="8">
-              <v-card 
+      <v-container>
+        <LineChartAll :allElements="this.allSes" zweiteFunktion="WärmeBeziehen" />
+      </v-container>
+      <v-container>
+        <v-row>
+          <v-col cols="4">
+            <v-card
               style="border-radius: 20px; background-color: whitesmoke"
-              variant="outlined" class="anlagen-card">
-                <v-tabs
-                  color="success"
-                >
-                  <v-tab v-for="komponente in this.allComponents" :key="komponente"
-                  @click="handleAreaClick(komponente)"
+              variant="outlined"
+              class="pa-4 anlagen-card"
+            >
+              <v-card-text class="center-content">
+                <v-container class="mx-0 mx-lg-10 mx-xl-16 px-lg-10 px-xl-16">
+                  <svg
+                    id="Ebene_1"
+                    data-name="Ebene 1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 216.56 220.26"
                   >
-                    {{ komponente }}
-                  </v-tab>
-                </v-tabs>
-              </v-card>
-              <AnlagenMonitoringCard :elements="this.komponenteZeigen"/>
-              <!--
+                    <g id="Ebene_1-2" data-name="Ebene_1">
+                      <line class="cls-2" x1="6.6" y1="170.08" x2="6.6" y2="64.33" />
+                      <line class="cls-2" x1="148.34" y1="170.08" x2="148.34" y2="64.33" />
+                      <polygon
+                        class="cls-2"
+                        points="5.39 64.33 77.11 2.64 148.83 64.33 5.39 64.33"
+                      />
+                      <path class="cls-3" d="M216.18,200.38c-89.54,6.09-131.92-9.66-127.13-47.25" />
+                      <path
+                        class="cls-3"
+                        d="M216.4,216.55c-105.03,8.17-154.73-12.97-149.11-63.43"
+                      />
+                      <line class="cls-2" x1="4.81" y1="168.32" x2="55.03" y2="168.32" />
+                      <line class="cls-2" x1="100.1" y1="170.08" x2="150.32" y2="170.08" />
+                      <g id="_1700032706960" data-name=" 1700032706960">
+                        <path class="cls-1" d="M47.09,92.55c5.37,5.93,5.37,11.18,0,15.75" />
+                        <path class="cls-1" d="M47.16,124.04c-5.37-5.93-5.37-11.18,0-15.75" />
+                        <path class="cls-1" d="M47.09,124.02c5.37,5.93,5.37,11.18,0,15.75" />
+                      </g>
+                      <g id="_1700032705952" data-name=" 1700032705952">
+                        <path class="cls-1" d="M75.44,92.55c5.37,5.93,5.37,11.18,0,15.75" />
+                        <path class="cls-1" d="M75.5,124.04c-5.37-5.93-5.37-11.18,0-15.75" />
+                        <path class="cls-1" d="M75.44,124.02c5.37,5.93,5.37,11.18,0,15.75" />
+                      </g>
+                      <g id="_1700032708880" data-name=" 1700032708880">
+                        <path class="cls-1" d="M103.78,92.55c5.37,5.93,5.37,11.18,0,15.75" />
+                        <path class="cls-1" d="M103.85,124.04c-5.37-5.93-5.37-11.18,0-15.75" />
+                        <path class="cls-1" d="M103.78,124.02c5.37,5.93,5.37,11.18,0,15.75" />
+                      </g>
+                    </g>
+                  </svg>
+                </v-container>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="8">
+            <v-card
+              style="border-radius: 20px; background-color: whitesmoke"
+              variant="outlined"
+              class="anlagen-card"
+            >
+              <v-tabs color="success">
+                <v-tab
+                  v-for="komponente in this.allComponents"
+                  :key="komponente"
+                  @click="handleAreaClick(komponente)"
+                >
+                  {{ komponente }}
+                </v-tab>
+              </v-tabs>
+            </v-card>
+            <AnlagenMonitoringCard :elements="this.komponenteZeigen" />
+            <!--
               <div v-for="element in this.komponenteZeigen" :key="element.idShort">
                 <AnlagenMonitoringCard :elements="element"/>
               </div>
             -->
-            </v-col>
-          </v-row>
-        </v-container>
+          </v-col>
+        </v-row>
       </v-container>
-    </div>
+    </v-container>
+  </div>
 </template>
 
 <script>
-import { useGeneralStore } from "@/store/general"
-import { useMonitoringStore } from "@/store/monitoring"
-import { useDigitalTwinsStore } from "@/store/digitaltwins"
-import AnlagenMonitoringCard from "@/components/monitoring/AnlagenMonitoringCard.vue"
-import LineChartAll from "@/components/monitoring/LineChartAll.vue"
-import KpisMonitoringAnlage from "@/components/monitoring/KpisMonitoringAnlage.vue"
+import { useGeneralStore } from '@/store/general'
+import { useMonitoringStore } from '@/store/monitoring'
+import { useDigitalTwinsStore } from '@/store/digitaltwins'
+import AnlagenMonitoringCard from '@/components/monitoring/AnlagenMonitoringCard.vue'
+import LineChartAll from '@/components/monitoring/LineChartAll.vue'
+import KpisMonitoringAnlage from '@/components/monitoring/KpisMonitoringAnlage.vue'
 
 export default {
   data() {
@@ -96,10 +110,12 @@ export default {
       komponenteZeigen: [],
       allComponents: null,
       allSes: null
-    };
+    }
   },
   components: {
-    AnlagenMonitoringCard, KpisMonitoringAnlage, LineChartAll
+    AnlagenMonitoringCard,
+    KpisMonitoringAnlage,
+    LineChartAll
   },
   props: {
     anlage: Object
@@ -108,13 +124,13 @@ export default {
     this.getSubmodelInformations()
   },
   computed: {
-    generalStore () {
+    generalStore() {
       return useGeneralStore()
-    }, 
-    monitoringStore () {
+    },
+    monitoringStore() {
       return useMonitoringStore()
     },
-    digitalTwinStore () {
+    digitalTwinStore() {
       return useDigitalTwinsStore()
     }
   },
@@ -124,7 +140,7 @@ export default {
       let allSE = []
       let allComponents = []
       for (const komponente in this.anlage) {
-        const { aasId, semanticId } = this.anlage[komponente];
+        const { aasId, semanticId } = this.anlage[komponente]
         //let component = components[komponente]
         //console.log(component)
         //const semanticId = anlage.semanticId
@@ -137,47 +153,53 @@ export default {
         let elements = []
 
         for (let element in allElements) {
-            const dataContent = allElements[element]
-            let elementData = {
-                'aasId': aasId,
-                'submodelName': submodelId,
-                'idShort': element,
-                'presentValue': dataContent[0].PresentValue,
-                //'name': dataContent[2].DataSource,
-                //'semanticId': element.semanticId.keys[0].value
-                'objectName': dataContent[2].DataSource[6].ObjectName,
-                'objectType': dataContent[2].DataSource[7].ObjectType,
-                'description': dataContent[2].DataSource[8].Description,
-                'grundfunktionLabel': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[0].LabelName,
-                'grundfunktionScore': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[1].LabelScore,
-                'zweiteEbeneLabel': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[0].LabelName,
-                'zweiteEbeneScore': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[1].LabelScore,
-                'komponenteLabel': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[0].LabelName,
-                'komponenteScore': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[1].LabelScore,
-                'datenpunktLabel': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[0].LabelName,
-                'datenpunktScore': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
-                'anlageLabel': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
-                'anlageScore': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
-            }
-            //console.log(elementData)
-            let value = this.monitoringStore.checkvalue(elementData.presentValue)
-            elementData.presentValue = value
-            elements.push(elementData)
+          const dataContent = allElements[element]
+          let elementData = {
+            aasId: aasId,
+            submodelName: submodelId,
+            idShort: element,
+            presentValue: dataContent[0].PresentValue,
+            //'name': dataContent[2].DataSource,
+            //'semanticId': element.semanticId.keys[0].value
+            objectName: dataContent[2].DataSource[6].ObjectName,
+            objectType: dataContent[2].DataSource[7].ObjectType,
+            description: dataContent[2].DataSource[8].Description,
+            grundfunktionLabel:
+              dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[0].LabelName,
+            grundfunktionScore:
+              dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[1].LabelScore,
+            zweiteEbeneLabel:
+              dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[0].LabelName,
+            zweiteEbeneScore:
+              dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[1].LabelScore,
+            komponenteLabel:
+              dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[0].LabelName,
+            komponenteScore:
+              dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[1].LabelScore,
+            datenpunktLabel:
+              dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[0].LabelName,
+            datenpunktScore:
+              dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
+            anlageLabel: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
+            anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore
+          }
+          //console.log(elementData)
+          let value = this.monitoringStore.checkvalue(elementData.presentValue)
+          elementData.presentValue = value
+          elements.push(elementData)
         }
 
         if (this.komponenteZeigen.length === 0) {
           this.komponenteZeigen = elements
         }
 
-        allSE.push(
-            {
-            'anlagenInformation': this.anlage[komponente],
-            'elements': elements
-            }
-        )
+        allSE.push({
+          anlagenInformation: this.anlage[komponente],
+          elements: elements
+        })
 
         this.allSes = allSE
-      /*
+        /*
       for (const komponente in this.anlage) {
         const { aasId, semanticId } = this.anlage[komponente];
         const submodelId = 'OperatingInformation';
@@ -214,9 +236,9 @@ export default {
         this.allSes = allSE
         */
         //console.log(this.allSes)
-    
+
         if (semanticId === 'https://th-koeln.de/gart/ComponentDistrictHeatingAAS/1/0') {
-          this.fernwärme = elements;
+          this.fernwärme = elements
           this.fernwärmeEnthalten = true
           allComponents.push('Fernwärme')
         }
@@ -224,7 +246,7 @@ export default {
       this.allComponents = allComponents
       await this.monitoringStore.setLoadingMonitoringComponent('false')
       //this.getCssInfos(allComponents)
-    },
+    }
     /*
     getCssInfos(allComponents) {
       for (let element in allComponents) {
@@ -272,28 +294,29 @@ export default {
       }
     },
     */
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
-  
 .cls-1 {
-stroke: #ff4a1c;
+  stroke: #ff4a1c;
 }
 
-.cls-1, .cls-2, .cls-3 {
-fill: none;
-stroke-miterlimit: 10;
-stroke-width: 4px;
+.cls-1,
+.cls-2,
+.cls-3 {
+  fill: none;
+  stroke-miterlimit: 10;
+  stroke-width: 4px;
 }
 
 .cls-2 {
-stroke: #2b2a29;
+  stroke: #2b2a29;
 }
 
 .cls-3 {
-stroke: #372772;
+  stroke: #372772;
 }
 
 .pointer {
@@ -309,5 +332,4 @@ stroke: #372772;
   text-align: center; /* Optional: If you want to center-align text within v-card-text */
   height: 100%; /* Optional: Set a specific height if needed */
 }
-
 </style>

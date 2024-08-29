@@ -1,256 +1,290 @@
 <template>
-    <div>
-        <v-container class="ma-0">
-            <v-row>
-                <v-col cols="4">
-                    <BuildingCardVisualization :grundfunktionId="this.$route.params.grundfunktion"/>
-                </v-col>
-                <v-col cols="8">
-                    <!--
+  <div>
+    <v-container class="ma-0">
+      <v-row>
+        <v-col cols="4">
+          <BuildingCardVisualization :grundfunktionId="this.$route.params.grundfunktion" />
+        </v-col>
+        <v-col cols="8">
+          <!--
                     <v-chip variant="outlined" id="chipErkennung" size="large">
                         Wir haben folgendes erkannt:
                     </v-chip>
                 -->
-                    <v-row>
-                        <v-col cols="4" v-for="(funktion, key) in monitoringStore.aasZweiteGrundfunktion" :key="key">
-                            <v-card style="border-radius: 20px;" variant="outlined">
-                                <v-card-title class="title-center" style="font-size: 18px">
-                                    {{ funktion.idShort }}
-                                </v-card-title>
-                                <!--Hier muss noch was gemacht werden, damit die Anlagen den richtigen zweiten Funktionen zigeordnet werden-->
-                                <v-card-text class="custom-card-text">
-                                    <v-virtual-scroll id="virtualScroll" :items="funktion.anlagenAas" height="100">
-                                        <template v-slot:default="{ item }">
-                                            <div class="text-center">
-                                                <v-btn variant="text" size="small" @click="getAnlagenData(item, funktion)">
-                                                    {{ item.idShort }}
-                                                </v-btn>
-                                            </div>
-                                        </template>
-                                    </v-virtual-scroll>                                
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-container class="ma-0 pa-0">
-                            <div v-if="this.loadingAnlage === true">
-                            <v-progress-linear
-                            indeterminate
-                            color="success"
-                            ></v-progress-linear>
-                            </div>
-                        </v-container>
-                        <v-col>
-                            <v-card v-if="selectedAnlage !== null"
-                            style="border-radius: 20px;"
-                                variant="outlined" class="pa-4 mb-12 anlagen-card">
-                                <v-row>
-                                    <v-col cols="2"></v-col>
-                                    <v-col cols="8">
-                                        <v-card-title class="title-center-two" style="font-size: 18px">
-                                            {{ this.selectedAnlage }}
-                                        </v-card-title>
-                                    </v-col>
-                                    <v-col cols="2">
-                                        <v-btn
-                                            class="max-3 mb-4" 
-                                            rounded="xl"
-                                            style="background-color: whitesmoke;"
-                                            variant="outlined" 
-                                            color="highlight"
-                                            size="x-small"
-                                            @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion_Anlage', 
-                                            params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, anlage:anlage.idShort}}), 
-                                            monitoringStore.aasAnlage = this.anlage, monitoringStore.zweiteGrundfunktionForMonitoring = this.selectedZweiteFunktionForMonitoring">Monitoring
-                                        </v-btn>
-                                    </v-col>
-                                </v-row>
-                                <v-card-text>
-                                    <v-row>
-                                        <v-col cols="3" class="mt-3" style="font-size: 16px">
-                                            Komponenten: 
-                                        </v-col>
-                                        <v-col cols="9">
-                                            <v-btn v-for="(component, index) in this.allSes" :key="index"
-                                            :variant="activeButtonIndex === index ? 'outlined' : 'flat'"
-                                            id="component-button" size="small"
-                                            rounded class="ma-2" @click="showProperties(component.elements, component.anlagenInformation.idShort, index)">
-                                                {{ component.anlagenInformation.idShort }}
-                                            </v-btn>
-                                        </v-col>
-                                    </v-row>
-                                    <v-row>
-                                        <v-col>
-                                            <v-data-table v-if="this.selectedComponentElements !== null"
-                                                v-model:page="page"
-                                                :headers="headers"
-                                                :items="this.selectedComponentElements"
-                                                hover
-                                                :items-per-page="itemsPerPage"
-                                            >
-                                            <template v-slot:headers="{ columns }">
-                                                <tr style="background-color: rgba(232, 232, 232, 1)">
-                                                    <template v-for="column in columns" :key="column.key">
-                                                        <td>
-                                                            <span>{{ column.title }}</span>
-                                                        </td>
-                                                    </template>
-                                                </tr>
-                                            </template>
-                                            <template v-slot:item.actions="{ item }">
-                                                <EditBacnetPropertiesNew :datenpunkt="item"/>
-                                            </template>
+          <v-row>
+            <v-col
+              cols="4"
+              v-for="(funktion, key) in monitoringStore.aasZweiteGrundfunktion"
+              :key="key"
+            >
+              <v-card style="border-radius: 20px" variant="outlined">
+                <v-card-title class="title-center" style="font-size: 18px">
+                  {{ funktion.idShort }}
+                </v-card-title>
+                <!--Hier muss noch was gemacht werden, damit die Anlagen den richtigen zweiten Funktionen zigeordnet werden-->
+                <v-card-text class="custom-card-text">
+                  <v-virtual-scroll id="virtualScroll" :items="funktion.anlagenAas" height="100">
+                    <template v-slot:default="{ item }">
+                      <div class="text-center">
+                        <v-btn variant="text" size="small" @click="getAnlagenData(item, funktion)">
+                          {{ item.idShort }}
+                        </v-btn>
+                      </div>
+                    </template>
+                  </v-virtual-scroll>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-container class="ma-0 pa-0">
+              <div v-if="this.loadingAnlage === true">
+                <v-progress-linear indeterminate color="success"></v-progress-linear>
+              </div>
+            </v-container>
+            <v-col>
+              <v-card
+                v-if="selectedAnlage !== null"
+                style="border-radius: 20px"
+                variant="outlined"
+                class="pa-4 mb-12 anlagen-card"
+              >
+                <v-row>
+                  <v-col cols="2"></v-col>
+                  <v-col cols="8">
+                    <v-card-title class="title-center-two" style="font-size: 18px">
+                      {{ this.selectedAnlage }}
+                    </v-card-title>
+                  </v-col>
+                  <v-col cols="2">
+                    <v-btn
+                      class="max-3 mb-4"
+                      rounded="xl"
+                      style="background-color: whitesmoke"
+                      variant="outlined"
+                      color="highlight"
+                      size="x-small"
+                      @click="
+                        $router.push({
+                          name: 'Monitoring_Site_Building_Grundfunktion_Anlage',
+                          params: {
+                            siteid: $route.params.siteid,
+                            buildingid: $route.params.buildingid,
+                            buildingaasid: $route.params.buildingaasid,
+                            grundfunktion: $route.params.grundfunktion,
+                            anlage: anlage.idShort
+                          }
+                        }),
+                          (monitoringStore.aasAnlage = this.anlage),
+                          (monitoringStore.zweiteGrundfunktionForMonitoring =
+                            this.selectedZweiteFunktionForMonitoring)
+                      "
+                      >Monitoring
+                    </v-btn>
+                  </v-col>
+                </v-row>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="3" class="mt-3" style="font-size: 16px"> Komponenten: </v-col>
+                    <v-col cols="9">
+                      <v-btn
+                        v-for="(component, index) in this.allSes"
+                        :key="index"
+                        :variant="activeButtonIndex === index ? 'outlined' : 'flat'"
+                        id="component-button"
+                        size="small"
+                        rounded
+                        class="ma-2"
+                        @click="
+                          showProperties(
+                            component.elements,
+                            component.anlagenInformation.idShort,
+                            index
+                          )
+                        "
+                      >
+                        {{ component.anlagenInformation.idShort }}
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-data-table
+                        v-if="this.selectedComponentElements !== null"
+                        v-model:page="page"
+                        :headers="headers"
+                        :items="this.selectedComponentElements"
+                        hover
+                        :items-per-page="itemsPerPage"
+                      >
+                        <template v-slot:headers="{ columns }">
+                          <tr style="background-color: rgba(232, 232, 232, 1)">
+                            <template v-for="column in columns" :key="column.key">
+                              <td>
+                                <span>{{ column.title }}</span>
+                              </td>
+                            </template>
+                          </tr>
+                        </template>
+                        <template v-slot:item.actions="{ item }">
+                          <EditBacnetPropertiesNew :datenpunkt="item" />
+                        </template>
 
-                                            <template v-slot:bottom>
-                                                <div class="text-center pt-2">
-                                                    <v-pagination
-                                                        v-model="page"
-                                                        :length="pageCount"
-                                                    ></v-pagination>
-                                                </div>
-                                            </template>
-                                            </v-data-table>
-                                        </v-col>
-                                    </v-row>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                </v-col>
-            </v-row>
-        </v-container>
-    </div>
+                        <template v-slot:bottom>
+                          <div class="text-center pt-2">
+                            <v-pagination v-model="page" :length="pageCount"></v-pagination>
+                          </div>
+                        </template>
+                      </v-data-table>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
-import { useMonitoringStore } from "@/store/monitoring"
-import { useDigitalTwinsStore } from "@/store/digitaltwins"
-import EditBacnetPropertiesNew from "@/components/digitalTwin/EditBacnetPropertiesNew.vue"
-import BuildingCardVisualization from "@/components/digitalTwin/BuildingCardVisualization.vue"
-import { useGeneralStore } from "@/store/general"
+import { useMonitoringStore } from '@/store/monitoring'
+import { useDigitalTwinsStore } from '@/store/digitaltwins'
+import EditBacnetPropertiesNew from '@/components/digitalTwin/EditBacnetPropertiesNew.vue'
+import BuildingCardVisualization from '@/components/digitalTwin/BuildingCardVisualization.vue'
+import { useGeneralStore } from '@/store/general'
 
-export default{
-    data() {
-        return {
-            expanded: [],
-            page: 1,
-            itemsPerPage: 10,
-            dialog: false,
-            headers: [
-                {title: 'Name', key: 'datenpunktLabel'},
-                {title: 'Object Name', key: 'objectName'},
-                {title: 'Description', key: 'description'},
-                //{title: 'Object Type', key: 'objectType'},
-                {title: 'Edit', align: 'center', key: 'actions', sortable: false }
-            ],
-            funktionZweiteEbene: {},
-            siteId: '',
-            buildingId: '',
-            grundfunktionId: '',
-            grundfunktion: [],
-            zweiteGrundfunktion: [],
-            title: '',
-            allSes: null,
-            selectedAnlage: null,
-            selectedComponentElements: null,
-            selectedComponentIdShort: null,
-            activeButtonIndex: null,
-            loadingAnlage: false,
-            anlage: null,
-            selectedZweiteFunktionForMonitoring: ''
+export default {
+  data() {
+    return {
+      expanded: [],
+      page: 1,
+      itemsPerPage: 10,
+      dialog: false,
+      headers: [
+        { title: 'Name', key: 'datenpunktLabel' },
+        { title: 'Object Name', key: 'objectName' },
+        { title: 'Description', key: 'description' },
+        //{title: 'Object Type', key: 'objectType'},
+        { title: 'Edit', align: 'center', key: 'actions', sortable: false }
+      ],
+      funktionZweiteEbene: {},
+      siteId: '',
+      buildingId: '',
+      grundfunktionId: '',
+      grundfunktion: [],
+      zweiteGrundfunktion: [],
+      title: '',
+      allSes: null,
+      selectedAnlage: null,
+      selectedComponentElements: null,
+      selectedComponentIdShort: null,
+      activeButtonIndex: null,
+      loadingAnlage: false,
+      anlage: null,
+      selectedZweiteFunktionForMonitoring: ''
+    }
+  },
+  components: {
+    EditBacnetPropertiesNew,
+    BuildingCardVisualization
+  },
+  created() {
+    const site_id = this.$route.params.siteid
+    this.siteId = site_id
+    const building_id = this.$route.params.buildingid
+    this.buildingId = building_id
+    const grundfunktion_id = this.$route.params.grundfunktion
+    this.grundfunktionId = grundfunktion_id
+
+    // In zukunft die beiden const site_id und building_id verwenden und an den basyx
+    // aufrug übergeben. solange aber noch keine individuellen np_submodels ist das egal
+    // da die ID Test AAS ist
+    //this.getNlpSubmodel('TestAAS')
+    this.getZweiteGrundfunktion()
+  },
+  mounted() {
+    let firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
+    this.funktionZweiteEbene = firstFunktion
+  },
+  computed: {
+    digitalTwinStore() {
+      return useDigitalTwinsStore()
+    },
+    monitoringStore() {
+      return useMonitoringStore()
+    },
+    generalStore() {
+      return useGeneralStore()
+    },
+    pageCount() {
+      return Math.ceil(this.selectedComponentElements.length / this.itemsPerPage)
+    }
+  },
+  methods: {
+    showProperties(elements, componentIdShort, index) {
+      this.selectedComponentElements = elements
+      this.selectedComponentIdShort = componentIdShort
+      this.activeButtonIndex = index
+    },
+    async getAnlagenData(anlage, funktion) {
+      this.selectedZweiteFunktionForMonitoring = funktion.semanticId
+      this.activeButtonIndex = null
+      this.anlage = anlage
+      this.selectedComponentElements = null
+      this.selectedAnlage = null
+      this.loadingAnlage = true
+      let components = anlage.komponentenAas
+      let allSE = []
+      for (const komponente in components) {
+        let component = components[komponente]
+        const aasId = component.aasId
+        //console.log(component)
+        //const semanticId = anlage.semanticId
+        const submodelId = 'OperatingInformation'
+        //const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
+        //const submodelElements = submodel.submodelElements;
+        //console.log(submodelElements)
+        const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
+        //console.log(allElements)
+        let elements = []
+
+        for (let element in allElements) {
+          const dataContent = allElements[element]
+          let elementData = {
+            aasId: aasId,
+            submodelName: submodelId,
+            idShort: element,
+            //'name': dataContent[2].DataSource,
+            //'semanticId': element.semanticId.keys[0].value
+            objectName: dataContent[2].DataSource[6].ObjectName,
+            objectType: dataContent[2].DataSource[7].ObjectType,
+            description: dataContent[2].DataSource[8].Description,
+            grundfunktionLabel:
+              dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[0].LabelName,
+            grundfunktionScore:
+              dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[1].LabelScore,
+            zweiteEbeneLabel:
+              dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[0].LabelName,
+            zweiteEbeneScore:
+              dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[1].LabelScore,
+            komponenteLabel:
+              dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[0].LabelName,
+            komponenteScore:
+              dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[1].LabelScore,
+            datenpunktLabel:
+              dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[0].LabelName,
+            datenpunktScore:
+              dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
+            anlageLabel: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
+            anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore
+          }
+          //console.log(elementData)
+          elements.push(elementData)
         }
-    },
-    components: {
-        EditBacnetPropertiesNew, BuildingCardVisualization
-    },
-    created() {
-        const site_id = this.$route.params.siteid
-        this.siteId = site_id
-        const building_id = this.$route.params.buildingid
-        this.buildingId = building_id
-        const grundfunktion_id = this.$route.params.grundfunktion
-        this.grundfunktionId = grundfunktion_id
 
-        // In zukunft die beiden const site_id und building_id verwenden und an den basyx
-        // aufrug übergeben. solange aber noch keine individuellen np_submodels ist das egal
-        // da die ID Test AAS ist
-        //this.getNlpSubmodel('TestAAS')
-        this.getZweiteGrundfunktion()
-    },
-    mounted() {
-        let firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
-        this.funktionZweiteEbene = firstFunktion
-    },
-    computed: {
-        digitalTwinStore () {
-            return useDigitalTwinsStore()
-        },
-        monitoringStore () {
-            return useMonitoringStore()
-        },
-        generalStore () {
-            return useGeneralStore()
-        },
-        pageCount () {
-            return Math.ceil(this.selectedComponentElements.length / this.itemsPerPage)
-        },
-    },
-    methods: {
-        showProperties(elements, componentIdShort, index) {
-            this.selectedComponentElements = elements
-            this.selectedComponentIdShort = componentIdShort
-            this.activeButtonIndex = index
-        },
-        async getAnlagenData(anlage, funktion) {
-            this.selectedZweiteFunktionForMonitoring = funktion.semanticId
-            this.activeButtonIndex = null
-            this.anlage = anlage
-            this.selectedComponentElements = null
-            this.selectedAnlage = null
-            this.loadingAnlage = true
-            let components = anlage.komponentenAas
-            let allSE = []
-            for (const komponente in components) {
-                let component = components[komponente]
-                const aasId =  component.aasId
-                //console.log(component)
-                //const semanticId = anlage.semanticId
-                const submodelId = 'OperatingInformation'
-                //const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
-                //const submodelElements = submodel.submodelElements;
-                //console.log(submodelElements)
-                const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
-                //console.log(allElements)
-                let elements = []
-
-                for (let element in allElements) {
-                    const dataContent = allElements[element]
-                    let elementData = {
-                        'aasId': aasId,
-                        'submodelName': submodelId,
-                        'idShort': element,
-                        //'name': dataContent[2].DataSource,
-                        //'semanticId': element.semanticId.keys[0].value
-                        'objectName': dataContent[2].DataSource[6].ObjectName,
-                        'objectType': dataContent[2].DataSource[7].ObjectType,
-                        'description': dataContent[2].DataSource[8].Description,
-                        'grundfunktionLabel': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[0].LabelName,
-                        'grundfunktionScore': dataContent[2].DataSource[0].PredictionGrundfunktion[0].LabelResult[1].LabelScore,
-                        'zweiteEbeneLabel': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[0].LabelName,
-                        'zweiteEbeneScore': dataContent[2].DataSource[1].PredictionFunktionEbeneZwei[0].LabelResult[1].LabelScore,
-                        'komponenteLabel': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[0].LabelName,
-                        'komponenteScore': dataContent[2].DataSource[2].PredictionKomponente[0].LabelResult[1].LabelScore,
-                        'datenpunktLabel': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[0].LabelName,
-                        'datenpunktScore': dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
-                        'anlageLabel': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
-                        'anlageScore': dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
-                    }
-                    //console.log(elementData)
-                    elements.push(elementData)
-                }
-                
-                /*
+        /*
                 const elementPromises = submodelElements.map(async (element) => {
                     let elementData = {
                         'aasId': aasId,
@@ -282,21 +316,19 @@ export default{
                 const elements = await Promise.all(elementPromises);
                 */
 
-                allSE.push(
-                    {
-                    'anlagenInformation': component,
-                    'elements': elements
-                    }
-                )
-            }
-            this.allSes = allSE
-            this.selectedAnlage = anlage.idShort
-            this.loadingAnlage = false
-        },
-        async getNlpSubmodel (aas_id) {
-            const ready = await this.digitalTwinStore.getBasyxNlpSubmodel(aas_id)
-            console.log(ready)
-            /*
+        allSE.push({
+          anlagenInformation: component,
+          elements: elements
+        })
+      }
+      this.allSes = allSE
+      this.selectedAnlage = anlage.idShort
+      this.loadingAnlage = false
+    },
+    async getNlpSubmodel(aas_id) {
+      const ready = await this.digitalTwinStore.getBasyxNlpSubmodel(aas_id)
+      console.log(ready)
+      /*
             if (this.grundfunktionId == 'WaermeVersorgen') {
                 this.title = 'Wärme versorgen'
                 this.grundfunktion = this.digitalTwinStore.wärmeVersorgen
@@ -308,28 +340,28 @@ export default{
                 // console.log(this.zweiteGrundfunktion.length)
             }
             */
-        },
-        getZweiteGrundfunktion () {
-            if (this.grundfunktionId == 'WaermeVersorgen') {
-                this.title = 'Wärme versorgen'
-                this.grundfunktion = this.digitalTwinStore.wärmeVersorgen
-                this.zweiteGrundfunktion = this.digitalTwinStore.wärmeVersorgenZweite
-            } else if (this.grundfunktionId == 'LuftVersorgen') {
-                this.title = 'Luft versorgen'
-                this.grundfunktion = this.digitalTwinStore.luftVersorgen
-                this.zweiteGrundfunktion = this.digitalTwinStore.luftVersorgenZweite
-            }
-        }
+    },
+    getZweiteGrundfunktion() {
+      if (this.grundfunktionId == 'WaermeVersorgen') {
+        this.title = 'Wärme versorgen'
+        this.grundfunktion = this.digitalTwinStore.wärmeVersorgen
+        this.zweiteGrundfunktion = this.digitalTwinStore.wärmeVersorgenZweite
+      } else if (this.grundfunktionId == 'LuftVersorgen') {
+        this.title = 'Luft versorgen'
+        this.grundfunktion = this.digitalTwinStore.luftVersorgen
+        this.zweiteGrundfunktion = this.digitalTwinStore.luftVersorgenZweite
+      }
     }
+  }
 }
 </script>
 
 <style scoped>
 #component-button {
-    background-color: whitesmoke;
+  background-color: whitesmoke;
 }
 #chipErkennung {
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
 .title-center {
   display: flex;
@@ -344,7 +376,7 @@ export default{
 }
 
 .custom-card-text {
-  background-color: #3B5249; 
+  background-color: #3b5249;
   color: white;
 }
 #virtualScroll::-webkit-scrollbar {

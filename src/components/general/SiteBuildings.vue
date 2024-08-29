@@ -1,28 +1,24 @@
 <template>
-    <div>
-      <v-container class="no-padding" :style="{ width: '90%' }">
-        <v-card-actions>
-            <v-btn
-                color="success"
-                text
-                @click="show = !show"
-            >
-            {{ this.siteName }}
-            </v-btn>
-        </v-card-actions>
-        <v-expand-transition>
-            <div v-show="show">
-              <InformationFromBuildings :site="site"/>
-              </div>
-        </v-expand-transition>
+  <div>
+    <v-container class="no-padding" :style="{ width: '90%' }">
+      <v-card-actions>
+        <v-btn color="success" text @click="show = !show">
+          {{ this.siteName }}
+        </v-btn>
+      </v-card-actions>
+      <v-expand-transition>
+        <div v-show="show">
+          <InformationFromBuildings :site="site" />
+        </div>
+      </v-expand-transition>
     </v-container>
-    </div>
+  </div>
 </template>
 
 <script>
 import InformationFromBuildings from '@/components/general/InformationFromBuildings.vue'
 
-import { useGeneralStore } from "@/store/general"
+import { useGeneralStore } from '@/store/general'
 export default {
   data: () => ({
     show: false,
@@ -43,15 +39,15 @@ export default {
     InformationFromBuildings
   },
   computed: {
-    generalStore () {
+    generalStore() {
       return useGeneralStore()
     },
-    siteName () {
+    siteName() {
       // const key = Object.keys(this.site)
       const siteName = this.site['siteName']
       return siteName
     },
-    buildings () {
+    buildings() {
       // console.log(this.building)
       console.log(this.$store.getters.loadedBuildingInformation)
       console.log(this.site)
@@ -59,7 +55,7 @@ export default {
     }
   },
   methods: {
-    setPlace (place) {
+    setPlace(place) {
       //console.log(place.address_components)
       this.currentPlace = place
       const location = place.address_components
@@ -84,8 +80,8 @@ export default {
 
 <style>
 #building-register-card-title {
-    color: #5D3FD3;
-    text-transform: uppercase;
-    font-size: 14px;
+  color: #5d3fd3;
+  text-transform: uppercase;
+  font-size: 14px;
 }
 </style>

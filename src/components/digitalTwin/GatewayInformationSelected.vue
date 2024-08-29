@@ -1,6 +1,6 @@
 <template>
-    <v-container>
-        <!--
+  <v-container>
+    <!--
         <v-row>
             <v-col cols ="6" v-for="gateway in generalStore.loadedGatewayInformation" :key="gateway['AAS ID']">
                 <v-card v-if="gateway['ParentAasIdShort'][0] == buildingId"
@@ -71,38 +71,41 @@
                 </v-card>
             </v-col>
         </v-row>
-    --> 
+    -->
     <v-row>
-            <v-col cols ="6" v-for="gateway in generalStore.loadedBacnetInformationAssigned" :key="gateway['AAS ID']">
-                <v-card v-if="gateway['ParentAasIdShort'][0] == buildingId"
-                style="border-radius: 20px; background-color: whitesmoke"
-                variant="outlined" class="anlagen-card mb-12 mx-6" >
-                <v-card-title align="center">{{ gateway['AAS ID Short'][0] }}</v-card-title>
-                <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
-                    
-                    <v-card-text>
-                    <v-row align="center">
-                        <v-col cols="5">
-                            Hersteller: 
-                        </v-col>
-                        <v-col cols="7">
-                            <v-chip color="monitoring">
-                            {{ gateway['Digital Nameplate']['Herstellername'] }}
-                            </v-chip>
-                        </v-col>
-                    </v-row>
-                    <v-row align="center">
-                        <v-col cols="5">
-                            Seriennummer:
-                        </v-col>
-                        <v-col cols="7">
-                            <v-chip color="monitoring">
-                                {{ gateway['Digital Nameplate']['Seriennummer'] }}
-                            </v-chip>
-                        </v-col>
-                    </v-row>
-                    </v-card-text>
-                    <!--
+      <v-col
+        cols="6"
+        v-for="gateway in generalStore.loadedBacnetInformationAssigned"
+        :key="gateway['AAS ID']"
+      >
+        <v-card
+          v-if="gateway['ParentAasIdShort'][0] == buildingId"
+          style="border-radius: 20px; background-color: whitesmoke"
+          variant="outlined"
+          class="anlagen-card mb-12 mx-6"
+        >
+          <v-card-title align="center">{{ gateway['AAS ID Short'][0] }}</v-card-title>
+          <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
+
+          <v-card-text>
+            <v-row align="center">
+              <v-col cols="5"> Hersteller: </v-col>
+              <v-col cols="7">
+                <v-chip color="monitoring">
+                  {{ gateway['Digital Nameplate']['Herstellername'] }}
+                </v-chip>
+              </v-col>
+            </v-row>
+            <v-row align="center">
+              <v-col cols="5"> Seriennummer: </v-col>
+              <v-col cols="7">
+                <v-chip color="monitoring">
+                  {{ gateway['Digital Nameplate']['Seriennummer'] }}
+                </v-chip>
+              </v-col>
+            </v-row>
+          </v-card-text>
+          <!--
                     <v-expansion-panels 
                     v-for="(bacnetDevice, key) in gateway['bacnetDevices']" :key="key"
                     style="background-color: whitesmoke">
@@ -189,67 +192,64 @@
                         </v-expansion-panel>
                     </v-expansion-panels>
                 -->
-                </v-card>
-            </v-col>
-        
-        </v-row>
-    </v-container>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-
 <script>
-import { useGeneralStore } from "@/store/general"
-import { useDigitalTwinsStore } from "@/store/digitaltwins"
-import NlpResults from "@/components/Nlp/NlpResults.vue"
+import { useGeneralStore } from '@/store/general'
+import { useDigitalTwinsStore } from '@/store/digitaltwins'
+import NlpResults from '@/components/Nlp/NlpResults.vue'
 
-export default{
-    data () {
-      return {
-        datapointsClassified: false
-      }
-    },    
-    mounted() {
-        this.loadBuildingInformation()
-    },
-    props: {
-        buildingId: String
-    },
-    components: {
-        NlpResults
-    },
-    methods: {
-        loadBuildingInformation() {
-            this.digitalTwinStore.getSubmodel()
-            let buildingsIdsWithSelectName = {}
-            let buildingsList = []
-            for (let site in this.generalStore.loadedSiteInformationWithBuildings) {
-                let siteInformation = this.generalStore.loadedSiteInformationWithBuildings[site]
-                let siteName = siteInformation['siteName']
-                for (let building in siteInformation['buildings'][0]) {
-                    let buildingInformation = siteInformation['buildings'][0][building]
-                    let buildingName = buildingInformation['buildingName']
-                    let siteBuildingName = buildingName + ', ' + siteName
-                    buildingsList.push(siteBuildingName)
-                    //this.$set(this.myObject, 'newKey', 'New Value')
-                    buildingsIdsWithSelectName[building] = siteBuildingName
-                }
-
-                //buildingsList.push(buildingName)
-            }
-            this.buildingsList = buildingsList
-            this.buildingsIdsWithSelectName = buildingsIdsWithSelectName
-        }
-    },
-    computed: {
-        generalStore () {
-            return useGeneralStore()
-        },
-        digitalTwinStore () {
-            return useDigitalTwinsStore()
-        }
+export default {
+  data() {
+    return {
+      datapointsClassified: false
     }
-}
+  },
+  mounted() {
+    this.loadBuildingInformation()
+  },
+  props: {
+    buildingId: String
+  },
+  components: {
+    NlpResults
+  },
+  methods: {
+    loadBuildingInformation() {
+      this.digitalTwinStore.getSubmodel()
+      let buildingsIdsWithSelectName = {}
+      let buildingsList = []
+      for (let site in this.generalStore.loadedSiteInformationWithBuildings) {
+        let siteInformation = this.generalStore.loadedSiteInformationWithBuildings[site]
+        let siteName = siteInformation['siteName']
+        for (let building in siteInformation['buildings'][0]) {
+          let buildingInformation = siteInformation['buildings'][0][building]
+          let buildingName = buildingInformation['buildingName']
+          let siteBuildingName = buildingName + ', ' + siteName
+          buildingsList.push(siteBuildingName)
+          //this.$set(this.myObject, 'newKey', 'New Value')
+          buildingsIdsWithSelectName[building] = siteBuildingName
+        }
 
+        //buildingsList.push(buildingName)
+      }
+      this.buildingsList = buildingsList
+      this.buildingsIdsWithSelectName = buildingsIdsWithSelectName
+    }
+  },
+  computed: {
+    generalStore() {
+      return useGeneralStore()
+    },
+    digitalTwinStore() {
+      return useDigitalTwinsStore()
+    }
+  }
+}
 </script>
 
 <style scoped>

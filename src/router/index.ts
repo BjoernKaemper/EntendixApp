@@ -15,31 +15,28 @@ import Monitoring_Site_Building from '../views/monitoring/site/building/monitori
 import Monitoring_Site_Building_Grundfunktion from '../views/monitoring/site/building/monitoring_grundfunktion.vue'
 import Monitoring_Site_Building_Grundfunktion_Anlage from '../views/monitoring/site/building/monitoring_anlage.vue'
 
-
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
-    meta: { 
+    meta: {
       breadcrumb: () => {
-        return [
-            { title: 'Home', to: '/' }
-        ];
-      } 
+        return [{ title: 'Home', to: '/' }]
+      }
     }
   },
   {
     path: '/:siteid',
     name: 'Home_Site',
     component: Home_Site,
-    meta: { 
+    meta: {
       breadcrumb: (route) => {
         return [
           { title: 'Home', to: '/' },
           { title: `${route.params.siteid}`, to: `/${route.params.siteid}` }
-        ];
-      } 
+        ]
+      }
     }
   },
   // Breadcrumb to do
@@ -47,26 +44,27 @@ const routes = [
     path: '/:siteid/:buildingid',
     name: 'Home_Site_Building',
     component: Home_Site_Building,
-    meta: { 
+    meta: {
       breadcrumb: (route) => {
         return [
           { title: '', to: '/' },
           { title: `${route.params.siteid}`, to: `/${route.params.siteid}` },
-          { title: `${route.params.buildingid}`, to: `/${route.params.siteid}/${route.params.buildingid}` }
-        ];
-      } 
+          {
+            title: `${route.params.buildingid}`,
+            to: `/${route.params.siteid}/${route.params.buildingid}`
+          }
+        ]
+      }
     }
   },
   {
     path: '/register',
     name: 'Register',
     component: RegisterInfos,
-    meta: { 
+    meta: {
       breadcrumb: (route) => {
-        return [
-            { title: '', to: '/register' },
-        ];
-      } 
+        return [{ title: '', to: '/register' }]
+      }
     }
   },
 
@@ -74,12 +72,10 @@ const routes = [
     path: '/digitaltwins',
     name: 'DigitalTwins',
     component: DigitalTwins,
-    meta: { 
+    meta: {
       breadcrumb: (route) => {
-        return [
-            { title: 'Digital Twins', to: '/digitaltwins' },
-        ];
-      } 
+        return [{ title: 'Digital Twins', to: '/digitaltwins' }]
+      }
     }
   },
   {
@@ -91,7 +87,7 @@ const routes = [
         return [
           { title: 'Digital Twins', to: '/digitaltwins' },
           { title: `${route.params.siteid}`, to: `/digitaltwins/${route.params.siteid}` }
-        ];
+        ]
       }
     }
   },
@@ -106,8 +102,11 @@ const routes = [
         return [
           { title: 'Digital Twins', to: '/digitaltwins' },
           { title: `${route.params.siteid}`, to: `/digitaltwins/${route.params.siteid}` },
-          { title: `${route.params.buildingid}`, to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}` }
-        ];
+          {
+            title: `${route.params.buildingid}`,
+            to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`
+          }
+        ]
       }
     }
   },
@@ -121,9 +120,15 @@ const routes = [
         return [
           { title: 'Digital Twins', to: '/digitaltwins' },
           { title: `${route.params.siteid}`, to: `/digitaltwins/${route.params.siteid}` },
-          { title: `${route.params.buildingid}`, to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}` },
-          { title: `${route.params.grundfunktion}`, to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}` }
-        ];
+          {
+            title: `${route.params.buildingid}`,
+            to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`
+          },
+          {
+            title: `${route.params.grundfunktion}`,
+            to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}`
+          }
+        ]
       }
     }
   },
@@ -137,23 +142,27 @@ const routes = [
         return [
           { title: 'Digital Twins', to: '/digitaltwins' },
           { title: `${route.params.siteid}`, to: `/digitaltwins/${route.params.siteid}` },
-          { title: `${route.params.buildingid}`, to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}` },
-          { title: `BACnet`, to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/bacnet` }
-        ];
+          {
+            title: `${route.params.buildingid}`,
+            to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`
+          },
+          {
+            title: `BACnet`,
+            to: `/digitaltwins/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/bacnet`
+          }
+        ]
       }
     }
   },
-  
+
   {
     path: '/monitoring',
     name: 'Monitoring',
     component: Monitoring,
-    meta: { 
+    meta: {
       breadcrumb: (route) => {
-        return [
-            { title: 'Monitoring', to: '/monitoring' },
-        ];
-      } 
+        return [{ title: 'Monitoring', to: '/monitoring' }]
+      }
     }
   },
   {
@@ -162,10 +171,10 @@ const routes = [
     component: Monitoring_Site,
     meta: {
       breadcrumb: (route) => {
-          return [
-              { title: 'Monitoring', to: '/monitoring' },
-              { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` }
-          ];
+        return [
+          { title: 'Monitoring', to: '/monitoring' },
+          { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` }
+        ]
       }
     }
   },
@@ -175,12 +184,15 @@ const routes = [
     component: Monitoring_Site_Building,
     meta: {
       breadcrumb: (route) => {
-          const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
-          return [
-              { title: 'Monitoring', to: '/monitoring' },
-              { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` },
-              { title: `${route.params.buildingid}`, to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}` }
-          ];
+        const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
+        return [
+          { title: 'Monitoring', to: '/monitoring' },
+          { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` },
+          {
+            title: `${route.params.buildingid}`,
+            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`
+          }
+        ]
       }
     }
   },
@@ -190,13 +202,19 @@ const routes = [
     component: Monitoring_Site_Building_Grundfunktion,
     meta: {
       breadcrumb: (route) => {
-          const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
-          return [
-              { title: 'Monitoring', to: '/monitoring' },
-              { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` },
-              { title: `${route.params.buildingid}`, to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`},
-              { title: `${route.params.grundfunktion}`, to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}` }
-          ];
+        const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
+        return [
+          { title: 'Monitoring', to: '/monitoring' },
+          { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` },
+          {
+            title: `${route.params.buildingid}`,
+            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`
+          },
+          {
+            title: `${route.params.grundfunktion}`,
+            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}`
+          }
+        ]
       }
     }
   },
@@ -206,22 +224,31 @@ const routes = [
     component: Monitoring_Site_Building_Grundfunktion_Anlage,
     meta: {
       breadcrumb: (route) => {
-          const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
-          return [
-              { title: 'Monitoring', to: '/monitoring' },
-              { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` },
-              { title: `${route.params.buildingid}`, to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`},
-              { title: `${route.params.grundfunktion}`, to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}` },
-              { title: `${route.params.anlage}`, to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}/${route.params.anlage}` }
-          ];
+        const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
+        return [
+          { title: 'Monitoring', to: '/monitoring' },
+          { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` },
+          {
+            title: `${route.params.buildingid}`,
+            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`
+          },
+          {
+            title: `${route.params.grundfunktion}`,
+            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}`
+          },
+          {
+            title: `${route.params.anlage}`,
+            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}/${route.params.anlage}`
+          }
+        ]
       }
     }
-  },
+  }
 ]
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  mode: 'history',
+  mode: 'history'
 })
 
 export default router

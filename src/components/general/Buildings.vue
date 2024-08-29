@@ -1,6 +1,6 @@
 <template>
   <!--<div v-for="site in generalStore.loadedSiteInformation" :key="site">-->
-  <div v-for="site, key in generalStore.loadedSiteInformationWithBuildings" :key="key">
+  <div v-for="(site, key) in generalStore.loadedSiteInformationWithBuildings" :key="key">
     <SiteBuildings :site="site" />
     <v-divider :thickness="2"></v-divider>
   </div>
@@ -8,10 +8,10 @@
 
 <script>
 import SiteBuildings from '@/components/general/SiteBuildings.vue'
-import { useGeneralStore } from "@/store/general"
+import { useGeneralStore } from '@/store/general'
 
 export default {
-  data () {
+  data() {
     return {
       form: {
         country: '',
@@ -25,9 +25,9 @@ export default {
   },
   components: { SiteBuildings },
   computed: {
-    generalStore () {
+    generalStore() {
       return useGeneralStore()
-    },
+    }
     /*
     siteInformation () {
       const callBuildingsForEachSite = this.generalStore.getBuildingsForEachSite()
@@ -41,27 +41,27 @@ export default {
 </script>
 <style scoped>
 .card {
-    margin-inline: 20%;
-    margin-bottom: 30px;
-    margin-top: 20px;
+  margin-inline: 20%;
+  margin-bottom: 30px;
+  margin-top: 20px;
 }
 .form-group {
-    text-align: left;
-    margin-bottom: 20px;
-    margin-right: 10%;
-    margin-left: 10%;
+  text-align: left;
+  margin-bottom: 20px;
+  margin-right: 10%;
+  margin-left: 10%;
 }
 .btn {
-    margin-left: 20px;
-    margin-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 #header {
-    color: #0a322b;
-    font-size: 1em
+  color: #0a322b;
+  font-size: 1em;
 }
 #body {
-    font-size: 18px;
-    padding-top: 5px;
-    padding-bottom: 5px
+  font-size: 18px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 </style>

@@ -90,7 +90,7 @@ export default {
     this.root = root
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.root) {
       this.root.dispose()
     }

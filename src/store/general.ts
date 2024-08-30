@@ -374,11 +374,11 @@ export const useGeneralStore = defineStore('general', {
       }
       const digitalNameplate = 'Nameplate'
 
-      let allBacnetGatewayInformationNotAssigned: any[] = []
-      let allBacnetGatewayInformationAssigned: any[] = []
+      const allBacnetGatewayInformationNotAssigned: any[] = []
+      const allBacnetGatewayInformationAssigned: any[] = []
 
       const bacnetInfoPromises = aasBacnetIds.map(async (aasId: any) => {
-        let parent = await this.getBomParent(aasId)
+        const parent = await this.getBomParent(aasId)
 
         if (parent.length === 0) {
           const [aasIdShort, nameplateSeInformationAll]: any[] = await Promise.all([
@@ -590,17 +590,17 @@ export const useGeneralStore = defineStore('general', {
       // const semanticIdNameplate = 'https://admin-shell.io/zvei/nameplate/2/0/Nameplate'
       const allBacnetInformation = []
 
-      for (let bacnetDevice in aasBacnetIds) {
-        let aasId = aasBacnetIds[bacnetDevice]
-        let aasIdShort = await this.getAasIdShortByIdentifier(aasId)
-        let nameplateSeInformationAll = await this.getSeValue(
+      for (const bacnetDevice in aasBacnetIds) {
+        const aasId = aasBacnetIds[bacnetDevice]
+        const aasIdShort = await this.getAasIdShortByIdentifier(aasId)
+        const nameplateSeInformationAll = await this.getSeValue(
           aasId,
           digitalNameplate,
           digitalNameplateIdShortPaths
         )
-        let manufacturerName = nameplateSeInformationAll['manufacturerName'][0]['text']
+        const manufacturerName = nameplateSeInformationAll['manufacturerName'][0]['text']
 
-        let bacnetNameplateInformation = {
+        const bacnetNameplateInformation = {
           'Digital Nameplate': {
             Herstellername: manufacturerName,
             Seriennummer: nameplateSeInformationAll['serialNumber']
@@ -624,23 +624,23 @@ export const useGeneralStore = defineStore('general', {
       }
       const submodelGateway = 'MonKiGateway'
       // const semanticIdNameplate = 'https://admin-shell.io/zvei/nameplate/2/0/Nameplate'
-      let allGatewayInformation = []
+      const allGatewayInformation = []
 
-      for (let device in aasGatewayIds) {
-        let aasId = aasGatewayIds[device]
-        let parent = await this.getBomParent(aasId)
-        let children = await this.getBomChilds(aasId)
+      for (const device in aasGatewayIds) {
+        const aasId = aasGatewayIds[device]
+        const parent = await this.getBomParent(aasId)
+        const children = await this.getBomChilds(aasId)
 
-        let aasIdShort = await this.getAasIdShortByIdentifier(aasId)
-        let parentAasIdShort = await this.getAasIdShortByIdentifier(parent)
-        let gatewaySeInformation = await this.getSeValue(
+        const aasIdShort = await this.getAasIdShortByIdentifier(aasId)
+        const parentAasIdShort = await this.getAasIdShortByIdentifier(parent)
+        const gatewaySeInformation = await this.getSeValue(
           aasId,
           submodelGateway,
           monkiGatewayIdShortPaths
         )
 
-        let bacnetInformation = await this.loadBacnetInformationForGateway(children)
-        let gatewayInformation = {
+        const bacnetInformation = await this.loadBacnetInformationForGateway(children)
+        const gatewayInformation = {
           'Gateway Information': {
             Name: gatewaySeInformation['thingName'],
             ID: gatewaySeInformation['thingId'],
@@ -689,7 +689,7 @@ export const useGeneralStore = defineStore('general', {
 
     async readCSV() {
       const reader = new FileReader()
-      let rows: any[] = []
+      const rows: any[] = []
       reader.onload = (event) => {
         const text = event?.target?.result
         const lines = text?.split('\n')
@@ -697,9 +697,9 @@ export const useGeneralStore = defineStore('general', {
 
         for (let i = 0; i < lines.length; i++) {
           const cells = lines[i].split(';')
-          let semanticId = cells[0]
-          let chartType = cells[1]
-          let obj = {}
+          const semanticId = cells[0]
+          const chartType = cells[1]
+          const obj = {}
           obj[semanticId] = chartType
           rows.push(obj)
           /*
@@ -876,7 +876,7 @@ export const useGeneralStore = defineStore('general', {
       const gatewayAasId = gateway['AAS ID']
       let parentId = ''
 
-      for (let buildingAasId in buildingsIdsWithSelectName) {
+      for (const buildingAasId in buildingsIdsWithSelectName) {
         if (buildingsIdsWithSelectName[buildingAasId] === choosedBuilding) {
           parentId = buildingAasId
           await this.addHasPart(buildingAasId, gatewayAasId)
@@ -894,22 +894,22 @@ export const useGeneralStore = defineStore('general', {
       }
       const digitalNameplate = 'Nameplate'
 
-      let aasIdShort = await this.getAasIdShortByIdentifier(gatewayAasId)
-      let parentAasIdShort = await this.getAasIdShortByIdentifier(parentId)
-      let nameplateSeInformationAll = await this.getSeValue(
+      const aasIdShort = await this.getAasIdShortByIdentifier(gatewayAasId)
+      const parentAasIdShort = await this.getAasIdShortByIdentifier(parentId)
+      const nameplateSeInformationAll = await this.getSeValue(
         gatewayAasId,
         digitalNameplate,
         digitalNameplateIdShortPaths
       )
-      let manufacturerName = nameplateSeInformationAll['manufacturerName'][0]['text']
-      let basyxNlpResult = await this.getSubmodel(gatewayAasId, 'NLPClassificationResult')
+      const manufacturerName = nameplateSeInformationAll['manufacturerName'][0]['text']
+      const basyxNlpResult = await this.getSubmodel(gatewayAasId, 'NLPClassificationResult')
       let nlpDone
       if (basyxNlpResult === '') {
         nlpDone = false
       } else {
         nlpDone = true
       }
-      let bacnetNameplateInformation = {
+      const bacnetNameplateInformation = {
         'Digital Nameplate': {
           Herstellername: manufacturerName,
           Seriennummer: nameplateSeInformationAll['serialNumber']
@@ -971,8 +971,8 @@ export const useGeneralStore = defineStore('general', {
       const companyAasId = aasIds[0]
 
       const submodelIdShort = 'CompanyInformation'
-      for (let element in companyIdShortPaths) {
-        let idShort = companyIdShortPaths[element]
+      for (const element in companyIdShortPaths) {
+        const idShort = companyIdShortPaths[element]
         await this.editSeValue(
           companyAasId,
           submodelIdShort,

@@ -313,7 +313,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       // formData.append('datapointInformation', datapointInformation)
       //formData.append('correctedLabel', predictedGrundfunktion)
       // formData.append('datapoint', datenpunkt)
-      let editingReady = ''
+      const editingReady = ''
       try {
         const response = await axios.post('/nlpEndpoints/editDatapoint', datapointInformation, {
           //const response = await axios.post('/awsNlpEndpoints/editDatapoint', datapointInformation, {
@@ -520,35 +520,35 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         }
       }
 
-      for (let submodelElement in submodelElements) {
+      for (const submodelElement in submodelElements) {
         // console.log(submodelElement)
-        let idShort = submodelElements[submodelElement]['idShort']
-        let grundfunktionValue =
+        const idShort = submodelElements[submodelElement]['idShort']
+        const grundfunktionValue =
           submodelElements[submodelElement]['value'][0]['value'][0]['value'][0]['value']
-        let grundfunktionScore =
+        const grundfunktionScore =
           submodelElements[submodelElement]['value'][0]['value'][0]['value'][1]['value']
-        let zweiteEbeneValue =
+        const zweiteEbeneValue =
           submodelElements[submodelElement]['value'][1]['value'][0]['value'][0]['value']
-        let zweiteEbeneScore =
+        const zweiteEbeneScore =
           submodelElements[submodelElement]['value'][1]['value'][0]['value'][1]['value']
-        let komponentenEbeneValue =
+        const komponentenEbeneValue =
           submodelElements[submodelElement]['value'][2]['value'][0]['value'][0]['value']
-        let komponentenEbeneScore =
+        const komponentenEbeneScore =
           submodelElements[submodelElement]['value'][2]['value'][0]['value'][1]['value']
-        let datenpunktEbeneValue =
+        const datenpunktEbeneValue =
           submodelElements[submodelElement]['value'][3]['value'][0]['value'][0]['value']
-        let datenpunktEbeneScore =
+        const datenpunktEbeneScore =
           submodelElements[submodelElement]['value'][3]['value'][0]['value'][1]['value']
         // console.log(typeof datenpunktEbeneScore)
-        let roundedDatenpunktScore = parseFloat(datenpunktEbeneScore)
-        let roundedGrundfunktionScore = parseFloat(grundfunktionScore)
-        let roundedZweiteEbeneScore = parseFloat(zweiteEbeneScore)
-        let roundedKomponentenEbeneScore = parseFloat(komponentenEbeneScore)
-        let nlpInput = submodelElements[submodelElement]['value'][4]['value']
-        let objectName = submodelElements[submodelElement]['value'][6]['value']
-        let objectType = submodelElements[submodelElement]['value'][7]['value']
-        let description = submodelElements[submodelElement]['value'][8]['value']
-        let submodelElementInfo = {
+        const roundedDatenpunktScore = parseFloat(datenpunktEbeneScore)
+        const roundedGrundfunktionScore = parseFloat(grundfunktionScore)
+        const roundedZweiteEbeneScore = parseFloat(zweiteEbeneScore)
+        const roundedKomponentenEbeneScore = parseFloat(komponentenEbeneScore)
+        const nlpInput = submodelElements[submodelElement]['value'][4]['value']
+        const objectName = submodelElements[submodelElement]['value'][6]['value']
+        const objectType = submodelElements[submodelElement]['value'][7]['value']
+        const description = submodelElements[submodelElement]['value'][8]['value']
+        const submodelElementInfo = {
           GrundfunktionValue: grundfunktionValue,
           GrundfunktionScore: roundedGrundfunktionScore,
           ZweiteEbeneValue: zweiteEbeneValue,

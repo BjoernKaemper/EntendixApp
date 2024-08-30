@@ -46,7 +46,7 @@ export const useMonitoringStore = defineStore('monitoring', {
     checkvalue(value: any) {
       if (!isNaN(value)) {
         // Convert the string to a number
-        let numberValue = parseFloat(value)
+        const numberValue = parseFloat(value)
 
         // Check if it's an integer or float
         if (Number.isInteger(numberValue)) {
@@ -84,9 +84,9 @@ export const useMonitoringStore = defineStore('monitoring', {
             const grundfunktionenAas = obj[key]
             const aasPromises = []
 
-            for (let grundfunktionAas in grundfunktionenAas) {
-              let aasId = grundfunktionenAas[grundfunktionAas]
-              let semanticIdAAS = await generalStore.getSemanticIdAas(aasId)
+            for (const grundfunktionAas in grundfunktionenAas) {
+              const aasId = grundfunktionenAas[grundfunktionAas]
+              const semanticIdAAS = await generalStore.getSemanticIdAas(aasId)
 
               if (
                 semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSupplyHeatAAS/1/0' ||
@@ -197,8 +197,8 @@ export const useMonitoringStore = defineStore('monitoring', {
       } catch (error) {
         console.log(error)
       }
-      let idShorts = []
-      for (let element in responseBasyx['value']) {
+      const idShorts = []
+      for (const element in responseBasyx['value']) {
         idShorts.push(responseBasyx['value'][element]['idShort'])
       }
       this.timeSeriesSubmodelElementsIdShorts = idShorts
@@ -209,7 +209,7 @@ export const useMonitoringStore = defineStore('monitoring', {
     async getChartType(semanticId: any) {
       const generalStore = useGeneralStore()
 
-      let chartTypesForSemanticId = generalStore.chartTypes
+      const chartTypesForSemanticId = generalStore.chartTypes
 
       let matchedValue = 'None'
 
@@ -256,7 +256,7 @@ export const useMonitoringStore = defineStore('monitoring', {
       console.log(this.userId)
       console.log(aasId)
       //let path = submodelElementPath + '/PresentValue'
-      let path = [submodelElementPath, 'PresentValue']
+      const path = [submodelElementPath, 'PresentValue']
       console.log(path)
       console.log(submodelRefIdShort)
       try {

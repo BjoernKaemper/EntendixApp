@@ -29,7 +29,7 @@
   </v-app>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import NavBar from '@/components/general/NavBar.vue'
 import Footer from '@/components/general/GeneralFooter.vue'
 import NavigationDrawer from '@/components/general/NavigationDrawer.vue'

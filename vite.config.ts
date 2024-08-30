@@ -4,6 +4,7 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 // Utilities
 import { defineConfig } from 'vite'
+import checker from 'vite-plugin-checker'
 import { fileURLToPath, URL } from 'node:url'
 import eslint from 'vite-plugin-eslint'
 
@@ -11,6 +12,9 @@ import eslint from 'vite-plugin-eslint'
 export default defineConfig({
   plugins: [
     eslint(),
+    checker({
+      typescript: true,
+    }),
     vue({ 
       template: { transformAssetUrls
     }

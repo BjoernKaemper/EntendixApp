@@ -38,6 +38,7 @@
     "sass": "^1.60.0",
     "typescript": "^5.5.4",
     "vite": "^4.5.3",
+    "vite-plugin-checker": "^0.7.2",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-vuetify": "^1.0.0",
     "vue-tsc": "^2.1.2"

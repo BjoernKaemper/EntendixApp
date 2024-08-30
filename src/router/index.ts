@@ -31,7 +31,7 @@ const routes = [
     name: 'Home_Site',
     component: Home_Site,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         return [
           { title: 'Home', to: '/' },
           { title: `${route.params.siteid}`, to: `/${route.params.siteid}` }
@@ -45,7 +45,7 @@ const routes = [
     name: 'Home_Site_Building',
     component: Home_Site_Building,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         return [
           { title: '', to: '/' },
           { title: `${route.params.siteid}`, to: `/${route.params.siteid}` },
@@ -83,7 +83,7 @@ const routes = [
     name: 'DigitalTwins_Site',
     component: DigitalTwins_Site,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         return [
           { title: 'Digital Twins', to: '/digitaltwins' },
           { title: `${route.params.siteid}`, to: `/digitaltwins/${route.params.siteid}` }
@@ -97,7 +97,7 @@ const routes = [
     name: 'DigitalTwins_Site_Building',
     component: DigitalTwins_Site_Building,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
         return [
           { title: 'Digital Twins', to: '/digitaltwins' },
@@ -115,7 +115,7 @@ const routes = [
     name: 'DigitalTwins_Site_Building_Grundfunktion',
     component: DigitalTwins_Site_Building_Grundfunktion,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
         return [
           { title: 'Digital Twins', to: '/digitaltwins' },
@@ -137,7 +137,7 @@ const routes = [
     name: 'DigitalTwins_Site_Building_Bacnet',
     component: DigitalTwins_Site_Building_Bacnet,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
         return [
           { title: 'Digital Twins', to: '/digitaltwins' },
@@ -170,7 +170,7 @@ const routes = [
     name: 'Monitoring_Site',
     component: Monitoring_Site,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         return [
           { title: 'Monitoring', to: '/monitoring' },
           { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` }
@@ -183,7 +183,7 @@ const routes = [
     name: 'Monitoring_Site_Building',
     component: Monitoring_Site_Building,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
         return [
           { title: 'Monitoring', to: '/monitoring' },
@@ -201,7 +201,7 @@ const routes = [
     name: 'Monitoring_Site_Building_Grundfunktion',
     component: Monitoring_Site_Building_Grundfunktion,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
         return [
           { title: 'Monitoring', to: '/monitoring' },
@@ -223,7 +223,7 @@ const routes = [
     name: 'Monitoring_Site_Building_Grundfunktion_Anlage',
     component: Monitoring_Site_Building_Grundfunktion_Anlage,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: (route: any) => {
         const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid)
         return [
           { title: 'Monitoring', to: '/monitoring' },
@@ -248,7 +248,6 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  mode: 'history'
 })
 
 export default router

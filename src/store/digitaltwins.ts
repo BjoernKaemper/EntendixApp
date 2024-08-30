@@ -442,7 +442,45 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       const sichern = []
       const stromVersorgen = []
 
-      const wärmeVersorgenZweite = {
+      interface SubmodelElementInfo {
+        GrundfunktionValue: any;
+        GrundfunktionScore: number;
+        ZweiteEbeneValue: any;
+        ZweiteEbeneScore: number;
+        KomponentenEbeneValue: any;
+        KomponentenEbeneScore: number;
+        DatenpunktEbeneValue: any;
+        DatenpunktEbeneScore: number;
+        NLPInput: any;
+        ObjectName: any;
+        ObjectType: any;
+        Description: any;
+        IdShort: any;
+      }
+      
+      const wärmeVersorgenZweite: {
+        Verteilen: {
+          Pumpe: SubmodelElementInfo[];
+          'Heizkreis allgemein': SubmodelElementInfo[];
+          Ventil: SubmodelElementInfo[];
+          Raum: SubmodelElementInfo[];
+          Vorlauf: SubmodelElementInfo[];
+          Rücklauf: SubmodelElementInfo[];
+        },
+        Erzeugen: {
+          BHKW: SubmodelElementInfo[];
+          'Wärmeerzeuger allgemein': SubmodelElementInfo[];
+          Wärmepumpe: SubmodelElementInfo[];
+          Kessel: SubmodelElementInfo[];
+          Pelletkessel: SubmodelElementInfo[];
+        },
+        Beziehen: {
+          Fernwärme: SubmodelElementInfo[];
+        },
+        Speichern: {
+          Speicher: SubmodelElementInfo[];
+        }
+      } = {
         Verteilen: {
           Pumpe: [],
           'Heizkreis allgemein': [],
@@ -490,7 +528,33 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
                 }
             }
             */
-      const luftVersorgenZweite = {
+      const luftVersorgenZweite: {
+        Verteilen: {
+          'Volumenstromregler Zuluft': SubmodelElementInfo[];
+          'Volumenstromregler Abluft': SubmodelElementInfo[];
+          'Volumenstromregler Raum': SubmodelElementInfo[];
+          Raum: SubmodelElementInfo[];
+        },
+        Bereitstellen: {
+          Zuluftventilator: SubmodelElementInfo[];
+          'Abluft allgemein': SubmodelElementInfo[];
+          'Zuluft allgemein': SubmodelElementInfo[];
+          Abluftventilator: SubmodelElementInfo[];
+          Fortluftklappe: SubmodelElementInfo[];
+          Abluftklappe: SubmodelElementInfo[];
+          Zuluftklappe: SubmodelElementInfo[];
+          Außenluftklappe: SubmodelElementInfo[];
+          Befeuchter: SubmodelElementInfo[];
+          Erhitzer: SubmodelElementInfo[];
+          Abluftfilter: SubmodelElementInfo[];
+          Zuluftfilter: SubmodelElementInfo[];
+          Filter: SubmodelElementInfo[];
+          Außenluftfilter: SubmodelElementInfo[];
+          'Gerät allgemein': SubmodelElementInfo[];
+          Kühler: SubmodelElementInfo[];
+          Wärmerückgewinnung: SubmodelElementInfo[];
+        }
+      } = {
         Verteilen: {
           'Volumenstromregler Zuluft': [],
           'Volumenstromregler Abluft': [],
@@ -727,12 +791,12 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       //console.log(wärmeVersorgenZweite)
       for (const key1 in wärmeVersorgenZweite) {
         if (Object.prototype.hasOwnProperty.call(wärmeVersorgenZweite, key1)) {
-          const innerObj = wärmeVersorgenZweite[key1]
+          const innerObj = wärmeVersorgenZweite[key1 as keyof typeof wärmeVersorgenZweite]
           for (const key2 in innerObj) {
             if (Object.prototype.hasOwnProperty.call(innerObj, key2)) {
-              const arr = innerObj[key2]
+              const arr = (innerObj as { [key: string]: SubmodelElementInfo[] })[key2 as keyof typeof innerObj];
               if (Array.isArray(arr) && arr.length === 0) {
-                delete innerObj[key2]
+                delete innerObj[key2 as keyof typeof innerObj]
               }
             }
           }
@@ -741,12 +805,12 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
 
       for (const key1 in luftVersorgenZweite) {
         if (Object.prototype.hasOwnProperty.call(luftVersorgenZweite, key1)) {
-          const innerObj = luftVersorgenZweite[key1]
+          const innerObj = luftVersorgenZweite[key1 as keyof typeof luftVersorgenZweite]
           for (const key2 in innerObj) {
             if (Object.prototype.hasOwnProperty.call(innerObj, key2)) {
-              const arr = innerObj[key2]
+              const arr: SubmodelElementInfo[] = innerObj[key2 as keyof typeof innerObj]
               if (Array.isArray(arr) && arr.length === 0) {
-                delete innerObj[key2]
+                delete innerObj[key2 as keyof typeof innerObj]
               }
             }
           }

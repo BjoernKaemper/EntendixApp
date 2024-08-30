@@ -31,10 +31,13 @@ import HomeCard from '@/components/general/HomeCard.vue'
 import { useGeneralStore } from '@/store/general'
 
 export default {
+  name: 'Home',
+
   components: {
     GoogleMapsCardHome,
     HomeCard
   },
+
   computed: {
     generalStore() {
       return useGeneralStore()

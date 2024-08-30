@@ -160,7 +160,7 @@ const routes = [
     name: 'Monitoring',
     component: Monitoring,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: () => {
         return [{ title: 'Monitoring', to: '/monitoring' }]
       }
     }

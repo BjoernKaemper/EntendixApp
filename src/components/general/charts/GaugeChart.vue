@@ -83,7 +83,6 @@ export default {
     axisDataItem.set('value', 50)
     bullet.get('sprite').on('rotation', function () {
       let value = axisDataItem.get('value')
-      let text = Math.round(axisDataItem.get('value')).toString()
       let fill = am5.color(0x000000)
       xAxis.axisRanges.each(function (axisRange) {
         if (value >= axisRange.get('value') && value <= axisRange.get('endValue')) {

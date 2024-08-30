@@ -28,10 +28,31 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       sichern: [],
       userId: ''
       // all these properties will have their type inferred automatically
+    } as {
+      showProgressUploadAas: boolean,
+      // Dev
+      //aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
+      //Live
+      aasServer: string,
+      showProgressEditDatenpunkt: boolean,
+      aasId: string,
+      aasIdShort: string,
+      parentAasIdShort: string,
+      nlpSubmodel: any[],
+      allNlpSubmodelElements: any[],
+      wärmeVersorgen: any[],
+      wärmeVersorgenZweite: any,
+      luftVersorgen: any[],
+      luftVersorgenZweite: any,
+      kälteVersorgen: any[],
+      stromVersorgen: any[],
+      medienVersorgen: any[],
+      sichern: any[],
+      userId: string
     }
   },
   actions: {
-    async getSeElement(aasId, submodelIdShort, idShort, elementData) {
+    async getSeElement(aasId: string, submodelIdShort: string, idShort: string, elementData: any) {
       const generalStore = useGeneralStore()
       const monitoringStore = useMonitoringStore()
       const userId = generalStore.userId
@@ -81,7 +102,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
 
       return elementData
     },
-    async startNlp(aasId, aasIdShort) {
+    async startNlp(aasId: string, aasIdShort: string) {
       console.log(aasId)
       console.log(aasIdShort)
       this.showProgressUploadAas = true
@@ -136,7 +157,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       //await this.getBasyxNlpSubmodel(aasId, aasIdShort)
       this.showProgressUploadAas = false
     },
-    async editDatenpunktGrundfunktion(datenpunkt, predictedGrundfunktion) {
+    async editDatenpunktGrundfunktion(datenpunkt: any, predictedGrundfunktion: any) {
       this.showProgressEditDatenpunkt = true
       const startPrediction = 'Grundfunktion'
       if (predictedGrundfunktion == 'Wärme versorgen') {
@@ -171,7 +192,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       }
       this.showProgressEditDatenpunkt = false
     },
-    async editDatenpunktZweiteEbene(datenpunkt, predictedGrundfunktion, predictedZweiteEbene) {
+    async editDatenpunktZweiteEbene(datenpunkt: any, predictedGrundfunktion: string, predictedZweiteEbene: string) {
       this.showProgressEditDatenpunkt = true
       console.log(predictedZweiteEbene)
       const startPrediction = 'ZweiteEbene'
@@ -224,10 +245,10 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       this.showProgressEditDatenpunkt = false
     },
     async editDatenpunktKomponente(
-      datenpunkt,
-      predictedGrundfunktion,
-      predictedZweiteEbene,
-      predictedKomponente
+      datenpunkt: any,
+      predictedGrundfunktion: string,
+      predictedZweiteEbene: string,
+      predictedKomponente: string
     ) {
       this.showProgressEditDatenpunkt = true
       const startPrediction = 'Komponente'
@@ -311,11 +332,11 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       return editingReady
     },
     async editDatenpunkt(
-      datenpunkt,
-      predictedGrundfunktion,
-      predictedZweiteEbene,
-      predictedKomponente,
-      predictedDatenpunkt
+      datenpunkt: any,
+      predictedGrundfunktion: string,
+      predictedZweiteEbene: string,
+      predictedKomponente: string,
+      predictedDatenpunkt: string
     ) {
       this.showProgressEditDatenpunkt = true
       const startPrediction = 'Datenpunkt'
@@ -342,7 +363,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       }
       this.showProgressEditDatenpunkt = false
     },
-    async getSubmodel(aasId) {
+    async getSubmodel(aasId: string) {
       const getSubmodel = 'submodelServices/getSubmodelByIdShort'
       const url = this.aasServer + getSubmodel
       let responseBasyx = ''
@@ -362,7 +383,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       }
       return responseBasyx
     },
-    async getBomParent(aasId) {
+    async getBomParent(aasId: string) {
       const bomParent = 'submodelServices/bom/getParents'
       const urlBomParent = this.aasServer + bomParent
       let parentAasId = []
@@ -382,7 +403,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       }
       return parentAasId
     },
-    async getAasIdShortByIdentifier(aasId) {
+    async getAasIdShortByIdentifier(aasId: string) {
       const getAasIdShort = 'aasServices/getAasIdShortByIdentifier'
       const url = this.aasServer + getAasIdShort
       let idShort = ''
@@ -399,7 +420,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       }
       return idShort
     },
-    async getBasyxNlpSubmodel(aasId, aasIdShort) {
+    async getBasyxNlpSubmodel(aasId: string, aasIdShort: string) {
       this.aasId = aasId
 
       this.aasIdShort = aasIdShort[0]

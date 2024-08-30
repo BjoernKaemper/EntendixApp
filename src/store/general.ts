@@ -438,7 +438,7 @@ export const useGeneralStore = defineStore('general', {
       this.loadedBacnetInformationNotAssigned = allBacnetGatewayInformationNotAssigned
       this.loadedBacnetInformationAssigned = allBacnetGatewayInformationAssigned
 
-      const buildingsIdsWithSelectName = {}
+      const buildingsIdsWithSelectName: any = {}
       const buildingsList: any[] = []
 
       this.loadedSiteInformationWithBuildings.forEach((siteInformation) => {
@@ -689,10 +689,10 @@ export const useGeneralStore = defineStore('general', {
 
     async readCSV() {
       const reader = new FileReader()
-      let rows = []
+      let rows: any[] = []
       reader.onload = (event) => {
-        const text = event.target.result
-        const lines = text.split('\n')
+        const text = event?.target?.result
+        const lines = text?.split('\n')
         //const headers = lines[0].split(';');
 
         for (let i = 0; i < lines.length; i++) {
@@ -720,7 +720,7 @@ export const useGeneralStore = defineStore('general', {
       reader.readAsText(blobCsv)
     },
 
-    async fetchGeneralInfos(userId) {
+    async fetchGeneralInfos(userId: any) {
       this.homeLoading = true
       await this.readCSV()
       this.userId = userId
@@ -814,8 +814,8 @@ export const useGeneralStore = defineStore('general', {
             });
             */
 
-        const siteInformationTest = siteAasIds.map(async (siteAasId) => {
-          const siteInformationBasyx = await this.getAllSubmodelElementValues(
+        const siteInformationTest = siteAasIds.map(async (siteAasId: any) => {
+          const siteInformationBasyx: any = await this.getAllSubmodelElementValues(
             siteAasId,
             siteSubmodelId
           )
@@ -824,12 +824,12 @@ export const useGeneralStore = defineStore('general', {
 
           const siteIdShortPaths = {
             siteName: siteInformationBasyx?.SiteName || '',
-            country: addressArray.find((item) => item.NationalCode)?.NationalCode || '',
-            city: addressArray.find((item) => item.CityTown)?.CityTown || '',
-            zipcode: addressArray.find((item) => item.Zipcode)?.Zipcode || '',
-            lat: addressArray.find((item) => item.Lattitude)?.Lattitude || '',
-            lng: addressArray.find((item) => item.Longitude)?.Longitude || '',
-            street: addressArray.find((item) => item.Street)?.Street || ''
+            country: addressArray.find((item: any) => item.NationalCode)?.NationalCode || '',
+            city: addressArray.find((item: any) => item.CityTown)?.CityTown || '',
+            zipcode: addressArray.find((item: any) => item.Zipcode)?.Zipcode || '',
+            lat: addressArray.find((item: any) => item.Lattitude)?.Lattitude || '',
+            lng: addressArray.find((item: any) => item.Longitude)?.Longitude || '',
+            street: addressArray.find((item: any) => item.Street)?.Street || ''
           }
 
           return siteIdShortPaths
@@ -871,7 +871,7 @@ export const useGeneralStore = defineStore('general', {
       this.homeLoading = false
     },
 
-    async addGatewayToBuilding(gateway, choosedBuilding, buildingsIdsWithSelectName) {
+    async addGatewayToBuilding(gateway: any, choosedBuilding: any, buildingsIdsWithSelectName: any) {
       this.loadingBacnetAdding = true
       const gatewayAasId = gateway['AAS ID']
       let parentId = ''
@@ -925,7 +925,7 @@ export const useGeneralStore = defineStore('general', {
       // await this.loadBacnetInformation(aasBacnetIds)
       this.loadingBacnetAdding = false
     },
-    async addOrganizationInformation(organizationName, country, city, zipcode, street) {
+    async addOrganizationInformation(organizationName: any, country: any, city: any, zipcode: any, street: any) {
       const semanticIdType = 'https://th-koeln.de/gart/CompanyAAS/1/0'
       const companyAasId = await this.createAas(semanticIdType, organizationName)
 
@@ -949,7 +949,7 @@ export const useGeneralStore = defineStore('general', {
       )
       this.fetchGeneralInfos(this.userId)
     },
-    async editOrganizationInformation(organizationName, country, city, zipcode, street) {
+    async editOrganizationInformation(organizationName: any, country: any, city: any, zipcode: any, street: any) {
       const organizationInformation = {
         organizationName: organizationName,
         country: country,
@@ -983,7 +983,7 @@ export const useGeneralStore = defineStore('general', {
       this.fetchGeneralInfos(this.userId)
     },
 
-    async addSiteInformation(country, city, street, streetNumber, lat, lng, zipcode, siteName) {
+    async addSiteInformation(country: any, city: any, street: any, _streetNumber: any, lat: any, lng: any, zipcode: any, siteName: any) {
       const semanticIdCompanyAasType = 'https://th-koeln.de/gart/CompanyAAS/1/0'
       const aasIds = await this.getAasByType(semanticIdCompanyAasType)
       const companyAasId = aasIds[0]
@@ -1034,7 +1034,7 @@ export const useGeneralStore = defineStore('general', {
 
       this.loadedSiteInformation.push(siteInformation)
 
-      this.loadedSiteInformationWithBuildings = this.getBuildingsForEachSite()
+      this.loadedSiteInformationWithBuildings = await this.getBuildingsForEachSite()
 
       //this.fetchGeneralInfos()
     },
@@ -1054,23 +1054,23 @@ export const useGeneralStore = defineStore('general', {
       this.loadedBuildingWithGrundfunktion = []
 
       const semanticIdAasTypeSite = 'https://th-koeln.de/gart/SiteAAS/1/0'
-      const siteAasIds = await this.getAasByType(semanticIdAasTypeSite)
+      const siteAasIds: any = await this.getAasByType(semanticIdAasTypeSite)
 
       const siteSubmodelId = 'SiteInformation'
       const buildingSubmodelId = 'BuildingInformation'
 
       const allSitesWithBuildings = await Promise.all(
-        siteAasIds.map(async (siteAasId) => {
+        siteAasIds.map(async (siteAasId: any) => {
           const siteName = await this.getSeValue(siteAasId, siteSubmodelId, {
             siteName: ['SiteName']
           })
           const buildingIds = await this.getBomChilds(siteAasId)
 
           const buildings = await Promise.all(
-            buildingIds.map(async (buildingAasId) => {
+            buildingIds.map(async (buildingAasId: any) => {
               //const buildingInformation = await this.getSeValue(buildingAasId, buildingSubmodelId, buildingIdShortPaths);
 
-              const buildingInformationBasyx = await this.getAllSubmodelElementValues(
+              const buildingInformationBasyx: any = await this.getAllSubmodelElementValues(
                 buildingAasId,
                 buildingSubmodelId
               )
@@ -1079,12 +1079,12 @@ export const useGeneralStore = defineStore('general', {
 
               const buildingInformation = {
                 buildingName: buildingInformationBasyx?.BuildingName || '',
-                country: addressArrayBuilding.find((item) => item.NationalCode)?.NationalCode || '',
-                city: addressArrayBuilding.find((item) => item.CityTown)?.CityTown || '',
-                zipcode: addressArrayBuilding.find((item) => item.Zipcode)?.Zipcode || '',
-                street: addressArrayBuilding.find((item) => item.Street)?.Street || '',
-                lat: addressArrayBuilding.find((item) => item.Lattitude)?.Lattitude || '',
-                lng: addressArrayBuilding.find((item) => item.Longitude)?.Longitude || ''
+                country: addressArrayBuilding.find((item: any) => item.NationalCode)?.NationalCode || '',
+                city: addressArrayBuilding.find((item: any) => item.CityTown)?.CityTown || '',
+                zipcode: addressArrayBuilding.find((item: any) => item.Zipcode)?.Zipcode || '',
+                street: addressArrayBuilding.find((item: any) => item.Street)?.Street || '',
+                lat: addressArrayBuilding.find((item: any) => item.Lattitude)?.Lattitude || '',
+                lng: addressArrayBuilding.find((item: any) => item.Longitude)?.Longitude || ''
               }
 
               //console.log(buildingInformation)
@@ -1114,15 +1114,15 @@ export const useGeneralStore = defineStore('general', {
     },
 
     async addBuildingInformation(
-      site,
-      buildingName,
-      country,
-      city,
-      street,
-      streetNumber,
-      lat,
-      lng,
-      zipcode
+      site: any,
+      buildingName: any,
+      country: any,
+      city: any,
+      street: any,
+      _streetNumber: any,
+      lat: any,
+      lng: any,
+      zipcode: any,
     ) {
       const siteAasId = site['siteAasId']
 

@@ -692,14 +692,14 @@ export const useGeneralStore = defineStore('general', {
       const rows: any[] = []
       reader.onload = (event) => {
         const text = event?.target?.result
-        const lines = text?.split('\n')
+        const lines = (text as string)?.split('\n')
         //const headers = lines[0].split(';');
 
         for (let i = 0; i < lines.length; i++) {
           const cells = lines[i].split(';')
           const semanticId = cells[0]
           const chartType = cells[1]
-          const obj = {}
+          const obj: { [key: string]: any } = {}
           obj[semanticId] = chartType
           rows.push(obj)
           /*
@@ -791,10 +791,10 @@ export const useGeneralStore = defineStore('general', {
 
         const organizationInformation = {
           organizationName: organizationInformationBasyx?.CompanyName || '',
-          country: addressArrayOrganization.find((item) => item?.NationalCode)?.NationalCode || '',
-          city: addressArrayOrganization.find((item) => item?.CityTown)?.CityTown || '',
-          zipcode: addressArrayOrganization.find((item) => item?.Zipcode)?.Zipcode || '',
-          street: addressArrayOrganization.find((item) => item?.Street)?.Street || ''
+          country: addressArrayOrganization.find((item: any) => item?.NationalCode)?.NationalCode || '',
+          city: addressArrayOrganization.find((item: any) => item?.CityTown)?.CityTown || '',
+          zipcode: addressArrayOrganization.find((item: any) => item?.Zipcode)?.Zipcode || '',
+          street: addressArrayOrganization.find((item: any) => item?.Street)?.Street || ''
         }
 
         if (Object.keys(organizationInformation).length > 0) {
@@ -846,7 +846,7 @@ export const useGeneralStore = defineStore('general', {
 
         //console.log(this.loadedSiteInformation)
 
-        this.loadedSiteInformationWithBuildings = this.getBuildingsForEachSite()
+        this.loadedSiteInformationWithBuildings = await this.getBuildingsForEachSite();
       } else {
         this.loadedOrganizationInformation = []
         this.loadedSiteInformation = []

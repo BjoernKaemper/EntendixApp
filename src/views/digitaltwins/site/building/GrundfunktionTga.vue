@@ -126,6 +126,7 @@
                             </template>
                           </tr>
                         </template>
+                        <!-- eslint-disable-next-line vue/valid-v-slot -->
                         <template v-slot:item.actions="{ item }">
                           <EditBacnetPropertiesNew :datenpunkt="item" />
                         </template>

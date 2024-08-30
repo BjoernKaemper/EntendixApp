@@ -11,6 +11,8 @@ import SiteBuildings from '@/components/general/SiteBuildings.vue'
 import { useGeneralStore } from '@/store/general'
 
 export default {
+  name: 'BuildingItems',
+
   data() {
     return {
       form: {

@@ -20,7 +20,7 @@
             <v-card-text>
               <v-row
                 align="center"
-                v-for="(site, i) in this.generalStore.loadedSiteInformationWithBuildings"
+                v-for="(site) in this.generalStore.loadedSiteInformationWithBuildings"
                 :key="site"
               >
                 <v-col cols="4">

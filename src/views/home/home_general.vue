@@ -26,15 +26,13 @@
 </template>
 
 <script>
-import GoogleMapsCardHome from '@/components/general/GoogleMapsCardHome.vue'
 import HomeCard from '@/components/general/HomeCard.vue'
 import { useGeneralStore } from '@/store/general'
 
 export default {
-  name: 'Home',
+  name: 'HomeGeneral',
 
   components: {
-    GoogleMapsCardHome,
     HomeCard
   },
 

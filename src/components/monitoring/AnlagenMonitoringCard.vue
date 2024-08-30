@@ -14,6 +14,7 @@
         hover
         :items-per-page="itemsPerPage"
       >
+        <!-- eslint-disable-next-line vue/valid-v-slot -->
         <template v-slot:item.actions="{ item }">
           <ShowChart :datenpunkt="item" />
         </template>
@@ -70,7 +71,6 @@
 </template>
 
 <script>
-import LineChart from '@/components/general/charts/LineChart.vue'
 import { useMonitoringStore } from '@/store/monitoring'
 import ShowChart from '@/components/monitoring/ShowChart.vue'
 
@@ -89,7 +89,6 @@ export default {
     elements: Object
   },
   components: {
-    LineChart,
     ShowChart
   },
   computed: {

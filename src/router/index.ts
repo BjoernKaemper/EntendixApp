@@ -1,6 +1,6 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/home/home_general.vue'
+import HomeGeneral from '@/views/home/home_general.vue'
 import Home_Site from '@/views/home/site/site_general.vue'
 import Home_Site_Building from '@/views/home/site/building/building_general.vue'
 import RegisterInfos from '@/views/RegisterInfos.vue'
@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: HomeGeneral,
     meta: {
       breadcrumb: () => {
         return [{ title: 'Home', to: '/' }]
@@ -62,7 +62,7 @@ const routes = [
     name: 'Register',
     component: RegisterInfos,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: () => {
         return [{ title: '', to: '/register' }]
       }
     }
@@ -73,7 +73,7 @@ const routes = [
     name: 'DigitalTwins',
     component: DigitalTwins,
     meta: {
-      breadcrumb: (route) => {
+      breadcrumb: () => {
         return [{ title: 'Digital Twins', to: '/digitaltwins' }]
       }
     }

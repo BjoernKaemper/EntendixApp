@@ -24,7 +24,7 @@
             <AddSites />
           </div>
           <div v-else-if="n == 3">
-            <Buildings />
+            <BuildingItems />
           </div>
         </v-window-item>
       </v-window>
@@ -58,7 +58,7 @@
 import AddOrgaInformation from '@/components/general/AddOrgaInformation.vue'
 import ShowOrgaInformation from '@/components/general/ShowOrgaInformation.vue'
 import AddSites from '@/components/general/AddSites.vue'
-import Buildings from '@/components/general/Buildings.vue'
+import BuildingItems from '@/components/general/BuildingItems.vue'
 // import EditOrganizationInformation from '@/components/general/EditOrganizationInformation.vue'
 
 import { useGeneralStore } from '@/store/general'
@@ -71,7 +71,7 @@ export default {
     }
   },
   // components: { AddOrgaInformation, EditOrganizationInformation, AddSites, AddBuildings },
-  components: { AddOrgaInformation, ShowOrgaInformation, AddSites, Buildings },
+  components: { AddOrgaInformation, ShowOrgaInformation, AddSites, BuildingItems },
   computed: {
     currentTitle() {
       switch (this.step) {

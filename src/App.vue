@@ -31,9 +31,9 @@
 
 <script setup>
 import NavBar from '@/components/general/NavBar.vue'
-import Footer from '@/components/general/Footer.vue'
+import Footer from '@/components/general/GeneralFooter.vue'
 import NavigationDrawer from '@/components/general/NavigationDrawer.vue'
-import Breadcrumbs from '@/components/general/Breadcrumbs.vue'
+import Breadcrumbs from '@/components/general/BreadCrumbs.vue'
 
 //import { onMounted } from "vue"
 import { watchEffect } from 'vue'

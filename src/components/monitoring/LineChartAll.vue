@@ -64,7 +64,6 @@ export default {
   },
   mounted() {
     let presetTime = 'month'
-    let chart = this.initChart(presetTime)
   },
   beforeUnmount() {
     if (this.chart) {
@@ -297,7 +296,7 @@ export default {
           let datenpunktName = element.datenpunktLabel
 
           //if (selectedMappings.hasOwnProperty(semanticId)) {
-          if (selectedMappings.hasOwnProperty(datenpunktName)) {
+          if (Object.prototype.hasOwnProperty.call(selectedMappings, datenpunktName)) {
             let aasId = this.allElements[komponente].anlagenInformation.aasId
 
             let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(

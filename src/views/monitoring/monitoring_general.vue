@@ -20,7 +20,7 @@
             <v-card-text>
               <v-row
                 align="center"
-                v-for="(site, i) in this.generalStore.loadedSiteInformationWithBuildings"
+                v-for="(site) in this.generalStore.loadedSiteInformationWithBuildings"
                 :key="site"
               >
                 <v-col cols="4">
@@ -93,7 +93,6 @@
 
 <script>
 import { useGeneralStore } from '@/store/general'
-import MonitoringOverview from '@/components/monitoring/MonitoringOverview.vue'
 
 //import AmCharts from "@/components/general/AmCharts.vue"
 //import PieChart from "@/components/general/charts/PieChart.vue"
@@ -102,7 +101,6 @@ import GoogleMapsCardHome from '@/components/general/GoogleMapsCardHome.vue'
 
 export default {
   components: {
-    MonitoringOverview,
     GoogleMapsCardHome
     //AmCharts, PieChart
   },

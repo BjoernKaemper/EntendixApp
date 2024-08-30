@@ -147,15 +147,11 @@
 
 <script>
 import { useMonitoringStore } from '@/store/monitoring'
-import GaugeChart from '@/components/general/charts/GaugeChart.vue'
 export default {
   data() {
     return {
       funktionZweiteEbene: {}
     }
-  },
-  components: {
-    GaugeChart
   },
   mounted() {
     let firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]

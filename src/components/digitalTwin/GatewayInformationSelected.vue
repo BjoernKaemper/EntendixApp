@@ -201,7 +201,6 @@
 <script>
 import { useGeneralStore } from '@/store/general'
 import { useDigitalTwinsStore } from '@/store/digitaltwins'
-import NlpResults from '@/components/Nlp/NlpResults.vue'
 
 export default {
   data() {
@@ -214,9 +213,6 @@ export default {
   },
   props: {
     buildingId: String
-  },
-  components: {
-    NlpResults
   },
   methods: {
     loadBuildingInformation() {

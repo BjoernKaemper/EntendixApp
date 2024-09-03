@@ -16,17 +16,15 @@ export default {
   },
   data() {
     return {
-      currentLight: 'green', // Default value
+      currentLight: 'green', 
     };
   },
   watch: {
     light(newLight) {
-      // Update currentLight whenever the light prop changes
       this.currentLight = newLight;
     },
   },
   mounted() {
-    // Initialize currentLight with the initial prop value
     this.currentLight = this.light;
   },
 };

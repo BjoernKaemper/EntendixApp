@@ -4,7 +4,6 @@
       <v-container class="ma-0 pa-0">
         <v-row class="liegeschaft-card--row" no-gutters align="center">
           <v-col cols="1" class="full-height">
-            <!-- Pass the dynamic light state to AmpelElement -->
             <AmpelElement :light="currentLight" />
           </v-col>
           <v-col cols="3" class="full-height">
@@ -41,7 +40,7 @@ export default {
   },
   data() {
     return {
-      currentLight: 'green' // Initialize with a default value like 'green'
+      currentLight: 'green' 
     }
   },
   mounted() {
@@ -65,7 +64,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss'; // Adjust the path to your mixins file
+@import '@/styles/mixins.scss'; 
 
 .liegeschaft-card {
   box-shadow: none;
@@ -85,10 +84,10 @@ export default {
 }
 
 .title {
-  @include section-headline; // Apply the title mixin
+  @include section-headline; 
 }
 
 .subtitle {
-  @include content; // Apply the subtitle mixin
+  @include content; 
 }
 </style>

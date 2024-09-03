@@ -647,14 +647,14 @@ export const useGeneralStore = defineStore('general', {
       this.fetchGeneralInfos(this.userId)
     },
     async editOrganizationInformation(organizationName: any, country: any, city: any, zipcode: any, street: any) {
-      const organizationInformation = {
+      const organizationInformation: { [key: string]: string[] } = {
         organizationName: organizationName,
         country: country,
         city: city,
         zipcode: zipcode,
         street: street
       }
-      const companyIdShortPaths = {
+      const companyIdShortPaths: { [key: string]: string[] } = {
         organizationName: ['CompanyName'],
         country: ['Address', 'NationalCode'],
         city: ['Address', 'CityTown'],

@@ -63,10 +63,6 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         datenpunkt: [idShort, 'DataSource', 'PredictionDatapoint', 'LabelResult'],
         anlage: [idShort, 'DataSource', 'PredictionAnlage', 'LabelResult'],
         bacnetData: [idShort, 'DataSource']
-        //objectName: [idShort, 'DataSource', 'ObjectName'],
-        //objectType: [idShort,'DataSource', 'ObjectType'],
-        //description: [idShort, 'DataSource', 'Description'],
-        //objectIdentifier: [idShort, 'DataSource', 'ObjectIdentifier'],
       }
       const getSeValue = 'submodelServices/getSubmodelElementValue'
       const urlSeValue = this.aasServer + getSeValue
@@ -79,12 +75,9 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             submodelIdShort: submodelIdShort,
             submodelElementShortIdPath: value
           })
-          //if (response.data !== '') {
           if (response.data.body !== '') {
-            //elementData[element] = response.data['value'];
             elementData[element] = response.data.body
           }
-          //console.log(response.data.body)
         } catch (error) {
           console.error(error)
         }
@@ -128,31 +121,9 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       } catch (error) {
         console.log(error)
       }
-      //console.log(responseBasyx)
-
-      /*
-            let formData = new FormData()
-            // formData.append("aas", this.file[0])
-            formData.append("aas", bacnetAas[0])
-            // console.log(formData)
-            console.log('Start NLP')
-            try {
-                const response = await axios.post('/nlpEndpoints/startNLPPipeline', formData, {
-                //const response = await axios.post('/awsNlpEndpoints/startNLPPipeline', formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    }
-                });
-                console.log(response)
-            } catch (error) {
-                console.error(error)
-            }
-            */
-      //const aas_id = '/TestAAS'
+  
       const bacnetIds = generalStore.loadedBacnetInformation
-      //console.log(bacnetIds)
       await generalStore.loadBacnetInformation(bacnetIds)
-      //await this.getBasyxNlpSubmodel(aasId, aasIdShort)
       this.showProgressUploadAas = false
     },
     async editDatenpunktGrundfunktion(datenpunkt: any, predictedGrundfunktion: any) {
@@ -171,15 +142,9 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         idShort: datenpunkt['IdShort'],
         aasId: this.aasId
       }
-      //console.log(datapointInformation)
-      //let formData = new FormData()
-      // formData.append('datapointInformation', datapointInformation)
-      //formData.append('correctedLabel', predictedGrundfunktion)
-      // formData.append('datapoint', datenpunkt)
 
       try {
         const response = await axios.post('/nlpEndpoints/editDatapoint', datapointInformation, {
-          //const response = await axios.post('/awsNlpEndpoints/editDatapoint', datapointInformation, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -223,15 +188,9 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         idShort: datenpunkt['IdShort'],
         aasId: this.aasId
       }
-      //console.log(datapointInformation)
-      //let formData = new FormData()
-      // formData.append('datapointInformation', datapointInformation)
-      //formData.append('correctedLabel', predictedGrundfunktion)
-      // formData.append('datapoint', datenpunkt)
 
       try {
         const response = await axios.post('/nlpEndpoints/editDatapoint', datapointInformation, {
-          //const response = await axios.post('/awsNlpEndpoints/editDatapoint', datapointInformation, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -307,14 +266,9 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         aasId: this.aasId
       }
       console.log(datapointInformation)
-      //let formData = new FormData()
-      // formData.append('datapointInformation', datapointInformation)
-      //formData.append('correctedLabel', predictedGrundfunktion)
-      // formData.append('datapoint', datenpunkt)
       const editingReady = ''
       try {
         const response = await axios.post('/nlpEndpoints/editDatapoint', datapointInformation, {
-          //const response = await axios.post('/awsNlpEndpoints/editDatapoint', datapointInformation, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -324,7 +278,6 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         console.error(error)
       }
 
-      //this.getBasyxNlpSubmodel(this.aasId)
       this.showProgressEditDatenpunkt = false
 
       return editingReady
@@ -349,7 +302,6 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         aasId: this.aasId
       }
       try {
-        //const response = await axios.post('/nlpEndpoints/editDatapoint', datapointInformation, {
         const response = await axios.post('/awsNlpEndpoints/editDatapoint', datapointInformation, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -391,10 +343,8 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         const response = await axios.post(urlBomParent, {
           userId: userId,
           aasIdentifier: aasId
-          //submodelIdShort: 'HierarchicalStructures'
         })
 
-        //console.log(response.data)
         parentAasId = response.data
       } catch (error) {
         console.log(error)
@@ -425,12 +375,8 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       const parentAasId = await this.getBomParent(aasId)
       const parentIdShort = await this.getAasIdShortByIdentifier(parentAasId[0])
       this.parentAasIdShort = parentIdShort[0]
-      //const aasBasyxServer = "http://3.83.126.51:4001/aasServer/shells"
-      //const aasBasyxServer = 'http://52.23.209.38:4003/aasServer/shells'
-      //const uriAas = aasBasyxServer + '/' + aas_id + '/aas'
-      //const uriSubmodel = uriAas + '/submodels/NLPClassificationResult/submodel'
 
-      const submodelInformation = await this.getSubmodel(aasId)
+      const submodelInformation: any = await this.getSubmodel(aasId)
 
       const submodelElements = submodelInformation['submodelElements']
       console.log(submodelElements)
@@ -503,31 +449,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
           Speicher: []
         }
       }
-      /*
-            const wärmeVersorgenZweite = {
-                'Distribution': {
-                    'Pump': [],
-                    'Heating circuit': [],
-                    'Valve': [],
-                    'Room': [],
-                    'Supply': [],
-                    'Return': []
-                },
-                'Generation': {
-                    'CHP': [],
-                    'Heat generator general': [],
-                    'Wärmepumpe': [],
-                    'Kessel': [],
-                    'Pelletkessel': []
-                },
-                'Beziehen': {
-                    'Fernwärme': [],
-                },
-                'Speichern': {
-                    'Speicher': []
-                }
-            }
-            */
+
       const luftVersorgenZweite: {
         Verteilen: {
           'Volumenstromregler Zuluft': SubmodelElementInfo[];
@@ -653,29 +575,6 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
             wärmeVersorgenZweite['Erzeugen']['Waermepumpe'].push(submodelElementInfo)
           } else if (zweiteEbeneValue == 'Erzeugen' && komponentenEbeneValue == 'BHKW') {
             wärmeVersorgenZweite['Erzeugen']['BHKW'].push(submodelElementInfo)
-            /*
-                    if (zweiteEbeneValue == 'Verteilen' && komponentenEbeneValue == 'HeizkreisAllgemein') {
-                        wärmeVersorgenZweite['Distribution']['Heating circuit'].push(submodelElementInfo)
-                    } else if (zweiteEbeneValue == 'Verteilen' && komponentenEbeneValue == 'Pumpe') {
-                        wärmeVersorgenZweite['Distribution']['Pump'].push(submodelElementInfo)
-                    } else if (zweiteEbeneValue == 'Verteilen' && komponentenEbeneValue == 'Vorlauf') {
-                        wärmeVersorgenZweite['Distribution']['Supply'].push(submodelElementInfo)
-                    } else if (zweiteEbeneValue == 'Verteilen' && komponentenEbeneValue == 'Ruecklauf') {
-                        wärmeVersorgenZweite['Distribution']['Return'].push(submodelElementInfo)
-                    } else if (zweiteEbeneValue == 'Verteilen' && komponentenEbeneValue == 'Ventil') {
-                        wärmeVersorgenZweite['Distribution']['Valve'].push(submodelElementInfo)
-
-                    } else if (zweiteEbeneValue == 'Erzeugen' && komponentenEbeneValue == 'WaermeversorgerAllgemein') {
-                        wärmeVersorgenZweite['Generation']['Heat generator general'].push(submodelElementInfo)
-                    } else if (zweiteEbeneValue == 'Erzeugen' && komponentenEbeneValue == 'Kessel') {
-                        wärmeVersorgenZweite['Erzeugen']['Kessel'].push(submodelElementInfo)
-                    } else if (zweiteEbeneValue == 'Erzeugen' && komponentenEbeneValue == 'Pelletkessel') {
-                        wärmeVersorgenZweite['Erzeugen']['Pelletkessel'].push(submodelElementInfo)
-                    } else if (zweiteEbeneValue == 'Erzeugen' && komponentenEbeneValue == 'Waermepumpe') {
-                        wärmeVersorgenZweite['Erzeugen']['Waermepumpe'].push(submodelElementInfo)
-                    } else if (zweiteEbeneValue == 'Erzeugen' && komponentenEbeneValue == 'BHKW') {
-                        wärmeVersorgenZweite['Generation']['CHP'].push(submodelElementInfo)
-                    */
           } else if (zweiteEbeneValue == 'Beziehen') {
             wärmeVersorgenZweite['Beziehen']['Fernwärme'].push(submodelElementInfo)
           } else if (zweiteEbeneValue == 'Speichern') {
@@ -788,7 +687,6 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
           stromVersorgen.push(submodelElementInfo)
         }
       }
-      //console.log(wärmeVersorgenZweite)
       for (const key1 in wärmeVersorgenZweite) {
         if (Object.prototype.hasOwnProperty.call(wärmeVersorgenZweite, key1)) {
           const innerObj = wärmeVersorgenZweite[key1 as keyof typeof wärmeVersorgenZweite]

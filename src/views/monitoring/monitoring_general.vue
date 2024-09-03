@@ -17,6 +17,9 @@
               :thickness="2"
               color="success"
             ></v-divider>
+            <LiegenschaftCard />
+            <LiegenschaftCard />
+            <LiegenschaftCard />
             <v-card-text>
               <v-row
                 align="center"
@@ -98,10 +101,12 @@ import { useGeneralStore } from '@/store/general'
 //import PieChart from "@/components/general/charts/PieChart.vue"
 
 import GoogleMapsCardHome from '@/components/general/GoogleMapsCardHome.vue'
+import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
 
 export default {
   components: {
-    GoogleMapsCardHome
+    GoogleMapsCardHome,
+    LiegenschaftCard
     //AmCharts, PieChart
   },
   computed: {

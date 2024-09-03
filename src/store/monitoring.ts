@@ -181,7 +181,7 @@ export const useMonitoringStore = defineStore('monitoring', {
     async getTimeSeriesSubmodelElements(aasId: any) {
       const getSubmodelElements = 'submodelServices/getSubmodelElementByPath'
       const url = this.aasServer + getSubmodelElements
-      let responseBasyx = ''
+      let responseBasyx = undefined
       const generalStore = useGeneralStore()
       const userId = generalStore.userId
       this.userId = userId
@@ -250,7 +250,7 @@ export const useMonitoringStore = defineStore('monitoring', {
 
       const readTimeSeries = 'timeseriesServices/readTimeSeries'
       const url = this.aasServer + readTimeSeries
-      let responseBasyx = ''
+      let responseBasyx = undefined
       const actualTime = Math.floor(new Date().getTime() / 1000)
       console.log(actualTime)
       console.log(this.userId)

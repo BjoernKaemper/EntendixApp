@@ -15,7 +15,7 @@ export default defineConfig({
     checker({
       typescript: true,
     }),
-    vue({ 
+    vue({
       template: { transformAssetUrls
     }
     }),
@@ -44,6 +44,13 @@ export default defineConfig({
       '.vue',
     ],
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/styles/styles.scss";`,
+      },
+    },
+  },
   server: {
     port: 3000,
     proxy: {
@@ -51,7 +58,7 @@ export default defineConfig({
         target: 'https://svmiv1rcci.execute-api.us-east-1.amazonaws.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/awsBackend/, ''),
-     }, 
+     },
       '/awsNlpEndpoints': {
         target: 'http://3.95.230.131:8003/',
         changeOrigin: true,

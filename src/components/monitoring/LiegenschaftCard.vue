@@ -31,8 +31,10 @@
   </v-container>
 </template>
 
-<script>
-import AmpelElement from '@/components/general/AmpelElement.vue'
+<script lang="ts">
+import AmpelElement from '@/components/general/TrafficLightIndicator.vue'
+import { TrafficLightTypes } from '@/types/TrafficLightTypes';
+import { ConditionTypes } from '@/types/ConditionTypes';
 
 export default {
   components: {
@@ -40,7 +42,7 @@ export default {
   },
   data() {
     return {
-      currentLight: 'green' 
+      currentLight: TrafficLightTypes.GREEN.toLowerCase() 
     }
   },
   mounted() {
@@ -49,14 +51,14 @@ export default {
   },
   methods: {
     updateLightBasedOnCondition() {
-      const condition = /* some logic to determine the light */ 'alert';
+      const condition = /* some logic to determine the light */ ConditionTypes.NORMAL.toLowerCase();
 
-      if (condition === 'alert') {
-        this.currentLight = 'red';
-      } else if (condition === 'warning') {
-        this.currentLight = 'yellow';
-      } else {
-        this.currentLight = 'green';
+      if (condition === ConditionTypes.ALERT.toLowerCase()) {
+        this.currentLight = TrafficLightTypes.RED.toLowerCase();
+      } else if (condition === ConditionTypes.WARNING.toLowerCase()) {
+        this.currentLight = TrafficLightTypes.YELLOW.toLowerCase();
+      } else if (condition === ConditionTypes.NORMAL.toLowerCase()) {
+        this.currentLight = TrafficLightTypes.GREEN.toLowerCase();
       }
     }
   }
@@ -71,7 +73,7 @@ export default {
 }
 
 .liegeschaft-card--row {
-  height: 64px;
+  height: $xxxl;
 }
 
 .full-height {
@@ -79,7 +81,7 @@ export default {
 }
 
 .liegenschaft-image {
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 $base-size $base-size 0;
   height: 100%; 
 }
 

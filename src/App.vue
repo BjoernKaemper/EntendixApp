@@ -1,38 +1,27 @@
 <template>
-  <v-app>
+  <div>
     <Authenticator>
       <template v-slot:header>
         <div style="padding: var(--amplify-space-large); text-align: center">
           <img id="auth-logo" src="@/assets/plyteq_schriftzug.svg" />
         </div>
       </template>
-      <!--
-      <template v-slot="{ user, signOut }">
-        <h1>Hello {{ user.username }}!</h1>
-        <button @click="signOut">Sign Out</button>
-      </template>
-    -->
     </Authenticator>
     <template v-if="auth.authStatus === 'authenticated'">
-      <NavBar />
-      <NavigationDrawer />
-      <v-main>
-        <div id="page-container">
-          <div id="content-wrap">
-            <Breadcrumbs />
-            <router-view />
-          </div>
-        </div>
-        <Footer />
-      </v-main>
+      <header ref="header">
+        <NavBar :navItems="navItems" />
+        <Breadcrumbs />
+      </header>
+      <main :style="mainHeight">
+        <router-view />
+      </main>
     </template>
-  </v-app>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import NavBar from '@/components/general/NavBar.vue'
-import Footer from '@/components/general/GeneralFooter.vue'
-import NavigationDrawer from '@/components/general/NavigationDrawer.vue'
 import Breadcrumbs from '@/components/general/BreadCrumbs.vue'
 
 //import { onMounted } from "vue"
@@ -44,7 +33,6 @@ import '@aws-amplify/ui-vue/styles.css'
 
 import { I18n } from 'aws-amplify'
 import { translations } from '@aws-amplify/ui-vue'
-
 /*
   import { signUp } from 'aws-amplify/auth';
   import { confirmSignUp } from 'aws-amplify/auth';
@@ -68,6 +56,19 @@ I18n.putVocabularies({
 })
 const auth = useAuthenticator()
 const store = useGeneralStore()
+
+const navItems = [
+  { icon: '', name: 'Digitale Zwillinge', href: '/digitaltwins' },
+  { icon: '', name: 'Monitoring', href: '/monitoring' }
+]
+
+const header = ref(null)
+
+const mainHeight = computed(() => {
+  //
+  const headerHeight = header.value ? header.value.clientHeight + 1 : 100
+  return `height: calc(100vh - ${headerHeight}px);`
+})
 //console.log(auth)
 /*
 async function handleSignUp({ username, password, email, phone_number }) {
@@ -149,13 +150,7 @@ watchEffect(() => {
   */
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-#app {
-  font-family: 'Montserrat';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+<style lang="scss">
 [data-amplify-authenticator] {
   --amplify-components-tabs-item-active-border-color: var(--amplify-colors-green-90);
   --amplify-components-tabs-item-active-color: var(--amplify-colors-green-90);
@@ -171,17 +166,18 @@ watchEffect(() => {
   --amplify-components-button-link-focus-background-color: transparent;
   --amplify-components-button-link-hover-background-color: transparent;
 }
-.card-background {
-  background-color: whitesmoke;
-}
 #auth-logo {
   margin-top: 50px;
   max-width: 50%;
   height: auto;
 }
-#page-container {
-  position: relative;
-  min-height: 85vh;
-  margin-bottom: 10vh;
+header {
+  width: 100vw;
+}
+main {
+  background-color: $background;
+  width: 100vw;
+  overflow-y: scroll;
+  padding: $xxl $m; // TODO: used $xxl instead of 45px
 }
 </style>

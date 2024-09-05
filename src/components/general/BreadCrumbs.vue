@@ -1,67 +1,79 @@
 <template>
-  <v-breadcrumbs :items="breadcrumbs" class="custom-breadcrumbs">
-    <template v-slot:title="{ item }">
-      <v-chip
-        v-if="item.title !== ''"
-        variant="outlined"
-        style="background-color: whitesmoke"
-        color="highlight"
-        link
-        size="large"
-        class="custom-chip"
-      >
-        {{ item.title }}
-      </v-chip>
-    </template>
-    <template v-slot:divider>
-      <span class="custom-divider">&#8212;</span>
-    </template>
-  </v-breadcrumbs>
+  <ul class="breadcrumb">
+    <li>
+      <router-link to="/" title="Home"><HomeIcon class="home-icon" /></router-link>
+    </li>
+    <li v-for="(item, idx) in breadcrumbs" :key="idx">
+      <router-link :to="item.to">{{ item.title }}</router-link>
+    </li>
+  </ul>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      breadcrumbs: []
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+import HomeIcon from '@/components/icons/HomeIcon.vue'
+
+const route = useRoute()
+
+const breadcrumbs = computed(() => {
+  return route.meta.breadcrumb(route).filter((el) => el.to !== '/') || []
+})
+</script>
+
+<style scoped lang="scss">
+.breadcrumb {
+  background-color: $dark-green-20;
+  padding: $s $m; // TODO: used $s instead of 8px
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  > li {
+    border-radius: 14px;
+    background-color: white;
+    border: 2px solid $dark-green;
+    height: 28px;
+    padding: $base-size $s;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 10px;
+      height: 0;
+      border-top: 1.5px solid $dark-green;
+      border-bottom: 1.5px solid $dark-green;
+      top: calc(50% - 1.5px);
+      left: -11px;
     }
-  },
-  watch: {
-    $route: 'generateBreadcrumbs'
-  },
-  created() {
-    this.generateBreadcrumbs()
-  },
-  methods: {
-    generateBreadcrumbs() {
-      //console.log(this.$route)
-      //console.log(this.$route.meta.breadcrumb(this.$route))
-      this.breadcrumbs = this.$route.meta.breadcrumb(this.$route)
+    &:first-child {
+      background-color: $dark-green;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      > a {
+        color: $light-green;
+      }
+      ::before {
+        display: none;
+      }
+    }
+
+    > a {
+      @include content;
+      color: black;
+      text-decoration: none;
     }
   }
 }
-</script>
-
-<style>
-.custom-breadcrumbs {
-  display: flex;
-  align-items: center;
-}
-
-.custom-breadcrumbs a:hover {
-  text-decoration: none !important;
-}
-
-.custom-chip {
-  margin: 0;
-}
-
-.custom-divider {
-  width: 100%; /* Set the width to 100% to span the entire width */
-  text-align: center; /* Optional: Center the text within the divider */
-}
-.v-breadcrumbs-divider {
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+home-icon {
+  color: $light-green;
 }
 </style>

@@ -7,30 +7,40 @@
 </template>
 
 <script lang="ts">
+/**
+ * Traffic light indicator component
+ * @module components/general/TrafficLightIndicator
+ * @summary A component that displays a traffic light indicator
+ * @props {string} light - The current light of the traffic light
+ * @computed {boolean} trafficLightIsRed - Whether the traffic light is red
+ * @computed {boolean} trafficLightIsYellow - Whether the traffic light is yellow
+ * @computed {boolean} trafficLightIsGreen - Whether the traffic light is green
+ */
 import { TrafficLightTypes } from '@/types/TrafficLightTypes';
+import { type PropType } from 'vue';
 
 export default {
   props: {
     light: {
-      type: String as () => string,
-      default: TrafficLightTypes.GREEN.toLowerCase(),
+      type: String as PropType<TrafficLightTypes>,
+      default: TrafficLightTypes.GREEN,
     },
   },
   computed: {
     trafficLightIsRed(): boolean {
-      return this.light === TrafficLightTypes.RED.toLowerCase();
+      return this.light === TrafficLightTypes.RED;
     },
     trafficLightIsYellow(): boolean {
-      return this.light === TrafficLightTypes.YELLOW.toLowerCase();
+      return this.light === TrafficLightTypes.YELLOW;
     },
     trafficLightIsGreen(): boolean {
-      return this.light === TrafficLightTypes.GREEN.toLowerCase();
+      return this.light === TrafficLightTypes.GREEN;
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .traffic-light-container {
   height: 100%;
   background-color: $darkest;

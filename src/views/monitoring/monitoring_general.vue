@@ -71,45 +71,6 @@
                         </v-row>
                     -->
             </v-card-text>
-            <LiegenschaftCard
-            location="Köln"
-            name="TH Köln, Campus Deutz"
-            />
-            <LiegenschaftCard
-            location="Köln"
-            name="TH Köln, Campus Gummersbach"
-            />
-            <LiegenschaftCard
-            location="Köln"
-            name="TH Köln, Campus Deutz"
-            />
-            <StatusCard
-              icon="mdi-check-circle"
-              title="Name"
-              subtitle="Some description"
-              status="success"
-              actionIcon="mdi-arrow-right"
-            />
-            <StatusCard
-              icon="mdi-alert-circle"
-              title="Warning"
-              status="warning"
-              actionIcon="mdi-information-outline"
-            />
-            <StatusCard
-              icon="mdi-alert"
-              title="Error"
-              subtitle="An error occurred"
-              status="error"
-              actionIcon="mdi-information-outline"
-            />
-            <StatusCard
-              icon="mdi-help-circle"
-              title="Info"
-              subtitle="This is some info"
-              status="info"
-              actionIcon="mdi-information-outline"
-            />
           </v-card>
         </v-col>
       </v-row>
@@ -137,14 +98,10 @@ import { useGeneralStore } from '@/store/general'
 //import PieChart from "@/components/general/charts/PieChart.vue"
 
 import GoogleMapsCardHome from '@/components/general/GoogleMapsCardHome.vue'
-import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
-import StatusCard from '@/components/general/StatusCard.vue'
 
 export default {
   components: {
     GoogleMapsCardHome,
-    LiegenschaftCard,
-    StatusCard
     //AmCharts, PieChart
   },
   computed: {

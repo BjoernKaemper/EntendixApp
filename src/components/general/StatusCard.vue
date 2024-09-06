@@ -1,6 +1,6 @@
 <template>
-  <v-card class="status-card ma-0 my-6 pa-0">
-    <v-row no-gutters class="d-flex align-stretch">
+  <v-card :class="colourClass" class="status-card ma-2 my-6 pa-0">
+    <v-row no-gutters class="status-card--row d-flex align-stretch">
       <!-- Icon Section -->
       <v-col :class="colourClass" class="icon-col" cols="1">
         <v-icon :class="iconClass">
@@ -9,7 +9,7 @@
       </v-col>
 
       <!-- Text Section -->
-      <v-col class="text-col pl-2" cols="10">
+      <v-col class="text-col pl-2 py-4" cols="10">
         <v-card-title class="pa-0 title">
           {{ title }}
         </v-card-title>
@@ -102,6 +102,12 @@ export default {
 .status-card {
   border-radius: $base-size;
   padding: $xxs;
+  box-shadow: none;
+  
+  &--row {
+    background-color: $lightest;
+    height: 100%;
+  }
 }
 
 .v-row {
@@ -111,18 +117,22 @@ export default {
 
 .success {
   background-color: $light-green;
+  border: 1px solid $light-green;
 }
 
 .warning {
   background-color: $yellow;
+  border: 1px solid $yellow;
 }
 
 .error {
   background-color: $orange;
+  border: 1px solid $orange;
 }
 
 .info {
   background-color: $light-purple;
+  border: 1px solid $light-purple;
 }
 
 .title {

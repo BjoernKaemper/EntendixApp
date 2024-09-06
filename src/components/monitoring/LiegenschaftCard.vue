@@ -1,37 +1,35 @@
 <template>
-  <v-container class="ma-0 pa-0 my-6">
-    <v-card class="liegeschaft-card">
-      <v-container class="ma-0 pa-0">
-        <v-row class="liegeschaft-card--row" no-gutters align="center">
-          <v-col cols="1" class="full-height">
-            <AmpelElement :light="currentLight" />
-          </v-col>
-          <v-col cols="3" class="full-height">
-            <v-img 
-              src="@/assets/gebäude_deutz.png" 
-              class="liegenschaft-image"
-              cover
-            ></v-img>
-          </v-col>
-          <v-col cols="7">
-            <v-card-title class="pa-1 pl-6">
-              <v-row no-gutters>
-                <v-col cols="12">
-                  <v-card-title class="pa-0 title">{{ location }}</v-card-title>
-                </v-col>
-                <v-col cols="12">
-                  <v-card-subtitle class="pa-0 subtitle">{{ name }}</v-card-subtitle>
-                </v-col>
-              </v-row>
-            </v-card-title>
-          </v-col>
-          <v-col cols="1">
-            <v-icon>mdi-chevron-right</v-icon>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
-  </v-container>
+  <v-card class="liegeschaft-card ma-2 my-6 pa-0">
+    <v-container class="ma-0 pa-0">
+      <v-row class="liegeschaft-card--row" no-gutters align="center">
+        <v-col cols="1" class="full-height">
+          <AmpelElement :light="currentLight" />
+        </v-col>
+        <v-col cols="3" class="full-height">
+          <v-img 
+            src="@/assets/gebäude_deutz.png" 
+            class="liegenschaft-image"
+            cover
+          ></v-img>
+        </v-col>
+        <v-col class="text-col" cols="7">
+          <v-card-title class="pa-1 pl-6">
+            <v-row no-gutters>
+              <v-col cols="12">
+                <v-card-title class="pa-0 title">{{ location }}</v-card-title>
+              </v-col>
+              <v-col cols="12">
+                <v-card-subtitle class="pa-0 subtitle">{{ name }}</v-card-subtitle>
+              </v-col>
+            </v-row>
+          </v-card-title>
+        </v-col>
+        <v-col class="action-col" cols="1" v-if="actionIcon">
+          <v-icon class="action-icon"> {{ actionIcon }}</v-icon>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -64,6 +62,14 @@ export default {
     name: {
       type: String as PropType<string>,
       default: 'Name'
+    },
+    /**
+     * The icon to display in the card.
+     * @default 'mdi-chevron-right'
+     */
+    actionIcon: {
+      type: String as PropType<string>,
+      default: 'mdi-chevron-right'
     }
   },
   components: {
@@ -103,6 +109,7 @@ export default {
 
 .liegeschaft-card {
   box-shadow: none;
+  cursor: pointer;
 }
 
 .liegeschaft-card--row {

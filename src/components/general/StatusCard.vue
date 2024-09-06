@@ -30,32 +30,49 @@
 /**
  * A card component that displays a title, subtitle, icon, and an optional action icon.
  * The card can be styled with a status color (success, warning, error, info).
- * 
- * @prop {string} icon - The icon to display in the card.
- * @prop {string} title - The title of the card.
- * @prop {string} status - The status of the card (success, warning, error, info).
- * @prop {string} subtitle - The subtitle of the card.
- * @prop {string} actionIcon - The icon to display as an action icon.
+ * @module components/general/StatusCard
+ * @displayName StatusCard
  */
 import { type PropType } from 'vue';
+import { StatusTypes } from '@/types/StatusTypes';
+import { ConditionTypes } from '@/types/ConditionTypes';
 
 export default {
   props: {
+    /**
+     * The icon to display in the card.
+     * @default 'mdi-information'
+     */
     icon: {
       type: String as PropType<string>,
       default: 'mdi-information'
     }, 
+    /**
+     * The title of the card.
+     * @default 'Title'
+     */
     title: {
       type: String as PropType<string>,
       default: 'Title'
     },
+    /**
+     * The status of the card.
+     * The status can be one of 'success', 'warning', 'error', or 'info'.
+     * @default 'info'
+     */
     status: {
       type: String as PropType<string>,
-      default: 'info' // success, warning, error, info
+      default: 'info' 
     },
+    /**
+     * The subtitle of the card.
+     */
     subtitle: {
       type: String as PropType<string>,
     },
+    /**
+     * The icon to display as an action icon.
+     */
     actionIcon: {
       type: String as PropType<string>,
       default: ''
@@ -63,12 +80,14 @@ export default {
   },
   computed: {
     colourClass() {
-      return {
-        'colour-card--success': this.status === 'success',
-        'colour-card--warning': this.status === 'warning',
-        'colour-card--error': this.status === 'error',
-        'colour-card--info': this.status === 'info'
+      const statusMap: { [key: string]: StatusTypes } = {
+        [ConditionTypes.SUCCESS]: StatusTypes.SUCCESS,
+        [ConditionTypes.WARNING]: StatusTypes.WARNING,
+        [ConditionTypes.ERROR]: StatusTypes.ERROR,
+        [ConditionTypes.INFO]: StatusTypes.INFO
       }
+      console.log(this.status);
+      return statusMap[this.status] || this.status;
     },
     iconClass() {
       return `status-icon-${this.status}`
@@ -90,19 +109,19 @@ export default {
   align-items: stretch; 
 }
 
-.colour-card--success {
+.success {
   background-color: $light-green;
 }
 
-.colour-card--warning {
+.warning {
   background-color: $yellow;
 }
 
-.colour-card--error {
+.error {
   background-color: $orange;
 }
 
-.colour-card--info {
+.info {
   background-color: $light-purple;
 }
 

@@ -39,10 +39,7 @@
 * LiegenschaftCard component
 * @module components/monitoring/LiegenschaftCard
 * @summary A card component that displays a location and name of a property
-* @props {string} location - The location of the property
-* @props {string} name - The name of the property
-* @data {TrafficLightTypes} currentLight - The current light of the traffic light
-* @method updateLightBasedOnCondition - Updates the light based on a condition
+* @displayName LiegenschaftCard
 */
 
 import AmpelElement from '@/components/general/TrafficLightIndicator.vue'
@@ -52,10 +49,18 @@ import { type PropType } from 'vue';
 
 export default {
   props: {
+    /**   
+     * The location of the property
+     * @default 'Ort'
+     */
     location: {
       type: String as PropType<string>,
       default: 'Ort'
     },
+    /**
+     * The name of the property
+     * @default 'Name'
+     */
     name: {
       type: String as PropType<string>,
       default: 'Name'
@@ -74,6 +79,9 @@ export default {
     this.updateLightBasedOnCondition();
   },
   methods: {
+    /**
+     * Updates the light based on a condition
+     */
     updateLightBasedOnCondition() {
       const condition = /* some logic to determine the light */ ConditionTypes.ALERT;
 

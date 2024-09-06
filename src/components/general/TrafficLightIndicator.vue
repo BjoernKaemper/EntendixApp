@@ -9,30 +9,40 @@
 <script lang="ts">
 /**
  * Traffic light indicator component
+ * @summary A component that displays a traffic light with three lights
  * @module components/general/TrafficLightIndicator
- * @summary A component that displays a traffic light indicator
- * @props {string} light - The current light of the traffic light
- * @computed {boolean} trafficLightIsRed - Whether the traffic light is red
- * @computed {boolean} trafficLightIsYellow - Whether the traffic light is yellow
- * @computed {boolean} trafficLightIsGreen - Whether the traffic light is green
+ * @displayName TrafficLightIndicator
  */
 import { TrafficLightTypes } from '@/types/TrafficLightTypes';
 import { type PropType } from 'vue';
 
 export default {
   props: {
+    /**
+     * The current light of the traffic light
+     * @default TrafficLightTypes.GREEN
+     */
     light: {
       type: String as PropType<TrafficLightTypes>,
       default: TrafficLightTypes.GREEN,
     },
   },
   computed: {
+    /**
+     * @returns {boolean} Whether the traffic light is red
+     */
     trafficLightIsRed(): boolean {
       return this.light === TrafficLightTypes.RED;
     },
+    /**
+     * @returns {boolean} Whether the traffic light is yellow
+     */
     trafficLightIsYellow(): boolean {
       return this.light === TrafficLightTypes.YELLOW;
     },
+    /**
+     * @returns {boolean} Whether the traffic light is green
+     */
     trafficLightIsGreen(): boolean {
       return this.light === TrafficLightTypes.GREEN;
     },

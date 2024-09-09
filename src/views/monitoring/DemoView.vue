@@ -65,7 +65,7 @@
     </v-container>
   </div>
 </template>
-<script>
+<script lang="ts">
 import GoogleMapsCardHome from '@/components/general/GoogleMapsCardHome.vue'
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
 import StatusCard from '@/components/general/StatusCard.vue'
@@ -78,6 +78,6 @@ export default {
   },
 }
 </script>
-<style lang="">
+<style lang="scss">
   
 </style>

@@ -3,7 +3,7 @@
     <v-container class="ma-0 pa-0">
       <v-row class="liegeschaft-card--row" no-gutters align="center">
         <v-col cols="1" class="full-height">
-          <AmpelElement :light="currentLight" />
+          <TrafficLightIndicator :light="currentLight" />
         </v-col>
         <v-col cols="3" class="full-height">
           <v-img 
@@ -40,7 +40,7 @@
 * @displayName LiegenschaftCard
 */
 
-import AmpelElement from '@/components/general/TrafficLightIndicator.vue'
+import TrafficLightIndicator from '@/components/general/TrafficLightIndicator.vue'
 import { TrafficLightTypes } from '@/types/TrafficLightTypes';
 import { ConditionTypes } from '@/types/ConditionTypes';
 import { type PropType } from 'vue';
@@ -70,10 +70,10 @@ export default {
     actionIcon: {
       type: String as PropType<string>,
       default: 'mdi-chevron-right'
-    }
+    },
   },
   components: {
-    AmpelElement
+    TrafficLightIndicator,
   },
   data() {
     return {
@@ -98,7 +98,7 @@ export default {
       };
 
       // Default to GREEN if the condition doesn't match
-      this.currentLight = conditionToLightMap[condition] || TrafficLightTypes.GREEN;
+      this.currentLight = conditionToLightMap[condition];
     }
   }
 }

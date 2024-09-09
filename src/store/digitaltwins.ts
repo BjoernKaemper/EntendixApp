@@ -121,9 +121,12 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       } catch (error) {
         console.log(error)
       }
+
+
+      const semanticIdAasTypeBacnet = 'https://th-koeln.de/gart/BACnetDeviceAAS/1/0'
+      const aasBacnetIds = await generalStore.getAasByType(semanticIdAasTypeBacnet)
   
-      const bacnetIds = generalStore.loadedBacnetInformation
-      await generalStore.loadBacnetInformation(bacnetIds)
+      await generalStore.loadBacnetInformation(aasBacnetIds)
       this.showProgressUploadAas = false
     },
     async editDatenpunktGrundfunktion(datenpunkt: any, predictedGrundfunktion: any) {

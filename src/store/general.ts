@@ -284,6 +284,7 @@ export const useGeneralStore = defineStore('general', {
     },
 
     async loadBacnetInformation(aasBacnetIds: any) {
+      console.log('>>> loadBacnetInformation', aasBacnetIds);
       this.loadedBacnetInformationNotAssigned = []
       this.loadedBacnetInformationAssigned = []
       const digitalNameplateIdShortPaths = {
@@ -566,8 +567,6 @@ export const useGeneralStore = defineStore('general', {
 
       const semanticIdAasTypeBacnet = 'https://th-koeln.de/gart/BACnetDeviceAAS/1/0'
       const aasBacnetIds = await this.getAasByType(semanticIdAasTypeBacnet)
-
-      this.loadedBacnetInformation = aasBacnetIds
 
       await this.loadBacnetInformation(aasBacnetIds)
 

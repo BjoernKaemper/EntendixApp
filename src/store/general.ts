@@ -284,7 +284,6 @@ export const useGeneralStore = defineStore('general', {
     },
 
     async loadBacnetInformation(aasBacnetIds: any) {
-      console.log('>>> loadBacnetInformation', aasBacnetIds);
       this.loadedBacnetInformationNotAssigned = []
       this.loadedBacnetInformationAssigned = []
       const digitalNameplateIdShortPaths = {

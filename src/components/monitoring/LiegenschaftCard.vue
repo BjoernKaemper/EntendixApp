@@ -77,7 +77,7 @@ export default {
   },
   data() {
     return {
-      currentLight: TrafficLightTypes.GREEN 
+      currentLight: TrafficLightTypes.GREEN,
     }
   },
   mounted() {

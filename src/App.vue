@@ -33,13 +33,7 @@ import '@aws-amplify/ui-vue/styles.css'
 
 import { I18n } from 'aws-amplify'
 import { translations } from '@aws-amplify/ui-vue'
-/*
-  import { signUp } from 'aws-amplify/auth';
-  import { confirmSignUp } from 'aws-amplify/auth';
-  import { autoSignIn } from 'aws-amplify/auth';
-  import { signIn } from 'aws-amplify/auth';
-  import { signOut } from 'aws-amplify/auth';
-  */
+
 I18n.putVocabularies(translations)
 I18n.setLanguage('de')
 
@@ -69,85 +63,14 @@ const mainHeight = computed(() => {
   const headerHeight = header.value ? header.value.clientHeight + 1 : 100
   return `height: calc(100vh - ${headerHeight}px);`
 })
-//console.log(auth)
-/*
-async function handleSignUp({ username, password, email, phone_number }) {
-  try {
-    const { isSignUpComplete, userId, nextStep } = await signUp({
-      username,
-      password,
-      options: {
-        userAttributes: {
-          email,
-          phone_number // E.164 number convention
-        },
-        // optional
-        autoSignIn: true // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
-      }
-    });
 
-    console.log(userId);
-  } catch (error) {
-    console.log('error signing up:', error);
-  }
-}
-
-async function handleSignUpConfirmation({ username, confirmationCode }) {
-  try {
-    const { isSignUpComplete, nextStep } = await confirmSignUp({
-      username,
-      confirmationCode
-    });
-  } catch (error) {
-    console.log('error confirming sign up', error);
-  }
-}
-
-async function handleAutoSignIn() {
-  try {
-    const signInOutput = await autoSignIn();
-    // handle sign-in steps
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function signIn({ username, password }) {
-  try {
-    const { isSignedIn, nextStep } = await signIn({ username, password });
-  } catch (error) {
-    console.log('error signing in', error);
-  }
-}
-
-
-async function handleSignOut() {
-  try {
-    await signOut();
-  } catch (error) {
-    console.log('error signing out: ', error);
-  }
-}
-*/
 watchEffect(() => {
   // Check if auth.user is available and contains the necessary properties.
   if (auth.user && auth.user.signInUserSession) {
-    //console.log(auth.user)
-
     const userId = auth.user.signInUserSession.idToken.payload.sub
-    //console.log(userId)
-    //console.log(userId)
     store.fetchGeneralInfos(userId)
   }
 })
-/*
-  onMounted( () => {
-    //const authentification = useAuthenticator()
-    console.log(auth)
-    const userId = auth.user.signInUserSession.idToken.payload.sub
-    store.fetchGeneralInfos(userId)
-  })
-  */
 </script>
 
 <style lang="scss">

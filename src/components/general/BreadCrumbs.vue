@@ -9,17 +9,19 @@
   </ul>
 </template>
 
-<script lang="ts" setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-
+<script lang="ts">
 import HomeIcon from '@/components/icons/HomeIcon.vue'
 
-const route = useRoute()
-
-const breadcrumbs = computed(() => {
-  return route.meta.breadcrumb(route).filter((el) => el.to !== '/') || []
-})
+export default {
+  components: {
+    HomeIcon
+  },
+  computed: {
+    breadcrumbs(): Array<{ to: string; title: string }> {
+      return this.$route.meta.breadcrumb(this.$route).filter((item: any) => item.to !== '/') || []
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

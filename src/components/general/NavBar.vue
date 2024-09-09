@@ -5,9 +5,6 @@
       <ul>
         <li v-for="(navItem, idx) in navItems" :key="idx">
           <router-link :to="navItem.href" active-class="active">
-            <template v-if="navItem.icon">
-              <v-icon>{{ navItem.icon }}</v-icon>
-            </template>
             {{ navItem.name }}
           </router-link>
         </li>
@@ -22,19 +19,29 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import ProfileIcon from '@/components/icons/ProfileIcon.vue'
 
 import { useAuthenticator } from '@aws-amplify/ui-vue'
 
-const props = defineProps({
-  navItems: {
-    type: Array<{ icon: String; name: String; href: string }>,
-    default: () => []
-  }
-})
+export default {
+  components: {
+    ProfileIcon
+  },
+  props: {
+    navItems: {
+      type: Array<{href: string, name: string}>,
+      default: () => []
+    }
+  },
+  setup() {
+    const auth = useAuthenticator()
 
-const auth = useAuthenticator()
+    return {
+      auth
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

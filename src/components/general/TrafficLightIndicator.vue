@@ -53,6 +53,7 @@ export default {
 <style lang="scss" scoped>
 .traffic-light-container {
   height: 100%;
+  width: $xl;
   background-color: $darkest;
   gap: calc($base-size + 1px);
   padding: $xxs;

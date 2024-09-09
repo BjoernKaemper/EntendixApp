@@ -416,7 +416,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         Erzeugen: {
           BHKW: SubmodelElementInfo[];
           'Wärmeerzeuger allgemein': SubmodelElementInfo[];
-          Wärmepumpe: SubmodelElementInfo[];
+          Waermepumpe: SubmodelElementInfo[];
           Kessel: SubmodelElementInfo[];
           Pelletkessel: SubmodelElementInfo[];
         },
@@ -438,7 +438,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         Erzeugen: {
           BHKW: [],
           'Wärmeerzeuger allgemein': [],
-          Wärmepumpe: [],
+          Waermepumpe: [],
           Kessel: [],
           Pelletkessel: []
         },

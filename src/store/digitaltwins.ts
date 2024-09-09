@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useGeneralStore } from '@/store/general'
-import { useMonitoringStore } from '@/store/monitoring'
 
 export const useDigitalTwinsStore = defineStore('digitalTwins', {
   state: () => {
@@ -121,7 +120,6 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       } catch (error) {
         console.log(error)
       }
-
 
       const semanticIdAasTypeBacnet = 'https://th-koeln.de/gart/BACnetDeviceAAS/1/0'
       const aasBacnetIds = await generalStore.getAasByType(semanticIdAasTypeBacnet)

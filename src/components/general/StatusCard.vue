@@ -1,29 +1,20 @@
 <template>
-  <v-card :class="colourClass" class="status-card ma-2 my-6 pa-0">
-    <v-row no-gutters class="status-card--row d-flex align-stretch">
-      <!-- Icon Section -->
-      <v-col :class="colourClass" class="icon-col" cols="1">
-        <v-icon :class="iconClass">
-          {{ icon }}
-        </v-icon>
-      </v-col>
-
-      <!-- Text Section -->
-      <v-col class="text-col pl-2 py-4" cols="10">
-        <v-card-title class="pa-0 title">
-          {{ title }}
-        </v-card-title>
-        <v-card-subtitle v-if="subtitle" class="pa-0 subtitle">
-          {{ subtitle }}
-        </v-card-subtitle>
-      </v-col>
-
-      <!-- Action Section -->
-      <v-col class="action-col" cols="1" v-if="actionIcon">
-        <v-icon class="action-icon"> {{ actionIcon }}</v-icon>
-      </v-col>
-    </v-row>
-  </v-card>
+  <div class="status-card" :class="[{ isBordered: isBordered }, colourClass]">
+    <div class="icon-section">
+      <component :is="icon" :class="iconClass" />
+    </div>
+    <div class="text-section">
+      <span class="title">
+        {{ title }}
+      </span>
+      <span v-if="subtitle" class="subtitle">
+        {{ subtitle }}
+      </span>
+    </div>
+    <div class="action-section" v-if="actionIcon">
+      <component :is="actionIcon" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,20 +24,26 @@
  * @module components/general/StatusCard
  * @displayName StatusCard
  */
-import { type PropType } from 'vue';
-import { StatusTypes } from '@/types/StatusTypes';
-import { ConditionTypes } from '@/types/ConditionTypes';
+import { type PropType } from 'vue'
+import { StatusTypes } from '@/types/StatusTypes'
+import { ActionTypes } from '@/types/ActionTypes'
+import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue'
+import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue'
+import WarningIcon from '@/components/icons/WarningIcon.vue'
+import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue'
+import ArrowIcon from '@/components/icons/ArrowIcon.vue'
+import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue'
 
 export default {
+  components: {
+    CheckMarkCircleIcon,
+    ExclamationMarkIcon,
+    WarningIcon,
+    QuestionMarkIcon,
+    ArrowIcon,
+    InfoCircleIcon
+  },
   props: {
-    /**
-     * The icon to display in the card.
-     * @default 'mdi-information'
-     */
-    icon: {
-      type: String as PropType<string>,
-      default: 'mdi-information'
-    }, 
     /**
      * The title of the card.
      * @default 'Title'
@@ -61,111 +58,137 @@ export default {
      * @default 'info'
      */
     status: {
-      type: String as PropType<string>,
-      default: 'info' 
+      type: String as PropType<StatusTypes>,
+      default: StatusTypes.INFO
     },
     /**
      * The subtitle of the card.
      */
     subtitle: {
-      type: String as PropType<string>,
+      type: String as PropType<string>
     },
     /**
      * The icon to display as an action icon.
      */
-    actionIcon: {
-      type: String as PropType<string>,
-      default: ''
+    actionType: {
+      type: String as PropType<ActionTypes>,
+      default: ActionTypes.NONE
+    },
+    /**
+     * Whether the card should have a border.
+     * @default true
+     */
+    isBordered: {
+      type: Boolean as PropType<boolean>,
+      default: true
     }
   },
   computed: {
-    colourClass() {
-      const statusMap: { [key: string]: StatusTypes } = {
-        [ConditionTypes.SUCCESS]: StatusTypes.SUCCESS,
-        [ConditionTypes.WARNING]: StatusTypes.WARNING,
-        [ConditionTypes.ERROR]: StatusTypes.ERROR,
-        [ConditionTypes.INFO]: StatusTypes.INFO
+    colourClass(): string {
+      switch (this.status) {
+        case StatusTypes.SUCCESS:
+          return 'success'
+        case StatusTypes.WARNING:
+          return 'warning'
+        case StatusTypes.ERROR:
+          return 'error'
+        case StatusTypes.INFO:
+          return 'info'
       }
-      console.log(this.status);
-      return statusMap[this.status] || this.status;
+      return 'info'
     },
-    iconClass() {
-      return `status-icon-${this.status}`
+    icon(): string {
+      switch (this.status) {
+        case StatusTypes.SUCCESS:
+          return 'CheckMarkCircleIcon'
+        case StatusTypes.WARNING:
+          return 'ExclamationMarkIcon'
+        case StatusTypes.ERROR:
+          return 'WarningIcon'
+        case StatusTypes.INFO:
+          return 'QuestionMarkIcon'
+      }
+      return 'QuestionMarkIcon'
+    },
+    actionIcon(): string | undefined {
+      switch (this.actionType) {
+        case ActionTypes.INFO:
+          return 'InfoCircleIcon'
+        case ActionTypes.ARROW:
+          return 'ArrowIcon'
+      }
+      return undefined
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss'; 
+@import '@/styles/mixins.scss';
 
 .status-card {
   border-radius: $base-size;
-  padding: $xxs;
-  box-shadow: none;
-  
-  &--row {
-    background-color: $lightest;
-    height: 100%;
+  background-color: white;
+  display: flex;
+  margin-bottom: $s;
+
+  &.isBordered {
+    &.success {
+      border: 1px solid $light-green;
+    }
+    &.warning {
+      border: 1px solid $yellow;
+    }
+
+    &.error {
+      border: 1px solid $orange;
+    }
+
+    &.info {
+      border: 1px solid $light-purple;
+    }
+  }
+
+  &.success > .icon-section {
+    background-color: $light-green;
+    border-radius: $base-size 0 0 $base-size;
+  }
+
+  &.warning > .icon-section {
+    background-color: $yellow;
+    border-radius: $base-size 0 0 $base-size;
+  }
+
+  &.error > .icon-section {
+    background-color: $orange;
+    border-radius: $base-size 0 0 $base-size;
+  }
+
+  &.info > .icon-section {
+    background-color: $light-purple;
+    border-radius: $base-size 0 0 $base-size;
+  }
+
+  > .text-section {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: $xxs;
+  }
+
+  > .icon-section,
+  .action-section {
+    display: flex;
+    align-items: center;
+    padding: $xxs;
   }
 }
 
-.v-row {
-  display: flex;
-  align-items: stretch; 
-}
-
-.success {
-  background-color: $light-green;
-  border: 1px solid $light-green;
-}
-
-.warning {
-  background-color: $yellow;
-  border: 1px solid $yellow;
-}
-
-.error {
-  background-color: $orange;
-  border: 1px solid $orange;
-}
-
-.info {
-  background-color: $light-purple;
-  border: 1px solid $light-purple;
-}
-
 .title {
-  @include section-headline; 
+  @include section-headline;
 }
 
 .subtitle {
-  @include content; 
-}
-
-.v-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.icon-col {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.text-col {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.action-col {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  @include content;
 }
 </style>

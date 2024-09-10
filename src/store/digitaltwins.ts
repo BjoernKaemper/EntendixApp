@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useGeneralStore } from '@/store/general'
-import { useMonitoringStore } from '@/store/monitoring'
 
 export const useDigitalTwinsStore = defineStore('digitalTwins', {
   state: () => {
@@ -121,9 +120,11 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       } catch (error) {
         console.log(error)
       }
+
+      const semanticIdAasTypeBacnet = 'https://th-koeln.de/gart/BACnetDeviceAAS/1/0'
+      const aasBacnetIds = await generalStore.getAasByType(semanticIdAasTypeBacnet)
   
-      const bacnetIds = generalStore.loadedBacnetInformation
-      await generalStore.loadBacnetInformation(bacnetIds)
+      await generalStore.loadBacnetInformation(aasBacnetIds)
       this.showProgressUploadAas = false
     },
     async editDatenpunktGrundfunktion(datenpunkt: any, predictedGrundfunktion: any) {
@@ -416,7 +417,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         Erzeugen: {
           BHKW: SubmodelElementInfo[];
           'Wärmeerzeuger allgemein': SubmodelElementInfo[];
-          Wärmepumpe: SubmodelElementInfo[];
+          Waermepumpe: SubmodelElementInfo[];
           Kessel: SubmodelElementInfo[];
           Pelletkessel: SubmodelElementInfo[];
         },
@@ -438,7 +439,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
         Erzeugen: {
           BHKW: [],
           'Wärmeerzeuger allgemein': [],
-          Wärmepumpe: [],
+          Waermepumpe: [],
           Kessel: [],
           Pelletkessel: []
         },

@@ -16,7 +16,6 @@
       </div>
       <h4>Funktionserfüllung Anlagentechnik</h4>
       <div class="three-col-grid">
-        <!-- <StatusCard /> -->
       </div>
     </div>
   </div>

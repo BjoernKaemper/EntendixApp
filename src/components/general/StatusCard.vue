@@ -128,7 +128,7 @@ export default {
 
 .status-card {
   border-radius: $base-size;
-  background-color: white;
+  background-color: $lightest;
   display: flex;
   margin-bottom: $s;
 

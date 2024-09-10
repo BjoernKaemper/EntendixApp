@@ -104,7 +104,7 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  background-color: white;
+  background-color: $lightest;
   border-radius: $base-size;
   display: flex;
   height: $xxxl;
@@ -114,7 +114,7 @@ export default {
   &.has-action {
     cursor: pointer;
   }
-  
+
   > .traffic-light {
     border-right: 1px solid white;
     border-radius: $base-size 0 0 $base-size;

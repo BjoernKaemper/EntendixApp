@@ -1,7 +1,11 @@
 <template>
-  <div class="status-card" :class="[{ isBordered: isBordered }, colourClass]">
+  <div
+    class="status-card"
+    :class="[{ isBordered: isBordered, 'has-action': action }, colourClass]"
+    @click="action()"
+  >
     <div class="icon-section">
-      <component :is="icon" :class="iconClass" />
+      <component :is="icon" />
     </div>
     <div class="text-section">
       <span class="title">
@@ -81,6 +85,10 @@ export default {
     isBordered: {
       type: Boolean as PropType<boolean>,
       default: true
+    },
+    action: {
+      type: Function,
+      default: null
     }
   },
   computed: {
@@ -131,6 +139,10 @@ export default {
   background-color: $lightest;
   display: flex;
   margin-bottom: $s;
+
+  &.has-action {
+    cursor: pointer;
+  }
 
   &.isBordered {
     &.success {

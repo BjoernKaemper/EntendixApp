@@ -4,7 +4,7 @@
     <nav>
       <ul>
         <li v-for="(navItem, idx) in navItems" :key="idx">
-          <router-link :to="navItem.href" active-class="active">
+          <router-link :to="navItem.href" :class="{ active: isActive(navItem.href) }">
             {{ navItem.name }}
           </router-link>
         </li>
@@ -30,8 +30,13 @@ export default {
   },
   props: {
     navItems: {
-      type: Array<{href: string, name: string}>,
+      type: Array<{ href: string; name: string }>,
       default: () => []
+    }
+  },
+  methods: {
+    isActive(route: string): boolean {
+      return this.$route.path.includes(route)
     }
   },
   setup() {

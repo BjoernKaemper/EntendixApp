@@ -35,7 +35,7 @@ export default {
   list-style: none;
   > li {
     border-radius: 14px;
-    background-color: white;
+    background-color: $lightest;
     border: 2px solid $dark-green;
     height: 28px;
     padding: $base-size $s;

@@ -28,7 +28,7 @@
 <script>
 import HomeCard from '@/components/general/HomeCard.vue'
 import { useGeneralStore } from '@/store/general'
-import { useGeneralStorev2 } from '@/store/general_v2'
+import { useGeneralStore_v2 } from '@/store/general_v2'
 
 export default {
   name: 'HomeGeneral',
@@ -42,7 +42,7 @@ export default {
       return useGeneralStore()
     },
     generalStorev2() {
-      return useGeneralStorev2()
+      return useGeneralStore_v2()
     }
   }
 }

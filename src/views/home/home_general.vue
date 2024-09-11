@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <div v-if="generalStore.homeLoading === true">
+      <div v-if="generalStore.homeLoading === true || generalStorev2.globalLoadingOverlay === true ">
         <v-progress-linear indeterminate color="success"></v-progress-linear>
       </div>
       <v-row v-else>
@@ -28,6 +28,7 @@
 <script>
 import HomeCard from '@/components/general/HomeCard.vue'
 import { useGeneralStore } from '@/store/general'
+import { useGeneralStorev2 } from '@/store/general_v2'
 
 export default {
   name: 'HomeGeneral',
@@ -39,6 +40,9 @@ export default {
   computed: {
     generalStore() {
       return useGeneralStore()
+    },
+    generalStorev2() {
+      return useGeneralStorev2()
     }
   }
 }

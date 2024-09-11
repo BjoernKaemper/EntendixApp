@@ -6,14 +6,14 @@
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path
-      d="M0.853516 14.1463V4.78049L7.29254 0.0975647L13.7316 4.78049V14.1463H8.9023H7.29254H5.68278H0.853516ZM2.46327 12.5854H4.07303H7.29254H10.5121H12.1218V5.56098L7.29254 2.04878L2.46327 5.56098V12.5854Z"
-    />
+    <path d="M0.85376 14.1463V4.78046L7.29278 0.0975342L13.7318 4.78046V14.1463H8.90254H7.29278H5.68303H0.85376ZM2.46352 12.5853H4.07327H7.29278H10.5123H12.1221V5.56095L7.29278 2.04875L2.46352 5.56095V12.5853Z" fill="#39F2B1"/>
   </svg>
 </template>
 <script lang="ts" setup></script>
 <style lang="scss" scoped>
 svg {
   display: block;
+  margin-right: .5px;
+  margin-bottom: .5px;
 }
 </style>

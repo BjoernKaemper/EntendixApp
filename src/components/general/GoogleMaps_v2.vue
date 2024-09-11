@@ -1,83 +1,88 @@
 <template>
   <div>
     <div class="google-map-card">
-      <div ref="map" id="map"></div>
+      <div ref="map" id="map" data-js-google-maps></div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Loader } from '@googlemaps/js-api-loader'
 import mapStyles from '@/styles/mapStyles';
 import { type PropType } from 'vue'
 
 export default {
+  /**
+   * GoogleMapsCardHome component
+   * @module components/general/GoogleMapsCardHome
+   * @summary A card component that displays a Google Map with markers for sites
+   * @displayName GoogleMapsCardHome
+   */
   name: 'GoogleMapsCardHome',
   props: {
-    siteCoordinates: {
-      type: Array as PropType<{ lat: string; lng: string }[]>,
+    /**
+     * The coordinates of the sites to display on the map.
+     * @default []
+     * @required
+     * @type {Array<{ lat: string; lng: string }>}
+     */
+    sites: {
+      type: Array as PropType<Object[]>,
       required: true
     }
   },
   data() {
     return {
+      /**
+       * The Google Maps instance
+       * @type {google.maps.Map}
+       */
       map: null,
-      transformedCoordinates: [] as { lat: number; lng: number }[],
     }
   },
-  watch: {
-    // Watch for changes to siteCoordinates and transform them
-    siteCoordinates: {
-      immediate: true,
-      handler(newCoords) {
-        this.transformedCoordinates = newCoords.map((coord: { lat: string; lng: string }) => ({
-          lat: parseFloat(coord.lat),
-          lng: parseFloat(coord.lng),
-        }));
-        // Initialize the map once the coordinates are transformed
-        if (this.transformedCoordinates.length > 0) {
-          this.initMap();
-        }
-      },
+  computed: {
+    // extract long and lat from site object which is passed as prop
+    siteCoordinates(): Array<{ lat: number; lng: number }> {
+      return this.sites.map(site => ({
+        lat: parseFloat(site.data.Address.Lattitude),
+        lng: parseFloat(site.data.Address.Longitude),
+      }))
     },
   },
-  mounted() {
-    this.initMap()
+  watch: {
+    siteCoordinates: {
+      handler() {
+        this.initMap()
+      },
+      immediate: true
+    }
   },
   methods: {
-      async initMap() {
-        // Load Google Maps API
-        const loader = new Loader({
-          apiKey: 'AIzaSyDrSZaSw1y8mnFuNa_ZYHTd-0kFxd4eCnQ',
-          version: 'weekly',
-          libraries: ['places']
+    async initMap() {
+      // wait for siteCoordinates to be available
+      try {
+        // Create a new map centered at the first site
+        this.map = new google.maps.Map(this.$refs.map as HTMLElement, {
+          zoom: 10,
+          center: this.siteCoordinates[0],
+          styles: mapStyles,
         })
-  
-        try {
-          await loader.load()
-
-          // Create a new map centered at the first site
-          this.map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10,
-            center: this.transformedCoordinates[0],
-            styles: mapStyles
+        console.log(this.siteCoordinates)
+        // Add markers for all sites
+        this.siteCoordinates.forEach((coordinates) => {
+          // TODO: Add color to the markers depending on the state of the site
+          // TODO: Add links to the markers
+          new google.maps.Marker({
+            position: coordinates,
+            map: this.map
           })
+        })
 
-          // Add markers for all sites
-          this.transformedCoordinates.forEach((coordinates) => {
-            // TODO: Add color to the markers depending on the state of the site
-            new google.maps.Marker({
-              position: coordinates,
-              map: this.map
-            })
-          })
-  
-          return this.map
-        } catch (error) {
-          console.error('Error loading Google Maps API:', error)
-        }
+        return this.map
+      } catch (error) {
+        console.error('Error loading Google Maps API:', error)
       }
     }
+  }
 }
 
 </script>

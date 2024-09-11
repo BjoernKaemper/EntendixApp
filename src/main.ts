@@ -26,7 +26,7 @@ app.use(AmplifyVue)
 registerPlugins(app)
 
 const loader = new Loader({
-  apiKey: 'AIzaSyDrSZaSw1y8mnFuNa_ZYHTd-0kFxd4eCnQ',
+  apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
   version: 'weekly',
   libraries: ['places']
 })

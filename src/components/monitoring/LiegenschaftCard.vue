@@ -1,10 +1,10 @@
 <template>
-  <div class="card" :class="{ 'has-action': action }" @click="action(liegenschaftName)">
+  <div class="card" :class="{ 'has-action': action }" @click="action(name)">
     <TrafficLightIndicator class="traffic-light" :light="currentLight" />
     <img src="@/assets/gebäude_deutz.png" />
     <div class="info">
-      <span class="title">{{ liegenschaftLocation }}</span>
-      <span class="subtitle">{{ liegenschaftName }}</span>
+      <span class="title">{{ name }}</span>
+      <span class="subtitle">{{ location }}</span>
     </div>
     <div v-if="showIcon" class="action">
       <ChevronIcon />
@@ -64,14 +64,6 @@ export default {
   components: {
     TrafficLightIndicator,
     ChevronIcon
-  },
-  computed: {
-    liegenschaftName(): string {
-      return this.name
-    },
-    liegenschaftLocation(): string {
-      return this.location
-    }
   },
   data() {
     return {

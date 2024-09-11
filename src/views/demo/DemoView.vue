@@ -68,7 +68,7 @@ export default {
       StatusTypes,
       ActionTypes
     }
-  }
+  },
 }
 </script>
 <style lang="scss"></style>

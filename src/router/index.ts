@@ -9,7 +9,7 @@ import DigitalTwins_Site from '@/views/digitaltwins/site/site_general.vue'
 import DigitalTwins_Site_Building from '@/views/digitaltwins/site/building/building_general.vue'
 import DigitalTwins_Site_Building_Bacnet from '@/views/digitaltwins/site/building/building_bacnet.vue'
 import DigitalTwins_Site_Building_Grundfunktion from '@/views/digitaltwins/site/building/GrundfunktionTga.vue'
-import DemoView from '@/views/monitoring/DemoView.vue'
+import DemoView from '@/views/demo/DemoView.vue'
 import Monitoring from '@/views/monitoring_v2/MonitoringDefault.vue'
 import Monitoring_Site from '@/views/monitoring_v2/MonitoringSite.vue'
 import Monitoring_Site_Building from '@/views/monitoring_v2/MonitoringBuilding.vue'
@@ -166,14 +166,14 @@ const routes = [
       }
     }
   },
-  // add demo view for monitoring 
+  // add demo view for monitoring
   {
-    path: '/monitoring/demo',
+    path: '/demo',
     name: 'DemoView',
     component: DemoView,
     meta: {
       breadcrumb: () => {
-        return [{ title: 'DemoView', to: '/monitoring/demo' }]
+        return [{ title: 'Demo', to: '/demo' }]
       }
     }
   },

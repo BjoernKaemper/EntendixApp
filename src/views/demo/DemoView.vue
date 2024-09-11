@@ -28,6 +28,7 @@
       :status="StatusTypes.SUCCESS"
       :actionType="ActionTypes.ARROW"
       :isBordered="false"
+      :action="action"
     />
     <StatusCard
       title="Warning"
@@ -67,6 +68,11 @@ export default {
     return {
       StatusTypes,
       ActionTypes
+    }
+  },
+  methods: {
+    action(data: any) {
+      alert(`I got clicked! ${data}`)
     }
   }
 }

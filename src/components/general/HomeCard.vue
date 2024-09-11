@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { useGeneralStorev2 } from '@/store/general_v2'
 
 export default {
   data() {
@@ -51,9 +50,6 @@ export default {
     }
   },
   computed: {
-    generalStore() {
-      return useGeneralStorev2()
-    },
     products() {
       const products = [
         //{ icon: '', title: 'Home', link: '/' },

@@ -27,7 +27,7 @@
 
 <script>
 import HomeCard from '@/components/general/HomeCard.vue'
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore } from '@/store/general_v2'
 
 export default {
   name: 'HomeGeneral',

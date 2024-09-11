@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- @TODO: Move authentication to seperate route and check for auth in router -->
     <Authenticator>
       <template v-slot:header>
         <div style="padding: var(--amplify-space-large); text-align: center">
@@ -24,11 +25,11 @@ import { computed, ref } from 'vue'
 import NavBar from '@/components/general/NavBar.vue'
 import Breadcrumbs from '@/components/general/BreadCrumbs.vue'
 
-//import { onMounted } from "vue"
 import { watchEffect } from 'vue'
 import { useGeneralStore } from '@/store/general'
 import { Authenticator } from '@aws-amplify/ui-vue'
 import { useAuthenticator } from '@aws-amplify/ui-vue'
+// @TODO: Remove this import when the new styles are ready
 import '@aws-amplify/ui-vue/styles.css'
 
 import { I18n } from 'aws-amplify'
@@ -59,7 +60,6 @@ const navItems = [
 const header = ref(null)
 
 const mainHeight = computed(() => {
-  //
   const headerHeight = header.value ? header.value.clientHeight + 1 : 100
   return `height: calc(100vh - ${headerHeight}px);`
 })

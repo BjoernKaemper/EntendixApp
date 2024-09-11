@@ -7,11 +7,12 @@
         <p class="subtitle">Ist alles im grünen Bereich? Werden die Betriebsfunktionen erfüllt?</p>
       </div>
       <!-- TODO: its not possible to get the location -->
+       {{ sites }}
       <LiegenschaftCard
         v-for="site in sites"
-        :key="site"
-        location="Ort"
-        :name="site.siteName"
+        :key="site.id"
+        :location="site.data.SiteName"
+        :name="site.data.Address.CityTown"
         :action="goToSite"
       >
       </LiegenschaftCard>
@@ -21,10 +22,11 @@
 
 <script lang="ts">
 import { mapStores } from 'pinia'
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore_v2 } from '@/store/general_v2'
 
 import GoogleMaps from '@/components/general/GoogleMaps.vue'
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
+import type Site from '@/types/Site';
 
 export default {
   components: {
@@ -32,10 +34,10 @@ export default {
     LiegenschaftCard
   },
   computed: {
-    ...mapStores(useGeneralStore),
-    sites(): Array<any> {
-      return this.generalStore.loadedSiteInformationWithBuildings
-    }
+    ...mapStores(useGeneralStore_v2),
+    sites(): Array<Site> {
+      return this.general_v2Store.sites
+    },
   },
   methods: {
     goToSite(site: string): void {

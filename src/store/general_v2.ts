@@ -19,7 +19,7 @@ interface GeneralStoreState {
   companies: Company[],
 }
 
-export const useGeneralStorev2 = defineStore('generalv2', {
+export const useGeneralStore_v2 = defineStore('general_v2', {
   state: (): GeneralStoreState => {
     return {
       globalLoadingOverlay: false,

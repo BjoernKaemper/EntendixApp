@@ -22,7 +22,7 @@ export default interface Site {
       NationalCode: string;
       Longitude: string;
       Lattitude: string;
-    }[];
+    };
     SiteName: string;
   };
 }

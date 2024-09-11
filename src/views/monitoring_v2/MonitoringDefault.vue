@@ -1,13 +1,12 @@
 <template>
   <div class="grid-wrapper">
-    <GoogleMaps />
+    <GoogleMaps/>
     <div>
       <div class="site-header">
         <h2>Meine Liegenschaften</h2>
         <p class="subtitle">Ist alles im grünen Bereich? Werden die Betriebsfunktionen erfüllt?</p>
       </div>
       <!-- TODO: its not possible to get the location -->
-       {{ sites }}
       <LiegenschaftCard
         v-for="site in sites"
         :key="site.id"
@@ -40,6 +39,10 @@ export default {
     },
   },
   methods: {
+    /**
+     * Navigates to the site page
+     * @param {string} site The site to navigate to
+     */
     goToSite(site: string): void {
       this.$router.push({ name: 'Monitoring_Site', params: { siteid: site } })
     }

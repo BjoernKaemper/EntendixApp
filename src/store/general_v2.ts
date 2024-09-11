@@ -28,7 +28,11 @@ export const useGeneralStorev2 = defineStore('generalv2', {
     }
   },
   actions: {
-    async loadBaseInformations() {
+    /**
+     * Load base informations for the application
+     * @returns {Promise<void>}
+     */
+    async loadBaseInformations(): Promise<void> {
       this.globalLoadingOverlay = true
 
       // Fetching types Site Information

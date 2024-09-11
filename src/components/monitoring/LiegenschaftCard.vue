@@ -22,8 +22,8 @@
 
 import TrafficLightIndicator from '@/components/general/TrafficLightIndicator.vue'
 import ChevronIcon from '@/components/icons/ChevronIcon.vue'
-import { TrafficLightTypes } from '@/types/TrafficLightTypes'
-import { ConditionTypes } from '@/types/ConditionTypes'
+import { TrafficLightTypes } from '@/types/enums/TrafficLightTypes'
+import { ConditionTypes } from '@/types/enums/ConditionTypes'
 import { type PropType } from 'vue'
 
 export default {

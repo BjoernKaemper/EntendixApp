@@ -13,7 +13,7 @@
  * @module components/general/TrafficLightIndicator
  * @displayName TrafficLightIndicator
  */
-import { TrafficLightTypes } from '@/types/TrafficLightTypes';
+import { TrafficLightTypes } from '@/types/enums/TrafficLightTypes';
 import { type PropType } from 'vue';
 
 export default {

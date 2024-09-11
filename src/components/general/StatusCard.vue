@@ -29,8 +29,8 @@
  * @displayName StatusCard
  */
 import { type PropType } from 'vue'
-import { StatusTypes } from '@/types/StatusTypes'
-import { ActionTypes } from '@/types/ActionTypes'
+import { StatusTypes } from '@/types/enums/StatusTypes'
+import { ActionTypes } from '@/types/enums/ActionTypes'
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue'
 import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue'
 import WarningIcon from '@/components/icons/WarningIcon.vue'

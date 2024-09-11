@@ -31,7 +31,7 @@
 </template>
 <script lang="ts">
 import StatusCard from '@/components/general/StatusCard.vue'
-import { StatusTypes } from '@/types/StatusTypes'
+import { StatusTypes } from '@/types/enums/StatusTypes'
 import { useGeneralStore } from '@/store/general'
 import { mapStores } from 'pinia'
 

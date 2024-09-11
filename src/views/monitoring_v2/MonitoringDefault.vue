@@ -1,6 +1,7 @@
 <template>
   <div class="grid-wrapper">
-    <GoogleMaps/>
+    <!-- <GoogleMaps/> -->
+    <GoogleMaps_v2 :siteCoordinates="sites.map(site => ({ lat: site.data.Address.Lattitude, lng: site.data.Address.Longitude }))"/>
     <div>
       <div class="site-header">
         <h2>Meine Liegenschaften</h2>
@@ -10,8 +11,8 @@
       <LiegenschaftCard
         v-for="site in sites"
         :key="site.id"
-        :location="site.data.SiteName"
-        :name="site.data.Address.CityTown"
+        :name="site.data.SiteName"
+        :location="site.data.Address.CityTown"
         :action="goToSite"
       >
       </LiegenschaftCard>
@@ -23,13 +24,15 @@
 import { mapStores } from 'pinia'
 import { useGeneralStore_v2 } from '@/store/general_v2'
 
-import GoogleMaps from '@/components/general/GoogleMaps.vue'
+// import GoogleMaps from '@/components/general/GoogleMaps.vue'
+import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue'
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
 import type Site from '@/types/Site';
 
 export default {
   components: {
-    GoogleMaps,
+    // GoogleMaps,
+    GoogleMaps_v2,
     LiegenschaftCard
   },
   computed: {
@@ -53,7 +56,7 @@ export default {
 <style scoped lang="scss">
 .grid-wrapper {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   gap: $m;
 }
 

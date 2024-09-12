@@ -13,7 +13,6 @@ import { createApp } from 'vue'
 // Plugins
 import AmplifyVue from '@aws-amplify/ui-vue'
 import { registerPlugins } from '@/plugins'
-import { Loader } from '@googlemaps/js-api-loader'
 
 // AWS Amplify imports
 import { Amplify } from 'aws-amplify'
@@ -25,12 +24,4 @@ app.use(AmplifyVue)
 
 registerPlugins(app)
 
-const loader = new Loader({
-  apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-  version: 'weekly',
-  libraries: ['places']
-})
-
-loader.load().then(() => {
-  app.mount('#app')
-})
+app.mount('#app')

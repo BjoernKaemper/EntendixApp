@@ -10,6 +10,9 @@
 import mapStyles from '@/styles/mapStyles';
 import { type PropType } from 'vue'
 
+import { Loader } from '@googlemaps/js-api-loader'
+
+
 export default {
   /**
    * GoogleMapsCardHome component
@@ -51,13 +54,13 @@ export default {
   watch: {
     siteCoordinates: {
       handler() {
-        this.initMap()
+        this.loadMap()
       },
       immediate: true
     }
   },
   methods: {
-    async initMap() {
+    async loadMap() {
       // wait for siteCoordinates to be available
       try {
         // Create a new map centered at the first site
@@ -82,7 +85,15 @@ export default {
         console.error('Error loading Google Maps API:', error)
       }
     }
-  }
+  },
+
+  async created() {
+    await new Loader({
+      apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+      version: 'weekly',
+      libraries: ['places'],
+    }).load();
+  },
 }
 
 </script>

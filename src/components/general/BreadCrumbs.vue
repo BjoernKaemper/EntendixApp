@@ -18,6 +18,9 @@ export default {
   },
   computed: {
     breadcrumbs(): Array<{ to: string; title: string }> {
+      if (!this.$route.meta.breadcrumb) {
+        return [];
+      }
       return this.$route.meta.breadcrumb(this.$route).filter((item: any) => item.to !== '/') || []
     }
   }

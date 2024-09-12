@@ -12,6 +12,5 @@
 <style lang="scss" scoped>
 svg {
   display: block;
-  margin-bottom: 1px;
 }
 </style>

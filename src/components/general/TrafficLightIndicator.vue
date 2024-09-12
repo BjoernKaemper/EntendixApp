@@ -1,5 +1,5 @@
 <template>
-  <div class="traffic-light-container d-flex flex-column align-center justify-center">
+  <div class="traffic-light-container">
     <div class="light red-light" :class="{ active: trafficLightIsRed }">
       <WarningIcon v-if="trafficLightIsRed" />
     </div>
@@ -71,6 +71,9 @@ export default {
   background-color: $darken;
   gap: calc($base-size + 1px);
   padding: $base-size 0 $base-size 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .light {

@@ -1,14 +1,11 @@
 <template>
-  <svg
-    width="14"
-    height="15"
-    viewBox="0 0 14 15"
-    fill="currentColor"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M0.853516 14.1463V4.78049L7.29254 0.0975647L13.7316 4.78049V14.1463H8.9023H7.29254H5.68278H0.853516ZM2.46327 12.5854H4.07303H7.29254H10.5121H12.1218V5.56098L7.29254 2.04878L2.46327 5.56098V12.5854Z"
-    />
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <mask id="mask0_238_1150" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+      <rect width="20" height="20" fill="#D9D9D9"/>
+    </mask>
+    <g mask="url(#mask0_238_1150)">
+      <path d="M5.5 15.5H7.5V10.5H12.5V15.5H14.5V8.25L10 4.875L5.5 8.25V15.5ZM4 17V7.5L10 3L16 7.5V17H11V12H9V17H4Z" fill="white"/>
+    </g>
   </svg>
 </template>
 <script lang="ts" setup></script>

@@ -65,6 +65,11 @@ export default {
       padding: 0;
       > a {
         color: $light-green;
+        > svg {
+          width: 16px;
+          height: 16px;
+          margin-bottom: 1px;
+        }
       }
       ::before {
         display: none;

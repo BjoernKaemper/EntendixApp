@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     async loadMap() {
-      // wait for siteCoordinates to be available
       try {
         // Create a new map centered at the first site
         this.map = new google.maps.Map(this.$refs.map as HTMLElement, {

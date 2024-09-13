@@ -6,7 +6,7 @@
        <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdate }} Minuten</p>
     </div>
     <div class="line-chart-container--right">
-      <p>insert Line Chart here...</p>
+      <p> @TODO: insert Line Chart here... </p>
     </div>
   </div>
 </template>

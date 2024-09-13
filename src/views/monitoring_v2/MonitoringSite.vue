@@ -62,16 +62,13 @@ export default {
 
   computed: {
     ...mapStores(useGeneralStore_v2),
-    site_id(): string {
-      return this.$route.params.siteid.toString()
-    },
     site(): SiteWithBuildinginformation | null {
       return this.general_v2Store.currentSite;
     }
   },
 
   created() {
-    this.general_v2Store.loadSiteInformation(this.site_id);
+    this.general_v2Store.loadSiteInformation(JSON.parse(this.$route.params.siteparams as string).siteid);
   }
 }
 </script>

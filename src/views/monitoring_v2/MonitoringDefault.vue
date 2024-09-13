@@ -25,7 +25,7 @@ import { useGeneralStore_v2 } from '@/store/general_v2'
 
 import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue'
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
-import type Site from '@/types/Site';
+import type { Site } from '@/types/Site';
 
 export default {
   components: {
@@ -44,8 +44,12 @@ export default {
      * @param {Site} site Object of the site to navigate to
      */
     loadSite(site: Site): void {
-      console.log('site', site)
-      this.$router.push({ name: 'Monitoring_Site', params: { siteid: encodeURIComponent(site.id) } })
+      this.$router.push({ name: 'Monitoring_Site', params: {
+        siteparams: JSON.stringify({
+          siteid: encodeURIComponent(site.id),
+          siteName: site.data.SiteName,
+        }),
+      }});
     }
   }
 }

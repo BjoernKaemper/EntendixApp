@@ -78,8 +78,6 @@ export const useGeneralStore_v2 = defineStore('general_v2', {
         requestOptions,
       ) as SiteWithBuildinginformation;
 
-      console.log('Fetched data', this.currentSite)
-
       this.globalLoadingOverlay = false
     },
   },

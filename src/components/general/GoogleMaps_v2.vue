@@ -11,6 +11,7 @@ import mapStyles from '@/styles/mapStyles';
 import { type PropType } from 'vue'
 
 import { Loader } from '@googlemaps/js-api-loader'
+import type Site from '@/types/Site';
 
 
 export default {
@@ -29,17 +30,17 @@ export default {
      * @type {Array<{ lat: string; lng: string }>}
      */
     sites: {
-      type: Array as PropType<Object[]>,
+      type: Array as PropType<Site[]>,
       required: true
     }
   },
   data() {
     return {
-      /**
+      /*
        * The Google Maps instance
-       * @type {google.maps.Map}
+       * @type {google.maps.Map | null}
        */
-      map: null,
+      map: null as google.maps.Map | null,
     }
   },
   computed: {
@@ -48,27 +49,27 @@ export default {
       return this.sites.map(site => ({
         lat: parseFloat(site.data.Address.Lattitude),
         lng: parseFloat(site.data.Address.Longitude),
-      }))
+      }));
     },
   },
   watch: {
     siteCoordinates: {
       handler() {
-        this.loadMap()
+        this.loadMapCoordinates()
       },
       immediate: true
-    }
+    },
   },
   methods: {
-    async loadMap() {
+    /**
+     * Load the map coordinates and add markers for each site
+     */
+    async loadMapCoordinates(): Promise<void> {
+      if (!this.map || !this.siteCoordinates.length) {
+        return;
+      };
+
       try {
-        // Create a new map centered at the first site
-        this.map = new google.maps.Map(this.$refs.map as HTMLElement, {
-          zoom: 10,
-          center: this.siteCoordinates[0],
-          styles: mapStyles,
-        })
-        console.log(this.siteCoordinates)
         // Add markers for all sites
         this.siteCoordinates.forEach((coordinates) => {
           // TODO: Add color to the markers depending on the state of the site
@@ -76,22 +77,35 @@ export default {
           new google.maps.Marker({
             position: coordinates,
             map: this.map
-          })
-        })
+          });
 
-        return this.map
+          this.map?.setCenter(coordinates);
+        })
       } catch (error) {
         console.error('Error loading Google Maps API:', error)
       }
+    },
+
+    /**
+     * Initialize the map element
+     */
+    async initMapElement(googleInstance: typeof google): Promise<void> {
+      this.map = new googleInstance.maps.Map(this.$refs.map as HTMLElement, {
+        zoom: 10,
+        center: { lat: 0, lng: 0 },
+        styles: mapStyles,
+      });
     }
   },
 
-  async created() {
-    await new Loader({
+  async mounted() {
+    const google = await new Loader({
       apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
       version: 'weekly',
       libraries: ['places'],
     }).load();
+
+    this.initMapElement(google);
   },
 }
 

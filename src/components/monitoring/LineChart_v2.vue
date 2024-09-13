@@ -10,10 +10,17 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import BigNumber from '@/components/general/BigNumber.vue';
+
 export default {
   props: {
+    /**
+     * The topic of the line chart
+     * @type {String}
+     * @default 'Line Chart'
+     */
     topic: {
       type: String,
       required: true,
@@ -28,9 +35,10 @@ export default {
       lastUpdate: 0,
     };
   },
-
 };
+
 </script>
+
 <style lang="scss">
 @import '@/styles/mixins.scss';
 
@@ -54,7 +62,6 @@ export default {
       align-items: center;
     }
   }
-
 
   .last-update {
     @include meta-information;

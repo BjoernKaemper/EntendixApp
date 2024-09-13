@@ -4,20 +4,32 @@
     <p class="unit">{{ unit }}</p>
   </div>
 </template>
+
 <script langs="ts">
+
 export default {
   props: {
+    /**
+     * The number to display
+     * @type {Number}
+     */
     number: {
       type: Number,
-      default: 0
     },
+    /**
+     * The unit of the number
+     * @type {String}
+     * @default 'tbd.'
+     */
     unit: {
       type: String,
       default: 'tbd.'
     }
   }
 }
+
 </script>
+
 <style lang="scss">
 @import '@/styles/mixins.scss';
 

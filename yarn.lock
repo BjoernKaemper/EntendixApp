@@ -3913,6 +3913,11 @@
   resolved "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.11.tgz"
   integrity sha512-L7A0AINMXQpVwxHJ4jxD6/XjZ4NDufaRlUJHjNIFKYUFBH1SvOW+neaqb0VTRSLW5suSrSu19ObFEFnfNcr+qg==
 
+"@types/google.maps@^3.58.0":
+  version "3.58.0"
+  resolved "https://registry.npmjs.org/@types/google.maps/-/google.maps-3.58.0.tgz"
+  integrity sha512-rZPrbNHoGxeY70uuQYFLGQqcz5mLd3pZy0u286GSugvN7PLFsHNRF2wN2QXtUgNiC33IC0LX+MD3LGAC3wN7Eg==
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.6"
   resolved "https://registry.npmjs.org/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.6.tgz"

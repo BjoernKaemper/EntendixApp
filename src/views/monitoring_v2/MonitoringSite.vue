@@ -95,9 +95,6 @@ export default {
       )
     }
   },
-  mounted() {
-    
-  },
   setup() {
     return {
       StatusTypes,

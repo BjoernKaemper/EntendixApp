@@ -24,6 +24,7 @@
           subtitle="@TODO: Get subtitle"
           :status="StatusTypes.SUCCESS"
           :isBordered="false"
+          :actionType="ActionTypes.ARROW"
         />
       </div>
     </div>

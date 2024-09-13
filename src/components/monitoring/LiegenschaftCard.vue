@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="{ 'has-action': action }" @click="action(name)">
+  <div class="card" @click="$emit('clicked')">
     <TrafficLightIndicator class="traffic-light" :light="currentLight" />
     <img src="@/assets/gebäude_deutz.png" />
     <div class="info">
@@ -43,14 +43,6 @@ export default {
     name: {
       type: String as PropType<string>,
       default: 'Name'
-    },
-    /**
-     * The action which is performed when the card is clicked
-     * @default () => {}
-     */
-    action: {
-      type: Function,
-      default: null
     },
     /**
      * Whether to show the icon on the right side of the card
@@ -102,10 +94,7 @@ export default {
   height: $xxxl;
   margin-bottom: $s;
   align-items: center;
-
-  &.has-action {
-    cursor: pointer;
-  }
+  cursor: pointer;
 
   > .traffic-light {
     border-right: 1px solid white;

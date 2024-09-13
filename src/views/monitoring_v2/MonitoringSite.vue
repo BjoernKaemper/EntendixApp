@@ -1,46 +1,14 @@
 <template>
-  <div class="grid-wrapper" v-if="site.data">
+  <div class="grid-wrapper" v-if="site">
     <div>
       <h2>
-        {{ site.data.SiteName }}
+        {{ site?.data.SiteName }}
       </h2>
       <img src="@/assets/gebäude_deutz.png" class="site-image" />
 
       <div class="status-container">
         <StatusCard
-          title="IWT"
-          subtitle="3 problemhafte Sub-Komponenten"
-          :status="StatusTypes.ERROR"
-          :actionType="ActionTypes.ARROW"
-          :isBordered="false"
-        />
-        <StatusCard
-          title="Halle West"
-          :status="StatusTypes.ERROR"
-          :actionType="ActionTypes.ARROW"
-          :isBordered="false"
-        />
-        <StatusCard
-          title="Halle Süd"
-          :status="StatusTypes.SUCCESS"
-          :actionType="ActionTypes.ARROW"
-          :isBordered="false"
-        />
-        <StatusCard
-          title="Halle Ost"
-          :status="StatusTypes.ERROR"
-          :actionType="ActionTypes.ARROW"
-          :isBordered="false"
-        />
-        <StatusCard
-          title="Halle Nord"
-          :status="StatusTypes.WARNING"
-          :actionType="ActionTypes.ARROW"
-          :isBordered="false"
-        />
-
-        <StatusCard
-          v-for="(building, idx) in site.buildings"
+          v-for="(building, idx) in site?.data.Buildings"
           @click="
             this.$router.push({
               name: 'Monitoring_Site_Building',
@@ -52,8 +20,8 @@
             })
           "
           :key="idx"
-          :title="Object.values(building)[0].buildingName"
-          subtitle="Some description"
+          :title="building.data.BuildingName"
+          subtitle="@TODO: Get subtitle"
           :status="StatusTypes.SUCCESS"
           :isBordered="false"
         />
@@ -65,6 +33,7 @@
     </div>
   </div>
   <div v-else>
+    <!-- @TODO: Implement loading logic base on store and components -->
     <p>Loading...</p>
   </div>
 </template>
@@ -73,33 +42,35 @@ import StatusCard from '@/components/general/StatusCard.vue'
 import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue'
 import { StatusTypes } from '@/types/enums/StatusTypes'
 import { ActionTypes } from '@/types/enums/ActionTypes'
-import { useGeneralStore } from '@/store/general'
 import { useGeneralStore_v2 } from '@/store/general_v2'
 import { mapStores } from 'pinia'
+import type { SiteWithBuildinginformation } from '@/types/Site'
 
 export default {
   components: {
     StatusCard,
     LineChart_v2
   },
-  computed: {
-    ...mapStores(useGeneralStore_v2),
-    site_id(): string {
-      return this.$route.params.siteid.toString()
-    },
-    site(): any {
-      return (
-        this.general_v2Store.sites.find((site) => {
-          return site.data.SiteName === this.site_id
-        }) || {}
-      )
-    }
-  },
+
   setup() {
     return {
       StatusTypes,
       ActionTypes
     }
+  },
+
+  computed: {
+    ...mapStores(useGeneralStore_v2),
+    site_id(): string {
+      return this.$route.params.siteid.toString()
+    },
+    site(): SiteWithBuildinginformation | null {
+      return this.general_v2Store.currentSite;
+    }
+  },
+
+  created() {
+    this.general_v2Store.loadSiteInformation(this.site_id);
   }
 }
 </script>

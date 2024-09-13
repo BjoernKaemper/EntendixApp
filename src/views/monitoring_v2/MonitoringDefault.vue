@@ -12,7 +12,7 @@
         :key="site.id"
         :name="site.data.SiteName"
         :location="site.data.Address.CityTown"
-        :action="goToSite"
+        @clicked="loadSite(site)"
       >
       </LiegenschaftCard>
     </div>
@@ -41,10 +41,11 @@ export default {
   methods: {
     /**
      * Navigates to the site page
-     * @param {string} site The site to navigate to
+     * @param {Site} site Object of the site to navigate to
      */
-    goToSite(site: string): void {
-      this.$router.push({ name: 'Monitoring_Site', params: { siteid: site } })
+    loadSite(site: Site): void {
+      console.log('site', site)
+      this.$router.push({ name: 'Monitoring_Site', params: { siteid: encodeURIComponent(site.id) } })
     }
   }
 }

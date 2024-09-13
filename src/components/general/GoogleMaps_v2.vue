@@ -95,6 +95,7 @@ export default {
         center: { lat: 0, lng: 0 },
         styles: mapStyles,
       });
+      this.loadMapCoordinates();
     }
   },
 

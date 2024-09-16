@@ -38,11 +38,11 @@ export default {
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: end
+    align-items: end;
   }
   .unit {
     @include content;
-    margin-left: $m
+    margin-left: $m;
   }
 
 </style>

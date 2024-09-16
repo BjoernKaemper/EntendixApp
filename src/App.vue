@@ -27,6 +27,7 @@ import Breadcrumbs from '@/components/general/BreadCrumbs.vue'
 
 import { watchEffect } from 'vue'
 import { useGeneralStore } from '@/store/general'
+import { useGeneralStore_v2 } from './store/general_v2'
 import { Authenticator } from '@aws-amplify/ui-vue'
 import { useAuthenticator } from '@aws-amplify/ui-vue'
 // @TODO: Remove this import when the new styles are ready
@@ -51,6 +52,7 @@ I18n.putVocabularies({
 })
 const auth = useAuthenticator()
 const store = useGeneralStore()
+const generalStore = useGeneralStore_v2()
 
 const navItems = [
   { icon: '', name: 'Digitale Zwillinge', href: '/digitaltwins' },
@@ -69,6 +71,7 @@ watchEffect(() => {
   if (auth.user && auth.user.signInUserSession) {
     const userId = auth.user.signInUserSession.idToken.payload.sub
     store.fetchGeneralInfos(userId)
+    generalStore.loadBaseInformations();
   }
 })
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <div v-if="generalStore.homeLoading === true">
+      <div v-if="generalStore.homeLoading === true || general_v2Store.globalLoadingOverlay === true ">
         <v-progress-linear indeterminate color="success"></v-progress-linear>
       </div>
       <v-row v-else>
@@ -28,6 +28,8 @@
 <script>
 import HomeCard from '@/components/general/HomeCard.vue'
 import { useGeneralStore } from '@/store/general'
+import { useGeneralStore_v2 } from '@/store/general_v2'
+import { mapStores } from 'pinia'
 
 export default {
   name: 'HomeGeneral',
@@ -37,9 +39,7 @@ export default {
   },
 
   computed: {
-    generalStore() {
-      return useGeneralStore()
-    }
+    ...mapStores(useGeneralStore, useGeneralStore_v2),
   }
 }
 </script>

@@ -18,7 +18,17 @@ export default {
   },
   computed: {
     breadcrumbs(): Array<{ to: string; title: string }> {
-      return this.$route.meta.breadcrumb(this.$route).filter((item: any) => item.to !== '/') || []
+      if (!this.$route.meta.breadcrumb) {
+        return [];
+      }
+      const breadcrumb = this.$route.meta.breadcrumb;
+      if (typeof breadcrumb === 'function') {
+        return breadcrumb(this.$route).filter((item: any) => {
+          console.log('item', item);
+          return item.to !== '/';
+        }) || [];
+      }
+      return [];
     }
   }
 }
@@ -62,6 +72,11 @@ export default {
       padding: 0;
       > a {
         color: $light-green;
+        > svg {
+          width: 16px;
+          height: 16px;
+          margin-bottom: 1px;
+        }
       }
       ::before {
         display: none;

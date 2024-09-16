@@ -1,6 +1,6 @@
 <template>
   <div class="grid-wrapper">
-    <GoogleMaps />
+    <GoogleMaps_v2 :sites="sites"/>
     <div>
       <div class="site-header">
         <h2>Meine Liegenschaften</h2>
@@ -9,10 +9,10 @@
       <!-- TODO: its not possible to get the location -->
       <LiegenschaftCard
         v-for="site in sites"
-        :key="site"
-        location="Ort"
-        :name="site.siteName"
-        :action="goToSite"
+        :key="site.id"
+        :name="site.data.SiteName"
+        :location="site.data.Address.CityTown"
+        @clicked="loadSite(site)"
       >
       </LiegenschaftCard>
     </div>
@@ -21,25 +21,35 @@
 
 <script lang="ts">
 import { mapStores } from 'pinia'
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore_v2 } from '@/store/general_v2'
 
-import GoogleMaps from '@/components/general/GoogleMaps.vue'
+import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue'
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
+import type { Site } from '@/types/Site';
 
 export default {
   components: {
-    GoogleMaps,
+    GoogleMaps_v2,
     LiegenschaftCard
   },
   computed: {
-    ...mapStores(useGeneralStore),
-    sites(): Array<any> {
-      return this.generalStore.loadedSiteInformationWithBuildings
-    }
+    ...mapStores(useGeneralStore_v2),
+    sites(): Array<Site> {
+      return this.general_v2Store.sites
+    },
   },
   methods: {
-    goToSite(site: string): void {
-      this.$router.push({ name: 'Monitoring_Site', params: { siteid: site } })
+    /**
+     * Navigates to the site page
+     * @param {Site} site Object of the site to navigate to
+     */
+    loadSite(site: Site): void {
+      this.$router.push({ name: 'Monitoring_Site', params: {
+        siteparams: JSON.stringify({
+          siteid: encodeURIComponent(site.id),
+          siteName: site.data.SiteName,
+        }),
+      }});
     }
   }
 }
@@ -48,7 +58,7 @@ export default {
 <style scoped lang="scss">
 .grid-wrapper {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   gap: $m;
 }
 

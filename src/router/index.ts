@@ -178,14 +178,14 @@ const routes = [
     }
   },
   {
-    path: '/monitoring/:siteid',
+    path: '/monitoring/:siteparams',
     name: 'Monitoring_Site',
     component: Monitoring_Site,
     meta: {
       breadcrumb: (route: any) => {
         return [
           { title: 'Monitoring', to: '/monitoring' },
-          { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` }
+          { title: `${JSON.parse(route.params.siteparams).siteName}`, to: `/monitoring/${encodeURIComponent(route.params.siteparams)}` }
         ]
       }
     }

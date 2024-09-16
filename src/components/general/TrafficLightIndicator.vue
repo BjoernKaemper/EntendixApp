@@ -1,9 +1,15 @@
 <template>
-  <v-container class="traffic-light-container d-flex flex-column align-center justify-center">
-    <div class="light red-light" :class="{ active: trafficLightIsRed }"></div>
-    <div class="light yellow-light" :class="{ active: trafficLightIsYellow }"></div>
-    <div class="light green-light" :class="{ active: trafficLightIsGreen }"></div>
-  </v-container>
+  <div class="traffic-light-container">
+    <div class="light red-light" :class="{ active: trafficLightIsRed }">
+      <WarningIcon v-if="trafficLightIsRed" />
+    </div>
+    <div class="light yellow-light" :class="{ active: trafficLightIsYellow }">
+      <ExclamationMarkIcon v-if="trafficLightIsYellow" />
+    </div>
+    <div class="light green-light" :class="{ active: trafficLightIsGreen }">
+      <CheckMarkCircleIcon v-if="trafficLightIsGreen" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -13,10 +19,18 @@
  * @module components/general/TrafficLightIndicator
  * @displayName TrafficLightIndicator
  */
-import { TrafficLightTypes } from '@/types/TrafficLightTypes';
+import { TrafficLightTypes } from '@/types/enums/TrafficLightTypes';
+import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
+import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
+import WarningIcon from '@/components/icons/WarningIcon.vue';
 import { type PropType } from 'vue';
 
 export default {
+  components: {
+    CheckMarkCircleIcon,
+    ExclamationMarkIcon,
+    WarningIcon,
+  },
   props: {
     /**
      * The current light of the traffic light
@@ -54,15 +68,25 @@ export default {
 .traffic-light-container {
   height: 100%;
   width: $xl;
-  background-color: $darkest;
+  background-color: $darken;
   gap: calc($base-size + 1px);
-  padding: $xxs;
+  padding: $base-size 0 $base-size 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .light {
-  width: $xxs;
-  height: $xxs;
-  border-radius: 50%;
+  width: $m;
+  height: $m;
+  border-radius: $base-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > svg {
+    height: $xs;
+  }
 }
 
 .red-light {

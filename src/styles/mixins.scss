@@ -34,3 +34,16 @@
   font-weight: $content-weight;
   line-height: $content-line-height;
 }
+
+@mixin meta-information {
+  font-size: $meta-information-size;
+  font-weight: $meta-information-weight;
+  line-height: $meta-information-line-height;
+  color: $meta-color;
+}
+
+@mixin big-number {
+  font-size: $big-number-size;
+  font-weight: $big-number-weight;
+  line-height: $big-number-line-height;
+}

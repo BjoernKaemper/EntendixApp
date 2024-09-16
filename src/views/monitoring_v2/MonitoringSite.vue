@@ -1,61 +1,74 @@
 <template>
-  <div class="grid-wrapper">
+  <div class="grid-wrapper" v-if="site">
     <div>
       <h2>
-        {{ site.siteName }}
+        {{ site?.data.SiteName }}
       </h2>
       <img src="@/assets/gebäude_deutz.png" class="site-image" />
-      <StatusCard
-        v-for="(building, idx) in site.buildings"
-        @click="
-          this.$router.push({
-            name: 'Monitoring_Site_Building',
-            params: {
-              siteid: $route.params.siteid,
-              buildingid: Object.values(building)[0].buildingName,
-              buildingaasid: Object.keys(building)[0]
-            }
-          })
-        "
-        :key="idx"
-        :title="Object.values(building)[0].buildingName"
-        subtitle="Some description"
-        :status="StatusTypes.SUCCESS"
-        :isBordered="false"
-      />
+
+      <div class="status-container">
+        <StatusCard
+          v-for="(building, idx) in site?.data.Buildings"
+          @click="
+            this.$router.push({
+              name: 'Monitoring_Site_Building',
+              params: {
+                siteid: $route.params.siteid,
+                buildingid: Object.values(building)[0].buildingName,
+                buildingaasid: Object.keys(building)[0]
+              }
+            })
+          "
+          :key="idx"
+          :title="building.data.BuildingName"
+          subtitle="@TODO: Get subtitle"
+          :status="StatusTypes.SUCCESS"
+          :isBordered="false"
+          :actionType="ActionTypes.ARROW"
+        />
+      </div>
     </div>
     <div>
       <h3>Performance der Liegenschaft</h3>
+      <LineChart_v2 topic="Nutzungskomfort" />
     </div>
+  </div>
+  <div v-else>
+    <!-- @TODO: Implement loading logic base on store and components -->
+    <p>Loading...</p>
   </div>
 </template>
 <script lang="ts">
 import StatusCard from '@/components/general/StatusCard.vue'
-import { StatusTypes } from '@/types/StatusTypes'
-import { useGeneralStore } from '@/store/general'
+import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue'
+import { StatusTypes } from '@/types/enums/StatusTypes'
+import { ActionTypes } from '@/types/enums/ActionTypes'
+import { useGeneralStore_v2 } from '@/store/general_v2'
 import { mapStores } from 'pinia'
+import type { SiteWithBuildinginformation } from '@/types/Site'
 
 export default {
   components: {
-    StatusCard
+    StatusCard,
+    LineChart_v2
   },
-  computed: {
-    ...mapStores(useGeneralStore),
-    site_id(): string {
-      return this.$route.params.siteid
-    },
-    site(): any {
-      return (
-        this.generalStore.loadedSiteInformationWithBuildings.find((site) => {
-          return site.siteName === this.site_id
-        }) || {}
-      )
-    }
-  },
+
   setup() {
     return {
-      StatusTypes
+      StatusTypes,
+      ActionTypes
     }
+  },
+
+  computed: {
+    ...mapStores(useGeneralStore_v2),
+    site(): SiteWithBuildinginformation | null {
+      return this.general_v2Store.currentSite;
+    }
+  },
+
+  created() {
+    this.general_v2Store.loadSiteInformation(JSON.parse(this.$route.params.siteparams as string).siteid);
   }
 }
 </script>
@@ -70,6 +83,13 @@ export default {
 .site-image {
   width: 100%;
   height: auto;
+  border-radius: $base-size;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.status-container {
+  margin-top: $m;
 }
 
 h2,

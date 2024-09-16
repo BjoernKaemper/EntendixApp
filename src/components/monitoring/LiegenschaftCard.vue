@@ -1,10 +1,10 @@
 <template>
-  <div class="card" :class="{ 'has-action': action }" @click="action(liegenschaftName)">
+  <div class="card" @click="$emit('clicked')">
     <TrafficLightIndicator class="traffic-light" :light="currentLight" />
     <img src="@/assets/gebäude_deutz.png" />
     <div class="info">
-      <span class="title">{{ liegenschaftLocation }}</span>
-      <span class="subtitle">{{ liegenschaftName }}</span>
+      <span class="title">{{ name }}</span>
+      <span class="subtitle">{{ location }}</span>
     </div>
     <div v-if="showIcon" class="action">
       <ChevronIcon />
@@ -22,8 +22,8 @@
 
 import TrafficLightIndicator from '@/components/general/TrafficLightIndicator.vue'
 import ChevronIcon from '@/components/icons/ChevronIcon.vue'
-import { TrafficLightTypes } from '@/types/TrafficLightTypes'
-import { ConditionTypes } from '@/types/ConditionTypes'
+import { TrafficLightTypes } from '@/types/enums/TrafficLightTypes'
+import { ConditionTypes } from '@/types/enums/ConditionTypes'
 import { type PropType } from 'vue'
 
 export default {
@@ -45,14 +45,6 @@ export default {
       default: 'Name'
     },
     /**
-     * The action which is performed when the card is clicked
-     * @default () => {}
-     */
-    action: {
-      type: Function,
-      default: null
-    },
-    /**
      * Whether to show the icon on the right side of the card
      * @default true
      */
@@ -64,14 +56,6 @@ export default {
   components: {
     TrafficLightIndicator,
     ChevronIcon
-  },
-  computed: {
-    liegenschaftName(): string {
-      return this.name
-    },
-    liegenschaftLocation(): string {
-      return this.location
-    }
   },
   data() {
     return {
@@ -110,10 +94,7 @@ export default {
   height: $xxxl;
   margin-bottom: $s;
   align-items: center;
-
-  &.has-action {
-    cursor: pointer;
-  }
+  cursor: pointer;
 
   > .traffic-light {
     border-right: 1px solid white;

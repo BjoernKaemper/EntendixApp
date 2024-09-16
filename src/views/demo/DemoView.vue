@@ -55,8 +55,8 @@
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
 import StatusCard from '@/components/general/StatusCard.vue'
 
-import { StatusTypes } from '@/types/StatusTypes'
-import { ActionTypes } from '@/types/ActionTypes'
+import { StatusTypes } from '@/types/enums/StatusTypes'
+import { ActionTypes } from '@/types/enums/ActionTypes'
 
 export default {
   components: {

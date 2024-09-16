@@ -54,6 +54,25 @@ $darken: rgba($darkest, 0.8);
 $lightest: #fff;
 $lighten: rgba($lightest, 0.8);
 
+
+// Spacing
+//-------------------------
+
+// Base
+$base: 4;
+$base-size: $base * 1px;
+
+// Spacing
+$xxs: $base * 2.5px;
+$xs: $base * 3px;
+$s: $base * 4px;
+$m: $base * 5px;
+$l: $base * 6.25px;
+$xl: $base * 8px;
+$xxl: $base * 10px;
+$xxxl: $base * 16px;
+
+
 // Typography
 //-------------------------
 
@@ -87,20 +106,15 @@ $content-size: 14px;
 $content-weight: 400;
 $content-line-height: 1.4;
 
+// Meta-Information
+// TODO - Add font family Roboto Mono
+$meta-information-family: 'Roboto Mono', sans-serif;
+$meta-information-size: $xxs;
+$meta-information-weight: 400;
+$meta-information-line-height: normal;
+$meta-color: $darken;
 
-// Spacing
-//-------------------------
-
-// Base
-$base: 4;
-$base-size: $base * 1px;
-
-// Spacing
-$xxs: $base * 2.5px;
-$xs: $base * 3px;
-$s: $base * 4px;
-$m: $base * 5px;
-$l: $base * 6.25px;
-$xl: $base * 8px;
-$xxl: $base * 10px;
-$xxxl: $base * 16px;
+// Big Number
+$big-number-size: $xxl;
+$big-number-weight: 400;
+$big-number-line-height: 46px;

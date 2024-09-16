@@ -21,7 +21,14 @@ export default {
       if (!this.$route.meta.breadcrumb) {
         return [];
       }
-      return this.$route.meta.breadcrumb(this.$route).filter((item: any) => item.to !== '/') || []
+      const breadcrumb = this.$route.meta.breadcrumb;
+      if (typeof breadcrumb === 'function') {
+        return breadcrumb(this.$route).filter((item: any) => {
+          console.log('item', item);
+          return item.to !== '/';
+        }) || [];
+      }
+      return [];
     }
   }
 }

@@ -4,7 +4,7 @@ import { useAuthenticator } from '@aws-amplify/ui-vue'
 
 // Type Imports
 import type Company from '@/types/Company';
-import type Site from '@/types/Site';
+import type { Site, SiteWithBuildinginformation } from '@/types/Site';
 
 // Helper Imports
 import QueryHelper from '@/helpers/QueryHelper';
@@ -17,6 +17,7 @@ interface GeneralStoreState {
   globalLoadingOverlay: boolean,
   sites: Site[],
   companies: Company[],
+  currentSite: SiteWithBuildinginformation | null,
 }
 
 export const useGeneralStore_v2 = defineStore('general_v2', {
@@ -25,6 +26,7 @@ export const useGeneralStore_v2 = defineStore('general_v2', {
       globalLoadingOverlay: false,
       sites: [],
       companies: [],
+      currentSite: null,
     }
   },
   actions: {
@@ -55,6 +57,26 @@ export const useGeneralStore_v2 = defineStore('general_v2', {
         `${import.meta.env.VITE_MIDDLEWARE_URL}/companies?${q}`,
         requestOptions,
       ) as Company[];
+
+      this.globalLoadingOverlay = false
+    },
+
+    async loadSiteInformation(siteId: string): Promise<void> {
+      this.globalLoadingOverlay = true
+
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+
+      this.currentSite = await FetchHelper.apiCall(
+        `${import.meta.env.VITE_MIDDLEWARE_URL}/sites/${siteId}?${q}`,
+        requestOptions,
+      ) as SiteWithBuildinginformation;
 
       this.globalLoadingOverlay = false
     },

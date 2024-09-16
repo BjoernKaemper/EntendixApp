@@ -1,8 +1,8 @@
 <template>
   <div
     class="status-card"
-    :class="[{ isBordered: isBordered, 'has-action': action }, colourClass]"
-    @click="action()"
+    :class="[{ isBordered: isBordered }, colourClass]"
+    @click="$emit('clicked')"
   >
     <div class="icon-section">
       <component :is="icon" />
@@ -86,10 +86,6 @@ export default {
       type: Boolean as PropType<boolean>,
       default: true
     },
-    action: {
-      type: Function,
-      default: null
-    }
   },
   computed: {
     colourClass(): string {
@@ -102,8 +98,9 @@ export default {
           return 'error'
         case StatusTypes.INFO:
           return 'info'
+        default:
+          return 'info'
       }
-      return 'info'
     },
     icon(): string {
       switch (this.status) {
@@ -115,8 +112,9 @@ export default {
           return 'WarningIcon'
         case StatusTypes.INFO:
           return 'QuestionMarkIcon'
+        default:
+          return 'QuestionMarkIcon'
       }
-      return 'QuestionMarkIcon'
     },
     actionIcon(): string | undefined {
       switch (this.actionType) {
@@ -124,8 +122,9 @@ export default {
           return 'InfoCircleIcon'
         case ActionTypes.ARROW:
           return 'ArrowIcon'
+        default:
+          return undefined
       }
-      return undefined
     }
   }
 }
@@ -139,10 +138,7 @@ export default {
   background-color: $lightest;
   display: flex;
   margin-bottom: $s;
-
-  &.has-action {
-    cursor: pointer;
-  }
+  cursor: pointer;
 
   &.isBordered {
     &.success {

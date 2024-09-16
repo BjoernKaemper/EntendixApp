@@ -12,7 +12,7 @@
         :key="site.id"
         :name="site.data.SiteName"
         :location="site.data.Address.CityTown"
-        :action="goToSite"
+        @clicked="loadSite(site)"
       >
       </LiegenschaftCard>
     </div>
@@ -25,7 +25,7 @@ import { useGeneralStore_v2 } from '@/store/general_v2'
 
 import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue'
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
-import type Site from '@/types/Site';
+import type { Site } from '@/types/Site';
 
 export default {
   components: {
@@ -41,10 +41,15 @@ export default {
   methods: {
     /**
      * Navigates to the site page
-     * @param {string} site The site to navigate to
+     * @param {Site} site Object of the site to navigate to
      */
-    goToSite(site: string): void {
-      this.$router.push({ name: 'Monitoring_Site', params: { siteid: site } })
+    loadSite(site: Site): void {
+      this.$router.push({ name: 'Monitoring_Site', params: {
+        siteparams: JSON.stringify({
+          siteid: encodeURIComponent(site.id),
+          siteName: site.data.SiteName,
+        }),
+      }});
     }
   }
 }

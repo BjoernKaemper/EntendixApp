@@ -69,8 +69,8 @@ const mainHeight = computed(() => {
 watchEffect(() => {
   // Check if auth.user is available and contains the necessary properties.
   if (auth.user && auth.user.signInUserSession) {
-    // const userId = auth.user.signInUserSession.idToken.payload.sub
-    // store.fetchGeneralInfos(userId)
+    const userId = auth.user.signInUserSession.idToken.payload.sub
+    store.fetchGeneralInfos(userId)
     generalStore.loadBaseInformations();
   }
 })

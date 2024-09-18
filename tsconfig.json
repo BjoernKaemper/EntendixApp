@@ -9,3 +9,48 @@
     }
   ]
 }
+
+// @TODO: Merge configs for propper TS hot reload detection in vite
+// {
+//   "compilerOptions": {
+//     "target": "es2017",
+//     "module": "esNext",
+//     "strict": true,
+//     "jsx": "preserve",
+//     "importHelpers": true,
+//     "moduleResolution": "node",
+//     "emitDecoratorMetadata": true,
+//     "experimentalDecorators": true,
+//     "esModuleInterop": true,
+//     "allowSyntheticDefaultImports": true,
+//     "strictPropertyInitialization": false,
+//     "resolveJsonModule": true,
+//     "sourceMap": true,
+//     "baseUrl": ".",
+//     "types": [
+//       "jest",
+//       "vite/client"
+//     ],
+//     "paths": {
+//       "@/*": [
+//         "src/*"
+//       ]
+//     },
+//     "lib": [
+//       "esnext",
+//       "dom",
+//       "dom.iterable",
+//       "scripthost"
+//     ]
+//   },
+//   "include": [
+//     "src/**/*.ts",
+//     "src/**/*.tsx",
+//     "src/**/*.vue",
+//     "tests/**/*.ts",
+//     "tests/**/*.tsx"
+//   ],
+//   "exclude": [
+//     "node_modules"
+//   ]
+// }

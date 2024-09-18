@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import ProfileIcon from '@/components/icons/ProfileIcon.vue';
-import EntendixLogo from '@/components/icons/EntendixLogo.vue'
+import EntendixLogo from '@/components/icons/EntendixLogo.vue';
 
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 

@@ -59,22 +59,22 @@ export default {
   align-items: center;
   padding: $xxs $m;
 
-  >h1 {
+  > h1 {
     @include title;
     color: white;
   }
 
-  >nav>ul {
+  > nav> ul {
     list-style: none;
     display: flex;
     align-items: center;
     gap: $xs;
 
-    >li {
+    > li {
       color: white;
       display: flex;
 
-      >a {
+      > a {
         @include subtitle;
         color: white;
         text-decoration: none;
@@ -91,7 +91,7 @@ export default {
       &:last-child {
         margin-left: $base-size;
 
-        >button>svg {
+        > button > svg {
           width: $xxl;
           height: $xxl;
         }

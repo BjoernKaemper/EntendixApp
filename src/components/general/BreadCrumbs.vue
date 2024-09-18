@@ -46,7 +46,7 @@ export default {
   gap: calc($base-size * 2);
   list-style: none;
 
-  >li {
+  > li {
     border-radius: calc($base-size * 3.5);
     background-color: $lightest;
     border: 2px solid $dark-green;
@@ -76,10 +76,10 @@ export default {
       height: calc($base-size * 7.5);
       padding: 0;
 
-      >a {
+      > a {
         color: $light-green;
 
-        >svg {
+        > svg {
           width: $m;
           height: $m;
           margin-bottom: 1px;
@@ -91,7 +91,7 @@ export default {
       }
     }
 
-    >a {
+    > a {
       @include content;
       color: black;
       text-decoration: none;

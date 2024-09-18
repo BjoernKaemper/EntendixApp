@@ -46,7 +46,6 @@
     "typescript": "5.3.x",
     "vite": "^5.3.1",
     "vite-plugin-checker": "^0.8.0",
-    "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-vuetify": "^2.0.4",
     "vue-tsc": "^2.0.21"
   }

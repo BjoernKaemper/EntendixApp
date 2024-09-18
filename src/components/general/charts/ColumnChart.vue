@@ -23,9 +23,9 @@ export default {
     }
   },
   mounted() {
-    let root = am5.Root.new(this.$refs.lineChart)
+    const root = am5.Root.new(this.$refs.lineChart)
 
-    let chart = root.container.children.push(
+    const chart = root.container.children.push(
       am5xy.XYChart.new(root, {
         panX: true,
         panY: true,
@@ -37,7 +37,7 @@ export default {
 
     root.setThemes([am5themes_Animated.new(root)])
 
-    let cursor = chart.set(
+    const cursor = chart.set(
       'cursor',
       am5xy.XYCursor.new(root, {
         behavior: 'none'
@@ -45,7 +45,7 @@ export default {
     )
     cursor.lineY.set('visible', false)
 
-    let date = new Date()
+    const date = new Date()
     date.setHours(0, 0, 0, 0)
     //let value = 100;
     /*
@@ -68,7 +68,7 @@ export default {
         }
         */
 
-    let xAxis = chart.xAxes.push(
+    const xAxis = chart.xAxes.push(
       am5xy.DateAxis.new(root, {
         maxDeviation: 0.2,
         baseInterval: {
@@ -81,7 +81,7 @@ export default {
       })
     )
 
-    let yAxis = chart.yAxes.push(
+    const yAxis = chart.yAxes.push(
       am5xy.ValueAxis.new(root, {
         renderer: am5xy.AxisRendererY.new(root, {
           pan: 'zoom'
@@ -89,7 +89,7 @@ export default {
       })
     )
 
-    let series = chart.series.push(
+    const series = chart.series.push(
       am5xy.LineSeries.new(root, {
         name: 'Series',
         xAxis: xAxis,
@@ -116,7 +116,7 @@ export default {
     // let data = this.getData()
     // console.log(typeof data)
 
-    let data = this.monitoringStore.roomTemperature
+    const data = this.monitoringStore.roomTemperature
     console.log(data)
     /*
         let data = [

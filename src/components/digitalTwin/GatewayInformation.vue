@@ -100,7 +100,7 @@ export default {
       return buildingsIds
     },
     buildingsList() {
-      const buildingsList = this.generalStore.buildingsList
+      const {buildingsList} = this.generalStore
       return buildingsList
     }
     /*

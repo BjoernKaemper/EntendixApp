@@ -57,7 +57,7 @@ export default {
       const siteCoordinates = []
 
       // Iterate through each site and add its coordinates to siteCoordinates
-      for (let site in this.generalStore.loadedSiteInformation) {
+      for (const site in this.generalStore.loadedSiteInformation) {
         const lat = parseFloat(this.generalStore.loadedSiteInformation[site]['lat'])
         const lng = parseFloat(this.generalStore.loadedSiteInformation[site]['lng'])
         siteCoordinates.push({

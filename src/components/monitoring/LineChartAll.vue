@@ -63,7 +63,7 @@ export default {
     zweiteFunktion: String
   },
   mounted() {
-    let presetTime = 'month'
+    const presetTime = 'month'
   },
   beforeUnmount() {
     if (this.chart) {
@@ -88,7 +88,7 @@ export default {
       const updatedMinutes = currentTime.getMinutes()
       const updatedSeconds = currentTime.getSeconds()
 
-      let updatedTime = new Date()
+      const updatedTime = new Date()
       /*
       updatedTime.setFullYear(updatedYear);
       updatedTime.setMonth(updatedMonth);
@@ -157,7 +157,7 @@ export default {
     },
 
     async initChart(time) {
-      let elementsToDisplay = []
+      const elementsToDisplay = []
 
       // Define semantic id mappings for each function type
       const semanticIdMappings = {
@@ -231,11 +231,11 @@ export default {
         */
       }
 
-      let root = am5.Root.new('chartdiv')
+      const root = am5.Root.new('chartdiv')
 
       root.setThemes([am5themes_Animated.new(root)])
 
-      let chart = root.container.children.push(
+      const chart = root.container.children.push(
         am5xy.XYChart.new(root, {
           panX: true,
           panY: true,
@@ -250,7 +250,7 @@ export default {
       date.setHours(0, 0, 0, 0)
       let value = 100
 
-      let tooltipTime = am5.Tooltip.new(root, {
+      const tooltipTime = am5.Tooltip.new(root, {
         getFillFromSprite: false
       })
 
@@ -258,7 +258,7 @@ export default {
         fill: am5.color(0x3b5249)
       })
 
-      let xAxis = chart.xAxes.push(
+      const xAxis = chart.xAxes.push(
         am5xy.DateAxis.new(root, {
           maxDeviation: 0.1,
           baseInterval: {
@@ -273,7 +273,7 @@ export default {
         })
       )
 
-      let xRenderer = xAxis.get('renderer')
+      const xRenderer = xAxis.get('renderer')
       xRenderer.labels.template.setAll({
         //fill: am5.color(0xFF0000),
         fontSize: '12px',
@@ -286,20 +286,20 @@ export default {
 
       console.log(this.allElements)
 
-      for (let komponente in this.allElements) {
-        let component = this.allElements[komponente].elements
+      for (const komponente in this.allElements) {
+        const component = this.allElements[komponente].elements
 
-        for (let elementInformation in component) {
-          let element = component[elementInformation]
+        for (const elementInformation in component) {
+          const element = component[elementInformation]
 
           //let semanticId = element.semanticId;
-          let datenpunktName = element.datenpunktLabel
+          const datenpunktName = element.datenpunktLabel
 
           //if (selectedMappings.hasOwnProperty(semanticId)) {
           if (Object.prototype.hasOwnProperty.call(selectedMappings, datenpunktName)) {
-            let aasId = this.allElements[komponente].anlagenInformation.aasId
+            const {aasId} = this.allElements[komponente].anlagenInformation
 
-            let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(
+            const timeSeriesData = await this.monitoringStore.getTimeSeriesValues(
               element.idShort,
               element.submodelName,
               aasId
@@ -330,9 +330,9 @@ export default {
       }
 
       this.elementsToDisplay = elementsToDisplay
-      let yAxesTypesEnthalten = []
+      const yAxesTypesEnthalten = []
 
-      let yAxis = chart.yAxes.push(
+      const yAxis = chart.yAxes.push(
         am5xy.ValueAxis.new(root, {
           //maxDeviation: 0,
           renderer: am5xy.AxisRendererY.new(root, {})
@@ -340,7 +340,7 @@ export default {
       )
       yAxesTypesEnthalten.push('number')
 
-      for (var i = 0; i < elementsToDisplay.length; i++) {
+      for (let i = 0; i < elementsToDisplay.length; i++) {
         let seriesYAxis
         if (elementsToDisplay[i].valueType === 'boolean') {
           if (!yAxesTypesEnthalten.includes('boolean')) {
@@ -373,7 +373,7 @@ export default {
         }
         */
 
-        let series = chart.series.push(
+        const series = chart.series.push(
           am5xy.LineSeries.new(root, {
             //name: "Series " + i,
             name: elementsToDisplay[i].name,
@@ -389,7 +389,7 @@ export default {
           })
         )
 
-        let yRenderer = seriesYAxis.get('renderer')
+        const yRenderer = seriesYAxis.get('renderer')
         yRenderer.labels.template.setAll({
           //fill: am5.color(0xFF0000),
           fontSize: '12px',
@@ -401,7 +401,7 @@ export default {
         value = 0
 
         //let data = generateDatas(100);
-        let data = elementsToDisplay[i].data
+        const {data} = elementsToDisplay[i]
         this.data = data
         console.log(data)
         //series.set("stroke", am5.color(0xFF4A1C));
@@ -411,7 +411,7 @@ export default {
         series.appear()
       }
 
-      let cursor = chart.set(
+      const cursor = chart.set(
         'cursor',
         am5xy.XYCursor.new(root, {
           behavior: 'none'
@@ -431,7 +431,7 @@ export default {
       }));
       */
 
-      let legend = chart.rightAxesContainer.children.push(
+      const legend = chart.rightAxesContainer.children.push(
         am5.Legend.new(root, {
           width: 200,
           paddingLeft: 15,
@@ -440,8 +440,8 @@ export default {
       )
 
       legend.itemContainers.template.events.on('pointerover', function (e) {
-        let itemContainer = e.target
-        let series = itemContainer.dataItem.dataContext
+        const itemContainer = e.target
+        const series = itemContainer.dataItem.dataContext
 
         chart.series.each(function (chartSeries) {
           if (chartSeries != series) {
@@ -458,8 +458,8 @@ export default {
       })
 
       legend.itemContainers.template.events.on('pointerout', function (e) {
-        let itemContainer = e.target
-        let series = itemContainer.dataItem.dataContext
+        const itemContainer = e.target
+        const series = itemContainer.dataItem.dataContext
 
         chart.series.each(function (chartSeries) {
           chartSeries.strokes.template.setAll({

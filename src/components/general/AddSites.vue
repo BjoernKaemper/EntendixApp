@@ -82,7 +82,7 @@ export default {
       // console.log(place)
       // this.currentPlace = place
       // const location = place
-      for (let key in place) {
+      for (const key in place) {
         //console.log(key, place[key])
         if (key === 'country') {
           this.country = place[key]

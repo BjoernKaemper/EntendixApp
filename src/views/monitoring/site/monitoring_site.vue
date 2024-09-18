@@ -36,13 +36,13 @@ export default {
   },
   created() {
     const site_id = this.$route.params.siteid
-    for (let site in this.generalStore.loadedSiteInformationWithBuildings) {
+    for (const site in this.generalStore.loadedSiteInformationWithBuildings) {
       if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site]['siteName']) {
         this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings
       }
     }
 
-    for (let site in this.generalStore.loadedSiteInformation) {
+    for (const site in this.generalStore.loadedSiteInformation) {
       console.log(this.generalStore.loadedSiteInformation[site])
       if (site_id === this.generalStore.loadedSiteInformation[site]['siteName']) {
         this.site = this.generalStore.loadedSiteInformation[site]

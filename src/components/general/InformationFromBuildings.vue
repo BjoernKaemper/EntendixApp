@@ -28,15 +28,15 @@ export default {
       const buildings = []
       // const site = Object.values(this.site)[0]
       console.log(this.site['buildings'])
-      for (let building in this.site['buildings']) {
+      for (const building in this.site['buildings']) {
         // console.log(site[building])
-        let buildingInformationDict = {}
+        const buildingInformationDict = {}
         console.log(this.site['buildings'])
         //let buildingInformation = this.site['buildings'][building]
-        let buildingInformation = this.site['buildings'][building]
+        const buildingInformation = this.site['buildings'][building]
         console.log(buildingInformation)
         for (const i in buildingInformation) {
-          let elementDict = buildingInformation[i]
+          const elementDict = buildingInformation[i]
           for (const element in elementDict) {
             if (element === 'country') {
               buildingInformationDict['Land'] = elementDict[element]

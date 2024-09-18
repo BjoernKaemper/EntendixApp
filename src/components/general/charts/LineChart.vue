@@ -33,7 +33,7 @@ export default {
   },
   async mounted() {
     let valueType = 'number'
-    let data = await this.getTimeSeriesData()
+    const data = await this.getTimeSeriesData()
     console.log(data)
     //let data = this.data
 
@@ -44,11 +44,11 @@ export default {
       }
     }
 
-    let root = am5.Root.new(this.$refs.lineChart)
+    const root = am5.Root.new(this.$refs.lineChart)
 
-    let customTheme = am5themes_Animated.new(root)
+    const customTheme = am5themes_Animated.new(root)
 
-    let chart = root.container.children.push(
+    const chart = root.container.children.push(
       am5xy.XYChart.new(root, {
         panX: true,
         panY: true,
@@ -64,7 +64,7 @@ export default {
     //  am5themes_Animated.new(root)
     //]);
 
-    let cursor = chart.set(
+    const cursor = chart.set(
       'cursor',
       am5xy.XYCursor.new(root, {
         behavior: 'none'
@@ -72,10 +72,10 @@ export default {
     )
     cursor.lineY.set('visible', false)
 
-    let date = new Date()
+    const date = new Date()
     date.setHours(0, 0, 0, 0)
 
-    let tooltipTime = am5.Tooltip.new(root, {
+    const tooltipTime = am5.Tooltip.new(root, {
       getFillFromSprite: false
     })
 
@@ -83,7 +83,7 @@ export default {
       fill: am5.color(0x3b5249)
     })
 
-    let xAxis = chart.xAxes.push(
+    const xAxis = chart.xAxes.push(
       am5xy.DateAxis.new(root, {
         maxDeviation: 0.2,
         baseInterval: {
@@ -99,7 +99,7 @@ export default {
       })
     )
 
-    let xRenderer = xAxis.get('renderer')
+    const xRenderer = xAxis.get('renderer')
     xRenderer.labels.template.setAll({
       //fill: am5.color(0xFF0000),
       fontSize: '12px',
@@ -129,14 +129,14 @@ export default {
       )
     }
 
-    let yRenderer = yAxis.get('renderer')
+    const yRenderer = yAxis.get('renderer')
     yRenderer.labels.template.setAll({
       //fill: am5.color(0xFF0000),
       fontSize: '12px',
       fontFamily: 'Montserrat'
     })
 
-    let series = chart.series.push(
+    const series = chart.series.push(
       am5xy.LineSeries.new(root, {
         name: 'Series',
         xAxis: xAxis,
@@ -172,7 +172,7 @@ export default {
       console.log(this.submodelElementPath)
       console.log(this.submodelRefIdShort)
       console.log(this.aasId)
-      let timeSeriesData = await this.monitoringStore.getTimeSeriesValues(
+      const timeSeriesData = await this.monitoringStore.getTimeSeriesValues(
         this.submodelElementPath,
         this.submodelRefIdShort,
         this.aasId

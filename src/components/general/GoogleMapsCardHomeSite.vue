@@ -42,8 +42,8 @@ export default {
       /* eslint-disable no-undef */
       const buildingsCoordinates = []
 
-      for (let i in this.buildings) {
-        let building = this.buildings[i]
+      for (const i in this.buildings) {
+        const building = this.buildings[i]
         const lat = parseFloat(Object.values(building)[0].lat)
         const lng = parseFloat(Object.values(building)[0].lng)
         buildingsCoordinates.push({

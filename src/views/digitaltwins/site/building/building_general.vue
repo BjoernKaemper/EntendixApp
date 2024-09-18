@@ -387,7 +387,7 @@ export default {
         },
         */
     async getGrundfunktionenForBulding(aasId) {
-      let aasTree = await this.monitoringStore.getGrundfunktionen(aasId, this.grundfunktionen)
+      const aasTree = await this.monitoringStore.getGrundfunktionen(aasId, this.grundfunktionen)
       this.aasTree = aasTree
     }
   }

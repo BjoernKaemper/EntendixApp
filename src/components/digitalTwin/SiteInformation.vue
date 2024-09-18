@@ -39,7 +39,7 @@ export default {
     siteInformation() {
       const siteInformation = {}
 
-      for (let element in this.site) {
+      for (const element in this.site) {
         if (element === 'country') {
           siteInformation['Land'] = this.site[element]
         } else if (element === 'city') {

@@ -137,8 +137,8 @@ export default {
   methods: {
     async getSubmodelInformations() {
       await this.monitoringStore.setLoadingMonitoringComponent('true')
-      let allSE = []
-      let allComponents = []
+      const allSE = []
+      const allComponents = []
       for (const komponente in this.anlage) {
         const { aasId, semanticId } = this.anlage[komponente]
         //let component = components[komponente]
@@ -150,11 +150,11 @@ export default {
         //console.log(submodelElements)
         const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
         //console.log(allElements)
-        let elements = []
+        const elements = []
 
-        for (let element in allElements) {
+        for (const element in allElements) {
           const dataContent = allElements[element]
-          let elementData = {
+          const elementData = {
             aasId: aasId,
             submodelName: submodelId,
             idShort: element,

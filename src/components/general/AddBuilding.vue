@@ -70,7 +70,7 @@ export default {
   methods: {
     setPlace(place) {
       this.currentPlace = place['route'] + ', ' + place['locality'] + ', ' + place['country']
-      for (let key in place) {
+      for (const key in place) {
         //console.log(key, place[key])
         if (key === 'country') {
           this.country = place[key]

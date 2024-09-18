@@ -74,9 +74,9 @@ export default {
       await this.monitoringStore.getTimeSeriesSubmodelElements(this.aasId)
       this.timeSeriesSubmodel = this.monitoringStore.timeSeriesSubmodel
 
-      let chartType = []
-      for (let element in this.monitoringStore.timeSeriesSubmodelElementsIdShorts) {
-        let se = this.monitoringStore.timeSeriesSubmodelElementsIdShorts[element]
+      const chartType = []
+      for (const element in this.monitoringStore.timeSeriesSubmodelElementsIdShorts) {
+        const se = this.monitoringStore.timeSeriesSubmodelElementsIdShorts[element]
 
         if (se == 'OnOff') {
           chartType.push({ columnChart: se })

@@ -12,7 +12,7 @@ import * as am5radar from '@amcharts/amcharts5/radar'
 
 export default {
   async mounted() {
-    let root = am5.Root.new('chartdiv')
+    const root = am5.Root.new('chartdiv')
 
     // Set themes
     // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -20,7 +20,7 @@ export default {
 
     // Create chart
     // https://www.amcharts.com/docs/v5/charts/radar-chart/
-    let chart = root.container.children.push(
+    const chart = root.container.children.push(
       am5radar.RadarChart.new(root, {
         panX: false,
         panY: false,
@@ -31,7 +31,7 @@ export default {
 
     // Create axis and its renderer
     // https://www.amcharts.com/docs/v5/charts/radar-chart/gauge-charts/#Axes
-    let axisRenderer = am5radar.AxisRendererCircular.new(root, {
+    const axisRenderer = am5radar.AxisRendererCircular.new(root, {
       innerRadius: -40
     })
 
@@ -41,7 +41,7 @@ export default {
       strokeOpacity: 0.8
     })
 
-    let xAxis = chart.xAxes.push(
+    const xAxis = chart.xAxes.push(
       am5xy.ValueAxis.new(root, {
         maxDeviation: 0,
         min: -40,
@@ -53,15 +53,15 @@ export default {
 
     // Add clock hand
     // https://www.amcharts.com/docs/v5/charts/radar-chart/gauge-charts/#Clock_hands
-    let axisDataItem = xAxis.makeDataItem({})
+    const axisDataItem = xAxis.makeDataItem({})
 
-    let clockHand = am5radar.ClockHand.new(root, {
+    const clockHand = am5radar.ClockHand.new(root, {
       pinRadius: am5.percent(20),
       radius: am5.percent(100),
       bottomWidth: 40
     })
 
-    let bullet = axisDataItem.set(
+    const bullet = axisDataItem.set(
       'bullet',
       am5xy.AxisBullet.new(root, {
         sprite: clockHand
@@ -70,7 +70,7 @@ export default {
 
     xAxis.createAxisRange(axisDataItem)
 
-    let label = chart.radarContainer.children.push(
+    const label = chart.radarContainer.children.push(
       am5.Label.new(root, {
         fill: am5.color(0xffffff),
         centerX: am5.percent(50),
@@ -82,7 +82,7 @@ export default {
 
     axisDataItem.set('value', 50)
     bullet.get('sprite').on('rotation', function () {
-      let value = axisDataItem.get('value')
+      const value = axisDataItem.get('value')
       let fill = am5.color(0x000000)
       xAxis.axisRanges.each(function (axisRange) {
         if (value >= axisRange.get('value') && value <= axisRange.get('endValue')) {
@@ -119,7 +119,7 @@ export default {
 
     // Create axis ranges bands
     // https://www.amcharts.com/docs/v5/charts/radar-chart/gauge-charts/#Bands
-    let bandsData = [
+    const bandsData = [
       {
         title: 'Unsustainable',
         color: '#ee1f25',
@@ -165,7 +165,7 @@ export default {
     ]
 
     am5.array.each(bandsData, function (data) {
-      let axisRange = xAxis.createAxisRange(xAxis.makeDataItem({}))
+      const axisRange = xAxis.createAxisRange(xAxis.makeDataItem({}))
 
       axisRange.setAll({
         value: data.lowScore,

@@ -206,7 +206,7 @@ export default {
     this.getZweiteGrundfunktion()
   },
   mounted() {
-    let firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
+    const firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
     this.funktionZweiteEbene = firstFunktion
   },
   computed: {
@@ -236,11 +236,11 @@ export default {
       this.selectedComponentElements = null
       this.selectedAnlage = null
       this.loadingAnlage = true
-      let components = anlage.komponentenAas
-      let allSE = []
+      const components = anlage.komponentenAas
+      const allSE = []
       for (const komponente in components) {
-        let component = components[komponente]
-        const aasId = component.aasId
+        const component = components[komponente]
+        const {aasId} = component
         //console.log(component)
         //const semanticId = anlage.semanticId
         const submodelId = 'OperatingInformation'
@@ -249,11 +249,11 @@ export default {
         //console.log(submodelElements)
         const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
         //console.log(allElements)
-        let elements = []
+        const elements = []
 
-        for (let element in allElements) {
+        for (const element in allElements) {
           const dataContent = allElements[element]
-          let elementData = {
+          const elementData = {
             aasId: aasId,
             submodelName: submodelId,
             idShort: element,

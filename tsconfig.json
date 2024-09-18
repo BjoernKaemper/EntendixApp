@@ -1,13 +1,11 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
     },
-    "resolveJsonModule": true
-  },
-  // Remove the referenced project that disables emit
-  "references": []
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
 }

@@ -50,7 +50,7 @@ export default {
   },
   mounted() {
     // Das hier nur als Ersatz weil das andere mit der CSV einalden nicht mehr geklappt hat,
-    let showDatenpunkt = this.datenpunkt
+    const showDatenpunkt = this.datenpunkt
     showDatenpunkt['chartType'] = 'LineChart'
     this.datenpunktToDisplay = showDatenpunkt
     console.log(this.datenpunktToDisplay)

@@ -217,8 +217,8 @@ export default {
   methods: {
     async getSubmodelInformations() {
       await this.monitoringStore.setLoadingMonitoringComponent('true')
-      let allSE = []
-      let allComponents = []
+      const allSE = []
+      const allComponents = []
 
       for (const komponente in this.anlage) {
         const { aasId, semanticId } = this.anlage[komponente]
@@ -231,13 +231,13 @@ export default {
         //console.log(submodelElements)
         const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
         //console.log(allElements)
-        let elements = []
+        const elements = []
 
-        for (let element in allElements) {
+        for (const element in allElements) {
           const dataContent = allElements[element]
           console.log(dataContent)
           //console.log(element)
-          let elementData = {
+          const elementData = {
             aasId: aasId,
             submodelName: submodelId,
             idShort: element,
@@ -268,7 +268,7 @@ export default {
             anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore
           }
 
-          let value = this.monitoringStore.checkvalue(elementData.presentValue)
+          const value = this.monitoringStore.checkvalue(elementData.presentValue)
           elementData.presentValue = value
           elements.push(elementData)
         }
@@ -378,8 +378,8 @@ export default {
     },
 
     getCssInfos(allComponents) {
-      for (let element in allComponents) {
-        let name = allComponents[element]
+      for (const element in allComponents) {
+        const name = allComponents[element]
         if (name === 'Rücklauf') {
           const cssElement = document.getElementById('rücklauf')
           cssElement.classList.add('pointer', 'rücklauf')

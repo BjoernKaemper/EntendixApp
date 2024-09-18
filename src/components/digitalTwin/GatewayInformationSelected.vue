@@ -217,15 +217,15 @@ export default {
   methods: {
     loadBuildingInformation() {
       this.digitalTwinStore.getSubmodel()
-      let buildingsIdsWithSelectName = {}
-      let buildingsList = []
-      for (let site in this.generalStore.loadedSiteInformationWithBuildings) {
-        let siteInformation = this.generalStore.loadedSiteInformationWithBuildings[site]
-        let siteName = siteInformation['siteName']
-        for (let building in siteInformation['buildings'][0]) {
-          let buildingInformation = siteInformation['buildings'][0][building]
-          let buildingName = buildingInformation['buildingName']
-          let siteBuildingName = buildingName + ', ' + siteName
+      const buildingsIdsWithSelectName = {}
+      const buildingsList = []
+      for (const site in this.generalStore.loadedSiteInformationWithBuildings) {
+        const siteInformation = this.generalStore.loadedSiteInformationWithBuildings[site]
+        const siteName = siteInformation['siteName']
+        for (const building in siteInformation['buildings'][0]) {
+          const buildingInformation = siteInformation['buildings'][0][building]
+          const buildingName = buildingInformation['buildingName']
+          const siteBuildingName = buildingName + ', ' + siteName
           buildingsList.push(siteBuildingName)
           //this.$set(this.myObject, 'newKey', 'New Value')
           buildingsIdsWithSelectName[building] = siteBuildingName

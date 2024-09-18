@@ -148,8 +148,8 @@ export default {
   methods: {
     async getSubmodelInformations() {
       await this.monitoringStore.setLoadingMonitoringComponent('true')
-      let allSE = []
-      let allComponents = []
+      const allSE = []
+      const allComponents = []
       for (const komponente in this.anlage) {
         const { aasId, semanticId } = this.anlage[komponente]
         //let component = components[komponente]
@@ -161,11 +161,11 @@ export default {
         //console.log(submodelElements)
         const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
         //console.log(allElements)
-        let elements = []
+        const elements = []
 
-        for (let element in allElements) {
+        for (const element in allElements) {
           const dataContent = allElements[element]
-          let elementData = {
+          const elementData = {
             aasId: aasId,
             submodelName: submodelId,
             idShort: element,
@@ -195,7 +195,7 @@ export default {
             anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore
           }
           //console.log(elementData)
-          let value = this.monitoringStore.checkvalue(elementData.presentValue)
+          const value = this.monitoringStore.checkvalue(elementData.presentValue)
           elementData.presentValue = value
           elements.push(elementData)
         }

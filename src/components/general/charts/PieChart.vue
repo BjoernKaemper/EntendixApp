@@ -13,15 +13,15 @@ import * as am5percent from '@amcharts/amcharts5/percent'
 
 export default {
   mounted() {
-    let root = am5.Root.new(this.$refs.pieChart)
+    const root = am5.Root.new(this.$refs.pieChart)
 
-    let chart = root.container.children.push(
+    const chart = root.container.children.push(
       am5percent.PieChart.new(root, {
         layout: root.verticalHorizontal
       })
     )
 
-    let data = [
+    const data = [
       {
         country: 'France',
         sales: 1
@@ -35,7 +35,7 @@ export default {
         sales: 3
       }
     ]
-    let series = chart.series.push(
+    const series = chart.series.push(
       am5percent.PieSeries.new(root, {
         name: 'Series',
         categoryField: 'country',

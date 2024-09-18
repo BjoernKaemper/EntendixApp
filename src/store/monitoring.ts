@@ -74,7 +74,7 @@ export const useMonitoringStore = defineStore('monitoring', {
       this.aasTree = []
       this.loadingAasTree = true
       const generalStore = useGeneralStore()
-      const userId = generalStore.userId
+      const {userId} = generalStore
       this.userId = userId
       //const aasStrukturinformationen = []
 
@@ -183,7 +183,7 @@ export const useMonitoringStore = defineStore('monitoring', {
       const url = this.aasServer + getSubmodelElements
       let responseBasyx = undefined
       const generalStore = useGeneralStore()
-      const userId = generalStore.userId
+      const {userId} = generalStore
       this.userId = userId
 
       try {

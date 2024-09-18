@@ -85,7 +85,7 @@ export default {
       return useGeneralStore()
     },
     organization() {
-      const loadedOrganizationInformation = this.generalStore.loadedOrganizationInformation
+      const {loadedOrganizationInformation} = this.generalStore
       console.log(loadedOrganizationInformation)
       return loadedOrganizationInformation
     }

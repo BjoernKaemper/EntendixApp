@@ -115,7 +115,7 @@ export default {
   },
   created() {
     const site_id = this.$route.params.siteid
-    for (let site in this.generalStore.loadedSiteInformationWithBuildings) {
+    for (const site in this.generalStore.loadedSiteInformationWithBuildings) {
       if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site]['siteName']) {
         console.log(this.generalStore.loadedSiteInformationWithBuildings[site])
         this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings

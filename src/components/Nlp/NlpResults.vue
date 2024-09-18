@@ -316,34 +316,34 @@ export default {
       return useGeneralStore()
     },
     wärmeVersorgen() {
-      const wärmeVersorgen = this.digitalTwinStore.wärmeVersorgen
+      const {wärmeVersorgen} = this.digitalTwinStore
       return wärmeVersorgen
     },
     luftVersorgen() {
-      const luftVersorgen = this.digitalTwinStore.luftVersorgen
+      const {luftVersorgen} = this.digitalTwinStore
       return luftVersorgen
     },
     medienVersorgen() {
-      const medienVersorgen = this.digitalTwinStore.medienVersorgen
+      const {medienVersorgen} = this.digitalTwinStore
       return medienVersorgen
     },
     kälteVersorgen() {
-      const kälteVersorgen = this.digitalTwinStore.kälteVersorgen
+      const {kälteVersorgen} = this.digitalTwinStore
       return kälteVersorgen
     },
     sichern() {
-      const sichern = this.digitalTwinStore.sichern
+      const {sichern} = this.digitalTwinStore
       return sichern
     },
     stromVersorgen() {
-      const stromVersorgen = this.digitalTwinStore.stromVersorgen
+      const {stromVersorgen} = this.digitalTwinStore
       return stromVersorgen
     },
     numberGrundfunktionen() {
       const allElements = this.digitalTwinStore.allNlpSubmodelElements
       const grundfunktionen = []
       for (const data in allElements) {
-        let grundfunktionValue = allElements[data]['GrundfunktionValue']
+        const grundfunktionValue = allElements[data]['GrundfunktionValue']
         if (grundfunktionen.includes(grundfunktionValue)) {
           continue
         } else {

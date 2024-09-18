@@ -52,7 +52,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
   actions: {
     async getSeElement(aasId: string, submodelIdShort: string, idShort: string, elementData: any) {
       const generalStore = useGeneralStore()
-      const userId = generalStore.userId
+      const {userId} = generalStore
       this.userId = userId
       const bacnetNlpInformationPaths = {
         presentValue: [idShort, 'PresentValue'],
@@ -102,7 +102,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       let responseBasyx = ''
       console.log(url)
       const generalStore = useGeneralStore()
-      const userId = generalStore.userId
+      const {userId} = generalStore
 
       try {
         const response = await axios.post(
@@ -320,7 +320,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       let responseBasyx = ''
       console.log(url)
       const generalStore = useGeneralStore()
-      const userId = generalStore.userId
+      const {userId} = generalStore
 
       try {
         const response = await axios.post(url, {
@@ -339,7 +339,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       const urlBomParent = this.aasServer + bomParent
       let parentAasId = []
       const generalStore = useGeneralStore()
-      const userId = generalStore.userId
+      const {userId} = generalStore
       try {
         const response = await axios.post(urlBomParent, {
           userId: userId,
@@ -357,7 +357,7 @@ export const useDigitalTwinsStore = defineStore('digitalTwins', {
       const url = this.aasServer + getAasIdShort
       let idShort = ''
       const generalStore = useGeneralStore()
-      const userId = generalStore.userId
+      const {userId} = generalStore
       try {
         const response = await axios.post(url, {
           userId: userId,

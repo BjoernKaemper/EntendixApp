@@ -154,7 +154,7 @@ export default {
     }
   },
   mounted() {
-    let firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
+    const firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
 
     this.funktionZweiteEbene = firstFunktion
 

@@ -21,7 +21,7 @@ export default {
       if (!this.$route.meta.breadcrumb) {
         return [];
       }
-      const breadcrumb = this.$route.meta.breadcrumb;
+      const {breadcrumb} = this.$route.meta;
       if (typeof breadcrumb === 'function') {
         return breadcrumb(this.$route).filter((item: any) => {
           console.log('item', item);

@@ -34,7 +34,7 @@ export default {
   methods: {
     initMap() {
       /* eslint-disable no-undef */
-      for (let site in this.generalStore.loadedSiteInformation) {
+      for (const site in this.generalStore.loadedSiteInformation) {
         if (this.siteId === this.generalStore.loadedSiteInformation[site]['siteName']) {
           const lat = parseFloat(this.generalStore.loadedSiteInformation[site]['lat'])
           const lng = parseFloat(this.generalStore.loadedSiteInformation[site]['lng'])

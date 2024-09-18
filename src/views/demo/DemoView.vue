@@ -1,5 +1,9 @@
 <template>
   <div>
+    <ChipComponent :status="StatusTypes.SUCCESS" />
+    <ChipComponent :status="StatusTypes.WARNING" />
+    <ChipComponent :status="StatusTypes.ERROR" />
+    <ChipComponent />
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Deutz" />
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Gummersbach" />
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Deutz" :showIcon="false" />
@@ -54,6 +58,7 @@
 <script lang="ts">
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
 import StatusCard from '@/components/general/StatusCard.vue'
+import ChipComponent from '@/components/general/ChipComponent.vue'
 
 import { StatusTypes } from '@/types/enums/StatusTypes'
 import { ActionTypes } from '@/types/enums/ActionTypes'
@@ -61,7 +66,8 @@ import { ActionTypes } from '@/types/enums/ActionTypes'
 export default {
   components: {
     LiegenschaftCard,
-    StatusCard
+    StatusCard,
+    ChipComponent
   },
   setup() {
     return {

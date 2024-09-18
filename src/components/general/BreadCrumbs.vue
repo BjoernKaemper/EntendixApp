@@ -1,7 +1,9 @@
 <template>
   <ul class="breadcrumb">
     <li>
-      <router-link to="/" title="Home"><HomeIcon class="home-icon" /></router-link>
+      <router-link to="/" title="Home">
+        <HomeIcon class="home-icon" />
+      </router-link>
     </li>
     <li v-for="(item, idx) in breadcrumbs" :key="idx">
       <router-link :to="item.to">{{ item.title }}</router-link>
@@ -37,60 +39,63 @@ export default {
 <style scoped lang="scss">
 .breadcrumb {
   background-color: $dark-green-20;
-  padding: $s $m; // TODO: used $s instead of 8px
+  padding: $xxs $m; // TODO: used $s instead of 8px
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 8px;
+  gap: calc($base-size * 2);
   list-style: none;
-  > li {
-    border-radius: 14px;
+
+  >li {
+    border-radius: calc($base-size * 3.5);
     background-color: $lightest;
     border: 2px solid $dark-green;
-    height: 28px;
+    height: calc($base-size * 7.5);
     padding: $base-size $s;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+
     ::before {
       content: '';
       display: block;
       position: absolute;
-      width: 10px;
+      width: $xxs;
       height: 0;
       border-top: 1.5px solid $dark-green;
       border-bottom: 1.5px solid $dark-green;
       top: calc(50% - 1.5px);
       left: -11px;
     }
+
     &:first-child {
       background-color: $dark-green;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
+      width: calc($base-size * 7.5);
+      height: calc($base-size * 7.5);
       padding: 0;
-      > a {
+
+      >a {
         color: $light-green;
-        > svg {
-          width: 16px;
-          height: 16px;
+
+        >svg {
+          width: $m;
+          height: $m;
           margin-bottom: 1px;
         }
       }
+
       ::before {
         display: none;
       }
     }
 
-    > a {
+    >a {
       @include content;
       color: black;
       text-decoration: none;
     }
   }
-}
-home-icon {
-  color: $light-green;
 }
 </style>

@@ -15,22 +15,21 @@
         </div>
       </div>
       <h4>Funktionserfüllung Anlagentechnik</h4>
-      <div class="three-col-grid">
-      </div>
+      <div class="three-col-grid" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { useGeneralStore } from '@/store/general'
-import { useMonitoringStore } from '@/store/monitoring'
-import { mapStores } from 'pinia'
+import { useGeneralStore } from '@/store/general';
+import { useMonitoringStore } from '@/store/monitoring';
+import { mapStores } from 'pinia';
 
 export default {
   computed: {
     ...mapStores(useGeneralStore, useMonitoringStore),
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

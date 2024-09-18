@@ -15,8 +15,8 @@
               params: {
                 siteid: $route.params.siteid,
                 buildingid: Object.values(building)[0].buildingName,
-                buildingaasid: Object.keys(building)[0]
-              }
+                buildingaasid: Object.keys(building)[0],
+              },
             })
           "
           :key="idx"
@@ -39,38 +39,38 @@
   </div>
 </template>
 <script lang="ts">
-import StatusCard from '@/components/general/StatusCard.vue'
-import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue'
-import { StatusTypes } from '@/types/enums/StatusTypes'
-import { ActionTypes } from '@/types/enums/ActionTypes'
-import { useGeneralStore_v2 } from '@/store/general_v2'
-import { mapStores } from 'pinia'
-import type { SiteWithBuildinginformation } from '@/types/Site'
+import StatusCard from '@/components/general/StatusCard.vue';
+import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
+import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ActionTypes } from '@/types/enums/ActionTypes';
+import { useGeneralStore_v2 } from '@/store/general_v2';
+import { mapStores } from 'pinia';
+import type { SiteWithBuildinginformation } from '@/types/Site';
 
 export default {
   components: {
     StatusCard,
-    LineChart_v2
+    LineChart_v2,
   },
 
   setup() {
     return {
       StatusTypes,
-      ActionTypes
-    }
+      ActionTypes,
+    };
   },
 
   computed: {
     ...mapStores(useGeneralStore_v2),
     site(): SiteWithBuildinginformation | null {
       return this.general_v2Store.currentSite;
-    }
+    },
   },
 
   created() {
     this.general_v2Store.loadSiteInformation(JSON.parse(this.$route.params.siteparams as string).siteid);
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="scss">

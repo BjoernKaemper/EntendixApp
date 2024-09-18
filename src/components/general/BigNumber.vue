@@ -23,10 +23,10 @@ export default {
      */
     unit: {
       type: String,
-      default: 'tbd.'
-    }
-  }
-}
+      default: 'tbd.',
+    },
+  },
+};
 
 </script>
 

@@ -13,10 +13,10 @@
               monitoringStore.getTimeSeriesValues(
                 Object.values(element)[0],
                 submodelRefIdShort,
-                aasId
+                aasId,
               )
             "
-            >{{ Object.values(element)[0] }}</v-btn
+          >{{ Object.values(element)[0] }}</v-btn
           >
         </v-container>
       </template>
@@ -28,7 +28,7 @@
 
         <v-container>
           <div v-if="monitoringStore.loadingLineChart == true">
-            <v-progress-linear indeterminate color="monitoring"></v-progress-linear>
+            <v-progress-linear indeterminate color="monitoring" />
           </div>
           <div v-else>
             <LineChart v-if="Object.keys(element)[0] == 'lineChart'" />
@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import { useMonitoringStore } from '@/store/monitoring'
-import LineChart from '@/components/general/charts/LineChart.vue'
-import ColumnChart from '@/components/general/charts/ColumnChart.vue'
+import { useMonitoringStore } from '@/store/monitoring';
+import LineChart from '@/components/general/charts/LineChart.vue';
+import ColumnChart from '@/components/general/charts/ColumnChart.vue';
 
 export default {
   data() {
@@ -55,42 +55,42 @@ export default {
       timeSeriesSubmodel: '',
       aasId: 'th-koeln.de/gart/aas/1688387828691',
       submodelRefIdShort: 'Measurements',
-      //submodelElementPath:"RoomTemperature",
-      //submodelElementPath: 'OnOff',
-      dialog: false
-    }
+      // submodelElementPath:"RoomTemperature",
+      // submodelElementPath: 'OnOff',
+      dialog: false,
+    };
   },
   components: {
     LineChart,
-    ColumnChart
+    ColumnChart,
   },
 
   mounted() {
-    this.getTimeSeries()
+    this.getTimeSeries();
   },
 
   methods: {
     async getTimeSeries() {
-      await this.monitoringStore.getTimeSeriesSubmodelElements(this.aasId)
-      this.timeSeriesSubmodel = this.monitoringStore.timeSeriesSubmodel
+      await this.monitoringStore.getTimeSeriesSubmodelElements(this.aasId);
+      this.timeSeriesSubmodel = this.monitoringStore.timeSeriesSubmodel;
 
-      const chartType = []
+      const chartType = [];
       for (const element in this.monitoringStore.timeSeriesSubmodelElementsIdShorts) {
-        const se = this.monitoringStore.timeSeriesSubmodelElementsIdShorts[element]
+        const se = this.monitoringStore.timeSeriesSubmodelElementsIdShorts[element];
 
         if (se == 'OnOff') {
-          chartType.push({ columnChart: se })
+          chartType.push({ columnChart: se });
         } else if (se == 'RoomTemperature' || se == 'Speed') {
-          chartType.push({ lineChart: se })
+          chartType.push({ lineChart: se });
         }
       }
-      this.chartType = chartType
-    }
+      this.chartType = chartType;
+    },
   },
   computed: {
     monitoringStore() {
-      return useMonitoringStore()
-    }
-  }
-}
+      return useMonitoringStore();
+    },
+  },
+};
 </script>

@@ -6,11 +6,11 @@
       class="anlagen-card mb-12"
     >
       <v-card-title align="center">Willkommen</v-card-title>
-      <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
+      <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success" />
       <v-card-text>
         <v-row v-for="product in products" :key="product.title">
           <v-col cols="4">
-            <v-img max-width="180" :src="product[[Object.keys(product)[0]]]"> </v-img>
+            <v-img max-width="180" :src="product[[Object.keys(product)[0]]]" />
           </v-col>
           <v-col cols="8">
             <div class="text-h6 mb-4">{{ product.title }}</div>
@@ -23,8 +23,7 @@
               :icon="product.icon"
               @click="() => {}"
               :to="product.link"
-            >
-            </v-btn>
+            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -41,42 +40,42 @@ export default {
       zwillingText: 'Verwaltung<br>Digitaler Zwilling',
       images: {
         deutz: Object.values(
-          import.meta.glob('@/assets/gebäude_deutz.png', { as: 'url', eager: true })
+          import.meta.glob('@/assets/gebäude_deutz.png', { as: 'url', eager: true }),
         )[0],
         südstadt: Object.values(
-          import.meta.glob('@/assets/gebäude_südstadt.jpg', { as: 'url', eager: true })
-        )[0]
-      }
-    }
+          import.meta.glob('@/assets/gebäude_südstadt.jpg', { as: 'url', eager: true }),
+        )[0],
+      },
+    };
   },
   computed: {
     products() {
       const products = [
-        //{ icon: '', title: 'Home', link: '/' },
-        //{ icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
+        // { icon: '', title: 'Home', link: '/' },
+        // { icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
         {
           image: Object.values(
-            import.meta.glob('@/assets/digital_twin_4.png', { as: 'url', eager: true })
+            import.meta.glob('@/assets/digital_twin_4.png', { as: 'url', eager: true }),
           )[0],
           icon: 'mdi-home',
           title: 'Digital Twins',
           link: '/digitaltwins',
-          text: 'Zur Verwaltung der digitalen Zwillinge Ihrer Liegenschaften'
+          text: 'Zur Verwaltung der digitalen Zwillinge Ihrer Liegenschaften',
         },
         {
           image: Object.values(
-            import.meta.glob('@/assets/monitoring_golden.png', { as: 'url', eager: true })
+            import.meta.glob('@/assets/monitoring_golden.png', { as: 'url', eager: true }),
           )[0],
           icon: 'mdi-chart-line',
           title: 'Monitoring',
           link: '/monitoring',
-          text: 'Zum technischen Monitoring Ihrer Gebäude'
-        } //vorher link:buildingperformance
-      ]
-      return products
-    }
-  }
-}
+          text: 'Zum technischen Monitoring Ihrer Gebäude',
+        }, // vorher link:buildingperformance
+      ];
+      return products;
+    },
+  },
+};
 </script>
 
 <style scoped>

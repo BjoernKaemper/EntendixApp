@@ -6,7 +6,7 @@
       class="anlagen-card"
     >
       <v-card-title align="center">Information Liegenschaft</v-card-title>
-      <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success"></v-divider>
+      <v-divider class="border-opacity-75 mx-4 mb-2" :thickness="2" color="success" />
       <v-card-text>
         <v-container :style="{ width: '100%' }">
           <v-table style="background-color: whitesmoke">
@@ -32,36 +32,36 @@
 <script>
 export default {
   props: {
-    site: Array
+    site: Array,
   },
 
   computed: {
     siteInformation() {
-      const siteInformation = {}
+      const siteInformation = {};
 
       for (const element in this.site) {
         if (element === 'country') {
-          siteInformation['Land'] = this.site[element]
+          siteInformation.Land = this.site[element];
         } else if (element === 'city') {
-          siteInformation['Stadt'] = this.site[element]
+          siteInformation.Stadt = this.site[element];
         } else if (element === 'zipcode') {
-          siteInformation['PLZ'] = this.site[element]
+          siteInformation.PLZ = this.site[element];
         } else if (element === 'street') {
-          siteInformation['Straße'] = this.site[element]
+          siteInformation['Straße'] = this.site[element];
         }
       }
-      const desiredOrder = ['Land', 'Stadt', 'PLZ', 'Straße']
+      const desiredOrder = ['Land', 'Stadt', 'PLZ', 'Straße'];
       const sortedSiteInformation = Object.fromEntries(
         Object.entries(siteInformation).sort(
-          ([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB)
-        )
-      )
+          ([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB),
+        ),
+      );
 
-      //console.log(siteInformation)
-      return sortedSiteInformation
-    }
-  }
-}
+      // console.log(siteInformation)
+      return sortedSiteInformation;
+    },
+  },
+};
 </script>
 
 <style scoped>

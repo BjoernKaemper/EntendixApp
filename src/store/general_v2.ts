@@ -1,6 +1,6 @@
 // Module Imports
-import { defineStore } from 'pinia'
-import { useAuthenticator } from '@aws-amplify/ui-vue'
+import { defineStore } from 'pinia';
+import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 // Type Imports
 import type Company from '@/types/Company';
@@ -21,21 +21,19 @@ interface GeneralStoreState {
 }
 
 export const useGeneralStore_v2 = defineStore('general_v2', {
-  state: (): GeneralStoreState => {
-    return {
-      globalLoadingOverlay: false,
-      sites: [],
-      companies: [],
-      currentSite: null,
-    }
-  },
+  state: (): GeneralStoreState => ({
+    globalLoadingOverlay: false,
+    sites: [],
+    companies: [],
+    currentSite: null,
+  }),
   actions: {
     /**
      * Load base informations for the application
      * @returns {Promise<void>}
      */
     async loadBaseInformations(): Promise<void> {
-      this.globalLoadingOverlay = true
+      this.globalLoadingOverlay = true;
 
       // Fetching types Site Information
       const queryCombined = {
@@ -58,11 +56,11 @@ export const useGeneralStore_v2 = defineStore('general_v2', {
         requestOptions,
       ) as Company[];
 
-      this.globalLoadingOverlay = false
+      this.globalLoadingOverlay = false;
     },
 
     async loadSiteInformation(siteId: string): Promise<void> {
-      this.globalLoadingOverlay = true
+      this.globalLoadingOverlay = true;
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -78,7 +76,7 @@ export const useGeneralStore_v2 = defineStore('general_v2', {
         requestOptions,
       ) as SiteWithBuildinginformation;
 
-      this.globalLoadingOverlay = false
+      this.globalLoadingOverlay = false;
     },
   },
 });

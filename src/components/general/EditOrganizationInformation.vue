@@ -10,7 +10,7 @@
             rounded="xl"
             variant="text"
             color="rgba(255, 74, 28, 1.0)"
-            >Edit information</v-btn
+          >Edit information</v-btn
           >
         </v-container>
       </template>
@@ -24,7 +24,7 @@
             placeholder="Edit Name"
             v-model="editOrganizationName"
             required
-          ></v-text-field>
+          />
         </v-form>
 
         <v-form id="text-field-edit-orga">
@@ -33,7 +33,7 @@
             placeholder="Edit Land"
             v-model="editOrganizationCountry"
             required
-          ></v-text-field>
+          />
         </v-form>
 
         <v-form id="text-field-edit-orga">
@@ -42,7 +42,7 @@
             placeholder="Edit Stadt"
             v-model="editOrganizationCity"
             required
-          ></v-text-field>
+          />
         </v-form>
 
         <v-form id="text-field-edit-orga">
@@ -51,7 +51,7 @@
             placeholder="Edit Postleitzahl"
             v-model="editOrganizationZip"
             required
-          ></v-text-field>
+          />
         </v-form>
 
         <v-form id="text-field-edit-orga">
@@ -60,7 +60,7 @@
             placeholder="Edit Straße"
             v-model="editOrganizationStreet"
             required
-          ></v-text-field>
+          />
         </v-form>
         <div class="text-center">
           <v-btn
@@ -70,15 +70,15 @@
                 editOrganizationCountry,
                 editOrganizationCity,
                 editOrganizationZip,
-                editOrganizationStreet
+                editOrganizationStreet,
               ),
-                (dialog = false)
+              (dialog = false)
             "
             rounded="xl"
             variant="text"
             color="rgba(255, 74, 28, 1.0)"
             class="ma-3"
-            >Submit</v-btn
+          >Submit</v-btn
           >
           <v-btn rounded="xl" variant="text" color="rgba(255, 74, 28, 1.0)" @click="dialog = false">
             Close
@@ -90,28 +90,28 @@
 </template>
 
 <script>
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
     return {
       dialog: false,
-      editOrganizationName: this.orgaInformation['organizationName'],
-      editOrganizationCountry: this.orgaInformation['country'],
-      editOrganizationCity: this.orgaInformation['city'],
-      editOrganizationZip: this.orgaInformation['zipcode'],
-      editOrganizationStreet: this.orgaInformation['street']
-    }
+      editOrganizationName: this.orgaInformation.organizationName,
+      editOrganizationCountry: this.orgaInformation.country,
+      editOrganizationCity: this.orgaInformation.city,
+      editOrganizationZip: this.orgaInformation.zipcode,
+      editOrganizationStreet: this.orgaInformation.street,
+    };
   },
   props: {
-    orgaInformation: Object
+    orgaInformation: Object,
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
-  }
-}
+      return useGeneralStore();
+    },
+  },
+};
 </script>
 
 <style>

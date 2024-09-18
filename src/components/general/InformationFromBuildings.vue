@@ -8,58 +8,58 @@
 </template>
 
 <script>
-import AddBuilding from '@/components/general/AddBuilding.vue'
-import ShowBuildingInformation from '@/components/general/ShowBuildingInformation.vue'
-import { useGeneralStore } from '@/store/general'
+import AddBuilding from '@/components/general/AddBuilding.vue';
+import ShowBuildingInformation from '@/components/general/ShowBuildingInformation.vue';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data: () => ({
-    show: false
+    show: false,
   }),
   components: { AddBuilding, ShowBuildingInformation },
   props: {
-    site: Array
+    site: Array,
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
+      return useGeneralStore();
     },
     computedBuildings() {
-      const buildings = []
+      const buildings = [];
       // const site = Object.values(this.site)[0]
-      console.log(this.site['buildings'])
-      for (const building in this.site['buildings']) {
+      console.log(this.site.buildings);
+      for (const building in this.site.buildings) {
         // console.log(site[building])
-        const buildingInformationDict = {}
-        console.log(this.site['buildings'])
-        //let buildingInformation = this.site['buildings'][building]
-        const buildingInformation = this.site['buildings'][building]
-        console.log(buildingInformation)
+        const buildingInformationDict = {};
+        console.log(this.site.buildings);
+        // let buildingInformation = this.site['buildings'][building]
+        const buildingInformation = this.site.buildings[building];
+        console.log(buildingInformation);
         for (const i in buildingInformation) {
-          const elementDict = buildingInformation[i]
+          const elementDict = buildingInformation[i];
           for (const element in elementDict) {
             if (element === 'country') {
-              buildingInformationDict['Land'] = elementDict[element]
+              buildingInformationDict.Land = elementDict[element];
             } else if (element === 'city') {
-              buildingInformationDict['Stadt'] = elementDict[element]
+              buildingInformationDict.Stadt = elementDict[element];
             } else if (element === 'street') {
-              buildingInformationDict['Straße'] = elementDict[element]
+              buildingInformationDict['Straße'] = elementDict[element];
             } else if (element === 'buildingName') {
-              buildingInformationDict['Name Gebäude'] = elementDict[element]
+              buildingInformationDict['Name Gebäude'] = elementDict[element];
             }
           }
         }
-        const desiredOrder = ['Name Gebäude', 'Land', 'Stadt', 'Straße']
+        const desiredOrder = ['Name Gebäude', 'Land', 'Stadt', 'Straße'];
         const sortedInformation = Object.fromEntries(
           Object.entries(buildingInformationDict).sort(
-            ([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB)
-          )
-        )
-        buildings.push(sortedInformation)
+            ([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB),
+          ),
+        );
+        buildings.push(sortedInformation);
       }
-      console.log(buildings)
-      return buildings
-    }
-  }
-}
+      console.log(buildings);
+      return buildings;
+    },
+  },
+};
 </script>

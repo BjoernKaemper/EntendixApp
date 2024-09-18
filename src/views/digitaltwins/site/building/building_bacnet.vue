@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import GatewayInformationSelected from '@/components/digitalTwin/GatewayInformationSelected.vue'
+import GatewayInformationSelected from '@/components/digitalTwin/GatewayInformationSelected.vue';
 
 export default {
   components: {
-    GatewayInformationSelected
-  }
-}
+    GatewayInformationSelected,
+  },
+};
 </script>

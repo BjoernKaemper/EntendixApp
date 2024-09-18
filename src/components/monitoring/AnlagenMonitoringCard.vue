@@ -20,17 +20,16 @@
         </template>
         <template v-slot:bottom>
           <div class="text-center pt-2">
-            <v-pagination v-model="page" :length="pageCount"></v-pagination>
+            <v-pagination v-model="page" :length="pageCount" />
           </div>
         </template>
       </v-data-table>
       <!--
             <div v-for="element in this.elements" :key="element.idShort">
-                <v-card 
+                <v-card
                     variant="outlined"
                     style="border-radius: 20px; background-color: whitesmoke"
                     class="mx-auto my-8" >
-
 
                     <v-toolbar density="compact" color="monitoring">
                         <v-toolbar-title class="text-center" style="font-size: 18px">
@@ -57,7 +56,7 @@
                             <v-expansion-panel-title>Analyse</v-expansion-panel-title>
                             <v-expansion-panel-text>
                                 <LineChart v-if="element.chartType.trim() === 'LineChart'" :aasId="element.aasId" :submodelRefIdShort="element.submodelName" :submodelElementPath="element.idShort"/>
-                                <div v-else>Kein Chart vorhanden, da binärer Wert. 
+                                <div v-else>Kein Chart vorhanden, da binärer Wert.
                                 </div>
                             </v-expansion-panel-text>
                         </v-expansion-panel>
@@ -71,30 +70,32 @@
 </template>
 
 <script>
-import { useMonitoringStore } from '@/store/monitoring'
-import ShowChart from '@/components/monitoring/ShowChart.vue'
+import { useMonitoringStore } from '@/store/monitoring';
+import ShowChart from '@/components/monitoring/ShowChart.vue';
 
 export default {
   data() {
     return {
       headers: [
-        //{title: 'Name', key: 'datenpunktLabel'},
+        // {title: 'Name', key: 'datenpunktLabel'},
         { title: 'Name', key: 'datenpunktLabel' },
         { title: 'Present Value', key: 'presentValue' },
-        { title: 'Chart', align: 'center', key: 'actions', sortable: false }
-      ]
-    }
+        {
+          title: 'Chart', align: 'center', key: 'actions', sortable: false,
+        },
+      ],
+    };
   },
   props: {
-    elements: Object
+    elements: Object,
   },
   components: {
-    ShowChart
+    ShowChart,
   },
   computed: {
     monitoringStore() {
-      return useMonitoringStore()
-    }
-  }
-}
+      return useMonitoringStore();
+    },
+  },
+};
 </script>

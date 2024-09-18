@@ -1,18 +1,17 @@
 <template>
   <div>
     <div class="google-map-card">
-      <div ref="map" id="map" data-js-google-maps></div>
+      <div ref="map" id="map" data-js-google-maps />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import mapStyles from '@/styles/mapStyles';
-import { type PropType } from 'vue'
+import { type PropType } from 'vue';
 
-import { Loader } from '@googlemaps/js-api-loader'
+import { Loader } from '@googlemaps/js-api-loader';
 import type Site from '@/types/Site';
-
 
 export default {
   /**
@@ -31,8 +30,8 @@ export default {
      */
     sites: {
       type: Array as PropType<Site[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -41,12 +40,12 @@ export default {
        * @type {google.maps.Map | null}
        */
       map: null as google.maps.Map | null,
-    }
+    };
   },
   computed: {
     // extract long and lat from site object which is passed as prop
     siteCoordinates(): Array<{ lat: number; lng: number }> {
-      return this.sites.map(site => ({
+      return this.sites.map((site) => ({
         lat: parseFloat(site.data.Address.Lattitude),
         lng: parseFloat(site.data.Address.Longitude),
       }));
@@ -55,9 +54,9 @@ export default {
   watch: {
     siteCoordinates: {
       handler() {
-        this.loadMapCoordinates()
+        this.loadMapCoordinates();
       },
-      immediate: true
+      immediate: true,
     },
   },
   methods: {
@@ -67,7 +66,7 @@ export default {
     async loadMapCoordinates(): Promise<void> {
       if (!this.map || !this.siteCoordinates.length) {
         return;
-      };
+      }
 
       try {
         // Add markers for all sites
@@ -76,13 +75,13 @@ export default {
           // TODO: Add links to the markers
           new google.maps.Marker({
             position: coordinates,
-            map: this.map
+            map: this.map,
           });
 
           this.map?.setCenter(coordinates);
-        })
+        });
       } catch (error) {
-        console.error('Error loading Google Maps API:', error)
+        console.error('Error loading Google Maps API:', error);
       }
     },
 
@@ -96,7 +95,7 @@ export default {
         styles: mapStyles,
       });
       this.loadMapCoordinates();
-    }
+    },
   },
 
   async mounted() {
@@ -108,7 +107,7 @@ export default {
 
     this.initMapElement(google);
   },
-}
+};
 
 </script>
 

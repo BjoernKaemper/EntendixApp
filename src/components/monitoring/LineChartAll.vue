@@ -36,17 +36,17 @@
         </v-btn>
       </v-card-actions>
       <v-card-text class="center-content">
-        <div id="chartdiv"></div>
+        <div id="chartdiv" />
       </v-card-text>
     </v-card>
   </div>
 </template>
 
 <script>
-import am5themes_Animated from '@amcharts/amcharts5/themes/Animated'
-import * as am5 from '@amcharts/amcharts5'
-import * as am5xy from '@amcharts/amcharts5/xy'
-import { useMonitoringStore } from '@/store/monitoring'
+import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
+import * as am5 from '@amcharts/amcharts5';
+import * as am5xy from '@amcharts/amcharts5/xy';
+import { useMonitoringStore } from '@/store/monitoring';
 
 export default {
   name: 'MyChart',
@@ -55,40 +55,40 @@ export default {
       chart: null,
       xAxis: null,
       elementsToDisplay: [],
-      data: null
-    }
+      data: null,
+    };
   },
   props: {
     allElements: Array,
-    zweiteFunktion: String
+    zweiteFunktion: String,
   },
   mounted() {
-    const presetTime = 'month'
+    const presetTime = 'month';
   },
   beforeUnmount() {
     if (this.chart) {
-      this.chart.dispose()
+      this.chart.dispose();
     }
   },
   computed: {
     monitoringStore() {
-      return useMonitoringStore()
-    }
+      return useMonitoringStore();
+    },
   },
   methods: {
     zoomXAxes(period) {
-      //console.log(period)
+      // console.log(period)
 
-      const currentTime = new Date()
+      const currentTime = new Date();
 
-      const updatedYear = currentTime.getFullYear()
-      const updatedMonth = currentTime.getMonth()
-      const updatedDay = currentTime.getDate()
-      const updatedHours = currentTime.getHours()
-      const updatedMinutes = currentTime.getMinutes()
-      const updatedSeconds = currentTime.getSeconds()
+      const updatedYear = currentTime.getFullYear();
+      const updatedMonth = currentTime.getMonth();
+      const updatedDay = currentTime.getDate();
+      const updatedHours = currentTime.getHours();
+      const updatedMinutes = currentTime.getMinutes();
+      const updatedSeconds = currentTime.getSeconds();
 
-      const updatedTime = new Date()
+      const updatedTime = new Date();
       /*
       updatedTime.setFullYear(updatedYear);
       updatedTime.setMonth(updatedMonth);
@@ -97,48 +97,48 @@ export default {
       */
 
       // Zwei zeilen könenn dann weg
-      //let currentTime
-      //let updatedTime
+      // let currentTime
+      // let updatedTime
       if (period === 'day') {
         // Funktioneirt mit echten Daten
 
-        //let updatedTime = new Date();
-        updatedTime.setFullYear(updatedYear)
-        updatedTime.setMonth(updatedMonth)
-        updatedTime.setDate(updatedDay - 1)
-        updatedTime.setHours(updatedHours, updatedMinutes, updatedSeconds)
-        //console.log(updatedTime)
+        // let updatedTime = new Date();
+        updatedTime.setFullYear(updatedYear);
+        updatedTime.setMonth(updatedMonth);
+        updatedTime.setDate(updatedDay - 1);
+        updatedTime.setHours(updatedHours, updatedMinutes, updatedSeconds);
+        // console.log(updatedTime)
         // Hier als Ersatz, sodass es mit den daten funktioniert
 
-        //currentTime = new Date(2023, 8, 28)
-        //updatedTime = new Date(2023, 8, 29)
+        // currentTime = new Date(2023, 8, 28)
+        // updatedTime = new Date(2023, 8, 29)
       } else if (period === 'week') {
         // Funktioniert mit echten Daten
 
-        //let updatedTime = new Date();
-        updatedTime.setFullYear(updatedYear)
-        updatedTime.setMonth(updatedMonth)
-        updatedTime.setDate(updatedDay - 7)
-        updatedTime.setHours(updatedHours, updatedMinutes, updatedSeconds)
+        // let updatedTime = new Date();
+        updatedTime.setFullYear(updatedYear);
+        updatedTime.setMonth(updatedMonth);
+        updatedTime.setDate(updatedDay - 7);
+        updatedTime.setHours(updatedHours, updatedMinutes, updatedSeconds);
 
-        //currentTime = new Date(2023, 8, 21)
-        //updatedTime = new Date(2023, 8, 28)
+        // currentTime = new Date(2023, 8, 21)
+        // updatedTime = new Date(2023, 8, 28)
       } else if (period === 'month') {
         // funktioniert mit echten daten
 
-        //let updatedTime = new Date();
-        updatedTime.setFullYear(updatedYear)
-        updatedTime.setMonth(updatedMonth - 1)
-        updatedTime.setDate(updatedDay)
-        updatedTime.setHours(updatedHours, updatedMinutes, updatedSeconds)
+        // let updatedTime = new Date();
+        updatedTime.setFullYear(updatedYear);
+        updatedTime.setMonth(updatedMonth - 1);
+        updatedTime.setDate(updatedDay);
+        updatedTime.setHours(updatedHours, updatedMinutes, updatedSeconds);
 
-        //currentTime = new Date(2023, 7, 28)
-        //updatedTime = new Date(2023, 8, 28)
+        // currentTime = new Date(2023, 7, 28)
+        // updatedTime = new Date(2023, 8, 28)
       }
-      //console.log(updatedTime)
+      // console.log(updatedTime)
 
       if (this.chart && this.elementsToDisplay.length > 0) {
-        const xAxis = this.chart.xAxes.getIndex(0)
+        const xAxis = this.chart.xAxes.getIndex(0);
         /*
         const startOfDay = new Date(specificDate);
         startOfDay.setHours(0, 0, 0, 0); // Set to the beginning of the day
@@ -148,47 +148,47 @@ export default {
         */
 
         for (let i = 0; i < this.elementsToDisplay.length; i++) {
-          const series = this.chart.series.getIndex(i)
-          //series.data.setAll(dayData);
-          series.data.setAll(this.elementsToDisplay[i].data)
+          const series = this.chart.series.getIndex(i);
+          // series.data.setAll(dayData);
+          series.data.setAll(this.elementsToDisplay[i].data);
         }
-        xAxis.zoomToDates(updatedTime, currentTime)
+        xAxis.zoomToDates(updatedTime, currentTime);
       }
     },
 
     async initChart(time) {
-      const elementsToDisplay = []
+      const elementsToDisplay = [];
 
       // Define semantic id mappings for each function type
       const semanticIdMappings = {
         WärmeVerteilen: {
           'Messwert Rücklauftemperatur': 0x372772,
           'Messwert Vorlauftemperatur': 0xff4a1c,
-          'Rückmeldung Betrieb': 0x38761d
+          'Rückmeldung Betrieb': 0x38761d,
         },
         WärmeErzeugen: {
           'Rückmeldung Betriebsstunden': 0x372772,
-          'Messwert Leistung': 0xff4a1c
+          'Messwert Leistung': 0xff4a1c,
         },
         WärmeBeziehen: {
-          'Rückmeldung Betriebsstunden': 0x372772
+          'Rückmeldung Betriebsstunden': 0x372772,
         },
         WärmeSpeichern: {
           'Messwert Speichertemperatur': 0x372772,
-          'Sollwert Speichertemperatur': 0xff4a1c
+          'Sollwert Speichertemperatur': 0xff4a1c,
         },
         LuftBereitstellen: {
           Außentemperatur: 0x372772,
-          'Schaltbefehl Anlage': 0xff4a1c
+          'Schaltbefehl Anlage': 0xff4a1c,
         },
         MedienBereitstellen: {
-          'Schaltbefehl Anlage': 0x372772
+          'Schaltbefehl Anlage': 0x372772,
         },
         MedienEntsorgen: {},
         MedienSpeichern: {},
         MedienVerteilen: {},
         KälteErzeugen: {},
-        KälteVerteilen: {}
+        KälteVerteilen: {},
         /*
         WärmeVerteilen: {
           'https://th-koeln.de/gart/vocabulary/MeasuredValueReturnTemperature/1/0': 0x372772,
@@ -197,7 +197,7 @@ export default {
         },
         WärmeErzeugen: {
           'https://th-koeln.de/gart/vocabulary/OperatingHours/1/0': 0x372772,
-          "https://th-koeln.de/gart/vocabulary/MeasuredValuePower/1/0": 0xFF4A1C, 
+          "https://th-koeln.de/gart/vocabulary/MeasuredValuePower/1/0": 0xFF4A1C,
         },
         WärmeBeziehen: {
           'https://th-koeln.de/gart/vocabulary/OperatingHours/1/0': 0x372772,
@@ -220,20 +220,20 @@ export default {
 
         },
         MedienVerteilen: {
-          
+
         },
         KälteErzeugen: {
-          
+
         },
         KälteVerteilen: {
-          
+
         }
         */
-      }
+      };
 
-      const root = am5.Root.new('chartdiv')
+      const root = am5.Root.new('chartdiv');
 
-      root.setThemes([am5themes_Animated.new(root)])
+      root.setThemes([am5themes_Animated.new(root)]);
 
       const chart = root.container.children.push(
         am5xy.XYChart.new(root, {
@@ -242,131 +242,131 @@ export default {
           wheelX: 'panX',
           wheelY: 'zoomX',
           maxTooltipDistance: 0,
-          pinchZoomX: true
-        })
-      )
+          pinchZoomX: true,
+        }),
+      );
 
-      let date = new Date()
-      date.setHours(0, 0, 0, 0)
-      let value = 100
+      let date = new Date();
+      date.setHours(0, 0, 0, 0);
+      let value = 100;
 
       const tooltipTime = am5.Tooltip.new(root, {
-        getFillFromSprite: false
-      })
+        getFillFromSprite: false,
+      });
 
       tooltipTime.get('background').setAll({
-        fill: am5.color(0x3b5249)
-      })
+        fill: am5.color(0x3b5249),
+      });
 
       const xAxis = chart.xAxes.push(
         am5xy.DateAxis.new(root, {
           maxDeviation: 0.1,
           baseInterval: {
             timeUnit: 'minute',
-            count: 1
+            count: 1,
           },
           renderer: am5xy.AxisRendererX.new(root, {
             minGridDistance: 80,
-            minorGridEnabled: true
+            minorGridEnabled: true,
           }),
-          tooltip: am5.Tooltip.new(root, {})
-        })
-      )
+          tooltip: am5.Tooltip.new(root, {}),
+        }),
+      );
 
-      const xRenderer = xAxis.get('renderer')
+      const xRenderer = xAxis.get('renderer');
       xRenderer.labels.template.setAll({
-        //fill: am5.color(0xFF0000),
+        // fill: am5.color(0xFF0000),
         fontSize: '12px',
-        fontFamily: 'Montserrat'
-      })
+        fontFamily: 'Montserrat',
+      });
 
       // Assign the appropriate mapping based on zweiteFunktion
-      const selectedMappings = semanticIdMappings[this.zweiteFunktion]
-      console.log(selectedMappings)
+      const selectedMappings = semanticIdMappings[this.zweiteFunktion];
+      console.log(selectedMappings);
 
-      console.log(this.allElements)
+      console.log(this.allElements);
 
       for (const komponente in this.allElements) {
-        const component = this.allElements[komponente].elements
+        const component = this.allElements[komponente].elements;
 
         for (const elementInformation in component) {
-          const element = component[elementInformation]
+          const element = component[elementInformation];
 
-          //let semanticId = element.semanticId;
-          const datenpunktName = element.datenpunktLabel
+          // let semanticId = element.semanticId;
+          const datenpunktName = element.datenpunktLabel;
 
-          //if (selectedMappings.hasOwnProperty(semanticId)) {
+          // if (selectedMappings.hasOwnProperty(semanticId)) {
           if (Object.prototype.hasOwnProperty.call(selectedMappings, datenpunktName)) {
-            const {aasId} = this.allElements[komponente].anlagenInformation
+            const { aasId } = this.allElements[komponente].anlagenInformation;
 
             const timeSeriesData = await this.monitoringStore.getTimeSeriesValues(
               element.idShort,
               element.submodelName,
-              aasId
-            )
-            console.log(timeSeriesData)
-            let valueType = 'number'
+              aasId,
+            );
+            console.log(timeSeriesData);
+            let valueType = 'number';
             for (let i = 0; i < timeSeriesData.length; i++) {
               if (typeof timeSeriesData[i].value === 'boolean') {
-                timeSeriesData[i].value = timeSeriesData[i].value ? 1 : 0
-                valueType = 'boolean'
+                timeSeriesData[i].value = timeSeriesData[i].value ? 1 : 0;
+                valueType = 'boolean';
               }
             }
 
-            //console.log(timeSeriesData)
-            //data.push(timeSeriesData)
-            //names.push(element.name)
-            console.log(element)
+            // console.log(timeSeriesData)
+            // data.push(timeSeriesData)
+            // names.push(element.name)
+            console.log(element);
             elementsToDisplay.push({
               name: element.datenpunktLabel,
-              //'name': element.name,
+              // 'name': element.name,
               data: timeSeriesData,
-              //'color': selectedMappings[semanticId],
+              // 'color': selectedMappings[semanticId],
               color: selectedMappings[datenpunktName],
-              valueType: valueType
-            })
+              valueType,
+            });
           }
         }
       }
 
-      this.elementsToDisplay = elementsToDisplay
-      const yAxesTypesEnthalten = []
+      this.elementsToDisplay = elementsToDisplay;
+      const yAxesTypesEnthalten = [];
 
       const yAxis = chart.yAxes.push(
         am5xy.ValueAxis.new(root, {
-          //maxDeviation: 0,
-          renderer: am5xy.AxisRendererY.new(root, {})
-        })
-      )
-      yAxesTypesEnthalten.push('number')
+          // maxDeviation: 0,
+          renderer: am5xy.AxisRendererY.new(root, {}),
+        }),
+      );
+      yAxesTypesEnthalten.push('number');
 
       for (let i = 0; i < elementsToDisplay.length; i++) {
-        let seriesYAxis
+        let seriesYAxis;
         if (elementsToDisplay[i].valueType === 'boolean') {
           if (!yAxesTypesEnthalten.includes('boolean')) {
             seriesYAxis = chart.yAxes.push(
               am5xy.ValueAxis.new(root, {
-                //syncWithAxis: yAxis,
+                // syncWithAxis: yAxis,
                 renderer: am5xy.AxisRendererY.new(root, {
-                  opposite: 'opposite'
+                  opposite: 'opposite',
                 }),
                 maxPrecision: 0,
                 min: 0,
-                max: 1
-              })
-            )
-            yAxesTypesEnthalten.push('boolean')
+                max: 1,
+              }),
+            );
+            yAxesTypesEnthalten.push('boolean');
           } else {
             // Use the existing boolean axis
-            seriesYAxis = chart.yAxes.getIndex(1) // Assuming boolean axis is at index 1
+            seriesYAxis = chart.yAxes.getIndex(1); // Assuming boolean axis is at index 1
           }
         } else {
           // For number values, use the default Y-axis
-          //seriesYAxis = chart.yAxes.getIndex(0);
-          seriesYAxis = yAxis
+          // seriesYAxis = chart.yAxes.getIndex(0);
+          seriesYAxis = yAxis;
         }
 
-        console.log(seriesYAxis)
+        console.log(seriesYAxis);
         /*
         if (chart.yAxes.indexOf(seriesYAxis) > 0) {
           seriesYAxis.set("syncWithAxis", chart.yAxes.getIndex(0));
@@ -375,56 +375,56 @@ export default {
 
         const series = chart.series.push(
           am5xy.LineSeries.new(root, {
-            //name: "Series " + i,
+            // name: "Series " + i,
             name: elementsToDisplay[i].name,
-            xAxis: xAxis,
+            xAxis,
             yAxis: seriesYAxis,
             valueYField: 'value',
             valueXField: 'date',
             legendValueText: '{valueY}',
             tooltip: am5.Tooltip.new(root, {
               pointerOrientation: 'horizontal',
-              labelText: '{valueY}'
-            })
-          })
-        )
+              labelText: '{valueY}',
+            }),
+          }),
+        );
 
-        const yRenderer = seriesYAxis.get('renderer')
+        const yRenderer = seriesYAxis.get('renderer');
         yRenderer.labels.template.setAll({
-          //fill: am5.color(0xFF0000),
+          // fill: am5.color(0xFF0000),
           fontSize: '12px',
-          fontFamily: 'Montserrat'
-        })
+          fontFamily: 'Montserrat',
+        });
 
-        date = new Date()
-        date.setHours(0, 0, 0, 0)
-        value = 0
+        date = new Date();
+        date.setHours(0, 0, 0, 0);
+        value = 0;
 
-        //let data = generateDatas(100);
-        const {data} = elementsToDisplay[i]
-        this.data = data
-        console.log(data)
-        //series.set("stroke", am5.color(0xFF4A1C));
-        series.set('stroke', am5.color(elementsToDisplay[i].color))
-        //series.set("fill", am5.color(0x3B5249)); -> Die ist für den tooltip, könnte auch noch angepasst werden
-        series.data.setAll(data)
-        series.appear()
+        // let data = generateDatas(100);
+        const { data } = elementsToDisplay[i];
+        this.data = data;
+        console.log(data);
+        // series.set("stroke", am5.color(0xFF4A1C));
+        series.set('stroke', am5.color(elementsToDisplay[i].color));
+        // series.set("fill", am5.color(0x3B5249)); -> Die ist für den tooltip, könnte auch noch angepasst werden
+        series.data.setAll(data);
+        series.appear();
       }
 
       const cursor = chart.set(
         'cursor',
         am5xy.XYCursor.new(root, {
-          behavior: 'none'
-        })
-      )
-      cursor.lineY.set('visible', false)
+          behavior: 'none',
+        }),
+      );
+      cursor.lineY.set('visible', false);
 
       chart.set(
         'scrollbarX',
         am5.Scrollbar.new(root, {
-          orientation: 'horizontal'
-        })
-      )
+          orientation: 'horizontal',
+        }),
+      );
       /*
       chart.set("scrollbarY", am5.Scrollbar.new(root, {
         orientation: "vertical",
@@ -435,58 +435,58 @@ export default {
         am5.Legend.new(root, {
           width: 200,
           paddingLeft: 15,
-          height: am5.percent(100)
-        })
-      )
+          height: am5.percent(100),
+        }),
+      );
 
-      legend.itemContainers.template.events.on('pointerover', function (e) {
-        const itemContainer = e.target
-        const series = itemContainer.dataItem.dataContext
+      legend.itemContainers.template.events.on('pointerover', (e) => {
+        const itemContainer = e.target;
+        const series = itemContainer.dataItem.dataContext;
 
-        chart.series.each(function (chartSeries) {
+        chart.series.each((chartSeries) => {
           if (chartSeries != series) {
             chartSeries.strokes.template.setAll({
               strokeOpacity: 0.15,
-              stroke: color(0x000000)
-            })
+              stroke: color(0x000000),
+            });
           } else {
             chartSeries.strokes.template.setAll({
-              strokeWidth: 3
-            })
+              strokeWidth: 3,
+            });
           }
-        })
-      })
+        });
+      });
 
-      legend.itemContainers.template.events.on('pointerout', function (e) {
-        const itemContainer = e.target
-        const series = itemContainer.dataItem.dataContext
+      legend.itemContainers.template.events.on('pointerout', (e) => {
+        const itemContainer = e.target;
+        const series = itemContainer.dataItem.dataContext;
 
-        chart.series.each(function (chartSeries) {
+        chart.series.each((chartSeries) => {
           chartSeries.strokes.template.setAll({
             strokeOpacity: 1,
             strokeWidth: 1,
-            stroke: chartSeries.get('fill')
-          })
-        })
-      })
+            stroke: chartSeries.get('fill'),
+          });
+        });
+      });
 
-      legend.itemContainers.template.set('width', am5.p100)
+      legend.itemContainers.template.set('width', am5.p100);
       legend.valueLabels.template.setAll({
         width: am5.p100,
-        textAlign: 'right'
-      })
+        textAlign: 'right',
+      });
 
-      legend.data.setAll(chart.series.values)
+      legend.data.setAll(chart.series.values);
 
-      chart.appear(1000, 100)
+      chart.appear(1000, 100);
 
-      this.xAxis = xAxis
+      this.xAxis = xAxis;
 
-      this.chart = chart
-      return chart
-    }
-  }
-}
+      this.chart = chart;
+      return chart;
+    },
+  },
+};
 </script>
 
 <style>

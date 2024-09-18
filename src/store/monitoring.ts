@@ -1,293 +1,289 @@
-import { defineStore } from 'pinia'
-import axios from 'axios'
-import { useGeneralStore } from '@/store/general'
+import { defineStore } from 'pinia';
+import axios from 'axios';
+import { useGeneralStore } from '@/store/general';
 
 export const useMonitoringStore = defineStore('monitoring', {
-  state: () => {
-    return {
-      timeSeriesSubmodel: [],
-      timeSeriesSubmodelElementsIdShorts: [],
-      userId: '',
-      loadingLineChart: false,
-      // Dev
-      //aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
-      // Live
-      aasServer: 'https://4w6tu92q6h.execute-api.eu-central-1.amazonaws.com/Live/',
-      roomTemperature: [],
-      aasTree: [],
-      loadingAasTree: false,
-      loadingMonitoringComponent: null,
-      loadedElement: false,
-      aasZweiteGrundfunktion: [],
-      currentBuildingAas: '',
-      aasAnlage: [],
-      zweiteGrundfunktionForMonitoring: 'hallo'
-    } as {
-      timeSeriesSubmodel: any[],
-      timeSeriesSubmodelElementsIdShorts: any[],
-      userId: string,
-      loadingLineChart: boolean,
-      // Dev
-      //aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
-      // Live
-      aasServer: 'https://4w6tu92q6h.execute-api.eu-central-1.amazonaws.com/Live/',
-      roomTemperature: any[],
-      aasTree: any[],
-      loadingAasTree: boolean,
-      loadingMonitoringComponent: boolean | null,
-      loadedElement: boolean,
-      aasZweiteGrundfunktion: any[],
-      currentBuildingAas: string,
-      aasAnlage: any[],
-      zweiteGrundfunktionForMonitoring: string
-    }
-  },
+  state: () => ({
+    timeSeriesSubmodel: [],
+    timeSeriesSubmodelElementsIdShorts: [],
+    userId: '',
+    loadingLineChart: false,
+    // Dev
+    // aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
+    // Live
+    aasServer: 'https://4w6tu92q6h.execute-api.eu-central-1.amazonaws.com/Live/',
+    roomTemperature: [],
+    aasTree: [],
+    loadingAasTree: false,
+    loadingMonitoringComponent: null,
+    loadedElement: false,
+    aasZweiteGrundfunktion: [],
+    currentBuildingAas: '',
+    aasAnlage: [],
+    zweiteGrundfunktionForMonitoring: 'hallo',
+  } as {
+    timeSeriesSubmodel: any[],
+    timeSeriesSubmodelElementsIdShorts: any[],
+    userId: string,
+    loadingLineChart: boolean,
+    // Dev
+    // aasServer: 'https://kzbgm955b9.execute-api.us-east-1.amazonaws.com/testEnv/',
+    // Live
+    aasServer: 'https://4w6tu92q6h.execute-api.eu-central-1.amazonaws.com/Live/',
+    roomTemperature: any[],
+    aasTree: any[],
+    loadingAasTree: boolean,
+    loadingMonitoringComponent: boolean | null,
+    loadedElement: boolean,
+    aasZweiteGrundfunktion: any[],
+    currentBuildingAas: string,
+    aasAnlage: any[],
+    zweiteGrundfunktionForMonitoring: string
+  }),
   actions: {
     checkvalue(value: any) {
       if (!isNaN(value)) {
         // Convert the string to a number
-        const numberValue = parseFloat(value)
+        const numberValue = parseFloat(value);
 
         // Check if it's an integer or float
         if (Number.isInteger(numberValue)) {
-          return numberValue
-        } else {
-          // Round to two decimal places if it's a float
-          return parseFloat(numberValue.toFixed(2))
+          return numberValue;
         }
-      } else {
-        return value
+        // Round to two decimal places if it's a float
+        return parseFloat(numberValue.toFixed(2));
       }
+      return value;
     },
 
     async setLoadingMonitoringComponent(value: any) {
       if (value == 'true') {
-        this.loadingMonitoringComponent = true
+        this.loadingMonitoringComponent = true;
       } else if (value == 'false') {
-        this.loadingMonitoringComponent = false
+        this.loadingMonitoringComponent = false;
       }
     },
     async getGrundfunktionen(aasId: any, allBuildings: any) {
       if (this.currentBuildingAas === aasId) {
-        return this.aasTree
+        return this.aasTree;
       }
-      this.aasTree = []
-      this.loadingAasTree = true
-      const generalStore = useGeneralStore()
-      const {userId} = generalStore
-      this.userId = userId
-      //const aasStrukturinformationen = []
+      this.aasTree = [];
+      this.loadingAasTree = true;
+      const generalStore = useGeneralStore();
+      const { userId } = generalStore;
+      this.userId = userId;
+      // const aasStrukturinformationen = []
 
       for (const obj of allBuildings) {
         for (const key in obj) {
           if (key === aasId) {
-            const grundfunktionenAas = obj[key]
-            const aasPromises = []
+            const grundfunktionenAas = obj[key];
+            const aasPromises = [];
 
             for (const grundfunktionAas in grundfunktionenAas) {
-              const aasId = grundfunktionenAas[grundfunktionAas]
-              const semanticIdAAS = await generalStore.getSemanticIdAas(aasId)
+              const aasId = grundfunktionenAas[grundfunktionAas];
+              const semanticIdAAS = await generalStore.getSemanticIdAas(aasId);
 
               if (
-                semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSupplyHeatAAS/1/0' ||
-                semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSupplyAirAAS/1/0' ||
-                semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSupplyColdAAS/1/0' ||
-                semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSupplyMediaAAS/1/0' ||
-                semanticIdAAS[0] ===
-                  'https://th-koeln.de/gart/BaseFunctionSupplyElectricityAAS/1/0' ||
-                semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionOtherAAS/1/0' ||
-                semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionTransportAAS/1/0' ||
-                semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSecureAAS/1/0'
+                semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSupplyHeatAAS/1/0'
+                || semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSupplyAirAAS/1/0'
+                || semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSupplyColdAAS/1/0'
+                || semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSupplyMediaAAS/1/0'
+                || semanticIdAAS[0]
+                  === 'https://th-koeln.de/gart/BaseFunctionSupplyElectricityAAS/1/0'
+                || semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionOtherAAS/1/0'
+                || semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionTransportAAS/1/0'
+                || semanticIdAAS[0] === 'https://th-koeln.de/gart/BaseFunctionSecureAAS/1/0'
               ) {
-                aasPromises.push(fetchAasData(aasId, semanticIdAAS[0]))
+                aasPromises.push(fetchAasData(aasId, semanticIdAAS[0]));
               }
             }
 
-            const aasData = await Promise.all(aasPromises)
+            const aasData = await Promise.all(aasPromises);
 
-            this.aasTree = aasData
-            this.loadingAasTree = false
-            this.currentBuildingAas = aasId
-            return aasData
-            //break;
+            this.aasTree = aasData;
+            this.loadingAasTree = false;
+            this.currentBuildingAas = aasId;
+            return aasData;
+            // break;
           }
         }
       }
 
       async function fetchAasData(aasId: any, semanticId: any) {
-        const idShort = await generalStore.getAasIdShortByIdentifier(aasId)
-        //const semanticId = await generalStore.getSemanticIdAas(aasId);
-        const aasIdsZweiteEbene = await generalStore.getBomChilds(aasId)
+        const idShort = await generalStore.getAasIdShortByIdentifier(aasId);
+        // const semanticId = await generalStore.getSemanticIdAas(aasId);
+        const aasIdsZweiteEbene = await generalStore.getBomChilds(aasId);
 
         const aasZweiteEbeneArray = await Promise.all(
-          aasIdsZweiteEbene.map((aasIdZweiteEbene: any) => fetchAasZweiteEbeneData(aasIdZweiteEbene))
-        )
+          aasIdsZweiteEbene.map((aasIdZweiteEbene: any) => fetchAasZweiteEbeneData(aasIdZweiteEbene)),
+        );
 
         return {
           aasGrundfunktion: {
-            semanticId: semanticId,
-            aasId: aasId,
-            idShort: idShort[0]
+            semanticId,
+            aasId,
+            idShort: idShort[0],
           },
-          aasZweiteEbene: aasZweiteEbeneArray
-        }
+          aasZweiteEbene: aasZweiteEbeneArray,
+        };
       }
 
       async function fetchAasZweiteEbeneData(aasIdZweiteEbene: any) {
-        const idShortZweiteEbene = await generalStore.getAasIdShortByIdentifier(aasIdZweiteEbene)
-        const semanticIdZweiteEbene = await generalStore.getSemanticIdAas(aasIdZweiteEbene)
-        const aasIdsAnlagen = await generalStore.getBomChilds(aasIdZweiteEbene)
+        const idShortZweiteEbene = await generalStore.getAasIdShortByIdentifier(aasIdZweiteEbene);
+        const semanticIdZweiteEbene = await generalStore.getSemanticIdAas(aasIdZweiteEbene);
+        const aasIdsAnlagen = await generalStore.getBomChilds(aasIdZweiteEbene);
 
         const aasAnlagen = await Promise.all(
-          aasIdsAnlagen.map((aasIdAnlage: any) => fetchAasAnlageData(aasIdAnlage))
-        )
+          aasIdsAnlagen.map((aasIdAnlage: any) => fetchAasAnlageData(aasIdAnlage)),
+        );
 
         return {
           semanticId: semanticIdZweiteEbene[0],
           aasId: aasIdZweiteEbene,
           idShort: idShortZweiteEbene[0],
-          anlagenAas: aasAnlagen
-        }
+          anlagenAas: aasAnlagen,
+        };
       }
 
       async function fetchAasAnlageData(aasIdAnlage: any) {
-        const idShortAnlage = await generalStore.getAasIdShortByIdentifier(aasIdAnlage)
-        const semanticIdAnlage = await generalStore.getSemanticIdAas(aasIdAnlage)
-        const aasIdsKomponenten = await generalStore.getBomChilds(aasIdAnlage)
+        const idShortAnlage = await generalStore.getAasIdShortByIdentifier(aasIdAnlage);
+        const semanticIdAnlage = await generalStore.getSemanticIdAas(aasIdAnlage);
+        const aasIdsKomponenten = await generalStore.getBomChilds(aasIdAnlage);
 
         const aasKomponenten = await Promise.all(
-          aasIdsKomponenten.map((aasIdKomponente: any) => fetchAasKomponenteData(aasIdKomponente))
-        )
+          aasIdsKomponenten.map((aasIdKomponente: any) => fetchAasKomponenteData(aasIdKomponente)),
+        );
 
         return {
           semanticId: semanticIdAnlage[0],
           aasId: aasIdAnlage,
           idShort: idShortAnlage[0],
-          komponentenAas: aasKomponenten
-        }
+          komponentenAas: aasKomponenten,
+        };
       }
 
       async function fetchAasKomponenteData(aasIdKomponente: any) {
-        const idShortKomponente = await generalStore.getAasIdShortByIdentifier(aasIdKomponente)
-        const semanticIdKomponente = await generalStore.getSemanticIdAas(aasIdKomponente)
+        const idShortKomponente = await generalStore.getAasIdShortByIdentifier(aasIdKomponente);
+        const semanticIdKomponente = await generalStore.getSemanticIdAas(aasIdKomponente);
 
         return {
           semanticId: semanticIdKomponente[0],
           aasId: aasIdKomponente,
-          idShort: idShortKomponente[0]
-        }
+          idShort: idShortKomponente[0],
+        };
       }
     },
     async getTimeSeriesSubmodelElements(aasId: any) {
-      const getSubmodelElements = 'submodelServices/getSubmodelElementByPath'
-      const url = this.aasServer + getSubmodelElements
-      let responseBasyx = undefined
-      const generalStore = useGeneralStore()
-      const {userId} = generalStore
-      this.userId = userId
+      const getSubmodelElements = 'submodelServices/getSubmodelElementByPath';
+      const url = this.aasServer + getSubmodelElements;
+      let responseBasyx;
+      const generalStore = useGeneralStore();
+      const { userId } = generalStore;
+      this.userId = userId;
 
       try {
         const response = await axios.post(url, {
           userId: this.userId,
           aasIdentifier: aasId,
           submodelIdShort: 'TimeSeries',
-          submodelElementShortIdPath: ['Segments']
-        })
-        responseBasyx = response.data
+          submodelElementShortIdPath: ['Segments'],
+        });
+        responseBasyx = response.data;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-      const idShorts = []
-      for (const element in responseBasyx['value']) {
-        idShorts.push(responseBasyx['value'][element]['idShort'])
+      const idShorts = [];
+      for (const element in responseBasyx.value) {
+        idShorts.push(responseBasyx.value[element].idShort);
       }
-      this.timeSeriesSubmodelElementsIdShorts = idShorts
-      this.timeSeriesSubmodel = responseBasyx
+      this.timeSeriesSubmodelElementsIdShorts = idShorts;
+      this.timeSeriesSubmodel = responseBasyx;
 
-      return responseBasyx
+      return responseBasyx;
     },
     async getChartType(semanticId: any) {
-      const generalStore = useGeneralStore()
+      const generalStore = useGeneralStore();
 
-      const chartTypesForSemanticId = generalStore.chartTypes
+      const chartTypesForSemanticId = generalStore.chartTypes;
 
-      let matchedValue = 'None'
+      let matchedValue = 'None';
 
       for (let i = 0; i < chartTypesForSemanticId.length; i++) {
         if (Object.keys(chartTypesForSemanticId[i])[0] === semanticId) {
-          matchedValue = chartTypesForSemanticId[i][semanticId]
-          return matchedValue
+          matchedValue = chartTypesForSemanticId[i][semanticId];
+          return matchedValue;
         }
       }
     },
 
     async getSeValueAnlagenmonitoring(aasId: any, submodelIdShort: any, idShort: any, elementData: any) {
-      const getSeValue = 'submodelServices/getSubmodelElementValue'
-      const urlSeValue = this.aasServer + getSeValue
-      //let supplementInfos = {}
+      const getSeValue = 'submodelServices/getSubmodelElementValue';
+      const urlSeValue = this.aasServer + getSeValue;
+      // let supplementInfos = {}
 
       try {
         const response = await axios.post(urlSeValue, {
           userId: this.userId,
           aasIdentifier: aasId,
-          submodelIdShort: submodelIdShort,
-          submodelElementShortIdPath: [idShort]
-        })
-        elementData['presentValue'] = response.data
+          submodelIdShort,
+          submodelElementShortIdPath: [idShort],
+        });
+        elementData.presentValue = response.data;
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
 
-      const chartType = await this.getChartType(elementData.semanticId)
-      elementData['chartType'] = chartType
-      console.log(elementData)
-      //await Promise.all(requests);
-      this.loadedElement = true
-      return elementData
+      const chartType = await this.getChartType(elementData.semanticId);
+      elementData.chartType = chartType;
+      console.log(elementData);
+      // await Promise.all(requests);
+      this.loadedElement = true;
+      return elementData;
     },
     async getTimeSeriesValues(submodelElementPath: any, submodelRefIdShort: any, aasId: any) {
-      this.loadingLineChart = true
+      this.loadingLineChart = true;
 
-      const readTimeSeries = 'timeseriesServices/readTimeSeries'
-      const url = this.aasServer + readTimeSeries
-      let responseBasyx = undefined
-      const actualTime = Math.floor(new Date().getTime() / 1000)
-      console.log(actualTime)
-      console.log(this.userId)
-      console.log(aasId)
-      //let path = submodelElementPath + '/PresentValue'
-      const path = [submodelElementPath, 'PresentValue']
-      console.log(path)
-      console.log(submodelRefIdShort)
+      const readTimeSeries = 'timeseriesServices/readTimeSeries';
+      const url = this.aasServer + readTimeSeries;
+      let responseBasyx;
+      const actualTime = Math.floor(new Date().getTime() / 1000);
+      console.log(actualTime);
+      console.log(this.userId);
+      console.log(aasId);
+      // let path = submodelElementPath + '/PresentValue'
+      const path = [submodelElementPath, 'PresentValue'];
+      console.log(path);
+      console.log(submodelRefIdShort);
       try {
         const response = await axios.post(
           url,
           {
             userId: this.userId,
             aasIdentifier: aasId,
-            //submodelRefIdShort: submodelRefIdShort,
+            // submodelRefIdShort: submodelRefIdShort,
             submodelIdentifier: submodelRefIdShort,
-            //submodelElementPath: path,
+            // submodelElementPath: path,
             sempath: path,
             timestampStart: 0,
-            timestampStop: actualTime
-            //timestampStop: 1696878572
+            timestampStop: actualTime,
+            // timestampStop: 1696878572
           },
           {
-            timeout: 600000
-          }
-        )
-        console.log(response)
-        responseBasyx = response.data.body
-        console.log(responseBasyx)
+            timeout: 600000,
+          },
+        );
+        console.log(response);
+        responseBasyx = response.data.body;
+        console.log(responseBasyx);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
-      this.roomTemperature = responseBasyx
-      this.loadingLineChart = false
+      this.roomTemperature = responseBasyx;
+      this.loadingLineChart = false;
 
-      return responseBasyx
-    }
-  }
-})
+      return responseBasyx;
+    },
+  },
+});

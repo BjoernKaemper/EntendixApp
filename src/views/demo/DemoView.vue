@@ -52,23 +52,23 @@
   </div>
 </template>
 <script lang="ts">
-import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
-import StatusCard from '@/components/general/StatusCard.vue'
+import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
+import StatusCard from '@/components/general/StatusCard.vue';
 
-import { StatusTypes } from '@/types/enums/StatusTypes'
-import { ActionTypes } from '@/types/enums/ActionTypes'
+import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ActionTypes } from '@/types/enums/ActionTypes';
 
 export default {
   components: {
     LiegenschaftCard,
-    StatusCard
+    StatusCard,
   },
   setup() {
     return {
       StatusTypes,
-      ActionTypes
-    }
+      ActionTypes,
+    };
   },
-}
+};
 </script>
 <style lang="scss"></style>

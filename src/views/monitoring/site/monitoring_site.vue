@@ -14,40 +14,40 @@
 </template>
 
 <script>
-import MonitoringSiteInformation from '@/components/monitoring/MonitoringSiteInformation.vue'
-import HomeCardSite from '@/components/general/HomeCardSite.vue'
-import { useGeneralStore } from '@/store/general'
+import MonitoringSiteInformation from '@/components/monitoring/MonitoringSiteInformation.vue';
+import HomeCardSite from '@/components/general/HomeCardSite.vue';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
     return {
       buildings: [],
-      site: []
-    }
+      site: [],
+    };
   },
   components: {
     MonitoringSiteInformation,
-    HomeCardSite
+    HomeCardSite,
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
+      return useGeneralStore();
+    },
   },
   created() {
-    const site_id = this.$route.params.siteid
+    const site_id = this.$route.params.siteid;
     for (const site in this.generalStore.loadedSiteInformationWithBuildings) {
-      if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site]['siteName']) {
-        this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings
+      if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site].siteName) {
+        this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings;
       }
     }
 
     for (const site in this.generalStore.loadedSiteInformation) {
-      console.log(this.generalStore.loadedSiteInformation[site])
-      if (site_id === this.generalStore.loadedSiteInformation[site]['siteName']) {
-        this.site = this.generalStore.loadedSiteInformation[site]
+      console.log(this.generalStore.loadedSiteInformation[site]);
+      if (site_id === this.generalStore.loadedSiteInformation[site].siteName) {
+        this.site = this.generalStore.loadedSiteInformation[site];
       }
     }
-  }
-}
+  },
+};
 </script>

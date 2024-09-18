@@ -20,33 +20,33 @@
 </template>
 
 <script lang="ts">
-import ProfileIcon from '@/components/icons/ProfileIcon.vue'
+import ProfileIcon from '@/components/icons/ProfileIcon.vue';
 
-import { useAuthenticator } from '@aws-amplify/ui-vue'
+import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 export default {
   components: {
-    ProfileIcon
+    ProfileIcon,
   },
   props: {
     navItems: {
       type: Array<{ href: string; name: string }>,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   methods: {
     isActive(route: string): boolean {
-      return this.$route.path.includes(route)
-    }
+      return this.$route.path.includes(route);
+    },
   },
   setup() {
-    const auth = useAuthenticator()
+    const auth = useAuthenticator();
 
     return {
-      auth
-    }
-  }
-}
+      auth,
+    };
+  },
+};
 </script>
 
 <style scoped lang="scss">

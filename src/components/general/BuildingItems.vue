@@ -2,13 +2,13 @@
   <!--<div v-for="site in generalStore.loadedSiteInformation" :key="site">-->
   <div v-for="(site, key) in generalStore.loadedSiteInformationWithBuildings" :key="key">
     <SiteBuildings :site="site" />
-    <v-divider :thickness="2"></v-divider>
+    <v-divider :thickness="2" />
   </div>
 </template>
 
 <script>
-import SiteBuildings from '@/components/general/SiteBuildings.vue'
-import { useGeneralStore } from '@/store/general'
+import SiteBuildings from '@/components/general/SiteBuildings.vue';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   name: 'BuildingItems',
@@ -20,26 +20,26 @@ export default {
         numberSite: '',
         city: '',
         zipcode: null,
-        numberBuildings: null
+        numberBuildings: null,
       },
-      countries: ['Deutschland', 'Österreich', 'Schweiz', 'Frankreich', 'Italien', 'England']
-    }
+      countries: ['Deutschland', 'Österreich', 'Schweiz', 'Frankreich', 'Italien', 'England'],
+    };
   },
   components: { SiteBuildings },
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
+      return useGeneralStore();
+    },
     /*
     siteInformation () {
       const callBuildingsForEachSite = this.generalStore.getBuildingsForEachSite()
       const siteInformation = this.generalStore.loadedSiteInformationWithBuildings
       console.log(siteInformation)
       return siteInformation
-    }, 
+    },
     */
-  }
-}
+  },
+};
 </script>
 <style scoped>
 .card {

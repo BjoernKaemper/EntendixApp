@@ -1,50 +1,50 @@
 <template>
   <div>
-    <div class="hello" ref="pieChart"></div>
+    <div class="hello" ref="pieChart" />
     <p>Hi</p>
   </div>
 </template>
 
 <script>
-import * as am5 from '@amcharts/amcharts5'
-//import * as am5xy from '@amcharts/amcharts5/xy';
-import * as am5percent from '@amcharts/amcharts5/percent'
-//import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
+import * as am5 from '@amcharts/amcharts5';
+// import * as am5xy from '@amcharts/amcharts5/xy';
+import * as am5percent from '@amcharts/amcharts5/percent';
+// import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 
 export default {
   mounted() {
-    const root = am5.Root.new(this.$refs.pieChart)
+    const root = am5.Root.new(this.$refs.pieChart);
 
     const chart = root.container.children.push(
       am5percent.PieChart.new(root, {
-        layout: root.verticalHorizontal
-      })
-    )
+        layout: root.verticalHorizontal,
+      }),
+    );
 
     const data = [
       {
         country: 'France',
-        sales: 1
+        sales: 1,
       },
       {
         country: 'Germany',
-        sales: 2
+        sales: 2,
       },
       {
         country: 'Spain',
-        sales: 3
-      }
-    ]
+        sales: 3,
+      },
+    ];
     const series = chart.series.push(
       am5percent.PieSeries.new(root, {
         name: 'Series',
         categoryField: 'country',
-        valueField: 'sales'
-      })
-    )
-    series.data.setAll(data)
-  }
-}
+        valueField: 'sales',
+      }),
+    );
+    series.data.setAll(data);
+  },
+};
 </script>
 
 <style scoped>

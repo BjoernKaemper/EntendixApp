@@ -14,33 +14,33 @@
 </template>
 
 <script>
-import GoogleMapsCardHomeSite from '@/components/general/GoogleMapsCardHomeSite.vue'
-import HomeCardSite from '@/components/general/HomeCardSite.vue'
-import { useGeneralStore } from '@/store/general'
+import GoogleMapsCardHomeSite from '@/components/general/GoogleMapsCardHomeSite.vue';
+import HomeCardSite from '@/components/general/HomeCardSite.vue';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
     return {
-      buildings: []
-    }
+      buildings: [],
+    };
   },
   components: {
     GoogleMapsCardHomeSite,
-    HomeCardSite
+    HomeCardSite,
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
+      return useGeneralStore();
+    },
   },
   created() {
-    const site_id = this.$route.params.siteid
+    const site_id = this.$route.params.siteid;
     for (const site in this.generalStore.loadedSiteInformationWithBuildings) {
-      if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site]['siteName']) {
-        console.log(this.generalStore.loadedSiteInformationWithBuildings[site])
-        this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings
+      if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site].siteName) {
+        console.log(this.generalStore.loadedSiteInformationWithBuildings[site]);
+        this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings;
       }
     }
-  }
-}
+  },
+};
 </script>

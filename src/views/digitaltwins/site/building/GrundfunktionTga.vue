@@ -39,7 +39,7 @@
           <v-row>
             <v-container class="ma-0 pa-0">
               <div v-if="this.loadingAnlage === true">
-                <v-progress-linear indeterminate color="success"></v-progress-linear>
+                <v-progress-linear indeterminate color="success" />
               </div>
             </v-container>
             <v-col>
@@ -50,7 +50,7 @@
                 class="pa-4 mb-12 anlagen-card"
               >
                 <v-row>
-                  <v-col cols="2"></v-col>
+                  <v-col cols="2" />
                   <v-col cols="8">
                     <v-card-title class="title-center-two" style="font-size: 18px">
                       {{ this.selectedAnlage }}
@@ -72,14 +72,13 @@
                             buildingid: $route.params.buildingid,
                             buildingaasid: $route.params.buildingaasid,
                             grundfunktion: $route.params.grundfunktion,
-                            anlage: anlage.idShort
-                          }
+                            anlage: anlage.idShort,
+                          },
                         }),
-                          (monitoringStore.aasAnlage = this.anlage),
-                          (monitoringStore.zweiteGrundfunktionForMonitoring =
-                            this.selectedZweiteFunktionForMonitoring)
+                        (monitoringStore.aasAnlage = this.anlage),
+                        (monitoringStore.zweiteGrundfunktionForMonitoring = this.selectedZweiteFunktionForMonitoring)
                       "
-                      >Monitoring
+                    >Monitoring
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -99,7 +98,7 @@
                           showProperties(
                             component.elements,
                             component.anlagenInformation.idShort,
-                            index
+                            index,
                           )
                         "
                       >
@@ -133,7 +132,7 @@
 
                         <template v-slot:bottom>
                           <div class="text-center pt-2">
-                            <v-pagination v-model="page" :length="pageCount"></v-pagination>
+                            <v-pagination v-model="page" :length="pageCount" />
                           </div>
                         </template>
                       </v-data-table>
@@ -150,11 +149,11 @@
 </template>
 
 <script>
-import { useMonitoringStore } from '@/store/monitoring'
-import { useDigitalTwinsStore } from '@/store/digitaltwins'
-import EditBacnetPropertiesNew from '@/components/digitalTwin/EditBacnetPropertiesNew.vue'
-import BuildingCardVisualization from '@/components/digitalTwin/BuildingCardVisualization.vue'
-import { useGeneralStore } from '@/store/general'
+import { useMonitoringStore } from '@/store/monitoring';
+import { useDigitalTwinsStore } from '@/store/digitaltwins';
+import EditBacnetPropertiesNew from '@/components/digitalTwin/EditBacnetPropertiesNew.vue';
+import BuildingCardVisualization from '@/components/digitalTwin/BuildingCardVisualization.vue';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
@@ -167,8 +166,10 @@ export default {
         { title: 'Name', key: 'datenpunktLabel' },
         { title: 'Object Name', key: 'objectName' },
         { title: 'Description', key: 'description' },
-        //{title: 'Object Type', key: 'objectType'},
-        { title: 'Edit', align: 'center', key: 'actions', sortable: false }
+        // {title: 'Object Type', key: 'objectType'},
+        {
+          title: 'Edit', align: 'center', key: 'actions', sortable: false,
+        },
       ],
       funktionZweiteEbene: {},
       siteId: '',
@@ -184,81 +185,81 @@ export default {
       activeButtonIndex: null,
       loadingAnlage: false,
       anlage: null,
-      selectedZweiteFunktionForMonitoring: ''
-    }
+      selectedZweiteFunktionForMonitoring: '',
+    };
   },
   components: {
     EditBacnetPropertiesNew,
-    BuildingCardVisualization
+    BuildingCardVisualization,
   },
   created() {
-    const site_id = this.$route.params.siteid
-    this.siteId = site_id
-    const building_id = this.$route.params.buildingid
-    this.buildingId = building_id
-    const grundfunktion_id = this.$route.params.grundfunktion
-    this.grundfunktionId = grundfunktion_id
+    const site_id = this.$route.params.siteid;
+    this.siteId = site_id;
+    const building_id = this.$route.params.buildingid;
+    this.buildingId = building_id;
+    const grundfunktion_id = this.$route.params.grundfunktion;
+    this.grundfunktionId = grundfunktion_id;
 
     // In zukunft die beiden const site_id und building_id verwenden und an den basyx
     // aufrug übergeben. solange aber noch keine individuellen np_submodels ist das egal
     // da die ID Test AAS ist
-    //this.getNlpSubmodel('TestAAS')
-    this.getZweiteGrundfunktion()
+    // this.getNlpSubmodel('TestAAS')
+    this.getZweiteGrundfunktion();
   },
   mounted() {
-    const firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
-    this.funktionZweiteEbene = firstFunktion
+    const firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0];
+    this.funktionZweiteEbene = firstFunktion;
   },
   computed: {
     digitalTwinStore() {
-      return useDigitalTwinsStore()
+      return useDigitalTwinsStore();
     },
     monitoringStore() {
-      return useMonitoringStore()
+      return useMonitoringStore();
     },
     generalStore() {
-      return useGeneralStore()
+      return useGeneralStore();
     },
     pageCount() {
-      return Math.ceil(this.selectedComponentElements.length / this.itemsPerPage)
-    }
+      return Math.ceil(this.selectedComponentElements.length / this.itemsPerPage);
+    },
   },
   methods: {
     showProperties(elements, componentIdShort, index) {
-      this.selectedComponentElements = elements
-      this.selectedComponentIdShort = componentIdShort
-      this.activeButtonIndex = index
+      this.selectedComponentElements = elements;
+      this.selectedComponentIdShort = componentIdShort;
+      this.activeButtonIndex = index;
     },
     async getAnlagenData(anlage, funktion) {
-      this.selectedZweiteFunktionForMonitoring = funktion.semanticId
-      this.activeButtonIndex = null
-      this.anlage = anlage
-      this.selectedComponentElements = null
-      this.selectedAnlage = null
-      this.loadingAnlage = true
-      const components = anlage.komponentenAas
-      const allSE = []
+      this.selectedZweiteFunktionForMonitoring = funktion.semanticId;
+      this.activeButtonIndex = null;
+      this.anlage = anlage;
+      this.selectedComponentElements = null;
+      this.selectedAnlage = null;
+      this.loadingAnlage = true;
+      const components = anlage.komponentenAas;
+      const allSE = [];
       for (const komponente in components) {
-        const component = components[komponente]
-        const {aasId} = component
-        //console.log(component)
-        //const semanticId = anlage.semanticId
-        const submodelId = 'OperatingInformation'
-        //const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
-        //const submodelElements = submodel.submodelElements;
-        //console.log(submodelElements)
-        const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
-        //console.log(allElements)
-        const elements = []
+        const component = components[komponente];
+        const { aasId } = component;
+        // console.log(component)
+        // const semanticId = anlage.semanticId
+        const submodelId = 'OperatingInformation';
+        // const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
+        // const submodelElements = submodel.submodelElements;
+        // console.log(submodelElements)
+        const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId);
+        // console.log(allElements)
+        const elements = [];
 
         for (const element in allElements) {
-          const dataContent = allElements[element]
+          const dataContent = allElements[element];
           const elementData = {
-            aasId: aasId,
+            aasId,
             submodelName: submodelId,
             idShort: element,
-            //'name': dataContent[2].DataSource,
-            //'semanticId': element.semanticId.keys[0].value
+            // 'name': dataContent[2].DataSource,
+            // 'semanticId': element.semanticId.keys[0].value
             objectName: dataContent[2].DataSource[6].ObjectName,
             objectType: dataContent[2].DataSource[7].ObjectType,
             description: dataContent[2].DataSource[8].Description,
@@ -279,10 +280,10 @@ export default {
             datenpunktScore:
               dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
             anlageLabel: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
-            anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore
-          }
-          //console.log(elementData)
-          elements.push(elementData)
+            anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
+          };
+          // console.log(elementData)
+          elements.push(elementData);
         }
 
         /*
@@ -294,7 +295,7 @@ export default {
                         'name': element.description[0].text,
                         'semanticId': element.semanticId.keys[0].value
                     };
-                    
+
                     elementData = await this.digitalTwinStore.getSeElement(aasId, submodelId, element.idShort, elementData)
                     console.log(elementData)
                     elementData['objectName'] = elementData['bacnetData'][7]['value']
@@ -319,16 +320,16 @@ export default {
 
         allSE.push({
           anlagenInformation: component,
-          elements: elements
-        })
+          elements,
+        });
       }
-      this.allSes = allSE
-      this.selectedAnlage = anlage.idShort
-      this.loadingAnlage = false
+      this.allSes = allSE;
+      this.selectedAnlage = anlage.idShort;
+      this.loadingAnlage = false;
     },
     async getNlpSubmodel(aas_id) {
-      const ready = await this.digitalTwinStore.getBasyxNlpSubmodel(aas_id)
-      console.log(ready)
+      const ready = await this.digitalTwinStore.getBasyxNlpSubmodel(aas_id);
+      console.log(ready);
       /*
             if (this.grundfunktionId == 'WaermeVersorgen') {
                 this.title = 'Wärme versorgen'
@@ -344,17 +345,17 @@ export default {
     },
     getZweiteGrundfunktion() {
       if (this.grundfunktionId == 'WaermeVersorgen') {
-        this.title = 'Wärme versorgen'
-        this.grundfunktion = this.digitalTwinStore.wärmeVersorgen
-        this.zweiteGrundfunktion = this.digitalTwinStore.wärmeVersorgenZweite
+        this.title = 'Wärme versorgen';
+        this.grundfunktion = this.digitalTwinStore.wärmeVersorgen;
+        this.zweiteGrundfunktion = this.digitalTwinStore.wärmeVersorgenZweite;
       } else if (this.grundfunktionId == 'LuftVersorgen') {
-        this.title = 'Luft versorgen'
-        this.grundfunktion = this.digitalTwinStore.luftVersorgen
-        this.zweiteGrundfunktion = this.digitalTwinStore.luftVersorgenZweite
+        this.title = 'Luft versorgen';
+        this.grundfunktion = this.digitalTwinStore.luftVersorgen;
+        this.zweiteGrundfunktion = this.digitalTwinStore.luftVersorgenZweite;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

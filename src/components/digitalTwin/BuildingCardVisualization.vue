@@ -9,12 +9,12 @@
       <v-img
         v-if="this.grundfunktionId == 'Wärme versorgen'"
         src="@/assets/GebäudeHeizungOn.svg"
-      ></v-img>
+      />
       <v-img
         v-else-if="this.grundfunktionId == 'Luft versorgen'"
         src="@/assets/GebäudeLüftungOn.svg"
-      ></v-img>
-      <v-img v-else src="@/assets/GebäudeAllesOff.svg"></v-img>
+      />
+      <v-img v-else src="@/assets/GebäudeAllesOff.svg" />
     </v-card>
   </div>
 </template>
@@ -22,9 +22,9 @@
 <script>
 export default {
   props: {
-    grundfunktionId: String
-  }
-}
+    grundfunktionId: String,
+  },
+};
 </script>
 
 <style scoped>

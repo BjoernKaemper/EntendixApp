@@ -21,23 +21,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import NavBar from '@/components/general/NavBar.vue'
-import Breadcrumbs from '@/components/general/BreadCrumbs.vue'
+import { computed, ref, watchEffect } from 'vue';
+import NavBar from '@/components/general/NavBar.vue';
+import Breadcrumbs from '@/components/general/BreadCrumbs.vue';
 
-import { watchEffect } from 'vue'
-import { useGeneralStore } from '@/store/general'
-import { useGeneralStore_v2 } from './store/general_v2'
-import { Authenticator } from '@aws-amplify/ui-vue'
-import { useAuthenticator } from '@aws-amplify/ui-vue'
+import { useGeneralStore } from '@/store/general';
+import { Authenticator, useAuthenticator, translations } from '@aws-amplify/ui-vue';
 // @TODO: Remove this import when the new styles are ready
-import '@aws-amplify/ui-vue/styles.css'
+import '@aws-amplify/ui-vue/styles.css';
 
-import { I18n } from 'aws-amplify'
-import { translations } from '@aws-amplify/ui-vue'
+import { I18n } from 'aws-amplify';
+import { useGeneralStore_v2 } from './store/general_v2';
 
-I18n.putVocabularies(translations)
-I18n.setLanguage('de')
+I18n.putVocabularies(translations);
+I18n.setLanguage('de');
 
 I18n.putVocabularies({
   de: {
@@ -47,33 +44,33 @@ I18n.putVocabularies({
     'Enter your Email': 'Geben Sie Ihre E-Mail Adresse an',
     'Reset Password': 'Passwort zurücksetzen',
     'Password must have at least 8 characters': 'Ihr Passwort muss mindestens 8 Zeichen haben',
-    'Your passwords must match': 'Die Passwörter müssen übereinstimmen'
-  }
-})
-const auth = useAuthenticator()
-const store = useGeneralStore()
-const generalStore = useGeneralStore_v2()
+    'Your passwords must match': 'Die Passwörter müssen übereinstimmen',
+  },
+});
+const auth = useAuthenticator();
+const store = useGeneralStore();
+const generalStore = useGeneralStore_v2();
 
 const navItems = [
   { icon: '', name: 'Digitale Zwillinge', href: '/digitaltwins' },
-  { icon: '', name: 'Monitoring', href: '/monitoring' }
-]
+  { icon: '', name: 'Monitoring', href: '/monitoring' },
+];
 
-const header = ref(null)
+const header = ref(null);
 
 const mainHeight = computed(() => {
-  const headerHeight = header.value ? header.value.clientHeight + 1 : 100
-  return `height: calc(100vh - ${headerHeight}px);`
-})
+  const headerHeight = header.value ? header.value.clientHeight + 1 : 100;
+  return `height: calc(100vh - ${headerHeight}px);`;
+});
 
 watchEffect(() => {
   // Check if auth.user is available and contains the necessary properties.
   if (auth.user && auth.user.signInUserSession) {
-    const userId = auth.user.signInUserSession.idToken.payload.sub
-    store.fetchGeneralInfos(userId)
+    const userId = auth.user.signInUserSession.idToken.payload.sub;
+    store.fetchGeneralInfos(userId);
     generalStore.loadBaseInformations();
   }
-})
+});
 </script>
 
 <style lang="scss">

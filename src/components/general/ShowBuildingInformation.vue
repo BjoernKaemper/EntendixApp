@@ -8,7 +8,7 @@
 
     <v-expand-transition>
       <div v-show="show">
-        <v-divider></v-divider>
+        <v-divider />
         <v-container :style="{ width: '80%' }">
           <v-table style="background-color: whitesmoke">
             <thead>
@@ -33,10 +33,10 @@
 <script>
 export default {
   data: () => ({
-    show: false
+    show: false,
   }),
   props: {
-    building: Array
-  }
-}
+    building: Array,
+  },
+};
 </script>

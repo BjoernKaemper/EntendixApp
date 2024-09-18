@@ -1,7 +1,7 @@
 <template>
   <div
     class="status-card"
-    :class="[{ isBordered: isBordered }, colourClass]"
+    :class="[{ isBordered }, colourClass]"
     @click="$emit('clicked')"
   >
     <div class="icon-section">
@@ -28,15 +28,15 @@
  * @module components/general/StatusCard
  * @displayName StatusCard
  */
-import { type PropType } from 'vue'
-import { StatusTypes } from '@/types/enums/StatusTypes'
-import { ActionTypes } from '@/types/enums/ActionTypes'
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue'
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue'
-import WarningIcon from '@/components/icons/WarningIcon.vue'
-import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue'
-import ArrowIcon from '@/components/icons/ArrowIcon.vue'
-import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue'
+import { type PropType } from 'vue';
+import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ActionTypes } from '@/types/enums/ActionTypes';
+import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
+import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
+import WarningIcon from '@/components/icons/WarningIcon.vue';
+import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
+import ArrowIcon from '@/components/icons/ArrowIcon.vue';
+import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
 
 export default {
   components: {
@@ -45,7 +45,7 @@ export default {
     WarningIcon,
     QuestionMarkIcon,
     ArrowIcon,
-    InfoCircleIcon
+    InfoCircleIcon,
   },
   props: {
     /**
@@ -54,7 +54,7 @@ export default {
      */
     title: {
       type: String as PropType<string>,
-      default: 'Title'
+      default: 'Title',
     },
     /**
      * The status of the card.
@@ -63,20 +63,20 @@ export default {
      */
     status: {
       type: String as PropType<StatusTypes>,
-      default: StatusTypes.INFO
+      default: StatusTypes.INFO,
     },
     /**
      * The subtitle of the card.
      */
     subtitle: {
-      type: String as PropType<string>
+      type: String as PropType<string>,
     },
     /**
      * The icon to display as an action icon.
      */
     actionType: {
       type: String as PropType<ActionTypes>,
-      default: ActionTypes.NONE
+      default: ActionTypes.NONE,
     },
     /**
      * Whether the card should have a border.
@@ -84,50 +84,50 @@ export default {
      */
     isBordered: {
       type: Boolean as PropType<boolean>,
-      default: true
+      default: true,
     },
   },
   computed: {
     colourClass(): string {
       switch (this.status) {
         case StatusTypes.SUCCESS:
-          return 'success'
+          return 'success';
         case StatusTypes.WARNING:
-          return 'warning'
+          return 'warning';
         case StatusTypes.ERROR:
-          return 'error'
+          return 'error';
         case StatusTypes.INFO:
-          return 'info'
+          return 'info';
         default:
-          return 'info'
+          return 'info';
       }
     },
     icon(): string {
       switch (this.status) {
         case StatusTypes.SUCCESS:
-          return 'CheckMarkCircleIcon'
+          return 'CheckMarkCircleIcon';
         case StatusTypes.WARNING:
-          return 'ExclamationMarkIcon'
+          return 'ExclamationMarkIcon';
         case StatusTypes.ERROR:
-          return 'WarningIcon'
+          return 'WarningIcon';
         case StatusTypes.INFO:
-          return 'QuestionMarkIcon'
+          return 'QuestionMarkIcon';
         default:
-          return 'QuestionMarkIcon'
+          return 'QuestionMarkIcon';
       }
     },
     actionIcon(): string | undefined {
       switch (this.actionType) {
         case ActionTypes.INFO:
-          return 'InfoCircleIcon'
+          return 'InfoCircleIcon';
         case ActionTypes.ARROW:
-          return 'ArrowIcon'
+          return 'ArrowIcon';
         default:
-          return undefined
+          return undefined;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

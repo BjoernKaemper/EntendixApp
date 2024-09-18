@@ -12,11 +12,11 @@
               {{ gateway['AAS ID Short'][0] }}
             </v-toolbar-title>
           </v-toolbar>
-          <v-divider></v-divider>
+          <v-divider />
           <v-expansion-panels>
             <v-expansion-panel elevation="0" rounded="0">
               <v-expansion-panel-title style="font-size: 18px"
-                >Digital Nameplate</v-expansion-panel-title
+              >Digital Nameplate</v-expansion-panel-title
               >
               <v-expansion-panel-text>
                 <div v-for="(property, key) in gateway['Digital Nameplate']" :key="key">
@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import { useGeneralStore } from '@/store/general'
-import BuildingForGateway from '@/components/digitalTwin/BuildingForGateway.vue'
+import { useGeneralStore } from '@/store/general';
+import BuildingForGateway from '@/components/digitalTwin/BuildingForGateway.vue';
 
 export default {
   data() {
@@ -51,10 +51,10 @@ export default {
       // choosedBuilding: '',
       // buildingsIdsWithSelectName: {},
       // buildingsList: []
-    }
+    };
   },
   components: {
-    BuildingForGateway
+    BuildingForGateway,
   },
   /*
     mounted() {
@@ -64,7 +64,7 @@ export default {
         async loadBuildingInformation() {
             let buildingsIdsWithSelectName = {}
             let buildingsList = []
-            const semanticIdAasTypeBacnet = 'https://th-koeln.de/gart/BACnetDeviceAAS/1/0'    
+            const semanticIdAasTypeBacnet = 'https://th-koeln.de/gart/BACnetDeviceAAS/1/0'
             const aasBacnetIds = await this.generalStore.getAasByType(semanticIdAasTypeBacnet)
             await this.generalStore.loadBacnetInformation(aasBacnetIds)
 
@@ -93,16 +93,16 @@ export default {
     */
   computed: {
     generalStore() {
-      return useGeneralStore()
+      return useGeneralStore();
     },
     buildingsIdsWithSelectName() {
-      const buildingsIds = this.generalStore.buildingsIdsWithSelectName
-      return buildingsIds
+      const buildingsIds = this.generalStore.buildingsIdsWithSelectName;
+      return buildingsIds;
     },
     buildingsList() {
-      const {buildingsList} = this.generalStore
-      return buildingsList
-    }
+      const { buildingsList } = this.generalStore;
+      return buildingsList;
+    },
     /*
         buildingsList () {
             //let buildingsIdsWithSelectName = {}
@@ -128,6 +128,6 @@ export default {
             return buildingsList
         }
         */
-  }
-}
+  },
+};
 </script>

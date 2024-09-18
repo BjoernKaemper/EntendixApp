@@ -1,6 +1,6 @@
 <template>
   <div class="grid-wrapper">
-    <GoogleMaps_v2 :sites="sites"/>
+    <GoogleMaps_v2 :sites="sites" />
     <div>
       <div class="site-header">
         <h2>Meine Liegenschaften</h2>
@@ -13,29 +13,28 @@
         :name="site.data.SiteName"
         :location="site.data.Address.CityTown"
         @clicked="loadSite(site)"
-      >
-      </LiegenschaftCard>
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { mapStores } from 'pinia'
-import { useGeneralStore_v2 } from '@/store/general_v2'
+import { mapStores } from 'pinia';
+import { useGeneralStore_v2 } from '@/store/general_v2';
 
-import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue'
-import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue'
+import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue';
+import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import type { Site } from '@/types/Site';
 
 export default {
   components: {
     GoogleMaps_v2,
-    LiegenschaftCard
+    LiegenschaftCard,
   },
   computed: {
     ...mapStores(useGeneralStore_v2),
     sites(): Array<Site> {
-      return this.general_v2Store.sites
+      return this.general_v2Store.sites;
     },
   },
   methods: {
@@ -44,15 +43,18 @@ export default {
      * @param {Site} site Object of the site to navigate to
      */
     loadSite(site: Site): void {
-      this.$router.push({ name: 'Monitoring_Site', params: {
-        siteparams: JSON.stringify({
-          siteid: encodeURIComponent(site.id),
-          siteName: site.data.SiteName,
-        }),
-      }});
-    }
-  }
-}
+      this.$router.push({
+        name: 'Monitoring_Site',
+        params: {
+          siteparams: JSON.stringify({
+            siteid: encodeURIComponent(site.id),
+            siteName: site.data.SiteName,
+          }),
+        },
+      });
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

@@ -311,53 +311,53 @@ export default {
       grundfunktionen: [],
       wärmePic: {
         'Wärme versorgen': Object.values(
-          import.meta.glob('@/assets/Wärmeversorgen.svg', { query: '?url', eager: true }),
+          import.meta.glob('@/assets/Wärmeversorgen.svg', { as: 'url', eager: true }),
         )[0],
       },
       luftPic: {
         'Luft versorgen': Object.values(
-          import.meta.glob('@/assets/Luftversorgen.svg', { query: '?url', eager: true }),
+          import.meta.glob('@/assets/Luftversorgen.svg', { as: 'url', eager: true }),
         )[0],
       },
       kältePic: {
         'Kälte versorgen': Object.values(
-          import.meta.glob('@/assets/Kälteversorgen.svg', { query: '?url', eager: true }),
+          import.meta.glob('@/assets/Kälteversorgen.svg', { as: 'url', eager: true }),
         )[0],
       },
       medienPic: {
         'Medien versorgen': Object.values(
-          import.meta.glob('@/assets/Medienversorgen.svg', { query: '?url', eager: true }),
+          import.meta.glob('@/assets/Medienversorgen.svg', { as: 'url', eager: true }),
         )[0],
       },
       sichernPic: {
         Sichern: Object.values(
-          import.meta.glob('@/assets/Sichern.svg', { query: '?url', eager: true }),
+          import.meta.glob('@/assets/Sichern.svg', { as: 'url', eager: true }),
         )[0],
       },
       stromPic: {
         'Strom versorgen': Object.values(
-          import.meta.glob('@/assets/Stromversorgen.svg', { query: '?url', eager: true }),
+          import.meta.glob('@/assets/Stromversorgen.svg', { as: 'url', eager: true }),
         )[0],
       },
       items: [
         {
           function: 'Luft versorgen',
           image: Object.values(
-            import.meta.glob('@/assets/air-system.jpeg', { query: '?url', eager: true }),
+            import.meta.glob('@/assets/air-system.jpeg', { as: 'url', eager: true }),
           )[0],
           route: 'Monitoring_Site_Building_Grundfunktion',
         },
         {
           function: 'Kälte versorgen',
           image: Object.values(
-            import.meta.glob('@/assets/cooling-system.jpeg', { query: '?url', eager: true }),
+            import.meta.glob('@/assets/cooling-system.jpeg', { as: 'url', eager: true }),
           )[0],
           route: 'Monitoring_Site_Building_Grundfunktion',
         },
         {
           function: 'Wärme versorgen',
           image: Object.values(
-            import.meta.glob('@/assets/heating-system.jpeg', { query: '?url', eager: true }),
+            import.meta.glob('@/assets/heating-system.jpeg', { as: 'url', eager: true }),
           )[0],
           route: 'Monitoring_Site_Building_Grundfunktion',
         },

@@ -40,10 +40,10 @@ export default {
       zwillingText: 'Verwaltung<br>Digitaler Zwilling',
       images: {
         deutz: Object.values(
-          import.meta.glob('@/assets/gebäude_deutz.png', { query: '?url', eager: true }),
+          import.meta.glob('@/assets/gebäude_deutz.png', { as: 'url', eager: true }),
         )[0],
         südstadt: Object.values(
-          import.meta.glob('@/assets/gebäude_südstadt.jpg', { query: '?url', eager: true }),
+          import.meta.glob('@/assets/gebäude_südstadt.jpg', { as: 'url', eager: true }),
         )[0],
       },
     };
@@ -53,7 +53,7 @@ export default {
       const products = [
         {
           image: Object.values(
-            import.meta.glob('@/assets/digital_twin_4.png', { query: '?url', eager: true }),
+            import.meta.glob('@/assets/digital_twin_4.png', { as: 'url', eager: true }),
           )[0],
           icon: 'mdi-home',
           title: 'Digital Twins',
@@ -62,7 +62,7 @@ export default {
         },
         {
           image: Object.values(
-            import.meta.glob('@/assets/monitoring_golden.png', { query: '?url', eager: true }),
+            import.meta.glob('@/assets/monitoring_golden.png', { as: 'url', eager: true }),
           )[0],
           icon: 'mdi-chart-line',
           title: 'Monitoring',

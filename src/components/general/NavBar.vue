@@ -10,7 +10,11 @@
         </li>
         <li>
           <!-- TODO: click logs out, propably a dropdown opens in the future -->
-          <button @click="auth.signOut">
+          <button
+            type="button"
+            @click="auth.signOut"
+            @keydown.enter="auth.signOut"
+          >
             <ProfileIcon />
           </button>
         </li>

@@ -23,10 +23,7 @@ export default {
       }
       const { breadcrumb } = this.$route.meta;
       if (typeof breadcrumb === 'function') {
-        return breadcrumb(this.$route).filter((item: any) => {
-          console.log('item', item);
-          return item.to !== '/';
-        }) || [];
+        return breadcrumb(this.$route).filter((item: any) => item.to !== '/') || [];
       }
       return [];
     },

@@ -73,6 +73,9 @@ export default {
         this.siteCoordinates.forEach((coordinates) => {
           // TODO: Add color to the markers depending on the state of the site
           // TODO: Add links to the markers
+          // We have to use the google object from the window because the google object is not
+          // available so a new instance of google object is created and the linter ignored for this
+          // eslint-disable-next-line no-new
           new google.maps.Marker({
             position: coordinates,
             map: this.map,
@@ -81,6 +84,8 @@ export default {
           this.map?.setCenter(coordinates);
         });
       } catch (error) {
+        // @TODO: Implement global error handler
+        // eslint-disable-next-line no-console
         console.error('Error loading Google Maps API:', error);
       }
     },

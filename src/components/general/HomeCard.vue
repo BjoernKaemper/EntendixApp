@@ -51,8 +51,6 @@ export default {
   computed: {
     products() {
       const products = [
-        // { icon: '', title: 'Home', link: '/' },
-        // { icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
         {
           image: Object.values(
             import.meta.glob('@/assets/digital_twin_4.png', { query: '?url', eager: true }),

@@ -361,7 +361,7 @@ export const useGeneralStore = defineStore('general', {
           ? siteInformation.buildings
           : [];
 
-        buildingsArray.forEach((buildingInformation) => {
+        buildingsArray.forEach((buildingInformation: any) => {
           if (Array.isArray(buildingInformation)) {
             buildingInformation.forEach((building) => {
               const { buildingName } = building;

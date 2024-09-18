@@ -32,6 +32,9 @@ module.exports = {
     '@typescript-eslint/no-duplicate-enum-values': 'off',
   },
   ignorePatterns: [
+    // Root
+    'node_modules/',
+    'dist/',
     // Amplify
     'amplify',
     // Components

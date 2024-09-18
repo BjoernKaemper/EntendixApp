@@ -32,6 +32,8 @@ module.exports = {
     '@typescript-eslint/no-duplicate-enum-values': 'off',
   },
   ignorePatterns: [
+    // Amplify
+    'amplify',
     // Components
     'src/components/digitalTwin',
     'src/components/Nlp',

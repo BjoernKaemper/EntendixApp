@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import GoogleMapsCardHomeSite from '@/components/general/GoogleMapsCardHomeSite.vue';
 import HomeCardSite from '@/components/general/HomeCardSite.vue';
 import { useGeneralStore } from '@/store/general';
@@ -34,12 +34,12 @@ export default {
     },
   },
   created() {
-    const site_id = this.$route.params.siteid;
-    for (const site in this.generalStore.loadedSiteInformationWithBuildings) {
-      if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site].siteName) {
-        console.log(this.generalStore.loadedSiteInformationWithBuildings[site]);
-        this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings;
-      }
+    const siteId = this.$route.params.siteid;
+    const site = Object.values(
+      this.generalStore.loadedSiteInformationWithBuildings,
+    ).find((siteData) => siteId === siteData.siteName);
+    if (site) {
+      this.buildings = site.buildings;
     }
   },
 };

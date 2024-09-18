@@ -4,7 +4,11 @@
       <h2>
         {{ site?.data.SiteName }}
       </h2>
-      <img src="@/assets/gebäude_deutz.png" class="site-image" />
+      <img
+        :alt="site?.data.SiteName || 'Site Name'"
+        src="@/assets/gebäude_deutz.png"
+        class="site-image"
+      />
 
       <div class="status-container">
         <StatusCard
@@ -68,7 +72,9 @@ export default {
   },
 
   created() {
-    this.general_v2Store.loadSiteInformation(JSON.parse(this.$route.params.siteparams as string).siteid);
+    this.general_v2Store.loadSiteInformation(
+      JSON.parse(this.$route.params.siteparams as string).siteid,
+    );
   },
 };
 </script>

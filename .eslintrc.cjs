@@ -35,7 +35,7 @@ module.exports = {
     // Components
     'src/components/digitalTwin',
     'src/components/Nlp',
-    'src/components/charts',
+    'src/components/general/charts',
     // components/general -> Singlet ignores
     'src/components/general/AddBuilding.vue',
     'src/components/general/AddOrgaInformation.vue',

@@ -27,6 +27,7 @@ export default {
       throw new Error('API call failed, unexpected response type');
     } catch (error) {
       // @TODO: Implement global error handler
+      // eslint-disable-next-line no-console
       console.error('API call failed', error);
       throw error;
     }

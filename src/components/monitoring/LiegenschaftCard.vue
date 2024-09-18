@@ -1,7 +1,12 @@
 <template>
-  <div class="card" @click="$emit('clicked')">
+  <div
+    class="card"
+    @click="$emit('clicked')"
+    @keydown.enter="$emit('clicked')"
+    tabindex="0"
+  >
     <TrafficLightIndicator class="traffic-light" :light="currentLight" />
-    <img src="@/assets/gebäude_deutz.png" />
+    <img src="@/assets/gebäude_deutz.png" alt="Gebäudebild" />
     <div class="info">
       <span class="title">{{ name }}</span>
       <span class="subtitle">{{ location }}</span>

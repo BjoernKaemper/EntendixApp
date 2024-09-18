@@ -13,16 +13,6 @@
         </v-col>
         <v-col cols="2" />
       </v-row>
-      <!--
-        <v-row v-else>
-            <v-col cols="4">
-              <GoogleMapsCardHome />
-            </v-col>
-            <v-col cols="8">
-              <HomeCard />
-            </v-col>
-          </v-row>
-        -->
     </v-container>
   </div>
 </template>
@@ -30,7 +20,7 @@
 <script lang="ts">
 import HomeCard from '@/components/general/HomeCard.vue';
 import { useGeneralStore } from '@/store/general';
-import { useGeneralStore_v2 } from '@/store/general_v2';
+import { useGeneralStoreV2 } from '@/store/general_v2';
 import { mapStores } from 'pinia';
 
 export default {
@@ -41,7 +31,7 @@ export default {
   },
 
   computed: {
-    ...mapStores(useGeneralStore, useGeneralStore_v2),
+    ...mapStores(useGeneralStore, useGeneralStoreV2),
   },
 };
 </script>

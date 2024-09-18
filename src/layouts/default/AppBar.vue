@@ -8,6 +8,6 @@
   </v-app-bar>
 </template>
 
-<script setup>
+<script setup lang="ts">
 //
 </script>

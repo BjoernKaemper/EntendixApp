@@ -3,6 +3,8 @@
     class="status-card"
     :class="[{ isBordered }, colourClass]"
     @click="$emit('clicked')"
+    @keydown.enter="$emit('clicked')"
+    tabindex="0"
   >
     <div class="icon-section">
       <component :is="icon" />
@@ -69,7 +71,8 @@ export default {
      * The subtitle of the card.
      */
     subtitle: {
-      type: String as PropType<string>,
+      type: String as PropType<string> | undefined,
+      default: undefined,
     },
     /**
      * The icon to display as an action icon.

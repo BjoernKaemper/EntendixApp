@@ -31,7 +31,7 @@ import { Authenticator, useAuthenticator, translations } from '@aws-amplify/ui-v
 import '@aws-amplify/ui-vue/styles.css';
 
 import { I18n } from 'aws-amplify';
-import { useGeneralStore_v2 } from './store/general_v2';
+import { useGeneralStoreV2 } from './store/general_v2';
 
 I18n.putVocabularies(translations);
 I18n.setLanguage('de');
@@ -49,7 +49,7 @@ I18n.putVocabularies({
 });
 const auth = useAuthenticator();
 const store = useGeneralStore();
-const generalStore = useGeneralStore_v2();
+const generalStore = useGeneralStoreV2();
 
 const navItems = [
   { icon: '', name: 'Digitale Zwillinge', href: '/digitaltwins' },

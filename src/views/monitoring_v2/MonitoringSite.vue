@@ -47,7 +47,7 @@ import StatusCard from '@/components/general/StatusCard.vue';
 import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
-import { useGeneralStore_v2 } from '@/store/general_v2';
+import { useGeneralStoreV2 } from '@/store/general_v2';
 import { mapStores } from 'pinia';
 import type { SiteWithBuildinginformation } from '@/types/Site';
 
@@ -65,7 +65,7 @@ export default {
   },
 
   computed: {
-    ...mapStores(useGeneralStore_v2),
+    ...mapStores(useGeneralStoreV2),
     site(): SiteWithBuildinginformation | null {
       return this.general_v2Store.currentSite;
     },

@@ -20,7 +20,7 @@ interface GeneralStoreState {
   currentSite: SiteWithBuildinginformation | null,
 }
 
-export const useGeneralStore_v2 = defineStore('general_v2', {
+export const useGeneralStoreV2 = defineStore('general_v2', {
   state: (): GeneralStoreState => ({
     globalLoadingOverlay: false,
     sites: [],

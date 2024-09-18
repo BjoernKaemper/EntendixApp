@@ -6,7 +6,7 @@
   </v-app>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import DefaultBar from './AppBar.vue';
 import DefaultView from './MainView.vue';
 </script>

@@ -14,16 +14,16 @@
       <v-divider :thickness="4" />
       <v-window v-model="step" style="background-color: whitesmoke">
         <v-window-item v-for="n in length" :key="`card-${n}`" :value="n">
-          <div v-if="n == 1 && !generalStore.loadedOrganizationInformation.length">
+          <div v-if="n === 1 && !generalStore.loadedOrganizationInformation.length">
             <AddOrgaInformation />
           </div>
-          <div v-else-if="n == 1 && generalStore.loadedOrganizationInformation.length != 0">
+          <div v-else-if="n === 1 && generalStore.loadedOrganizationInformation.length !== 0">
             <ShowOrgaInformation />
           </div>
-          <div v-else-if="n == 2">
+          <div v-else-if="n === 2">
             <AddSites />
           </div>
-          <div v-else-if="n == 3">
+          <div v-else-if="n === 3">
             <BuildingItems />
           </div>
         </v-window-item>
@@ -54,7 +54,7 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
 import AddOrgaInformation from '@/components/general/AddOrgaInformation.vue';
 import ShowOrgaInformation from '@/components/general/ShowOrgaInformation.vue';
 import AddSites from '@/components/general/AddSites.vue';
@@ -78,12 +78,12 @@ export default {
     currentTitle() {
       switch (this.step) {
         // case 1: return 'Registrierung Unternehmen'
-        default:
-          return 'Registrierung Unternehmen';
         case 2:
           return 'Registrierung Liegenschaften';
         case 3:
           return 'Registrierung Gebäude';
+        default:
+          return 'Registrierung Unternehmen';
       }
     },
     generalStore() {
@@ -108,7 +108,6 @@ export default {
     },
     prev() {
       this.step = this.step - 1 <= 0 ? this.length : this.step - 1;
-      console.log(this.step);
     },
   },
 };

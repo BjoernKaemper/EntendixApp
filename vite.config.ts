@@ -18,6 +18,7 @@ export default defineConfig({
       eslint: {
         lintCommand: 'eslint . --ext .ts,.js,.vue',
       },
+      vueTsc: true,
     }),
     vue({
       template: { transformAssetUrls },

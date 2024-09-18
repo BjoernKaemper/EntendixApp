@@ -13,7 +13,6 @@ export default defineConfig({
     checker({
       typescript: {
         buildMode: true,
-        tsconfigPath: 'tsconfig.json',
       },
       eslint: {
         lintCommand: 'eslint . --ext .ts,.js,.vue',

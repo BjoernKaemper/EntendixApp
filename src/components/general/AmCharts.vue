@@ -1,101 +1,101 @@
 <template>
-  <div class="hello" ref="chartdiv"></div>
+  <div class="hello" ref="chartdiv" />
 </template>
 
 <script>
-import * as am5 from '@amcharts/amcharts5'
-import * as am5xy from '@amcharts/amcharts5/xy'
-//import * as am5percent from "@amcharts/amcharts5/percent";
-import am5themes_Animated from '@amcharts/amcharts5/themes/Animated'
+import * as am5 from '@amcharts/amcharts5';
+import * as am5xy from '@amcharts/amcharts5/xy';
+// import * as am5percent from "@amcharts/amcharts5/percent";
+import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 
 export default {
   name: 'HelloWorld',
   mounted() {
-    let root = am5.Root.new(this.$refs.chartdiv)
+    const root = am5.Root.new(this.$refs.chartdiv);
 
-    root.setThemes([am5themes_Animated.new(root)])
+    root.setThemes([am5themes_Animated.new(root)]);
 
-    let chart = root.container.children.push(
+    const chart = root.container.children.push(
       am5xy.XYChart.new(root, {
         panY: false,
-        layout: root.verticalLayout
-      })
-    )
+        layout: root.verticalLayout,
+      }),
+    );
 
     // Define data
-    let data = [
+    const data = [
       {
         category: 'Research',
         value1: 1000,
-        value2: 588
+        value2: 588,
       },
       {
         category: 'Marketing',
         value1: 1200,
-        value2: 1800
+        value2: 1800,
       },
       {
         category: 'Sales',
         value1: 850,
-        value2: 1230
-      }
-    ]
+        value2: 1230,
+      },
+    ];
 
     // Create Y-axis
-    let yAxis = chart.yAxes.push(
+    const yAxis = chart.yAxes.push(
       am5xy.ValueAxis.new(root, {
-        renderer: am5xy.AxisRendererY.new(root, {})
-      })
-    )
+        renderer: am5xy.AxisRendererY.new(root, {}),
+      }),
+    );
 
     // Create X-Axis
-    let xAxis = chart.xAxes.push(
+    const xAxis = chart.xAxes.push(
       am5xy.CategoryAxis.new(root, {
         renderer: am5xy.AxisRendererX.new(root, {}),
-        categoryField: 'category'
-      })
-    )
-    xAxis.data.setAll(data)
+        categoryField: 'category',
+      }),
+    );
+    xAxis.data.setAll(data);
 
     // Create series
-    let series1 = chart.series.push(
+    const series1 = chart.series.push(
       am5xy.ColumnSeries.new(root, {
         name: 'Series',
-        xAxis: xAxis,
-        yAxis: yAxis,
+        xAxis,
+        yAxis,
         valueYField: 'value1',
-        categoryXField: 'category'
-      })
-    )
-    series1.data.setAll(data)
+        categoryXField: 'category',
+      }),
+    );
+    series1.data.setAll(data);
 
-    let series2 = chart.series.push(
+    const series2 = chart.series.push(
       am5xy.ColumnSeries.new(root, {
         name: 'Series',
-        xAxis: xAxis,
-        yAxis: yAxis,
+        xAxis,
+        yAxis,
         valueYField: 'value2',
-        categoryXField: 'category'
-      })
-    )
-    series2.data.setAll(data)
+        categoryXField: 'category',
+      }),
+    );
+    series2.data.setAll(data);
 
     // Add legend
-    let legend = chart.children.push(am5.Legend.new(root, {}))
-    legend.data.setAll(chart.series.values)
+    const legend = chart.children.push(am5.Legend.new(root, {}));
+    legend.data.setAll(chart.series.values);
 
     // Add cursor
-    chart.set('cursor', am5xy.XYCursor.new(root, {}))
+    chart.set('cursor', am5xy.XYCursor.new(root, {}));
 
-    this.root = root
+    this.root = root;
   },
 
   beforeUnmount() {
     if (this.root) {
-      this.root.dispose()
+      this.root.dispose();
     }
-  }
-}
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

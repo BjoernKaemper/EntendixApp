@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import EditOrganizationInformation from '@/components/general/EditOrganizationInformation.vue'
+import EditOrganizationInformation from '@/components/general/EditOrganizationInformation.vue';
 
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
@@ -31,16 +31,16 @@ export default {
         country: 'Sitz des Unternehmens (Land)',
         city: 'Sitz des Unternehmens (Stadt)',
         zipcode: 'Sitz des Unternehmens (Postleitzahl)',
-        street: 'Straße und Hausnummer'
+        street: 'Straße und Hausnummer',
       },
-      desiredOrder: ['organizationName', 'country', 'city', 'zipcode', 'street']
-    }
+      desiredOrder: ['organizationName', 'country', 'city', 'zipcode', 'street'],
+    };
   },
   components: { EditOrganizationInformation },
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
-  }
-}
+      return useGeneralStore();
+    },
+  },
+};
 </script>

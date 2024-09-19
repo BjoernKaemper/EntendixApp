@@ -20,31 +20,31 @@
 <script>
 export default {
   props: {
-    site: Array
+    site: Array,
   },
   computed: {
     siteInformation() {
-      const siteInformation = {}
+      const siteInformation = {};
 
-      for (let element in this.site) {
+      for (const element in this.site) {
         if (element === 'country') {
-          siteInformation['Land'] = this.site[element]
+          siteInformation.Land = this.site[element];
         } else if (element === 'city') {
-          siteInformation['Stadt'] = this.site[element]
+          siteInformation.Stadt = this.site[element];
         } else if (element === 'street') {
-          siteInformation['Straße'] = this.site[element]
+          siteInformation['Straße'] = this.site[element];
         }
       }
-      const desiredOrder = ['Land', 'Stadt', 'Straße']
+      const desiredOrder = ['Land', 'Stadt', 'Straße'];
       const sortedSiteInformation = Object.fromEntries(
         Object.entries(siteInformation).sort(
-          ([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB)
-        )
-      )
+          ([keyA], [keyB]) => desiredOrder.indexOf(keyA) - desiredOrder.indexOf(keyB),
+        ),
+      );
 
-      //console.log(siteInformation)
-      return sortedSiteInformation
-    }
-  }
-}
+      // console.log(siteInformation)
+      return sortedSiteInformation;
+    },
+  },
+};
 </script>

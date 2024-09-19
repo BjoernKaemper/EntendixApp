@@ -5,23 +5,24 @@
  */
 
 // Components
-import App from './App.vue'
 
 // Composables
-import { createApp } from 'vue'
+import { createApp } from 'vue';
 
 // Plugins
-import AmplifyVue from '@aws-amplify/ui-vue'
-import { registerPlugins } from '@/plugins'
+import AmplifyVue from '@aws-amplify/ui-vue';
+import { registerPlugins } from '@/plugins';
 
 // AWS Amplify imports
-import { Amplify } from 'aws-amplify'
-import config from './amplifyconfiguration.json'
-Amplify.configure(config)
+import { Amplify } from 'aws-amplify';
+import App from './App.vue';
+import config from './amplifyconfiguration.json';
 
-const app = createApp(App)
-app.use(AmplifyVue)
+Amplify.configure(config);
 
-registerPlugins(app)
+const app = createApp(App);
+app.use(AmplifyVue);
 
-app.mount('#app')
+registerPlugins(app);
+
+app.mount('#app');

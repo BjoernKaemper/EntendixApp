@@ -1,25 +1,27 @@
 // Plugins
-import vue from '@vitejs/plugin-vue'
-import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import { fileURLToPath, URL } from 'node:url';
 
-// Utilities
-import { defineConfig } from 'vite'
-import checker from 'vite-plugin-checker'
-import { fileURLToPath, URL } from 'node:url'
-import eslint from 'vite-plugin-eslint'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+
+import checker from 'vite-plugin-checker';
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    eslint(),
     checker({
-      typescript: true,
+      typescript: {
+        buildMode: true,
+      },
+      eslint: {
+        lintCommand: 'eslint . --ext .ts,.js,.vue',
+      },
+      vueTsc: true,
     }),
     vue({
-      template: { transformAssetUrls
-    }
+      template: { transformAssetUrls },
     }),
-    // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
     vuetify({
       autoImport: true,
       styles: {
@@ -33,35 +35,24 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      find: './runtimeConfig',
-      replacement: './runtimeConfig.browser',
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.mjs',
-      '.ts',
-      '.tsx',
-      '.vue',
-    ],
   },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/styles/styles.scss";`,
+        additionalData: '@import "@/styles/styles.scss";',
       },
     },
   },
   server: {
     port: 3000,
     proxy: {
-     '/awsBackend': {
+      '/awsBackend': {
         target: 'https://svmiv1rcci.execute-api.us-east-1.amazonaws.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/awsBackend/, ''),
-     },
+      },
       '/awsNlpEndpoints': {
         target: 'http://3.95.230.131:8003/',
         changeOrigin: true,
@@ -69,7 +60,7 @@ export default defineConfig({
       },
       '/nlpEndpoints': {
         // TH
-        //target: 'http://139.6.140.196:8003/',
+        // target: 'http://139.6.140.196:8003/',
         // Zu Hause
         target: 'http://192.168.178.49:8003/',
         changeOrigin: true,
@@ -79,7 +70,7 @@ export default defineConfig({
         target: 'http://localhost:8003',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/startNlp/, ''),
-      }
-    }
+      },
+    },
   },
-})
+});

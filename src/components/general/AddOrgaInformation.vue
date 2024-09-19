@@ -8,7 +8,7 @@
           v-model="form.organizationName"
           label="Name der Organisation"
           required
-        ></v-text-field>
+        />
 
         <v-select :items="countries" v-model="form.country" label="Sitz des Unternehmens (Land)" />
 
@@ -17,21 +17,21 @@
           v-model="form.city"
           label="Sitz des Unternehmens (Stadt)"
           required
-        ></v-text-field>
+        />
 
         <v-text-field
           id="zipcode"
           v-model.number="form.zipcode"
           label="Sitz des Unternehmens (Postleitzahl)"
           required
-        ></v-text-field>
+        />
 
         <v-text-field
           id="street"
           v-model="form.street"
           label="Straße und Hausnummer"
           required
-        ></v-text-field>
+        />
 
         <!-- <v-text-field
             id="number-sites"
@@ -47,16 +47,21 @@
               form.country,
               form.city,
               form.zipcode,
-              form.street
+              form.street,
             )
           "
           class="ma-3"
           variant="outlined"
           color="warning"
-          >Submit</v-btn
+        >Submit</v-btn
         >
-        <v-btn @click="onReset" class="max-3" type="reset" variant="outlined" color="warning"
-          >Reset</v-btn
+        <v-btn
+          @click="onReset"
+          class="max-3"
+          type="reset"
+          variant="outlined"
+          color="warning"
+        >Reset</v-btn
         >
       </v-container>
     </v-form>
@@ -64,7 +69,7 @@
 </template>
 
 <script>
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
@@ -75,20 +80,20 @@ export default {
         city: '',
         zipcode: null,
         numberOfSites: null,
-        street: ''
+        street: '',
       },
-      countries: ['Deutschland', 'Österreich', 'Schweiz', 'Frankreich', 'Italien', 'England']
-    }
+      countries: ['Deutschland', 'Österreich', 'Schweiz', 'Frankreich', 'Italien', 'England'],
+    };
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
+      return useGeneralStore();
     },
     organization() {
-      const loadedOrganizationInformation = this.generalStore.loadedOrganizationInformation
-      console.log(loadedOrganizationInformation)
-      return loadedOrganizationInformation
-    }
+      const { loadedOrganizationInformation } = this.generalStore;
+      console.log(loadedOrganizationInformation);
+      return loadedOrganizationInformation;
+    },
   },
   /*
   mounted () {
@@ -114,7 +119,7 @@ export default {
       //card.classList.add('d-none')
       //console.log(typeof this.form.numberOfSites)
       // event.preventDefault()
-      
+
       this.form.organizationName = ''
       // this.form.country = null
       this.form.city = ''
@@ -127,15 +132,15 @@ export default {
     onReset() {
       // event.preventDefault()
       // Reset our form values
-      this.form.organizationName = ''
+      this.form.organizationName = '';
       // this.form.country = null
-      this.form.city = ''
-      this.form.zipcode = ''
-      this.form.numberOfSites = ''
-      this.form.street = ''
-    }
-  }
-}
+      this.form.city = '';
+      this.form.zipcode = '';
+      this.form.numberOfSites = '';
+      this.form.street = '';
+    },
+  },
+};
 </script>
 <style scoped>
 .card {

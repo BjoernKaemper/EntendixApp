@@ -2,7 +2,10 @@
   <div class="grid-wrapper">
     <div>
       <h2>TODO: Gebäudename</h2>
-      <img src="@/assets/gebäude_deutz.png" />
+      <img
+        alt="@TODO: Gebäudename"
+        src="@/assets/gebäude_deutz.png"
+      />
     </div>
     <div>
       <h3>Performance der Liegenschaft</h3>
@@ -15,22 +18,21 @@
         </div>
       </div>
       <h4>Funktionserfüllung Anlagentechnik</h4>
-      <div class="three-col-grid">
-      </div>
+      <div class="three-col-grid" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { useGeneralStore } from '@/store/general'
-import { useMonitoringStore } from '@/store/monitoring'
-import { mapStores } from 'pinia'
+import { useGeneralStore } from '@/store/general';
+import { useMonitoringStore } from '@/store/monitoring';
+import { mapStores } from 'pinia';
 
 export default {
   computed: {
     ...mapStores(useGeneralStore, useMonitoringStore),
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

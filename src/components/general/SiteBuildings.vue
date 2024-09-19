@@ -16,66 +16,67 @@
 </template>
 
 <script>
-import InformationFromBuildings from '@/components/general/InformationFromBuildings.vue'
+import InformationFromBuildings from '@/components/general/InformationFromBuildings.vue';
 
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore } from '@/store/general';
+
 export default {
   data: () => ({
     show: false,
     form: {
-      designation: ''
+      designation: '',
     },
     country: '',
     city: '',
     street: '',
     streetNumber: '',
     lat: '',
-    lng: ''
+    lng: '',
   }),
   props: {
-    site: Object
+    site: Object,
   },
   components: {
-    InformationFromBuildings
+    InformationFromBuildings,
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
+      return useGeneralStore();
     },
     siteName() {
       // const key = Object.keys(this.site)
-      const siteName = this.site['siteName']
-      return siteName
+      const { siteName } = this.site;
+      return siteName;
     },
     buildings() {
       // console.log(this.building)
-      console.log(this.$store.getters.loadedBuildingInformation)
-      console.log(this.site)
-      return this.$store.getters.loadedBuildingInformation
-    }
+      console.log(this.$store.getters.loadedBuildingInformation);
+      console.log(this.site);
+      return this.$store.getters.loadedBuildingInformation;
+    },
   },
   methods: {
     setPlace(place) {
-      //console.log(place.address_components)
-      this.currentPlace = place
-      const location = place.address_components
+      // console.log(place.address_components)
+      this.currentPlace = place;
+      const location = place.address_components;
       for (const element in location) {
         if (location[element].types[0] === 'country') {
-          this.country = location[element].long_name
+          this.country = location[element].long_name;
         } else if (location[element].types[0] === 'locality') {
-          this.city = location[element].long_name
+          this.city = location[element].long_name;
         } else if (location[element].types[0] === 'street_number') {
-          this.streetNumber = location[element].long_name
+          this.streetNumber = location[element].long_name;
         } else if (location[element].types[0] === 'route') {
-          this.street = location[element].long_name
+          this.street = location[element].long_name;
         }
       }
-      this.lat = this.currentPlace.geometry.location.lat()
-      this.lng = this.currentPlace.geometry.location.lng()
-      //console.log(this.country, this.city, this.street, this.streetNumber)
-    }
-  }
-}
+      this.lat = this.currentPlace.geometry.location.lat();
+      this.lng = this.currentPlace.geometry.location.lng();
+      // console.log(this.country, this.city, this.street, this.streetNumber)
+    },
+  },
+};
 </script>
 
 <style>

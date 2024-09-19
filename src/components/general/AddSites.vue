@@ -3,7 +3,7 @@
     <div v-for="site in generalStore.loadedSiteInformation" :key="site">
       <ShowSiteInformation :site="site" />
     </div>
-    <v-divider :thickness="3"></v-divider>
+    <v-divider :thickness="3" />
     <v-container :style="{ width: '90%' }">
       <v-card-actions class="d-flex justify-center align-center">
         <v-btn
@@ -18,19 +18,19 @@
       </v-card-actions>
       <v-expand-transition>
         <div v-show="show">
-          <v-text-field v-model="siteName" label="Name der Liegenschaft" required></v-text-field>
+          <v-text-field v-model="siteName" label="Name der Liegenschaft" required />
           <v-text-field
             id="map"
             v-model="currentPlace"
             label="Standort der Liegenschaft"
             required
-          ></v-text-field>
+          />
           <vue-google-autocomplete
             class="autocomplete-container"
             id="map"
             v-model="place"
             v-on:placechanged="setPlace"
-          ></vue-google-autocomplete>
+          />
           <v-container class="d-flex justify-center align-center">
             <v-btn
               class="max-3"
@@ -39,7 +39,7 @@
               variant="text"
               color="rgba(255, 74, 28, 1.0)"
               @click="setPlaceInformationToStore()"
-              >Submit
+            >Submit
             </v-btn>
           </v-container>
         </div>
@@ -49,11 +49,11 @@
 </template>
 
 <script>
-import ShowSiteInformation from '@/components/general/ShowSiteInformation.vue'
-import VueGoogleAutocomplete from 'vue-google-autocomplete'
-//import { GMapAutocomplete } from 'vue3-google-maps'
+import ShowSiteInformation from '@/components/general/ShowSiteInformation.vue';
+import VueGoogleAutocomplete from 'vue-google-autocomplete';
+// import { GMapAutocomplete } from 'vue3-google-maps'
 
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
@@ -67,43 +67,43 @@ export default {
       streetNumber: '',
       lat: '',
       lng: '',
-      zipCode: ''
-    }
+      zipCode: '',
+    };
   },
   components: { ShowSiteInformation, VueGoogleAutocomplete },
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
+      return useGeneralStore();
+    },
   },
   methods: {
     setPlace(place) {
-      this.currentPlace = place['route'] + ', ' + place['locality'] + ', ' + place['country']
+      this.currentPlace = `${place.route}, ${place.locality}, ${place.country}`;
       // console.log(place)
       // this.currentPlace = place
       // const location = place
-      for (let key in place) {
-        //console.log(key, place[key])
+      for (const key in place) {
+        // console.log(key, place[key])
         if (key === 'country') {
-          this.country = place[key]
+          this.country = place[key];
         } else if (key === 'locality') {
-          this.city = place[key]
+          this.city = place[key];
         } else if (key === 'street_number') {
-          this.streetNumber = place[key]
+          this.streetNumber = place[key];
         } else if (key === 'route') {
-          this.street = place[key] + ' ' + this.streetNumber
+          this.street = `${place[key]} ${this.streetNumber}`;
         } else if (key === 'latitude') {
-          this.lat = place[key]
+          this.lat = place[key];
         } else if (key === 'longitude') {
-          this.lng = place[key]
+          this.lng = place[key];
         } else if (key === 'postal_code') {
-          this.zipCode = place[key]
+          this.zipCode = place[key];
         }
       }
     },
 
     setPlaceInformationToStore() {
-      this.currentPlace = ''
+      this.currentPlace = '';
       generalStore.addSiteInformation(
         this.country,
         this.city,
@@ -112,12 +112,12 @@ export default {
         this.lat,
         this.lng,
         this.zipCode,
-        this.siteName
-      )
-      this.siteName = ''
-    }
-  }
-}
+        this.siteName,
+      );
+      this.siteName = '';
+    },
+  },
+};
 </script>
 <style scoped>
 .card {

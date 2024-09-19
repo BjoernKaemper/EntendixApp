@@ -11,14 +11,13 @@
             v-bind="props"
             class="ma-2"
             icon="mdi-chart-line"
-          >
-          </v-btn>
+          />
         </v-container>
       </template>
       <v-card>
         <v-toolbar color="success">
           <v-toolbar-title style="color: white">{{
-            datenpunkt['datenpunktLabel']
+            datenpunkt.datenpunktLabel
           }}</v-toolbar-title>
         </v-toolbar>
         <v-container>
@@ -36,27 +35,27 @@
 </template>
 
 <script>
-import LineChart from '@/components/general/charts/LineChart.vue'
+import LineChart from '@/components/general/charts/LineChart.vue';
 
 export default {
   data() {
     return {
       dialog: false,
-      datenpunktToDisplay: []
-    }
+      datenpunktToDisplay: [],
+    };
   },
   props: {
-    datenpunkt: Object
+    datenpunkt: Object,
   },
   mounted() {
     // Das hier nur als Ersatz weil das andere mit der CSV einalden nicht mehr geklappt hat,
-    let showDatenpunkt = this.datenpunkt
-    showDatenpunkt['chartType'] = 'LineChart'
-    this.datenpunktToDisplay = showDatenpunkt
-    console.log(this.datenpunktToDisplay)
+    const showDatenpunkt = this.datenpunkt;
+    showDatenpunkt.chartType = 'LineChart';
+    this.datenpunktToDisplay = showDatenpunkt;
+    console.log(this.datenpunktToDisplay);
   },
   components: {
-    LineChart
-  }
-}
+    LineChart,
+  },
+};
 </script>

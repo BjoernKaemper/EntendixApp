@@ -28,16 +28,16 @@
                   </v-col>
                 </v-row>
               </v-card-text>
-              <v-divider></v-divider>
+              <v-divider />
               <div class="px-8">
                 <v-switch
                   :model-value="isExpanded(kpi)"
                   :label="`${isExpanded(kpi) ? 'Hide' : 'Show'} details`"
                   density="compact"
                   @click="() => toggleExpand(kpi)"
-                ></v-switch>
+                />
               </div>
-              <v-divider></v-divider>
+              <v-divider />
               <v-expand-transition>
                 <div v-if="isExpanded(kpi)">To be done</div>
               </v-expand-transition>
@@ -58,14 +58,14 @@ export default {
         {
           name: 'Behaglichkeit',
           value: '4',
-          color: '#FF9966'
+          color: '#FF9966',
         },
         {
           name: 'Energieeffizienz',
           value: '9',
-          color: '#33FF33'
-        }
-      ]
+          color: '#33FF33',
+        },
+      ],
       /* color palette
             Green (for 10): #00FF00
             Lighter Green: #33FF33
@@ -77,9 +77,9 @@ export default {
             Lighter Red: #FF3300
             Red (for 1): #FF0000
             */
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <style scoped>

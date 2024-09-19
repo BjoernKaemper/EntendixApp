@@ -10,7 +10,7 @@
             elevation="0"
           >
             <v-card-title class="text-center">Wärme versorgen</v-card-title>
-            <v-divider class="mx-4" :thickness="3"></v-divider>
+            <v-divider class="mx-4" :thickness="3" />
             <div class="d-flex flex-column align-center">
               <v-avatar size="112" rounded="0" class="ma-6">
                 <v-img
@@ -19,7 +19,7 @@
                   href="#"
                   contain
                   :src="wärmePic[[Object.keys(wärmePic)[0]]]"
-                ></v-img>
+                />
               </v-avatar>
               <v-btn
                 class="max-3 mb-4"
@@ -32,8 +32,8 @@
                       siteid: siteId,
                       buildingid: buildingId,
                       bacnetid: this.digitalTwinStore.aasId,
-                      grundfunktion: grundfunktion
-                    }
+                      grundfunktion,
+                    },
                   })
                 "
               >
@@ -48,7 +48,7 @@
             elevation="0"
           >
             <v-card-title class="text-center">Luft versorgen</v-card-title>
-            <v-divider class="mx-4" :thickness="3"></v-divider>
+            <v-divider class="mx-4" :thickness="3" />
             <div class="d-flex flex-column align-center">
               <v-avatar size="112" rounded="0" class="ma-6">
                 <v-img
@@ -57,7 +57,7 @@
                   href="#"
                   contain
                   :src="luftPic[[Object.keys(luftPic)[0]]]"
-                ></v-img>
+                />
               </v-avatar>
               <v-btn
                 class="max-3 mb-4"
@@ -70,8 +70,8 @@
                       siteid: siteId,
                       buildingid: buildingId,
                       bacnetid: this.digitalTwinStore.aasId,
-                      grundfunktion: grundfunktion
-                    }
+                      grundfunktion,
+                    },
                   })
                 "
               >
@@ -86,7 +86,7 @@
             elevation="0"
           >
             <v-card-title class="text-center">Kälte versorgen</v-card-title>
-            <v-divider class="mx-4" :thickness="3"></v-divider>
+            <v-divider class="mx-4" :thickness="3" />
             <div class="d-flex flex-column align-center">
               <v-avatar size="112" rounded="0" class="ma-6">
                 <v-img
@@ -95,7 +95,7 @@
                   href="#"
                   contain
                   :src="kältePic[[Object.keys(kältePic)[0]]]"
-                ></v-img>
+                />
               </v-avatar>
               <v-btn
                 class="max-3 mb-4"
@@ -108,8 +108,8 @@
                       siteid: siteId,
                       buildingid: buildingId,
                       bacnetid: this.digitalTwinStore.aasId,
-                      grundfunktion: grundfunktion
-                    }
+                      grundfunktion,
+                    },
                   })
                 "
               >
@@ -124,7 +124,7 @@
             elevation="0"
           >
             <v-card-title class="text-center">Medien versorgen</v-card-title>
-            <v-divider class="mx-4" :thickness="3"></v-divider>
+            <v-divider class="mx-4" :thickness="3" />
             <div class="d-flex flex-column align-center">
               <v-avatar size="112" rounded="0" class="ma-6">
                 <v-img
@@ -133,7 +133,7 @@
                   href="#"
                   contain
                   :src="medienPic[[Object.keys(medienPic)[0]]]"
-                ></v-img>
+                />
               </v-avatar>
               <v-btn
                 class="max-3 mb-4"
@@ -146,8 +146,8 @@
                       siteid: siteId,
                       buildingid: buildingId,
                       bacnetid: this.digitalTwinStore.aasId,
-                      grundfunktion: grundfunktion
-                    }
+                      grundfunktion,
+                    },
                   })
                 "
               >
@@ -162,7 +162,7 @@
             elevation="0"
           >
             <v-card-title class="text-center">Sichern</v-card-title>
-            <v-divider class="mx-4" :thickness="3"></v-divider>
+            <v-divider class="mx-4" :thickness="3" />
             <div class="d-flex flex-column align-center">
               <v-avatar size="112" rounded="0" class="ma-6">
                 <v-img
@@ -171,7 +171,7 @@
                   href="#"
                   contain
                   :src="sichernPic[[Object.keys(sichernPic)[0]]]"
-                ></v-img>
+                />
               </v-avatar>
               <v-btn
                 class="max-3 mb-4"
@@ -184,8 +184,8 @@
                       siteid: siteId,
                       buildingid: buildingId,
                       bacnetid: this.digitalTwinStore.aasId,
-                      grundfunktion: grundfunktion
-                    }
+                      grundfunktion,
+                    },
                   })
                 "
               >
@@ -200,7 +200,7 @@
             elevation="0"
           >
             <v-card-title class="text-center">Strom versorgen</v-card-title>
-            <v-divider class="mx-4" :thickness="3"></v-divider>
+            <v-divider class="mx-4" :thickness="3" />
             <div class="d-flex flex-column align-center">
               <v-avatar size="112" rounded="0" class="ma-6">
                 <v-img
@@ -209,7 +209,7 @@
                   href="#"
                   contain
                   :src="stromPic[[Object.keys(stromPic)[0]]]"
-                ></v-img>
+                />
               </v-avatar>
               <v-btn
                 class="max-3 mb-4"
@@ -222,8 +222,8 @@
                       siteid: siteId,
                       buildingid: buildingId,
                       bacnetid: this.digitalTwinStore.aasId,
-                      grundfunktion: grundfunktion
-                    }
+                      grundfunktion,
+                    },
                   })
                 "
               >
@@ -247,8 +247,8 @@
 --></template>
 
 <script>
-import { useDigitalTwinsStore } from '@/store/digitaltwins'
-import { useGeneralStore } from '@/store/general'
+import { useDigitalTwinsStore } from '@/store/digitaltwins';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
@@ -258,42 +258,42 @@ export default {
       parentIdShort: '',
       wärmePic: {
         'Wärme versorgen': Object.values(
-          import.meta.glob('@/assets/Wärmeversorgen.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Wärmeversorgen.svg', { as: 'url', eager: true }),
+        )[0],
       },
       luftPic: {
         'Luft versorgen': Object.values(
-          import.meta.glob('@/assets/Luftversorgen.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Luftversorgen.svg', { as: 'url', eager: true }),
+        )[0],
       },
       kältePic: {
         'Kälte versorgen': Object.values(
-          import.meta.glob('@/assets/Kälteversorgen.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Kälteversorgen.svg', { as: 'url', eager: true }),
+        )[0],
       },
       medienPic: {
         'Medien versorgen': Object.values(
-          import.meta.glob('@/assets/Medienversorgen.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Medienversorgen.svg', { as: 'url', eager: true }),
+        )[0],
       },
       sichernPic: {
         Sichern: Object.values(
-          import.meta.glob('@/assets/Sichern.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Sichern.svg', { as: 'url', eager: true }),
+        )[0],
       },
       stromPic: {
         'Strom versorgen': Object.values(
-          import.meta.glob('@/assets/Stromversorgen.svg', { as: 'url', eager: true })
-        )[0]
-      }
-    }
+          import.meta.glob('@/assets/Stromversorgen.svg', { as: 'url', eager: true }),
+        )[0],
+      },
+    };
   },
   mounted() {
-    const site_id = this.$route.params.siteid
-    this.siteId = site_id
-    const building_id = this.$route.params.buildingid
-    this.buildingId = building_id
-    //this.getParentAasIdShort ()
+    const site_id = this.$route.params.siteid;
+    this.siteId = site_id;
+    const building_id = this.$route.params.buildingid;
+    this.buildingId = building_id;
+    // this.getParentAasIdShort ()
   },
   /*
     methods: {
@@ -310,52 +310,52 @@ export default {
     */
   computed: {
     digitalTwinStore() {
-      return useDigitalTwinsStore()
+      return useDigitalTwinsStore();
     },
     generalStore() {
-      return useGeneralStore()
+      return useGeneralStore();
     },
     wärmeVersorgen() {
-      const wärmeVersorgen = this.digitalTwinStore.wärmeVersorgen
-      return wärmeVersorgen
+      const { wärmeVersorgen } = this.digitalTwinStore;
+      return wärmeVersorgen;
     },
     luftVersorgen() {
-      const luftVersorgen = this.digitalTwinStore.luftVersorgen
-      return luftVersorgen
+      const { luftVersorgen } = this.digitalTwinStore;
+      return luftVersorgen;
     },
     medienVersorgen() {
-      const medienVersorgen = this.digitalTwinStore.medienVersorgen
-      return medienVersorgen
+      const { medienVersorgen } = this.digitalTwinStore;
+      return medienVersorgen;
     },
     kälteVersorgen() {
-      const kälteVersorgen = this.digitalTwinStore.kälteVersorgen
-      return kälteVersorgen
+      const { kälteVersorgen } = this.digitalTwinStore;
+      return kälteVersorgen;
     },
     sichern() {
-      const sichern = this.digitalTwinStore.sichern
-      return sichern
+      const { sichern } = this.digitalTwinStore;
+      return sichern;
     },
     stromVersorgen() {
-      const stromVersorgen = this.digitalTwinStore.stromVersorgen
-      return stromVersorgen
+      const { stromVersorgen } = this.digitalTwinStore;
+      return stromVersorgen;
     },
     numberGrundfunktionen() {
-      const allElements = this.digitalTwinStore.allNlpSubmodelElements
-      const grundfunktionen = []
+      const allElements = this.digitalTwinStore.allNlpSubmodelElements;
+      const grundfunktionen = [];
       for (const data in allElements) {
-        let grundfunktionValue = allElements[data]['GrundfunktionValue']
+        const grundfunktionValue = allElements[data].GrundfunktionValue;
         if (grundfunktionen.includes(grundfunktionValue)) {
-          continue
+          continue;
         } else {
-          grundfunktionen.push(grundfunktionValue)
+          grundfunktionen.push(grundfunktionValue);
         }
       }
-      return grundfunktionen
+      return grundfunktionen;
     },
     parentAasIdShort() {
-      const parentIdShort = this.digitalTwinStore.parentAasIdShort
-      return parentIdShort
-    }
-  }
-}
+      const parentIdShort = this.digitalTwinStore.parentAasIdShort;
+      return parentIdShort;
+    },
+  },
+};
 </script>

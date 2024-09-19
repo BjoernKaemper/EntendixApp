@@ -20,13 +20,14 @@ export default {
       const response = await fetch(url, { ...defaultOptions, ...(options) });
 
       if (response.headers.get(CONTENT_TYPE)?.includes('application/json')) {
-        return response.json();
+        return await response.json();
       }
 
       // @TODO: Implement global error handler
       throw new Error('API call failed, unexpected response type');
     } catch (error) {
       // @TODO: Implement global error handler
+      // eslint-disable-next-line no-console
       console.error('API call failed', error);
       throw error;
     }

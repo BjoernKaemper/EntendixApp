@@ -1,11 +1,11 @@
 <template>
   <v-footer id="footer" class="text-center d-flex justify-space-between" color="secondary-darken-1">
     <v-row class="mb-0">
-      <v-col cols="2"> </v-col>
+      <v-col cols="2" />
       <v-col cols="8">
-        <v-btn v-for="icon in icons" :key="icon" class="mx-4" :icon="icon" variant="text"></v-btn>
-        <div class="pt-0"></div>
-        <v-divider></v-divider>
+        <v-btn v-for="icon in icons" :key="icon" class="mx-4" :icon="icon" variant="text" />
+        <div class="pt-0" />
+        <v-divider />
         <div>{{ new Date().getFullYear() }} — <strong>PLYTEQ</strong></div>
       </v-col>
       <v-col cols="2">
@@ -21,9 +21,9 @@
 <script>
 export default {
   data: () => ({
-    icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram']
-  })
-}
+    icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram'],
+  }),
+};
 </script>
 
 <style scoped>

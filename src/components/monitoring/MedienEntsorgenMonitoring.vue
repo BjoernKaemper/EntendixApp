@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container v-if="monitoringStore.loadingMonitoringComponent === true">
-      <v-progress-linear indeterminate color="success"></v-progress-linear>
+      <v-progress-linear indeterminate color="success" />
     </v-container>
     <v-container
       v-else-if="monitoringStore.loadingMonitoringComponent === false"
@@ -93,12 +93,12 @@
 </template>
 
 <script>
-import { useGeneralStore } from '@/store/general'
-import { useMonitoringStore } from '@/store/monitoring'
-import { useDigitalTwinsStore } from '@/store/digitaltwins'
-import AnlagenMonitoringCard from '@/components/monitoring/AnlagenMonitoringCard.vue'
-import LineChartAll from '@/components/monitoring/LineChartAll.vue'
-import KpisMonitoringAnlage from '@/components/monitoring/KpisMonitoringAnlage.vue'
+import { useGeneralStore } from '@/store/general';
+import { useMonitoringStore } from '@/store/monitoring';
+import { useDigitalTwinsStore } from '@/store/digitaltwins';
+import AnlagenMonitoringCard from '@/components/monitoring/AnlagenMonitoringCard.vue';
+import LineChartAll from '@/components/monitoring/LineChartAll.vue';
+import KpisMonitoringAnlage from '@/components/monitoring/KpisMonitoringAnlage.vue';
 
 export default {
   data() {
@@ -120,58 +120,58 @@ export default {
       wcAbwasserEnthalten: false,
       komponenteZeigen: [],
       allComponents: null,
-      allSes: null
-    }
+      allSes: null,
+    };
   },
   components: {
     AnlagenMonitoringCard,
     KpisMonitoringAnlage,
-    LineChartAll
+    LineChartAll,
   },
   props: {
-    anlage: Object
+    anlage: Object,
   },
   mounted() {
-    this.getSubmodelInformations()
+    this.getSubmodelInformations();
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
+      return useGeneralStore();
     },
     monitoringStore() {
-      return useMonitoringStore()
+      return useMonitoringStore();
     },
     digitalTwinStore() {
-      return useDigitalTwinsStore()
-    }
+      return useDigitalTwinsStore();
+    },
   },
   methods: {
     async getSubmodelInformations() {
-      await this.monitoringStore.setLoadingMonitoringComponent('true')
-      let allSE = []
-      let allComponents = []
+      await this.monitoringStore.setLoadingMonitoringComponent('true');
+      const allSE = [];
+      const allComponents = [];
       for (const komponente in this.anlage) {
-        const { aasId, semanticId } = this.anlage[komponente]
-        //let component = components[komponente]
-        //console.log(component)
-        //const semanticId = anlage.semanticId
-        const submodelId = 'OperatingInformation'
-        //const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
-        //const submodelElements = submodel.submodelElements;
-        //console.log(submodelElements)
-        const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
-        //console.log(allElements)
-        let elements = []
+        const { aasId, semanticId } = this.anlage[komponente];
+        // let component = components[komponente]
+        // console.log(component)
+        // const semanticId = anlage.semanticId
+        const submodelId = 'OperatingInformation';
+        // const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
+        // const submodelElements = submodel.submodelElements;
+        // console.log(submodelElements)
+        const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId);
+        // console.log(allElements)
+        const elements = [];
 
-        for (let element in allElements) {
-          const dataContent = allElements[element]
-          let elementData = {
-            aasId: aasId,
+        for (const element in allElements) {
+          const dataContent = allElements[element];
+          const elementData = {
+            aasId,
             submodelName: submodelId,
             idShort: element,
             presentValue: dataContent[0].PresentValue,
-            //'name': dataContent[2].DataSource,
-            //'semanticId': element.semanticId.keys[0].value
+            // 'name': dataContent[2].DataSource,
+            // 'semanticId': element.semanticId.keys[0].value
             objectName: dataContent[2].DataSource[6].ObjectName,
             objectType: dataContent[2].DataSource[7].ObjectType,
             description: dataContent[2].DataSource[8].Description,
@@ -192,24 +192,24 @@ export default {
             datenpunktScore:
               dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
             anlageLabel: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
-            anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore
-          }
-          //console.log(elementData)
-          let value = this.monitoringStore.checkvalue(elementData.presentValue)
-          elementData.presentValue = value
-          elements.push(elementData)
+            anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
+          };
+          // console.log(elementData)
+          const value = this.monitoringStore.checkvalue(elementData.presentValue);
+          elementData.presentValue = value;
+          elements.push(elementData);
         }
 
         if (this.komponenteZeigen.length === 0) {
-          this.komponenteZeigen = elements
+          this.komponenteZeigen = elements;
         }
 
         allSE.push({
           anlagenInformation: this.anlage[komponente],
-          elements: elements
-        })
+          elements,
+        });
 
-        this.allSes = allSE
+        this.allSes = allSE;
         /*
       for (const komponente in this.anlage) {
         const { aasId, semanticId } = this.anlage[komponente];
@@ -226,7 +226,7 @@ export default {
             'name': element.displayName[0].text,
             'semanticId': element.semanticId.keys[0].value
           };
- 
+
           elementData = await this.digitalTwinStore.getSeElement(aasId, submodelId, element.idShort, elementData)
           elementData['datenpunktLabel'] = elementData['datenpunkt'][0]['value']
           return elementData
@@ -248,42 +248,42 @@ export default {
         */
 
         if (semanticId === 'https://th-koeln.de/gart/ComponentDrainageAAS/1/0') {
-          this.drainage = elements
-          this.drainageEnthalten = true
-          allComponents.push('Drainage')
+          this.drainage = elements;
+          this.drainageEnthalten = true;
+          allComponents.push('Drainage');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentGreaseSeparatorAAS/1/0') {
-          this.fettabscheider = elements
-          this.fettabscheiderEnthalten = true
-          allComponents.push('Fettabscheider')
+          this.fettabscheider = elements;
+          this.fettabscheiderEnthalten = true;
+          allComponents.push('Fettabscheider');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentLiftstationAAS/1/0') {
-          this.hebeanlage = elements
-          this.hebeanlageEnthalten = true
-          allComponents.push('Hebeanlage')
+          this.hebeanlage = elements;
+          this.hebeanlageEnthalten = true;
+          allComponents.push('Hebeanlage');
         } else if (
           semanticId === 'https://th-koeln.de/gart/ComponentCondensateNeutralizationAAS/1/0'
         ) {
-          this.neutralisationKondensat = elements
-          this.neutralisationKondensatEnthalten = true
-          allComponents.push('Neutralisation Kondensat')
+          this.neutralisationKondensat = elements;
+          this.neutralisationKondensatEnthalten = true;
+          allComponents.push('Neutralisation Kondensat');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentRainwaterPumpAAS/1/0') {
-          this.regenwasserpumpe = elements
-          this.regenwasserpumpeEnthalten = true
-          allComponents.push('Regenwasserpumpe')
+          this.regenwasserpumpe = elements;
+          this.regenwasserpumpeEnthalten = true;
+          allComponents.push('Regenwasserpumpe');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentWasteWaterPumpAAS/1/0') {
-          this.schmutzwasserpumpe = elements
-          this.schmutzwasserpumpeEnthalten = true
-          allComponents.push('Schmutzwasserpumpe')
+          this.schmutzwasserpumpe = elements;
+          this.schmutzwasserpumpeEnthalten = true;
+          allComponents.push('Schmutzwasserpumpe');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentToiletWasteWaterAAS/1/0') {
-          this.wcAbwasser = elements
-          this.wcAbwasserEnthalten = true
-          allComponents.push('WC Abwasser')
+          this.wcAbwasser = elements;
+          this.wcAbwasserEnthalten = true;
+          allComponents.push('WC Abwasser');
         }
       }
 
-      this.allComponents = allComponents
-      await this.monitoringStore.setLoadingMonitoringComponent('false')
-      //this.getCssInfos(allComponents)
-    }
+      this.allComponents = allComponents;
+      await this.monitoringStore.setLoadingMonitoringComponent('false');
+      // this.getCssInfos(allComponents)
+    },
     /*
     getCssInfos(allComponents) {
       for (let element in allComponents) {
@@ -331,8 +331,8 @@ export default {
       }
     },
     */
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

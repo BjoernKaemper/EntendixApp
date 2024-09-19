@@ -8,19 +8,19 @@
       </v-card-actions>
       <v-expand-transition>
         <div v-show="show">
-          <v-text-field v-model="buildingName" label="Name des Gebäudes" required></v-text-field>
+          <v-text-field v-model="buildingName" label="Name des Gebäudes" required />
           <v-text-field
-            :id="'map-' + site['siteName']"
+            :id="`map-${site.siteName}`"
             v-model="currentPlace"
             label="Standort des Gebäudes"
             required
-          ></v-text-field>
+          />
           <vue-google-autocomplete
             class="autocomplete-container"
-            :id="'map-' + site['siteName']"
+            :id="`map-${site.siteName}`"
             v-model="place"
             v-on:placechanged="setPlace"
-          ></vue-google-autocomplete>
+          />
           <v-container class="d-flex justify-center align-center">
             <v-btn
               class="mt-0"
@@ -28,7 +28,7 @@
               variant="text"
               color="rgba(255, 74, 28, 1.0)"
               @click="setBuildsindInformationToStore()"
-              >Submit
+            >Submit
             </v-btn>
           </v-container>
         </div>
@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import VueGoogleAutocomplete from 'vue-google-autocomplete'
-import { useGeneralStore } from '@/store/general'
+import VueGoogleAutocomplete from 'vue-google-autocomplete';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
@@ -53,45 +53,45 @@ export default {
       streetNumber: '',
       lat: '',
       lng: '',
-      zipcode: ''
-    }
+      zipcode: '',
+    };
   },
   components: {
-    VueGoogleAutocomplete
+    VueGoogleAutocomplete,
   },
   props: {
-    site: Array
+    site: Array,
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
+      return useGeneralStore();
+    },
   },
   methods: {
     setPlace(place) {
-      this.currentPlace = place['route'] + ', ' + place['locality'] + ', ' + place['country']
-      for (let key in place) {
-        //console.log(key, place[key])
+      this.currentPlace = `${place.route}, ${place.locality}, ${place.country}`;
+      for (const key in place) {
+        // console.log(key, place[key])
         if (key === 'country') {
-          this.country = place[key]
+          this.country = place[key];
         } else if (key === 'locality') {
-          this.city = place[key]
+          this.city = place[key];
         } else if (key === 'street_number') {
-          this.streetNumber = place[key]
+          this.streetNumber = place[key];
         } else if (key === 'route') {
-          this.street = place[key] + ' ' + this.streetNumber
+          this.street = `${place[key]} ${this.streetNumber}`;
         } else if (key === 'latitude') {
-          this.lat = place[key]
+          this.lat = place[key];
         } else if (key === 'longitude') {
-          this.lng = place[key]
+          this.lng = place[key];
         } else if (key === 'postal_code') {
-          this.zipCode = place[key]
+          this.zipCode = place[key];
         }
       }
     },
 
     setBuildsindInformationToStore() {
-      this.currentPlace = ''
+      this.currentPlace = '';
       generalStore.addBuildingInformation(
         this.site,
         this.buildingName,
@@ -101,12 +101,12 @@ export default {
         this.streetNumber,
         this.lat,
         this.lng,
-        this.zipcode
-      )
-      this.buildingName = ''
-    }
-  }
-}
+        this.zipcode,
+      );
+      this.buildingName = '';
+    },
+  },
+};
 </script>
 
 <style>

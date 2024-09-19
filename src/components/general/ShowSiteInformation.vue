@@ -6,7 +6,7 @@
           {{ site.siteName }}
         </v-btn>
 
-        <v-spacer></v-spacer>
+        <v-spacer />
         <!--
                 <v-btn
                     icon
@@ -26,19 +26,19 @@
 </template>
 
 <script>
-import InformationFromSites from '@/components/general/InformationFromSites.vue'
+import InformationFromSites from '@/components/general/InformationFromSites.vue';
 
 export default {
   data: () => ({
-    show: false
+    show: false,
   }),
   props: {
-    site: Array
+    site: Array,
   },
   components: {
-    InformationFromSites
-  }
-}
+    InformationFromSites,
+  },
+};
 </script>
 
 <style>

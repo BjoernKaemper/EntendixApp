@@ -1,7 +1,12 @@
 <template>
-  <div class="card" @click="$emit('clicked')">
+  <div
+    class="card"
+    @click="$emit('clicked')"
+    @keydown.enter="$emit('clicked')"
+    tabindex="0"
+  >
     <TrafficLightIndicator class="traffic-light" :light="currentLight" />
-    <img src="@/assets/gebäude_deutz.png" />
+    <img src="@/assets/gebäude_deutz.png" alt="Gebäudebild" />
     <div class="info">
       <span class="title">{{ name }}</span>
       <span class="subtitle">{{ location }}</span>
@@ -20,11 +25,11 @@
  * @displayName LiegenschaftCard
  */
 
-import TrafficLightIndicator from '@/components/general/TrafficLightIndicator.vue'
-import ChevronIcon from '@/components/icons/ChevronIcon.vue'
-import { TrafficLightTypes } from '@/types/enums/TrafficLightTypes'
-import { ConditionTypes } from '@/types/enums/ConditionTypes'
-import { type PropType } from 'vue'
+import TrafficLightIndicator from '@/components/general/TrafficLightIndicator.vue';
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
+import { TrafficLightTypes } from '@/types/enums/TrafficLightTypes';
+import { ConditionTypes } from '@/types/enums/ConditionTypes';
+import { type PropType } from 'vue';
 
 export default {
   props: {
@@ -34,7 +39,7 @@ export default {
      */
     location: {
       type: String as PropType<string>,
-      default: 'Ort'
+      default: 'Ort',
     },
     /**
      * The name of the property
@@ -42,7 +47,7 @@ export default {
      */
     name: {
       type: String as PropType<string>,
-      default: 'Name'
+      default: 'Name',
     },
     /**
      * Whether to show the icon on the right side of the card
@@ -50,40 +55,40 @@ export default {
      */
     showIcon: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   components: {
     TrafficLightIndicator,
-    ChevronIcon
+    ChevronIcon,
   },
   data() {
     return {
-      currentLight: TrafficLightTypes.GREEN
-    }
+      currentLight: TrafficLightTypes.GREEN,
+    };
   },
   mounted() {
     // Example of dynamically setting the light
-    this.updateLightBasedOnCondition()
+    this.updateLightBasedOnCondition();
   },
   methods: {
     /**
      * Updates the light based on a condition
      */
     updateLightBasedOnCondition() {
-      const condition = /* some logic to determine the light */ ConditionTypes.ALERT
+      const condition = /* some logic to determine the light */ ConditionTypes.ALERT;
 
       const conditionToLightMap = {
         [ConditionTypes.ALERT]: TrafficLightTypes.RED,
         [ConditionTypes.WARNING]: TrafficLightTypes.YELLOW,
-        [ConditionTypes.NORMAL]: TrafficLightTypes.GREEN
-      }
+        [ConditionTypes.NORMAL]: TrafficLightTypes.GREEN,
+      };
 
       // Default to GREEN if the condition doesn't match
-      this.currentLight = conditionToLightMap[condition] || TrafficLightTypes.GREEN
-    }
-  }
-}
+      this.currentLight = conditionToLightMap[condition] || TrafficLightTypes.GREEN;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

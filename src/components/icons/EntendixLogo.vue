@@ -48,8 +48,8 @@
 
 <script lang="ts">
 export default {
-  name: 'EntendixLogo'
-}
+  name: 'EntendixLogo',
+};
 </script>
 
 <style lang="scss" scoped>
@@ -57,4 +57,3 @@ svg {
   display: block;
 }
 </style>
-

@@ -22,11 +22,11 @@
                                         </v-expansion-panel-text>
                                         <v-expansion-panel-text>
                                             <v-btn
-                                            class="max-3 mb-4" 
-                                            variant="outlined" 
+                                            class="max-3 mb-4"
+                                            variant="outlined"
                                             color="warning"
-                                            @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion_Anlage', 
-                                            params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, anlage:anlage.idShort}}), 
+                                            @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion_Anlage',
+                                            params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, anlage:anlage.idShort}}),
                                             monitoringStore.aasAnlage = anlage">Monitoring {{ anlage.idShort }}
                                             </v-btn>
                                         </v-expansion-panel-text>
@@ -63,7 +63,7 @@
               v-for="(anlage, key) in this.funktionZweiteEbene.anlagenAas"
               :key="key"
             >
-              <v-col cols="4"></v-col>
+              <v-col cols="4" />
               <v-col align="center" cols="4" class="py-1">
                 <v-btn
                   rounded="xl"
@@ -79,21 +79,20 @@
                         buildingaasid: $route.params.buildingaasid,
                         grundfunktion: $route.params.grundfunktion,
                         zweiteFunktion: funktion,
-                        anlage: anlage.idShort
-                      }
+                        anlage: anlage.idShort,
+                      },
                     }),
-                      (monitoringStore.aasAnlage = anlage),
-                      (monitoringStore.zweiteGrundfunktionForMonitoring =
-                        this.funktionZweiteEbene.semanticId)
+                    (monitoringStore.aasAnlage = anlage),
+                    (monitoringStore.zweiteGrundfunktionForMonitoring = this.funktionZweiteEbene.semanticId)
                   "
                 >
                   {{ anlage.idShort }}
                 </v-btn>
               </v-col>
-              <v-col cols="4"></v-col>
+              <v-col cols="4" />
             </v-row>
             <!--
-                            
+
                             <v-expansion-panels>
                                 <v-expansion-panel rounded="0">
                                     <v-row>
@@ -107,23 +106,23 @@
                                                 {{ anlage.idShort }}
                                                 </v-card-title>
                                             </v-col>
-                                            <v-col>                                                
+                                            <v-col>
                                             </v-col>
                                             <v-col></v-col>
                                         </v-row>
                                         </v-expansion-panel-title>
-                                        
+
                                         <v-expansion-panel-text>
                                             Hier könnten übergeordnete KPIs stehen oder so
                                         </v-expansion-panel-text>
-                                    
+
                                         <v-expansion-panel-text>
-                                            
+
                                             <div class="text-center">
                                                 <v-btn
-                                                variant="flat" color="rgba(255, 74, 28, 0.8)" 
-                                                @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion_Anlage', 
-                                                params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, zweiteFunktion:funktion, anlage:anlage.idShort}}), 
+                                                variant="flat" color="rgba(255, 74, 28, 0.8)"
+                                                @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion_Anlage',
+                                                params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:$route.params.grundfunktion, zweiteFunktion:funktion, anlage:anlage.idShort}}),
                                                 monitoringStore.aasAnlage = anlage, monitoringStore.zweiteGrundfunktionForMonitoring = this.funktionZweiteEbene.semanticId"
                                                 icon="mdi-chart-line">
                                                 </v-btn>
@@ -146,29 +145,30 @@
 </template>
 
 <script>
-import { useMonitoringStore } from '@/store/monitoring'
+import { useMonitoringStore } from '@/store/monitoring';
+
 export default {
   data() {
     return {
-      funktionZweiteEbene: {}
-    }
+      funktionZweiteEbene: {},
+    };
   },
   mounted() {
-    let firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0]
+    const firstFunktion = this.monitoringStore.aasZweiteGrundfunktion[0];
 
-    this.funktionZweiteEbene = firstFunktion
+    this.funktionZweiteEbene = firstFunktion;
 
-    console.log(firstFunktion)
+    console.log(firstFunktion);
   },
   computed: {
     monitoringStore() {
-      return useMonitoringStore()
-    }
+      return useMonitoringStore();
+    },
   },
   methods: {
     showFunktion(funktion) {
-      this.funktionZweiteEbene = funktion
-    }
-  }
-}
+      this.funktionZweiteEbene = funktion;
+    },
+  },
+};
 </script>

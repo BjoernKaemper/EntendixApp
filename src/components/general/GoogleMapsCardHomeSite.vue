@@ -6,83 +6,83 @@
       variant="outlined"
     >
       <div class="google-map-card">
-        <div id="map"></div>
+        <div id="map" />
       </div>
     </v-card>
   </div>
 </template>
 
 <script>
-import { Loader } from '@googlemaps/js-api-loader'
-import { useGeneralStore } from '@/store/general'
+import { Loader } from '@googlemaps/js-api-loader';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
     return {
-      //siteId: '',
-      buildingCoordinates: []
-    }
+      // siteId: '',
+      buildingCoordinates: [],
+    };
   },
   props: {
-    buildings: Array
+    buildings: Array,
   },
 
   async mounted() {
-    console.log(this.buildings)
-    await this.initMap()
+    console.log(this.buildings);
+    await this.initMap();
   },
 
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
+      return useGeneralStore();
+    },
   },
   methods: {
     async initMap() {
       /* eslint-disable no-undef */
-      const buildingsCoordinates = []
+      const buildingsCoordinates = [];
 
-      for (let i in this.buildings) {
-        let building = this.buildings[i]
-        const lat = parseFloat(Object.values(building)[0].lat)
-        const lng = parseFloat(Object.values(building)[0].lng)
+      for (const i in this.buildings) {
+        const building = this.buildings[i];
+        const lat = parseFloat(Object.values(building)[0].lat);
+        const lng = parseFloat(Object.values(building)[0].lng);
         buildingsCoordinates.push({
           lat,
-          lng
-        })
+          lng,
+        });
       }
 
       // Load Google Maps API
       const loader = new Loader({
         apiKey: 'AIzaSyDrSZaSw1y8mnFuNa_ZYHTd-0kFxd4eCnQ',
         version: 'weekly',
-        libraries: ['places']
-      })
+        libraries: ['places'],
+      });
 
       try {
-        await loader.load()
+        await loader.load();
 
         // Create a new map centered at the first site
         const map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
-          center: buildingsCoordinates[0]
-        })
+          center: buildingsCoordinates[0],
+        });
 
         // Add markers for all sites
         buildingsCoordinates.forEach((coordinates) => {
           new google.maps.Marker({
             position: coordinates,
-            map: map
-          })
-        })
+            map,
+          });
+        });
 
-        return map
+        return map;
       } catch (error) {
-        console.error('Error loading Google Maps API:', error)
+        console.error('Error loading Google Maps API:', error);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

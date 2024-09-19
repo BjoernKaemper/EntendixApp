@@ -13,14 +13,13 @@
             v-bind="props"
             class="ma-2"
             icon="mdi-pencil"
-          >
-          </v-btn>
+          />
         </v-container>
       </template>
       <v-card>
         <v-toolbar color="success">
           <v-toolbar-title style="color: white"
-            >Edit {{ datenpunkt['datenpunktLabel'] }}</v-toolbar-title
+          >Edit {{ datenpunkt.datenpunktLabel }}</v-toolbar-title
           >
         </v-toolbar>
         <v-container>
@@ -29,7 +28,7 @@
               <v-list>
                 <v-list-item>
                   <v-list-item-subtitle>Object Name</v-list-item-subtitle>
-                  <v-list-item-title>{{ datenpunkt['objectName'] }}</v-list-item-title>
+                  <v-list-item-title>{{ datenpunkt.objectName }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-col>
@@ -37,7 +36,7 @@
               <v-list>
                 <v-list-item>
                   <v-list-item-subtitle>Object Type</v-list-item-subtitle>
-                  <v-list-item-title>{{ datenpunkt['objectType'] }}</v-list-item-title>
+                  <v-list-item-title>{{ datenpunkt.objectType }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-col>
@@ -47,17 +46,17 @@
               <v-list class="mt-0">
                 <v-list-item class="mt-0">
                   <v-list-item-subtitle>Description</v-list-item-subtitle>
-                  <v-list-item-title>{{ datenpunkt['description'] }}</v-list-item-title>
+                  <v-list-item-title>{{ datenpunkt.description }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-col>
           </v-row>
-          <v-divider :thickness="3"></v-divider>
+          <v-divider :thickness="3" />
           <v-row class="ma-1">
             <v-col cols="8">
               <v-select
                 :items="grundfunktionen"
-                v-model="datenpunkt['grundfunktionLabel']"
+                v-model="datenpunkt.grundfunktionLabel"
                 label="Grundfunktion"
                 @update:model-value="changeGrundfunktion"
               />
@@ -79,9 +78,9 @@
             <v-col cols="8">
               <div v-for="(value, key) in zweiteEbeneDict" :key="key">
                 <v-select
-                  v-if="datenpunkt['grundfunktionLabel'] == key"
+                  v-if="datenpunkt.grundfunktionLabel == key"
                   :items="value"
-                  v-model="datenpunkt['zweiteEbeneLabel']"
+                  v-model="datenpunkt.zweiteEbeneLabel"
                   label="Zweite Grundfunktion"
                   @update:model-value="changeZweiteEbene"
                 />
@@ -111,9 +110,9 @@
             <v-col cols="8">
               <div v-for="(value, key) in komponentenEbeneDict" :key="key">
                 <v-select
-                  v-if="datenpunkt['zweiteEbeneLabel'] == key"
+                  v-if="datenpunkt.zweiteEbeneLabel == key"
                   :items="value"
-                  v-model="datenpunkt['komponenteLabel']"
+                  v-model="datenpunkt.komponenteLabel"
                   label="Komponente"
                   @update:model-value="changeKomponente"
                 />
@@ -143,9 +142,9 @@
             <v-col cols="8">
               <div v-for="(value, key) in datenpunktEbeneDict" :key="key">
                 <v-select
-                  v-if="datenpunkt['komponenteLabel'] == key"
+                  v-if="datenpunkt.komponenteLabel == key"
                   :items="value"
-                  v-model="datenpunkt['datenpunktLabel']"
+                  v-model="datenpunkt.datenpunktLabel"
                   label="Datenpunkt"
                   @update:model-value="changeDatenpunkt"
                 />
@@ -187,7 +186,7 @@
           </div>
           <v-container>
             <div v-if="digitalTwinStore.showProgressEditDatenpunkt === true">
-              <v-progress-linear indeterminate color="success"></v-progress-linear>
+              <v-progress-linear indeterminate color="success" />
             </div>
           </v-container>
         </v-container>
@@ -197,7 +196,7 @@
 </template>
 
 <script>
-import { useDigitalTwinsStore } from '@/store/digitaltwins'
+import { useDigitalTwinsStore } from '@/store/digitaltwins';
 
 export default {
   data() {
@@ -217,18 +216,18 @@ export default {
         'Kälte versorgen',
         'Medien versorgen',
         'Strom versorgen',
-        'Sichern'
+        'Sichern',
       ],
       zweiteEbeneDict: {
         'Wärme versorgen': [
           'Wärme erzeugen',
           'Wärme verteilen',
           'Wärme beziehen',
-          'Wärme speichern'
+          'Wärme speichern',
         ],
         WaermeVersorgen: ['Wärme erzeugen', 'Wärme verteilen', 'Wärme beziehen', 'Wärme speichern'],
         'Luft versorgen': ['Luft bereitstellen', 'Luft verteilen'],
-        LuftVersorgen: ['Luft bereitstellen', 'Luft verteilen']
+        LuftVersorgen: ['Luft bereitstellen', 'Luft verteilen'],
       },
       komponentenEbeneDict: {
         'Wärme verteilen': [
@@ -237,7 +236,7 @@ export default {
           'Rücklauf',
           'Pumpe',
           'Ventil',
-          'Wärmemengenzähler'
+          'Wärmemengenzähler',
         ],
         Verteilen: [
           'Heizkreis allgemein',
@@ -245,14 +244,14 @@ export default {
           'Rücklauf',
           'Pumpe',
           'Ventil',
-          'Wärmemengenzähler'
+          'Wärmemengenzähler',
         ],
         'Wärme erzeugen': [
           'BHKW',
           'Kessel',
           'Pelletkessel',
           'Wärmepumpe',
-          'Wärmeversorger allgemein'
+          'Wärmeversorger allgemein',
         ],
         Erzeugen: ['BHKW', 'Kessel', 'Pelletkessel', 'Wärmepumpe', 'Wärmeversorger allgemein'],
         'Wärme beziehen': ['Fernwärme'],
@@ -277,7 +276,7 @@ export default {
           'Zuluft allgemein',
           'Zuluftventilator',
           'Zuluftfilter',
-          'Zuluftklappe'
+          'Zuluftklappe',
         ],
         LuftBereitstellen: [
           'Abluft allgemein',
@@ -297,22 +296,22 @@ export default {
           'Zuluft allgemein',
           'Zuluftventilator',
           'Zuluftfilter',
-          'Zuluftklappe'
+          'Zuluftklappe',
         ],
         'Luft verteilen': [
           'Auslass',
           'Raum',
           'Volumenstromregler Abluft',
           'Volumenstromregler Raum',
-          'Volumenstromregler Zuluft'
+          'Volumenstromregler Zuluft',
         ],
         LuftVerteilen: [
           'Auslass',
           'Raum',
           'Volumenstromregler Abluft',
           'Volumenstromregler Raum',
-          'Volumenstromregler Zuluft'
-        ]
+          'Volumenstromregler Zuluft',
+        ],
       },
       zweiteGrundfunktionNochNichtMöglich: [],
       komponenteNochNichtMöglich: [],
@@ -346,7 +345,7 @@ export default {
           'Messwert Vorlauftemperatur Primär',
           'Grenzwert Rücklauftemperatur Sekundär',
           'Rückmeldung Handschaltung Fernwärme',
-          'Rückmeldung Stellsignal'
+          'Rückmeldung Stellsignal',
         ],
 
         Fernwaerme: [
@@ -377,7 +376,7 @@ export default {
           'Messwert Vorlauftemperatur Primär',
           'Grenzwert Rücklauftemperatur Sekundär',
           'Rückmeldung Handschaltung Fernwärme',
-          'Rückmeldung Stellsignal'
+          'Rückmeldung Stellsignal',
         ],
 
         Speicher: [
@@ -391,7 +390,7 @@ export default {
           'Messwert Speichertemperatur Oben',
           'Messwert Speichertemperatur Unten',
           'Störmeldung',
-          'Rückmeldung Zeitplan'
+          'Rückmeldung Zeitplan',
         ],
 
         Kessel: [
@@ -420,7 +419,7 @@ export default {
           'Wartungsmeldung',
           'Sollwert Einschaltverzögerung',
           'Sollwert Abschaltung',
-          'Schaltbefehl Klappe'
+          'Schaltbefehl Klappe',
         ],
 
         BHKW: [
@@ -439,7 +438,7 @@ export default {
           'Störmeldung',
           'Warnmeldung',
           'Wartungsmeldung',
-          'Rückmeldung Betrieb'
+          'Rückmeldung Betrieb',
         ],
 
         Wärmepumpe: [
@@ -450,7 +449,7 @@ export default {
           'Rückmeldung Blockierschutz Brunnenpumpe',
           'Rückmeldung Umschaltventil Zu',
           'Störmeldung',
-          'Zähler-Volumenstrom-Förderbrunnen'
+          'Zähler-Volumenstrom-Förderbrunnen',
         ],
 
         Waermepumpe: [
@@ -461,7 +460,7 @@ export default {
           'Rückmeldung Blockierschutz Brunnenpumpe',
           'Rückmeldung Umschaltventil Zu',
           'Störmeldung',
-          'Zähler-Volumenstrom-Förderbrunnen'
+          'Zähler-Volumenstrom-Förderbrunnen',
         ],
 
         Pelletkessel: [
@@ -470,7 +469,7 @@ export default {
           'Messwert Außentemperatur',
           'Messwert Primärluft',
           'Restsauerstoff',
-          'Messwert Temperatur Einschubrohr'
+          'Messwert Temperatur Einschubrohr',
         ],
 
         Pumpe: [
@@ -493,7 +492,7 @@ export default {
           'Sollwert Tag',
           'Status Übersteuern Ein',
           'Störmeldung',
-          'Wartungsintervall'
+          'Wartungsintervall',
         ],
 
         Ventil: [
@@ -508,7 +507,7 @@ export default {
           'Stellbefehl Max',
           'Stellbefehl Min',
           'Sollwert Mischventil',
-          'Laufzeit Ventil'
+          'Laufzeit Ventil',
         ],
 
         Raum: [
@@ -534,7 +533,7 @@ export default {
           'Stellbefehl',
           'Aktivierung Raumoptimierung',
           'Rückmeldung Aufheizbetrieb',
-          'Rückmeldung Absenkbetrieb'
+          'Rückmeldung Absenkbetrieb',
         ],
 
         Vorlauf: [
@@ -546,7 +545,7 @@ export default {
           'Sollwert Nachtabsenkung Vorlauftemperatur',
           'Störmeldung',
           'Rückmeldung Sollwertabweichung Vorlauftemperatur',
-          'Sollwertkorrektur Vorlauftemperatur'
+          'Sollwertkorrektur Vorlauftemperatur',
         ],
 
         Rücklauf: [
@@ -554,7 +553,7 @@ export default {
           'Sollwert Maximale Rücklauftemperatur',
           'Sollwert Minimale Rücklauftemperatur',
           'Sollwert Rücklauftemperatur',
-          'Rohrheizung'
+          'Rohrheizung',
         ],
 
         Ruecklauf: [
@@ -562,7 +561,7 @@ export default {
           'Sollwert Maximale Rücklauftemperatur',
           'Sollwert Minimale Rücklauftemperatur',
           'Sollwert Rücklauftemperatur',
-          'Rohrheizung'
+          'Rohrheizung',
         ],
 
         'Heizkreis allgemein': [
@@ -597,7 +596,7 @@ export default {
           'Sollwert Abschalten Stützbetrieb',
           'Schaltbefehl Start Stop Optimierung',
           'Schaltbefehl Gleitendes Schalten',
-          'Schaltbefehl Zeitprogramm'
+          'Schaltbefehl Zeitprogramm',
         ],
         HeizkreisAllgemein: [
           'Alarmmeldung',
@@ -631,7 +630,7 @@ export default {
           'Sollwert Abschalten Stützbetrieb',
           'Schaltbefehl Start Stop Optimierung',
           'Schaltbefehl Gleitendes Schalten',
-          'Schaltbefehl Zeitprogramm'
+          'Schaltbefehl Zeitprogramm',
         ],
 
         AbluftAllgemein: [
@@ -657,7 +656,7 @@ export default {
           'Warnmeldung Feuchte',
           'Warnmeldung Temperatur Hoch',
           'Warnmeldung Temperatur Niedrig',
-          'Wartungsmeldung'
+          'Wartungsmeldung',
         ],
         'Abluft allgemein': [
           'Alarmmeldung',
@@ -682,7 +681,7 @@ export default {
           'Warnmeldung Feuchte',
           'Warnmeldung Temperatur Hoch',
           'Warnmeldung Temperatur Niedrig',
-          'Wartungsmeldung'
+          'Wartungsmeldung',
         ],
 
         Abluftventilator: [
@@ -702,7 +701,7 @@ export default {
           'Sollwert Laufzeit',
           'Sollwert FU',
           'Stellbefehl',
-          'Störmeldung'
+          'Störmeldung',
         ],
 
         Zuluftventilator: [
@@ -726,7 +725,7 @@ export default {
           'Sollwert Stellsignal',
           'Stellbefehl',
           'Störmeldung',
-          'Wartungsmeldung'
+          'Wartungsmeldung',
         ],
 
         ZuluftAllgemein: [
@@ -763,7 +762,7 @@ export default {
           'Warnmeldung Feuchte',
           'Warnmeldung Temperatur Hoch',
           'Warnmeldung Temperatur Niedrig',
-          'Wartungsmeldung'
+          'Wartungsmeldung',
         ],
         'Zuluft allgemein': [
           'Alarmmeldung Frostschutz',
@@ -799,7 +798,7 @@ export default {
           'Warnmeldung Feuchte',
           'Warnmeldung Temperatur Hoch',
           'Warnmeldung Temperatur Niedrig',
-          'Wartungsmeldung'
+          'Wartungsmeldung',
         ],
 
         Klappe: [
@@ -813,7 +812,7 @@ export default {
           'Schaltbefehl',
           'Störmeldung',
           'Stellbefehl',
-          'Sollwert Stellsignal'
+          'Sollwert Stellsignal',
         ],
         Außenluftklappe: [
           'Alarmmeldung',
@@ -826,7 +825,7 @@ export default {
           'Schaltbefehl',
           'Störmeldung',
           'Stellbefehl',
-          'Sollwert Stellsignal'
+          'Sollwert Stellsignal',
         ],
         Abluftklappe: [
           'Alarmmeldung',
@@ -839,7 +838,7 @@ export default {
           'Schaltbefehl',
           'Störmeldung',
           'Stellbefehl',
-          'Sollwert Stellsignal'
+          'Sollwert Stellsignal',
         ],
         Fortluftklappe: [
           'Alarmmeldung',
@@ -852,7 +851,7 @@ export default {
           'Schaltbefehl',
           'Störmeldung',
           'Stellbefehl',
-          'Sollwert Stellsignal'
+          'Sollwert Stellsignal',
         ],
         Zuluftklappe: [
           'Alarmmeldung',
@@ -865,7 +864,7 @@ export default {
           'Schaltbefehl',
           'Störmeldung',
           'Stellbefehl',
-          'Sollwert Stellsignal'
+          'Sollwert Stellsignal',
         ],
 
         Befeuchter: [
@@ -874,7 +873,7 @@ export default {
           'Sollwert Befeuchten',
           'Stellbefehl',
           'Störmeldung',
-          'Schaltbefehl'
+          'Schaltbefehl',
         ],
 
         Erhitzer: [
@@ -907,7 +906,7 @@ export default {
           'Störmeldung',
           'Wartungsintervall',
           'Wartungsmeldung',
-          'Grenzwert Rücklauftemperatur'
+          'Grenzwert Rücklauftemperatur',
         ],
 
         Filter: [
@@ -917,7 +916,7 @@ export default {
           'Wartungsmeldung Fortluft',
           'Wartungsmeldung Außenluft',
           'Wartungsmeldung Filter',
-          'Störmeldung'
+          'Störmeldung',
         ],
         Abluftfilter: [
           'Messwert Druck',
@@ -926,7 +925,7 @@ export default {
           'Wartungsmeldung Fortluft',
           'Wartungsmeldung Außenluft',
           'Wartungsmeldung Filter',
-          'Störmeldung'
+          'Störmeldung',
         ],
         Außenluftfilter: [
           'Messwert Druck',
@@ -935,7 +934,7 @@ export default {
           'Wartungsmeldung Fortluft',
           'Wartungsmeldung Außenluft',
           'Wartungsmeldung Filter',
-          'Störmeldung'
+          'Störmeldung',
         ],
         Zuluftfilter: [
           'Messwert Druck',
@@ -944,7 +943,7 @@ export default {
           'Wartungsmeldung Fortluft',
           'Wartungsmeldung Außenluft',
           'Wartungsmeldung Filter',
-          'Störmeldung'
+          'Störmeldung',
         ],
 
         Kühler: [
@@ -959,7 +958,7 @@ export default {
           'Sollwert Kühlbedarf',
           'Stellbefehl Ventil',
           'Zählwert Kühlwasser',
-          'Zählwert Kältemenge'
+          'Zählwert Kältemenge',
         ],
         Kuehler: [
           'Alarm Frostschutz',
@@ -973,7 +972,7 @@ export default {
           'Sollwert Kühlbedarf',
           'Stellbefehl Ventil',
           'Zählwert Kühlwasser',
-          'Zählwert Kältemenge'
+          'Zählwert Kältemenge',
         ],
 
         'Raum RLT': [
@@ -997,44 +996,44 @@ export default {
           'Warnmeldung CO2 Hoch',
           'Warnmeldung Feuchte',
           'Warnmeldung Temperatur Hoch',
-          'Warnmeldung Temperatur Niedrig'
+          'Warnmeldung Temperatur Niedrig',
         ],
 
         VolumenstromreglerAbluft: [
           'Schaltbefehl',
           'Rückmeldung Stellsignal',
           'Stellbefehl',
-          'Rückmeldung Handschaltung'
+          'Rückmeldung Handschaltung',
         ],
         'Volumenstromregler Abluft': [
           'Schaltbefehl',
           'Rückmeldung Stellsignal',
           'Stellbefehl',
-          'Rückmeldung Handschaltung'
+          'Rückmeldung Handschaltung',
         ],
         VolumenstromreglerZuluft: [
           'Schaltbefehl',
           'Rückmeldung Stellsignal',
           'Stellbefehl',
-          'Rückmeldung Handschaltung'
+          'Rückmeldung Handschaltung',
         ],
         'Volumenstromregler Zuluft': [
           'Schaltbefehl',
           'Rückmeldung Stellsignal',
           'Stellbefehl',
-          'Rückmeldung Handschaltung'
+          'Rückmeldung Handschaltung',
         ],
         VolumenstromreglerRaum: [
           'Schaltbefehl',
           'Rückmeldung Stellsignal',
           'Stellbefehl',
-          'Rückmeldung Handschaltung'
+          'Rückmeldung Handschaltung',
         ],
         'Volumenstromregler Raum': [
           'Schaltbefehl',
           'Rückmeldung Stellsignal',
           'Stellbefehl',
-          'Rückmeldung Handschaltung'
+          'Rückmeldung Handschaltung',
         ],
 
         'Gerät allgemein': [
@@ -1066,7 +1065,7 @@ export default {
           'Sollwert Maximale Einschaltverzögerung',
           'Störmeldung',
           'Rückmeldung Anlage Fern',
-          'Schaltbefehl Anlage Fern'
+          'Schaltbefehl Anlage Fern',
         ],
         GeraetAllgemein: [
           'Alarmmeldung',
@@ -1097,7 +1096,7 @@ export default {
           'Sollwert Maximale Einschaltverzögerung',
           'Störmeldung',
           'Rückmeldung Anlage Fern',
-          'Schaltbefehl Anlage Fern'
+          'Schaltbefehl Anlage Fern',
         ],
 
         Waermerueckgewinnung: [
@@ -1118,7 +1117,7 @@ export default {
           'Sollwert Stellsignal Max',
           'Stellbefehl',
           'Stellbefehl WRG Bypass',
-          'Störmeldung'
+          'Störmeldung',
         ],
         Wärmerückgewinnung: [
           'Alarmmeldung',
@@ -1138,128 +1137,128 @@ export default {
           'Sollwert Stellsignal Max',
           'Stellbefehl',
           'Stellbefehl WRG Bypass',
-          'Störmeldung'
-        ]
-      }
-    }
+          'Störmeldung',
+        ],
+      },
+    };
   },
   props: {
-    datenpunkt: Object
+    datenpunkt: Object,
   },
 
   created() {
-    if (this.datenpunkt['GrundfunktionValue'] == 'WaermeVersorgen') {
-      this.predictedGrundfunktion = 'Wärme versorgen'
-    } else if (this.datenpunkt['GrundfunktionValue'] == 'LuftVersorgen') {
-      this.predictedGrundfunktion = 'Luft versorgen'
+    if (this.datenpunkt.GrundfunktionValue == 'WaermeVersorgen') {
+      this.predictedGrundfunktion = 'Wärme versorgen';
+    } else if (this.datenpunkt.GrundfunktionValue == 'LuftVersorgen') {
+      this.predictedGrundfunktion = 'Luft versorgen';
     } else {
-      this.predictedGrundfunktion = this.datenpunkt['GrundfunktionValue']
+      this.predictedGrundfunktion = this.datenpunkt.GrundfunktionValue;
     }
 
-    if (this.datenpunkt['ZweiteEbeneValue'] == 'Verteilen') {
-      this.predictedZweiteEbene = 'Wärme verteilen'
-    } else if (this.datenpunkt['ZweiteEbeneValue'] == 'Erzeugen') {
-      this.predictedZweiteEbene = 'Wärme erzeugen'
-    } else if (this.datenpunkt['ZweiteEbeneValue'] == 'Beziehen') {
-      this.predictedZweiteEbene = 'Wärme beziehen'
-    } else if (this.datenpunkt['ZweiteEbeneValue'] == 'Speichern') {
-      this.predictedZweiteEbene = 'Wärme speichern'
-    } else if (this.datenpunkt['ZweiteEbeneValue'] == 'LuftVerteilen') {
-      this.predictedZweiteEbene = 'Luft verteilen'
-    } else if (this.datenpunkt['ZweiteEbeneValue'] == 'LuftBereitstellen') {
-      this.predictedZweiteEbene = 'Luft bereitstellen'
+    if (this.datenpunkt.ZweiteEbeneValue == 'Verteilen') {
+      this.predictedZweiteEbene = 'Wärme verteilen';
+    } else if (this.datenpunkt.ZweiteEbeneValue == 'Erzeugen') {
+      this.predictedZweiteEbene = 'Wärme erzeugen';
+    } else if (this.datenpunkt.ZweiteEbeneValue == 'Beziehen') {
+      this.predictedZweiteEbene = 'Wärme beziehen';
+    } else if (this.datenpunkt.ZweiteEbeneValue == 'Speichern') {
+      this.predictedZweiteEbene = 'Wärme speichern';
+    } else if (this.datenpunkt.ZweiteEbeneValue == 'LuftVerteilen') {
+      this.predictedZweiteEbene = 'Luft verteilen';
+    } else if (this.datenpunkt.ZweiteEbeneValue == 'LuftBereitstellen') {
+      this.predictedZweiteEbene = 'Luft bereitstellen';
     } else {
-      this.predictedZweiteEbene = this.datenpunkt['ZweiteEbeneValue']
+      this.predictedZweiteEbene = this.datenpunkt.ZweiteEbeneValue;
     }
 
-    if (this.datenpunkt['KomponentenEbeneValue'] == 'Fernwaerme') {
-      this.predictedKomponente = 'Fernwärme'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'Waermepumpe') {
-      this.predictedKomponente = 'Wärmepumpe'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'Ruecklauf') {
-      this.predictedKomponente = 'Rücklauf'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'HeizkreisAllgemein') {
-      this.predictedKomponente = 'Heizkreis allgemein'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'AbluftAllgemein') {
-      this.predictedKomponente = 'Abluft allgemein'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'ZuluftAllgemein') {
-      this.predictedKomponente = 'Zuluft allgemein'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'Kuehler') {
-      this.predictedKomponente = 'Kühler'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'VolumenstromreglerAbluft') {
-      this.predictedKomponente = 'Volumenstromregler Abluft'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'VolumenstromreglerZuluft') {
-      this.predictedKomponente = 'Volumenstromregler Zuluft'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'VolumenstromreglerRaum') {
-      this.predictedKomponente = 'Volumenstromregler Raum'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'Waermerueckgewinnung') {
-      this.predictedKomponente = 'Wärmeräckgewinnung'
-    } else if (this.datenpunkt['KomponentenEbeneValue'] == 'GeraetAllgemein') {
-      this.predictedKomponente = 'Gerät allgemein'
+    if (this.datenpunkt.KomponentenEbeneValue == 'Fernwaerme') {
+      this.predictedKomponente = 'Fernwärme';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'Waermepumpe') {
+      this.predictedKomponente = 'Wärmepumpe';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'Ruecklauf') {
+      this.predictedKomponente = 'Rücklauf';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'HeizkreisAllgemein') {
+      this.predictedKomponente = 'Heizkreis allgemein';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'AbluftAllgemein') {
+      this.predictedKomponente = 'Abluft allgemein';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'ZuluftAllgemein') {
+      this.predictedKomponente = 'Zuluft allgemein';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'Kuehler') {
+      this.predictedKomponente = 'Kühler';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'VolumenstromreglerAbluft') {
+      this.predictedKomponente = 'Volumenstromregler Abluft';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'VolumenstromreglerZuluft') {
+      this.predictedKomponente = 'Volumenstromregler Zuluft';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'VolumenstromreglerRaum') {
+      this.predictedKomponente = 'Volumenstromregler Raum';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'Waermerueckgewinnung') {
+      this.predictedKomponente = 'Wärmeräckgewinnung';
+    } else if (this.datenpunkt.KomponentenEbeneValue == 'GeraetAllgemein') {
+      this.predictedKomponente = 'Gerät allgemein';
     } else {
-      this.predictedKomponente = this.datenpunkt['KomponentenEbeneValue']
+      this.predictedKomponente = this.datenpunkt.KomponentenEbeneValue;
     }
 
-    //this.predictedGrundfunktion = this.datenpunkt['GrundfunktionValue']
-    //this.predictedZweiteEbene = this.datenpunkt['ZweiteEbeneValue']
+    // this.predictedGrundfunktion = this.datenpunkt['GrundfunktionValue']
+    // this.predictedZweiteEbene = this.datenpunkt['ZweiteEbeneValue']
     // this.predictedKomponente = this.datenpunkt['KomponentenEbeneValue']
-    this.predictedDatenpunkt = this.datenpunkt['DatenpunktEbeneValue']
-    this.predictedGrundfunktionScore = this.datenpunkt['GrundfunktionScore']
-    this.predictedZweiteEbeneScore = this.datenpunkt['ZweiteEbeneScore']
-    this.predictedKomponenteScore = this.datenpunkt['KomponentenEbeneScore']
-    this.predictedDatenpunktScore = this.datenpunkt['DatenpunktEbeneScore']
+    this.predictedDatenpunkt = this.datenpunkt.DatenpunktEbeneValue;
+    this.predictedGrundfunktionScore = this.datenpunkt.GrundfunktionScore;
+    this.predictedZweiteEbeneScore = this.datenpunkt.ZweiteEbeneScore;
+    this.predictedKomponenteScore = this.datenpunkt.KomponentenEbeneScore;
+    this.predictedDatenpunktScore = this.datenpunkt.DatenpunktEbeneScore;
   },
   methods: {
     changeGrundfunktion() {
-      this.predictedGrundfunktionScore = 1.0
-      this.predictedZweiteEbeneScore = 0
-      this.predictedZweiteEbene = ''
-      this.predictedKomponente = ''
-      this.predictedKomponenteScore = 0
-      this.predictedDatenpunkt = ''
-      this.predictedDatenpunktScore = 0
+      this.predictedGrundfunktionScore = 1.0;
+      this.predictedZweiteEbeneScore = 0;
+      this.predictedZweiteEbene = '';
+      this.predictedKomponente = '';
+      this.predictedKomponenteScore = 0;
+      this.predictedDatenpunkt = '';
+      this.predictedDatenpunktScore = 0;
     },
     changeZweiteEbene() {
-      this.predictedZweiteEbeneScore = 1
-      this.predictedKomponente = ''
-      this.predictedKomponenteScore = 0
-      this.predictedDatenpunkt = ''
-      this.predictedDatenpunktScore = 0
+      this.predictedZweiteEbeneScore = 1;
+      this.predictedKomponente = '';
+      this.predictedKomponenteScore = 0;
+      this.predictedDatenpunkt = '';
+      this.predictedDatenpunktScore = 0;
     },
     changeKomponente() {
-      this.predictedKomponenteScore = 1.0
-      this.predictedDatenpunkt = ''
-      this.predictedDatenpunktScore = 0
+      this.predictedKomponenteScore = 1.0;
+      this.predictedDatenpunkt = '';
+      this.predictedDatenpunktScore = 0;
     },
     changeDatenpunkt() {
-      this.predictedDatenpunktScore = 1.0
+      this.predictedDatenpunktScore = 1.0;
     },
     async editZweiteEbene() {
       const result = await this.digitalTwinStore.editDatenpunktGrundfunktion(
         this.datenpunkt,
-        this.predictedGrundfunktion
-      )
-      console.log(result)
-      this.$emit('editNlp')
+        this.predictedGrundfunktion,
+      );
+      console.log(result);
+      this.$emit('editNlp');
     },
     async editKomponente() {
       const result = await this.digitalTwinStore.editDatenpunktZweiteEbene(
         this.datenpunkt,
         this.predictedGrundfunktion,
-        this.predictedZweiteEbene
-      )
-      console.log(result)
-      this.$emit('editNlp')
+        this.predictedZweiteEbene,
+      );
+      console.log(result);
+      this.$emit('editNlp');
     },
     async editDatenpunkt() {
       const result = await this.digitalTwinStore.editDatenpunktKomponente(
         this.datenpunkt,
         this.predictedGrundfunktion,
         this.predictedZweiteEbene,
-        this.predictedKomponente
-      )
-      console.log(result)
-      this.$emit('editNlp')
+        this.predictedKomponente,
+      );
+      console.log(result);
+      this.$emit('editNlp');
     },
     async updataDatenpunktBasyx() {
       const result = await this.digitalTwinStore.editDatenpunkt(
@@ -1267,18 +1266,18 @@ export default {
         this.predictedGrundfunktion,
         this.predictedZweiteEbene,
         this.predictedKomponente,
-        this.predictedDatenpunkt
-      )
-      console.log(result)
-      this.$emit('editNlp')
-    }
+        this.predictedDatenpunkt,
+      );
+      console.log(result);
+      this.$emit('editNlp');
+    },
   },
   computed: {
     digitalTwinStore() {
-      return useDigitalTwinsStore()
-    }
-  }
-}
+      return useDigitalTwinsStore();
+    },
+  },
+};
 </script>
 
 <style>

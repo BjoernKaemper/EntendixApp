@@ -12,28 +12,25 @@
 </template>
 
 <script lang="ts">
-import HomeIcon from '@/components/icons/HomeIcon.vue'
+import HomeIcon from '@/components/icons/HomeIcon.vue';
 
 export default {
   components: {
-    HomeIcon
+    HomeIcon,
   },
   computed: {
     breadcrumbs(): Array<{ to: string; title: string }> {
       if (!this.$route.meta.breadcrumb) {
         return [];
       }
-      const breadcrumb = this.$route.meta.breadcrumb;
+      const { breadcrumb } = this.$route.meta;
       if (typeof breadcrumb === 'function') {
-        return breadcrumb(this.$route).filter((item: any) => {
-          console.log('item', item);
-          return item.to !== '/';
-        }) || [];
+        return breadcrumb(this.$route).filter((item: any) => item.to !== '/') || [];
       }
       return [];
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

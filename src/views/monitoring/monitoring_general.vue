@@ -16,7 +16,7 @@
               class="border-opacity-75 mx-4 mb-2"
               :thickness="2"
               color="success"
-            ></v-divider>
+            />
             <v-card-text>
               <v-row
                 align="center"
@@ -46,13 +46,13 @@
                                 </v-chip>
                             </v-col>
                         -->
-                <v-col cols="8"></v-col>
+                <v-col cols="8" />
               </v-row>
               <!--
                         <v-row align="center" >
                             <v-col cols="3" class="text-center">
-                                <v-btn 
-                                    variant="outlined" 
+                                <v-btn
+                                    variant="outlined"
                                     color="#455A64"
                                     icon="mdi-map-plus" class="mx-auto"
                                     @click="$router.push({name:'Register'})">
@@ -92,31 +92,31 @@
 </template>
 
 <script>
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore } from '@/store/general';
 
-//import AmCharts from "@/components/general/AmCharts.vue"
-//import PieChart from "@/components/general/charts/PieChart.vue"
+// import AmCharts from "@/components/general/AmCharts.vue"
+// import PieChart from "@/components/general/charts/PieChart.vue"
 
-import GoogleMapsCardHome from '@/components/general/GoogleMapsCardHome.vue'
+import GoogleMapsCardHome from '@/components/general/GoogleMapsCardHome.vue';
 
 export default {
   components: {
     GoogleMapsCardHome,
-    //AmCharts, PieChart
+    // AmCharts, PieChart
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
+      return useGeneralStore();
+    },
   },
   created() {
-    const site_id = this.$route.params.siteid
-    for (let site in this.generalStore.loadedSiteInformationWithBuildings) {
-      if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site]['siteName']) {
-        console.log(this.generalStore.loadedSiteInformationWithBuildings[site])
-        this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings
+    const site_id = this.$route.params.siteid;
+    for (const site in this.generalStore.loadedSiteInformationWithBuildings) {
+      if (site_id === this.generalStore.loadedSiteInformationWithBuildings[site].siteName) {
+        console.log(this.generalStore.loadedSiteInformationWithBuildings[site]);
+        this.buildings = this.generalStore.loadedSiteInformationWithBuildings[site].buildings;
       }
     }
-  }
-}
+  },
+};
 </script>

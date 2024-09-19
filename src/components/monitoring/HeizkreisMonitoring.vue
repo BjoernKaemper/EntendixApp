@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container v-if="monitoringStore.loadingMonitoringComponent === true">
-      <v-progress-linear indeterminate color="success"></v-progress-linear>
+      <v-progress-linear indeterminate color="success" />
     </v-container>
     <v-container
       v-else-if="monitoringStore.loadingMonitoringComponent === false"
@@ -33,7 +33,7 @@
                     style="enable-background: new 0 0 90 94.3"
                     xml:space="preserve"
                   >
-                    <g id="Ebene_2"></g>
+                    <g id="Ebene_2" />
                     <g id="Ebene_1" xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
                       <g>
                         <path class="st0" d="" />
@@ -162,12 +162,12 @@
 </template>
 
 <script>
-import { useGeneralStore } from '@/store/general'
-import { useMonitoringStore } from '@/store/monitoring'
-import { useDigitalTwinsStore } from '@/store/digitaltwins'
-import AnlagenMonitoringCard from '@/components/monitoring/AnlagenMonitoringCard.vue'
-import LineChartAll from '@/components/monitoring/LineChartAll.vue'
-import KpisMonitoringAnlage from '@/components/monitoring/KpisMonitoringAnlage.vue'
+import { useGeneralStore } from '@/store/general';
+import { useMonitoringStore } from '@/store/monitoring';
+import { useDigitalTwinsStore } from '@/store/digitaltwins';
+import AnlagenMonitoringCard from '@/components/monitoring/AnlagenMonitoringCard.vue';
+import LineChartAll from '@/components/monitoring/LineChartAll.vue';
+import KpisMonitoringAnlage from '@/components/monitoring/KpisMonitoringAnlage.vue';
 
 export default {
   data() {
@@ -189,62 +189,62 @@ export default {
       warmwasserbereitungEnthalten: false,
       komponenteZeigen: [],
       allComponents: null,
-      allSes: null
-    }
+      allSes: null,
+    };
   },
   components: {
     AnlagenMonitoringCard,
     KpisMonitoringAnlage,
-    LineChartAll
+    LineChartAll,
   },
   props: {
-    anlage: Object
+    anlage: Object,
   },
   mounted() {
-    this.getSubmodelInformations()
+    this.getSubmodelInformations();
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
+      return useGeneralStore();
     },
     monitoringStore() {
-      return useMonitoringStore()
+      return useMonitoringStore();
     },
     digitalTwinStore() {
-      return useDigitalTwinsStore()
-    }
+      return useDigitalTwinsStore();
+    },
   },
   methods: {
     async getSubmodelInformations() {
-      await this.monitoringStore.setLoadingMonitoringComponent('true')
-      let allSE = []
-      let allComponents = []
+      await this.monitoringStore.setLoadingMonitoringComponent('true');
+      const allSE = [];
+      const allComponents = [];
 
       for (const komponente in this.anlage) {
-        const { aasId, semanticId } = this.anlage[komponente]
-        //let component = components[komponente]
-        //console.log(component)
-        //const semanticId = anlage.semanticId
-        const submodelId = 'OperatingInformation'
-        //const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
-        //const submodelElements = submodel.submodelElements;
-        //console.log(submodelElements)
-        const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId)
-        //console.log(allElements)
-        let elements = []
+        const { aasId, semanticId } = this.anlage[komponente];
+        // let component = components[komponente]
+        // console.log(component)
+        // const semanticId = anlage.semanticId
+        const submodelId = 'OperatingInformation';
+        // const submodel = await this.generalStore.getSubmodel(aasId, submodelId)
+        // const submodelElements = submodel.submodelElements;
+        // console.log(submodelElements)
+        const allElements = await this.generalStore.getAllSubmodelElementValues(aasId, submodelId);
+        // console.log(allElements)
+        const elements = [];
 
-        for (let element in allElements) {
-          const dataContent = allElements[element]
-          console.log(dataContent)
-          //console.log(element)
-          let elementData = {
-            aasId: aasId,
+        for (const element in allElements) {
+          const dataContent = allElements[element];
+          console.log(dataContent);
+          // console.log(element)
+          const elementData = {
+            aasId,
             submodelName: submodelId,
             idShort: element,
             presentValue: dataContent[0].PresentValue,
-            //'name': dataContent[2].DataSource,
-            //'semanticId': element.semanticId.keys[0].value,
-            semanticId: semanticId,
+            // 'name': dataContent[2].DataSource,
+            // 'semanticId': element.semanticId.keys[0].value,
+            semanticId,
             objectName: dataContent[2].DataSource[6].ObjectName,
             objectType: dataContent[2].DataSource[7].ObjectType,
             description: dataContent[2].DataSource[8].Description,
@@ -265,24 +265,24 @@ export default {
             datenpunktScore:
               dataContent[2].DataSource[3].PredictionDatapoint[0].LabelResult[1].LabelScore,
             anlageLabel: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[0].LabelName,
-            anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore
-          }
+            anlageScore: dataContent[2].DataSource[4].PredictionAnlage[0].LabelResult[1].LabelScore,
+          };
 
-          let value = this.monitoringStore.checkvalue(elementData.presentValue)
-          elementData.presentValue = value
-          elements.push(elementData)
+          const value = this.monitoringStore.checkvalue(elementData.presentValue);
+          elementData.presentValue = value;
+          elements.push(elementData);
         }
 
         if (this.komponenteZeigen.length === 0) {
-          this.komponenteZeigen = elements
+          this.komponenteZeigen = elements;
         }
 
         allSE.push({
           anlagenInformation: this.anlage[komponente],
-          elements: elements
-        })
+          elements,
+        });
 
-        this.allSes = allSE
+        this.allSes = allSE;
 
         /*
       for (const komponente in this.anlage) {
@@ -307,7 +307,7 @@ export default {
           //elementData.presentValue = supplementaryInfos.presentValue;
 
           elementData = await this.digitalTwinStore.getSeElement(aasId, submodelId, element.idShort, elementData)
-         
+
           elementData['datenpunktLabel'] = elementData['datenpunkt'][0]['value']
           //console.log(elementData)
           return elementData
@@ -328,7 +328,7 @@ export default {
         )
         */
 
-        //console.log(elements);
+        // console.log(elements);
         /*
         const elements = submodelElements.map(element => ({
           'aasId': aasId,
@@ -338,92 +338,92 @@ export default {
           'semanticId': element.semanticId.keys[0].value
         }));
         */
-        console.log(semanticId)
+        console.log(semanticId);
 
         if (semanticId === 'https://th-koeln.de/gart/ComponentReturnAAS/1/0') {
-          this.rücklauf = elements
-          this.rücklaufEnthalten = true
-          allComponents.push('Rücklauf')
+          this.rücklauf = elements;
+          this.rücklaufEnthalten = true;
+          allComponents.push('Rücklauf');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentSupplyAAS/1/0') {
-          this.vorlauf = elements
-          this.vorlaufEnthalten = true
-          allComponents.push('Vorlauf')
+          this.vorlauf = elements;
+          this.vorlaufEnthalten = true;
+          allComponents.push('Vorlauf');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentPumpAAS/1/0') {
-          this.pumpe = elements
-          this.pumpeEnthalten = true
-          allComponents.push('Pumpe')
+          this.pumpe = elements;
+          this.pumpeEnthalten = true;
+          allComponents.push('Pumpe');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentHeatingCurveAAS/1/0') {
-          this.heizkurve = elements
-          this.heizkurveEnthalten = true
-          allComponents.push('Heizkurve')
+          this.heizkurve = elements;
+          this.heizkurveEnthalten = true;
+          allComponents.push('Heizkurve');
         } else if (
           semanticId === 'https://th-koeln.de/gart/ComponentHeatingCircuitGeneralAAS/1/0'
         ) {
-          this.heizkreisAllgemein = elements
-          this.hkEnthalten = true
-          allComponents.push('Heizkreis allgemein')
+          this.heizkreisAllgemein = elements;
+          this.hkEnthalten = true;
+          allComponents.push('Heizkreis allgemein');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentValveAAS/1/0') {
-          this.ventil = elements
-          this.ventilEnthalten = true
-          allComponents.push('Ventil')
+          this.ventil = elements;
+          this.ventilEnthalten = true;
+          allComponents.push('Ventil');
         } else if (semanticId === 'https://th-koeln.de/gart/ComponentHotWaterPreparationAAS/1/0') {
-          this.warmwasserbereitung = elements
-          this.warmwasserbereitungEnthalten = true
-          allComponents.push('Warmwasserbereitung')
+          this.warmwasserbereitung = elements;
+          this.warmwasserbereitungEnthalten = true;
+          allComponents.push('Warmwasserbereitung');
         }
       }
-      this.allComponents = allComponents
-      await this.monitoringStore.setLoadingMonitoringComponent('false')
-      this.getCssInfos(allComponents)
+      this.allComponents = allComponents;
+      await this.monitoringStore.setLoadingMonitoringComponent('false');
+      this.getCssInfos(allComponents);
     },
 
     getCssInfos(allComponents) {
-      for (let element in allComponents) {
-        let name = allComponents[element]
+      for (const element in allComponents) {
+        const name = allComponents[element];
         if (name === 'Rücklauf') {
-          const cssElement = document.getElementById('rücklauf')
-          cssElement.classList.add('pointer', 'rücklauf')
-          const cssElement1 = document.getElementById('rücklauf1')
-          cssElement1.classList.add('pointer', 'rücklauf')
-          const cssElement2 = document.getElementById('rücklauf2')
-          cssElement2.classList.add('pointer', 'rücklauf')
+          const cssElement = document.getElementById('rücklauf');
+          cssElement.classList.add('pointer', 'rücklauf');
+          const cssElement1 = document.getElementById('rücklauf1');
+          cssElement1.classList.add('pointer', 'rücklauf');
+          const cssElement2 = document.getElementById('rücklauf2');
+          cssElement2.classList.add('pointer', 'rücklauf');
         } else if (name === 'Vorlauf') {
-          const cssElement = document.getElementById('vorlauf')
-          cssElement.classList.add('pointer', 'vorlauf')
-          const cssElement1 = document.getElementById('vorlauf1')
-          cssElement1.classList.add('pointer', 'vorlauf')
-          const cssElement2 = document.getElementById('vorlauf2')
-          cssElement2.classList.add('pointer', 'vorlauf')
-          const cssElement3 = document.getElementById('vorlauf3')
-          cssElement3.classList.add('pointer', 'vorlauf')
+          const cssElement = document.getElementById('vorlauf');
+          cssElement.classList.add('pointer', 'vorlauf');
+          const cssElement1 = document.getElementById('vorlauf1');
+          cssElement1.classList.add('pointer', 'vorlauf');
+          const cssElement2 = document.getElementById('vorlauf2');
+          cssElement2.classList.add('pointer', 'vorlauf');
+          const cssElement3 = document.getElementById('vorlauf3');
+          cssElement3.classList.add('pointer', 'vorlauf');
         } else if (name === 'Pumpe') {
-          const cssElement = document.getElementById('pumpe')
-          cssElement.classList.add('pointer', 'pumpe')
+          const cssElement = document.getElementById('pumpe');
+          cssElement.classList.add('pointer', 'pumpe');
         } else if (name === 'Heizkreis allgemein') {
-          const cssElement = document.getElementById('hkAllgemein')
-          cssElement.classList.add('pointer', 'hkAllgemein')
+          const cssElement = document.getElementById('hkAllgemein');
+          cssElement.classList.add('pointer', 'hkAllgemein');
         } else if (name === 'Ventil') {
-          const cssElement = document.getElementById('ventil')
-          cssElement.classList.add('pointer', 'ventil')
+          const cssElement = document.getElementById('ventil');
+          cssElement.classList.add('pointer', 'ventil');
         }
       }
     },
 
     handleAreaClick(component) {
       if (component == 'Rücklauf') {
-        this.komponenteZeigen = this.rücklauf
+        this.komponenteZeigen = this.rücklauf;
       } else if (component == 'Vorlauf') {
-        this.komponenteZeigen = this.vorlauf
+        this.komponenteZeigen = this.vorlauf;
       } else if (component == 'Pumpe') {
-        this.komponenteZeigen = this.pumpe
+        this.komponenteZeigen = this.pumpe;
       } else if (component == 'Ventil') {
-        this.komponenteZeigen = this.ventil
+        this.komponenteZeigen = this.ventil;
       } else if (component == 'Heizkreis allgemein') {
-        this.komponenteZeigen = this.heizkreisAllgemein
+        this.komponenteZeigen = this.heizkreisAllgemein;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

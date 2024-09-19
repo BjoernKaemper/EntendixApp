@@ -14,35 +14,35 @@
           generalStore.addGatewayToBuilding(gateway, choosedBuilding, buildingsIdsWithSelectName)
           buildingName = ''
         "
-        >Submit
+      >Submit
       </v-btn>
     </v-card-actions>
     <v-container>
       <div v-if="generalStore.loadingBacnetAdding === true">
-        <v-progress-linear indeterminate color="success"></v-progress-linear>
+        <v-progress-linear indeterminate color="success" />
       </div>
     </v-container>
   </div>
 </template>
 
 <script>
-import { useGeneralStore } from '@/store/general'
+import { useGeneralStore } from '@/store/general';
 
 export default {
   data() {
     return {
-      choosedBuilding: ''
-    }
+      choosedBuilding: '',
+    };
   },
   props: {
     buildingsList: Array,
     gateway: Object,
-    buildingsIdsWithSelectName: Object
+    buildingsIdsWithSelectName: Object,
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
-    }
-  }
-}
+      return useGeneralStore();
+    },
+  },
+};
 </script>

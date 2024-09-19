@@ -3,13 +3,13 @@
     <v-container>
       <!--<h2 style="color: #3B5249;">Monitoring - Gebäude {{ $route.params.buildingid  }}</h2> -->
       <div v-if="monitoringStore.loadingAasTree === true">
-        <v-progress-linear indeterminate color="success"></v-progress-linear>
+        <v-progress-linear indeterminate color="success" />
       </div>
 
       <v-row v-else-if="monitoringStore.loadingAasTree === false">
         <v-col cols="4">
           <v-card style="border-radius: 20px" variant="outlined" class="anlagen-card mb-8">
-            <v-img src="@/assets/halle_west.jpeg" cover> </v-img>
+            <v-img src="@/assets/halle_west.jpeg" cover />
           </v-card>
         </v-col>
         <v-col cols="8">
@@ -23,7 +23,7 @@
               class="border-opacity-75 mx-4 mb-2"
               :thickness="2"
               color="success"
-            ></v-divider>
+            />
             <v-card-text>
               <v-container :style="{ width: '100%' }">
                 <v-row
@@ -34,8 +34,8 @@
                   <v-col
                     cols="8"
                     v-if="
-                      aasGrundfunktion.aasGrundfunktion.semanticId ===
-                      'https://th-koeln.de/gart/BaseFunctionSupplyHeatAAS/1/0'
+                      aasGrundfunktion.aasGrundfunktion.semanticId
+                        === 'https://th-koeln.de/gart/BaseFunctionSupplyHeatAAS/1/0'
                     "
                   >
                     <v-btn
@@ -51,10 +51,10 @@
                             siteid: $route.params.siteid,
                             buildingid: $route.params.buildingid,
                             buildingaasid: $route.params.buildingaasid,
-                            grundfunktion: 'Wärme versorgen'
-                          }
+                            grundfunktion: 'Wärme versorgen',
+                          },
                         }),
-                          (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
+                        (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
                       "
                     >
                       <span class="mr-2">Wärme versorgen</span>
@@ -63,8 +63,8 @@
                   <v-col
                     cols="8"
                     v-else-if="
-                      aasGrundfunktion.aasGrundfunktion.semanticId ===
-                      'https://th-koeln.de/gart/BaseFunctionSupplyAirAAS/1/0'
+                      aasGrundfunktion.aasGrundfunktion.semanticId
+                        === 'https://th-koeln.de/gart/BaseFunctionSupplyAirAAS/1/0'
                     "
                   >
                     <v-btn
@@ -80,10 +80,10 @@
                             siteid: $route.params.siteid,
                             buildingid: $route.params.buildingid,
                             buildingaasid: $route.params.buildingaasid,
-                            grundfunktion: 'Luft versorgen'
-                          }
+                            grundfunktion: 'Luft versorgen',
+                          },
                         }),
-                          (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
+                        (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
                       "
                     >
                       <span class="mr-2">Luft versorgen</span>
@@ -92,8 +92,8 @@
                   <v-col
                     cols="8"
                     v-else-if="
-                      aasGrundfunktion.aasGrundfunktion.semanticId ===
-                      'https://th-koeln.de/gart/BaseFunctionSupplyColdAAS/1/0'
+                      aasGrundfunktion.aasGrundfunktion.semanticId
+                        === 'https://th-koeln.de/gart/BaseFunctionSupplyColdAAS/1/0'
                     "
                   >
                     <v-btn
@@ -109,10 +109,10 @@
                             siteid: $route.params.siteid,
                             buildingid: $route.params.buildingid,
                             buildingaasid: $route.params.buildingaasid,
-                            grundfunktion: 'Kälte versorgen'
-                          }
+                            grundfunktion: 'Kälte versorgen',
+                          },
                         }),
-                          (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
+                        (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
                       "
                     >
                       <span class="mr-2">Kälte versorgen</span>
@@ -121,8 +121,8 @@
                   <v-col
                     cols="8"
                     v-else-if="
-                      aasGrundfunktion.aasGrundfunktion.semanticId ===
-                      'https://th-koeln.de/gart/BaseFunctionSupplyMediaAAS/1/0'
+                      aasGrundfunktion.aasGrundfunktion.semanticId
+                        === 'https://th-koeln.de/gart/BaseFunctionSupplyMediaAAS/1/0'
                     "
                   >
                     <v-btn
@@ -138,10 +138,10 @@
                             siteid: $route.params.siteid,
                             buildingid: $route.params.buildingid,
                             buildingaasid: $route.params.buildingaasid,
-                            grundfunktion: 'Medien versorgen'
-                          }
+                            grundfunktion: 'Medien versorgen',
+                          },
                         }),
-                          (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
+                        (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
                       "
                     >
                       <span class="mr-2">Medien versorgen</span>
@@ -150,8 +150,8 @@
                   <v-col
                     cols="8"
                     v-else-if="
-                      aasGrundfunktion.aasGrundfunktion.semanticId ===
-                      'https://th-koeln.de/gart/BaseFunctionSecureAAS/1/0'
+                      aasGrundfunktion.aasGrundfunktion.semanticId
+                        === 'https://th-koeln.de/gart/BaseFunctionSecureAAS/1/0'
                     "
                   >
                     <v-btn
@@ -167,10 +167,10 @@
                             siteid: $route.params.siteid,
                             buildingid: $route.params.buildingid,
                             buildingaasid: $route.params.buildingaasid,
-                            grundfunktion: 'Sichern'
-                          }
+                            grundfunktion: 'Sichern',
+                          },
                         }),
-                          (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
+                        (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
                       "
                     >
                       <span class="mr-2">Sichern</span>
@@ -179,8 +179,8 @@
                   <v-col
                     cols="8"
                     v-else-if="
-                      aasGrundfunktion.aasGrundfunktion.semanticId ===
-                      'https://th-koeln.de/gart/BaseFunctionSupplyElectricityAAS/1/0'
+                      aasGrundfunktion.aasGrundfunktion.semanticId
+                        === 'https://th-koeln.de/gart/BaseFunctionSupplyElectricityAAS/1/0'
                     "
                   >
                     <v-btn
@@ -196,10 +196,10 @@
                             siteid: $route.params.siteid,
                             buildingid: $route.params.buildingid,
                             buildingaasid: $route.params.buildingaasid,
-                            grundfunktion: 'Strom versorgen'
-                          }
+                            grundfunktion: 'Strom versorgen',
+                          },
                         }),
-                          (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
+                        (monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene)
                       "
                     >
                       <span class="mr-2">Strom versorgen</span>
@@ -219,7 +219,7 @@
               class="border-opacity-75 mx-4 mb-2"
               :thickness="2"
               color="success"
-            ></v-divider>
+            />
             <v-card-text>
               <v-container :style="{ width: '100%' }">
                 <v-row align="center" v-for="(element, i) in raumkomfort" :key="i">
@@ -248,7 +248,7 @@
               class="border-opacity-75 mx-4 mb-2"
               :thickness="2"
               color="success"
-            ></v-divider>
+            />
             <v-card-text>
               <v-container :style="{ width: '100%' }">
                 <v-row align="center" v-for="(element, i) in effizienz" :key="i">
@@ -271,13 +271,13 @@
       </v-row>
       <!--
                 <v-row class="mb-8">
-                    <v-col 
-                    v-for="aasGrundfunktion in monitoringStore.aasTree" :key="aasGrundfunktion" 
+                    <v-col
+                    v-for="aasGrundfunktion in monitoringStore.aasTree" :key="aasGrundfunktion"
                     cols = '4'>
-                        <v-card 
+                        <v-card
                         variant="outlined"
-                        style="border-radius: 20px; background-color: whitesmoke" 
-                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyHeatAAS/1/0'" 
+                        style="border-radius: 20px; background-color: whitesmoke"
+                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyHeatAAS/1/0'"
                         class="mx-auto my-8">
                             <v-card-title class="text-center" style="font-size: 18px">
                                 <v-avatar size="72" rounded="0">
@@ -286,10 +286,10 @@
                             <v-card-text class="custom-card-text">
                                 <div class="text-center">
                                 <v-btn
-                                    class="my-5" 
-                                    variant="text" 
-                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion', 
-                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Wärme versorgen'}}), 
+                                    class="my-5"
+                                    variant="text"
+                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion',
+                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Wärme versorgen'}}),
                                     monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene"
                                 >
                                     Wärme versorgen
@@ -297,10 +297,10 @@
                             </div>
                             </v-card-text>
                         </v-card>
-                        <v-card 
+                        <v-card
                         variant="outlined"
                         style="border-radius: 20px; background-color: whitesmoke"
-                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyAirAAS/1/0'" 
+                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyAirAAS/1/0'"
                         class="mx-auto my-8">
                             <v-card-title class="text-center" style="font-size: 18px">
                                 <v-avatar size="72" rounded="0">
@@ -309,10 +309,10 @@
                             <v-card-text class="custom-card-text">
                                 <div class="text-center">
                                 <v-btn
-                                    class="my-5" 
-                                    variant="text" 
-                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion', 
-                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Luft versorgen'}}), 
+                                    class="my-5"
+                                    variant="text"
+                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion',
+                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Luft versorgen'}}),
                                     monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene"
                                 >
                                     Luft versorgen
@@ -320,10 +320,10 @@
                             </div>
                             </v-card-text>
                         </v-card>
-                        <v-card 
+                        <v-card
                         variant="outlined"
                         style="border-radius: 20px; background-color: whitesmoke"
-                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyColdAAS/1/0'" 
+                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyColdAAS/1/0'"
                         class="mx-auto my-8">
                             <v-card-title class="text-center" style="font-size: 18px">
                                 <v-avatar size="72" rounded="0">
@@ -332,10 +332,10 @@
                             <v-card-text class="custom-card-text">
                                 <div class="text-center">
                                 <v-btn
-                                    class="my-5" 
-                                    variant="text" 
-                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion', 
-                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Kälte versorgen'}}), 
+                                    class="my-5"
+                                    variant="text"
+                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion',
+                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Kälte versorgen'}}),
                                     monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene"
                                 >
                                     Kälte versorgen
@@ -343,10 +343,10 @@
                             </div>
                             </v-card-text>
                         </v-card>
-                        <v-card 
+                        <v-card
                         variant="outlined"
                         style="border-radius: 20px; background-color: whitesmoke"
-                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyMediaAAS/1/0'" 
+                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyMediaAAS/1/0'"
                         class="mx-auto my-8">
                             <v-card-title class="text-center" style="font-size: 18px">
                                 <v-avatar size="72" rounded="0">
@@ -355,10 +355,10 @@
                             <v-card-text class="custom-card-text">
                                 <div class="text-center">
                                 <v-btn
-                                    class="my-5" 
-                                    variant="text" 
-                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion', 
-                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Medien versorgen'}}), 
+                                    class="my-5"
+                                    variant="text"
+                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion',
+                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Medien versorgen'}}),
                                     monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene"
                                 >
                                     Medien versorgen
@@ -366,10 +366,10 @@
                             </div>
                             </v-card-text>
                         </v-card>
-                        <v-card 
+                        <v-card
                         variant="outlined"
                         style="border-radius: 20px; background-color: whitesmoke"
-                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSecureAAS/1/0'" 
+                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSecureAAS/1/0'"
                         class="mx-auto my-8">
                             <v-card-title class="text-center" style="font-size: 18px">
                                 <v-avatar size="72" rounded="0">
@@ -378,21 +378,21 @@
                             <v-card-text class="custom-card-text">
                                 <div class="text-center">
                                 <v-btn
-                                    class="my-5" 
-                                    variant="text" 
-                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion', 
-                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Sichern'}}),  
+                                    class="my-5"
+                                    variant="text"
+                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion',
+                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Sichern'}}),
                                     monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene"
                                 >
-                                    Sichern                                
+                                    Sichern
                                 </v-btn>
                             </div>
                             </v-card-text>
                         </v-card>
-                        <v-card 
+                        <v-card
                         variant="outlined"
                         style="border-radius: 20px; background-color: whitesmoke"
-                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyElectricityAAS/1/0'" 
+                        max-width="80%" v-if="aasGrundfunktion.aasGrundfunktion.semanticId ==='https://th-koeln.de/gart/BaseFunctionSupplyElectricityAAS/1/0'"
                         class="mx-auto my-8">
                             <v-card-title class="text-center" style="font-size: 18px">
                                 <v-avatar size="72" rounded="0">
@@ -401,10 +401,10 @@
                             <v-card-text class="custom-card-text">
                                 <div class="text-center">
                                 <v-btn
-                                    class="my-5" 
-                                    variant="text" 
-                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion', 
-                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Strom versorgen'}}), 
+                                    class="my-5"
+                                    variant="text"
+                                    @click="$router.push({name:'Monitoring_Site_Building_Grundfunktion',
+                                    params:{siteid: $route.params.siteid, buildingid: $route.params.buildingid, buildingaasid:$route.params.buildingaasid, grundfunktion:'Strom versorgen'}}),
                                     monitoringStore.aasZweiteGrundfunktion = aasGrundfunktion.aasZweiteEbene"
                                 >
                                     Strom versorgen
@@ -420,8 +420,8 @@
 </template>
 
 <script>
-import { useGeneralStore } from '@/store/general'
-import { useMonitoringStore } from '@/store/monitoring'
+import { useGeneralStore } from '@/store/general';
+import { useMonitoringStore } from '@/store/monitoring';
 
 export default {
   data() {
@@ -432,73 +432,73 @@ export default {
       raumkomfort: [{ name: 'Temperatur' }, { name: 'Luiftqualität' }],
       wärmePic: {
         'Wärme versorgen': Object.values(
-          import.meta.glob('@/assets/Wärmeversorgen.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Wärmeversorgen.svg', { as: 'url', eager: true }),
+        )[0],
       },
       luftPic: {
         'Luft versorgen': Object.values(
-          import.meta.glob('@/assets/Luftversorgen.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Luftversorgen.svg', { as: 'url', eager: true }),
+        )[0],
       },
       kältePic: {
         'Kälte versorgen': Object.values(
-          import.meta.glob('@/assets/Kälteversorgen.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Kälteversorgen.svg', { as: 'url', eager: true }),
+        )[0],
       },
       medienPic: {
         'Medien versorgen': Object.values(
-          import.meta.glob('@/assets/Medienversorgen.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Medienversorgen.svg', { as: 'url', eager: true }),
+        )[0],
       },
       sichernPic: {
         Sichern: Object.values(
-          import.meta.glob('@/assets/Sichern.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Sichern.svg', { as: 'url', eager: true }),
+        )[0],
       },
       stromPic: {
         'Strom versorgen': Object.values(
-          import.meta.glob('@/assets/Stromversorgen.svg', { as: 'url', eager: true })
-        )[0]
+          import.meta.glob('@/assets/Stromversorgen.svg', { as: 'url', eager: true }),
+        )[0],
       },
       items: [
         {
           function: 'Luft versorgen',
           image: Object.values(
-            import.meta.glob('@/assets/air-system.jpeg', { as: 'url', eager: true })
+            import.meta.glob('@/assets/air-system.jpeg', { as: 'url', eager: true }),
           )[0],
-          route: 'Monitoring_Site_Building_Grundfunktion'
+          route: 'Monitoring_Site_Building_Grundfunktion',
         },
         {
           function: 'Kälte versorgen',
           image: Object.values(
-            import.meta.glob('@/assets/cooling-system.jpeg', { as: 'url', eager: true })
+            import.meta.glob('@/assets/cooling-system.jpeg', { as: 'url', eager: true }),
           )[0],
-          route: 'Monitoring_Site_Building_Grundfunktion'
+          route: 'Monitoring_Site_Building_Grundfunktion',
         },
         {
           function: 'Wärme versorgen',
           image: Object.values(
-            import.meta.glob('@/assets/heating-system.jpeg', { as: 'url', eager: true })
+            import.meta.glob('@/assets/heating-system.jpeg', { as: 'url', eager: true }),
           )[0],
-          route: 'Monitoring_Site_Building_Grundfunktion'
-        }
-      ]
-    }
+          route: 'Monitoring_Site_Building_Grundfunktion',
+        },
+      ],
+    };
   },
   props: {
-    buildingAasId: String
+    buildingAasId: String,
   },
   computed: {
     generalStore() {
-      return useGeneralStore()
+      return useGeneralStore();
     },
     monitoringStore() {
-      return useMonitoringStore()
-    }
+      return useMonitoringStore();
+    },
   },
   mounted() {
-    this.grundfunktionen = this.generalStore.loadedBuildingWithGrundfunktion
-    this.getGrundfunktionenForBulding(this.$route.params.buildingaasid)
+    this.grundfunktionen = this.generalStore.loadedBuildingWithGrundfunktion;
+    this.getGrundfunktionenForBulding(this.$route.params.buildingaasid);
   },
   methods: {
     /*
@@ -507,11 +507,11 @@ export default {
         },
         */
     async getGrundfunktionenForBulding(aasId) {
-      let aasTree = await this.monitoringStore.getGrundfunktionen(aasId, this.grundfunktionen)
-      this.aasTree = aasTree
-    }
-  }
-}
+      const aasTree = await this.monitoringStore.getGrundfunktionen(aasId, this.grundfunktionen);
+      this.aasTree = aasTree;
+    },
+  },
+};
 </script>
 
 <style scoped>

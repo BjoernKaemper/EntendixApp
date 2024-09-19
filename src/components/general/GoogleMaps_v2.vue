@@ -1,18 +1,17 @@
 <template>
   <div>
     <div class="google-map-card">
-      <div ref="map" id="map" data-js-google-maps></div>
+      <div ref="map" id="map" data-js-google-maps />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import mapStyles from '@/styles/mapStyles';
-import { type PropType } from 'vue'
+import { type PropType } from 'vue';
 
-import { Loader } from '@googlemaps/js-api-loader'
-import type Site from '@/types/Site';
-
+import { Loader } from '@googlemaps/js-api-loader';
+import type { Site } from '@/types/Site';
 
 export default {
   /**
@@ -31,8 +30,8 @@ export default {
      */
     sites: {
       type: Array as PropType<Site[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -41,12 +40,12 @@ export default {
        * @type {google.maps.Map | null}
        */
       map: null as google.maps.Map | null,
-    }
+    };
   },
   computed: {
     // extract long and lat from site object which is passed as prop
     siteCoordinates(): Array<{ lat: number; lng: number }> {
-      return this.sites.map(site => ({
+      return this.sites.map((site) => ({
         lat: parseFloat(site.data.Address.Lattitude),
         lng: parseFloat(site.data.Address.Longitude),
       }));
@@ -55,9 +54,9 @@ export default {
   watch: {
     siteCoordinates: {
       handler() {
-        this.loadMapCoordinates()
+        this.loadMapCoordinates();
       },
-      immediate: true
+      immediate: true,
     },
   },
   methods: {
@@ -67,22 +66,27 @@ export default {
     async loadMapCoordinates(): Promise<void> {
       if (!this.map || !this.siteCoordinates.length) {
         return;
-      };
+      }
 
       try {
         // Add markers for all sites
         this.siteCoordinates.forEach((coordinates) => {
           // TODO: Add color to the markers depending on the state of the site
           // TODO: Add links to the markers
+          // We have to use the google object from the window because the google object is not
+          // available so a new instance of google object is created and the linter ignored for this
+          // eslint-disable-next-line no-new
           new google.maps.Marker({
             position: coordinates,
-            map: this.map
+            map: this.map,
           });
 
           this.map?.setCenter(coordinates);
-        })
+        });
       } catch (error) {
-        console.error('Error loading Google Maps API:', error)
+        // @TODO: Implement global error handler
+        // eslint-disable-next-line no-console
+        console.error('Error loading Google Maps API:', error);
       }
     },
 
@@ -96,7 +100,7 @@ export default {
         styles: mapStyles,
       });
       this.loadMapCoordinates();
-    }
+    },
   },
 
   async mounted() {
@@ -108,7 +112,7 @@ export default {
 
     this.initMapElement(google);
   },
-}
+};
 
 </script>
 

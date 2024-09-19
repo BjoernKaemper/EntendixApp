@@ -3,7 +3,7 @@
     <div class="line-chart-container--left">
       <h3>{{ topic }}</h3>
       <BigNumber number="135,27" unit="kWh/m2/a" />
-       <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdate }} Minuten</p>
+      <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdate }} Minuten</p>
     </div>
     <div class="line-chart-container--right">
       <p> @TODO: insert Line Chart here... </p>

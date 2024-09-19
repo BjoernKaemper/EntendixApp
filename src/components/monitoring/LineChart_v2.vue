@@ -29,22 +29,22 @@ export default {
     /**
      * The unit of the value
      * @type {String}
-     * @default 'kWh/m2/a'
+     * @default '-'
      */
     unit: {
       type: String,
       required: false,
-      default: 'kWh/m2/a',
+      default: '-',
     },
     /**
      * The value of the line chart
-     * @type {String}
-     * @default '0'
+     * @type {Number}
+     * @default 0
      */
     value: {
-      type: String,
+      type: Number,
       required: true,
-      default: '0',
+      default: 0,
     },
   },
   components: {

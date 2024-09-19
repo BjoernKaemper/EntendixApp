@@ -2,34 +2,17 @@
 
 ## Project setup
 
-```
-# yarn
+1. Install packages `yarn install` or `npm install`.
+2. If needed edit the env-vars in the `.env`-file.
 
-yarn
-yarn install 
+## Run in Dev-mode
+You will need to run the middleware as well. The middleware is located in an additional repository. You can find it [here](https://github.com/PLYTEQ/entendix-web-middleware). If this is setup correctly and is running, you can run the project with `yarn dev` or `npm run dev`.
 
-### Compiles and hot-reloads for development
+## Compile for production
+For production run the project with `yarn build` or `npm run build`.
 
-```
-# yarn
-yarn dev
-
-```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-```
-
-### Lints and fixes files
-
-```
-# yarn
-yarn lint
-
-```
+## Linting
+For linting run the project with `yarn lint` or `npm run lint`.
 
 ### Customize configuration
 

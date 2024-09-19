@@ -46,13 +46,13 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       } as RequestInit;
 
       this.sites = await FetchHelper.apiCall(
-        `${import.meta.env.VITE_MIDDLEWARE_URL}/sites?${q}`,
+        `/middleware/sites?${q}`,
         requestOptions,
       ) as Site[];
 
       // Fetching types Company Information
       this.companies = await FetchHelper.apiCall(
-        `${import.meta.env.VITE_MIDDLEWARE_URL}/companies?${q}`,
+        `/middleware/companies?${q}`,
         requestOptions,
       ) as Company[];
 
@@ -72,7 +72,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       } as RequestInit;
 
       this.currentSite = await FetchHelper.apiCall(
-        `${import.meta.env.VITE_MIDDLEWARE_URL}/sites/${siteId}?${q}`,
+        `/middleware/sites/${siteId}?${q}`,
         requestOptions,
       ) as SiteWithBuildinginformation;
 

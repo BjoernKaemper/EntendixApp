@@ -2,7 +2,86 @@
   <div class="grid-wrapper">
     <div>
       <h2>{{ buildingName }}</h2>
-      <img :alt="building?.data.BuildingName" src="@/assets/gebäude_deutz.png" />
+      <AutomationKlima />
+      <div class="status-container">
+        <h3>Funktionserfüllung Anlagentechnik</h3>
+        <StatusCard
+          title="Medienversorgung"
+          subtitle=""
+          :isBordered="false"
+          :status="StatusTypes.SUCCESS"
+          :actionType="ActionTypes.ARROW"
+          :kpiType="KpiTypes.MEDIA"
+        />
+        <StatusCard
+          title="Wäremversorgung"
+          subtitle=""
+          :isBordered="false"
+          :status="StatusTypes.ERROR"
+          :actionType="ActionTypes.ARROW"
+          :kpiType="KpiTypes.HEAT"
+        />
+        <StatusCard
+          title="Kälteversorgung"
+          subtitle=""
+          :isBordered="false"
+          :status="StatusTypes.SUCCESS"
+          :actionType="ActionTypes.ARROW"
+          :kpiType="KpiTypes.COLD"
+        />
+        <StatusCard
+          title="Luftversorgung"
+          subtitle=""
+          :isBordered="false"
+          :status="StatusTypes.SUCCESS"
+          :actionType="ActionTypes.ARROW"
+          :kpiType="KpiTypes.AIR"
+        />
+        <StatusCard
+          title="Stromversorgung"
+          subtitle=""
+          :isBordered="false"
+          :status="StatusTypes.WARNING"
+          :actionType="ActionTypes.ARROW"
+          :kpiType="KpiTypes.ELECTRICITY"
+        />
+        <StatusCard
+          title="Sicherung"
+          subtitle=""
+          :isBordered="false"
+          :status="StatusTypes.SUCCESS"
+          :actionType="ActionTypes.ARROW"
+          :kpiType="KpiTypes.SECURITY"
+        />
+      </div>
+      <div class="issues-container">
+        <h3>Probleme in den Komponenten</h3>
+        <div class="issues">
+          <p>Wäremversorgung</p>
+          <StatusCard
+            title="Wärmeerzeuger 1"
+            subtitle="Ursache: Unter Sollwert"
+            :isBordered="false"
+            :status="StatusTypes.ERROR_COMPONENT"
+            :actionType="ActionTypes.ARROW"
+          />
+          <StatusCard
+            title="Heizkreis 1"
+            subtitle="Ursache: Über Sollwert"
+            :isBordered="false"
+            :status="StatusTypes.ERROR_COMPONENT"
+            :actionType="ActionTypes.ARROW"
+          />
+          <p>Stromversorgung</p>
+          <StatusCard
+            title="Stromkreislauf 1"
+            subtitle="Ursache: Über Sollwert"
+            :isBordered="false"
+            :status="StatusTypes.WARNING_COMPONENT"
+            :actionType="ActionTypes.ARROW"
+          />
+        </div>
+      </div>
     </div>
     <div>
       <h3>Performance des Gebäudes</h3>
@@ -11,7 +90,7 @@
           v-for="(kpi, idx) in building?.data.Kpis"
           :key="idx"
           :topic="kpi.data.Name.de"
-          :value="kpi.data.Value.PresentValue"
+          :value="parseFloat(kpi.data.Value.PresentValue)"
           :unit="kpi.data.Value.PhysicalUnit"
         />
       </div>
@@ -24,12 +103,19 @@ import { useGeneralStore } from '@/store/general';
 import { useGeneralStoreV2 } from '@/store/general_v2';
 import { useMonitoringStore } from '@/store/monitoring';
 import { mapStores } from 'pinia';
+import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ActionTypes } from '@/types/enums/ActionTypes';
+import { KpiTypes } from '@/types/enums/KpiTypes';
 
 import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
+import AutomationKlima from '@/assets/AutomationKlima.vue';
+import StatusCard from '@/components/general/StatusCard.vue';
 
 export default {
   components: {
     LineChart_v2,
+    AutomationKlima,
+    StatusCard,
   },
   computed: {
     ...mapStores(useGeneralStore, useMonitoringStore, useGeneralStoreV2),
@@ -42,7 +128,13 @@ export default {
       buildingName: '',
     };
   },
-
+  setup() {
+    return {
+      StatusTypes,
+      ActionTypes,
+      KpiTypes,
+    };
+  },
   created() {
     this.general_v2Store.loadBuildingInformation(
       JSON.parse(this.$route.params.buildingparams as string).buildingid,
@@ -63,6 +155,36 @@ export default {
   display: flex;
   flex-direction: column;
   gap: $m;
+}
+
+.status-container {
+  margin-top: $s;
+
+  & > h3 {
+    @include content-subtitle;
+    color: $darkest;
+  }
+}
+
+.issues-container {
+  margin-top: $s;
+  background-color: $light-purple-40;
+  padding: $xxs;
+  border-radius: $base-size;
+
+  & > h3 {
+    @include content-subtitle;
+    color: $darkest;
+    margin-bottom: $xs;
+  }
+}
+
+.issues {
+  & > p {
+    @include content;
+    color: $darkest;
+    margin-bottom: $xxs;
+  }
 }
 
 h2,

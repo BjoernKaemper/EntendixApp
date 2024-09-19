@@ -9,6 +9,9 @@
     <div class="icon-section">
       <component :is="icon" />
     </div>
+    <div class="kpi-icon">
+      <component :is="kpiIcon" />
+    </div>
     <div class="text-section">
       <span class="title">
         {{ title }}
@@ -33,12 +36,20 @@
 import { type PropType } from 'vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
+import { KpiTypes } from '@/types/enums/KpiTypes';
+
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
 import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
 import WarningIcon from '@/components/icons/WarningIcon.vue';
 import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
 import ArrowIcon from '@/components/icons/ArrowIcon.vue';
 import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
+import AirIcon from '@/components/icons/AirIcon.vue';
+import MediaIcon from '@/components/icons/MediaIcon.vue';
+import HeatIcon from '@/components/icons/HeatIcon.vue';
+import ColdIcon from '@/components/icons/ColdIcon.vue';
+import SecurityIcon from '@/components/icons/SecurityIcon.vue';
+import ElectricityIcon from '@/components/icons/ElectricityIcon.vue';
 
 export default {
   components: {
@@ -48,6 +59,12 @@ export default {
     QuestionMarkIcon,
     ArrowIcon,
     InfoCircleIcon,
+    AirIcon,
+    MediaIcon,
+    HeatIcon,
+    ColdIcon,
+    ElectricityIcon,
+    SecurityIcon,
   },
   props: {
     /**
@@ -89,6 +106,10 @@ export default {
       type: Boolean as PropType<boolean>,
       default: true,
     },
+    kpiType: {
+      type: String as PropType<KpiTypes>,
+      default: KpiTypes.NONE,
+    },
   },
   computed: {
     colourClass(): string {
@@ -101,6 +122,10 @@ export default {
           return 'error';
         case StatusTypes.INFO:
           return 'info';
+        case StatusTypes.ERROR_COMPONENT:
+          return 'error-component';
+        case StatusTypes.WARNING_COMPONENT:
+          return 'warning-component';
         default:
           return 'info';
       }
@@ -115,8 +140,30 @@ export default {
           return 'WarningIcon';
         case StatusTypes.INFO:
           return 'QuestionMarkIcon';
+        case StatusTypes.ERROR_COMPONENT:
+          return 'WarningIcon';
+        case StatusTypes.WARNING_COMPONENT:
+          return 'ExclamationMarkIcon';
         default:
           return 'QuestionMarkIcon';
+      }
+    },
+    kpiIcon(): string | undefined {
+      switch (this.kpiType) {
+        case KpiTypes.MEDIA:
+          return 'MediaIcon';
+        case KpiTypes.HEAT:
+          return 'HeatIcon';
+        case KpiTypes.COLD:
+          return 'ColdIcon';
+        case KpiTypes.AIR:
+          return 'AirIcon';
+        case KpiTypes.ELECTRICITY:
+          return 'ElectricityIcon';
+        case KpiTypes.SECURITY:
+          return 'SecurityIcon';
+        default:
+          return undefined;
       }
     },
     actionIcon(): string | undefined {
@@ -140,6 +187,8 @@ export default {
   border-radius: $base-size;
   background-color: $lightest;
   display: flex;
+  align-items: center;
+  gap: $xs;
   margin-bottom: $s;
   cursor: pointer;
 
@@ -157,6 +206,9 @@ export default {
 
     &.info {
       border: 1px solid $light-purple;
+    }
+    &.error-component {
+      border: 1px solid $darkest;
     }
   }
 
@@ -180,18 +232,32 @@ export default {
     border-radius: $base-size 0 0 $base-size;
   }
 
+  &.error-component > .icon-section {
+    background-color: $darkest;
+    border-radius: $base-size 0 0 $base-size;
+
+    svg > * > * {
+      fill: $orange;
+    }
+  }
+
+  > .kpi-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   > .text-section {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: $xxs;
   }
 
   > .icon-section,
   .action-section {
     display: flex;
     align-items: center;
-    padding: $xxs;
+    padding: $xxs $base-size;
   }
 }
 
@@ -202,4 +268,5 @@ export default {
 .subtitle {
   @include content;
 }
+
 </style>

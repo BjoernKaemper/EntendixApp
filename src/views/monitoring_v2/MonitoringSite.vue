@@ -11,6 +11,7 @@
       />
 
       <div class="status-container">
+        <h3 class="status-headline">Gebäude in der Liegenschaft</h3>
         <StatusCard
           v-for="(building, idx) in site?.data.Buildings"
           @click="
@@ -111,13 +112,17 @@ export default {
 }
 
 .status-container {
-  margin-top: $m;
+  margin-top: $s;
+
+  & > h3 {
+    @include content-subtitle;
+    color: $darkest;
+  }
 }
 
 h2,
 h3 {
   @include content-headline;
-  color: $dark-green;
   margin-bottom: $s;
 }
 </style>

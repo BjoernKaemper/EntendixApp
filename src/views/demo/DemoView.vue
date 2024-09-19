@@ -3,7 +3,7 @@
     <button type="button" @click="openModal">Open Modal</button>
     <ModalOverlay :isOpen="isModalOpen" @close="closeModal">
       <template #header>
-        <h1>Title of Modal</h1>
+        <p>Title of Modal</p>
       </template>
       <template #body>
         <p>

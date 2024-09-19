@@ -1,4 +1,5 @@
 import type { AddressWithGeoLatLong } from '@/types/Address';
+import type { Kpi } from '@/types/Kpi';
 
 /**
  * Building interface
@@ -19,5 +20,7 @@ export interface Building {
     UsableSpace: number;
     BuildingVolume: number;
     QuantityFloors: number;
+    Devices?: Array<any>;
+    Kpis?: Array<Kpi>;
   };
 }

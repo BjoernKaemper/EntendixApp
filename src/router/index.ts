@@ -162,29 +162,36 @@ const routes = [
     },
   },
   {
-    path: '/monitoring/:siteparams',
+    path: '/monitoring/site/:siteparams',
     name: 'Monitoring_Site',
     component: Monitoring_Site,
     meta: {
       breadcrumb: (route: any) => [
         { title: 'Monitoring', to: '/monitoring' },
-        { title: `${JSON.parse(route.params.siteparams).siteName}`, to: `/monitoring/${encodeURIComponent(route.params.siteparams)}` },
+        {
+          title: `${JSON.parse(route.params.siteparams).siteName}`,
+          to: `/monitoring/site/${route.params.siteparams}`,
+        },
       ],
     },
   },
   {
-    path: '/monitoring/:siteid/:buildingid/:buildingaasid',
+    path: '/monitoring/building/:buildingparams',
     name: 'Monitoring_Site_Building',
     component: Monitoring_Site_Building,
     meta: {
       breadcrumb: (route: any) => {
-        const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid);
+        const params = JSON.parse(route.params.buildingparams);
+        const siteParams = JSON.stringify({ siteid: params.siteid, siteName: params.siteName });
         return [
           { title: 'Monitoring', to: '/monitoring' },
-          { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` },
           {
-            title: `${route.params.buildingid}`,
-            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`,
+            title: params.siteName,
+            to: `/monitoring/site/${siteParams}`,
+          },
+          {
+            title: `${params.buildingName}`,
+            to: `/monitoring/building/${route.params.buildingparams}`,
           },
         ];
       },

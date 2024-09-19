@@ -13,16 +13,11 @@
       <div class="status-container">
         <StatusCard
           v-for="(building, idx) in site?.data.Buildings"
-          @click="
-            this.$router.push({
-              name: 'Monitoring_Site_Building',
-              params: {
-                siteid: $route.params.siteid,
-                buildingid: Object.values(building)[0].buildingName,
-                buildingaasid: Object.keys(building)[0],
-              },
-            })
-          "
+          @click="openBuilding(
+            $route.params.siteid,
+            Object.values(building)[0].buildingName,
+            Object.keys(building)[0],
+          )"
           :key="idx"
           :title="building.data.BuildingName"
           subtitle="@TODO: Get subtitle"
@@ -75,6 +70,19 @@ export default {
     this.general_v2Store.loadSiteInformation(
       JSON.parse(this.$route.params.siteparams as string).siteid,
     );
+  },
+
+  methods: {
+    openBuilding(siteid: string | string[], buildingid: string, buildingaasid: string) {
+      this.$router.push({
+        name: 'Monitoring_Site_Building',
+        params: {
+          siteid,
+          buildingid,
+          buildingaasid,
+        },
+      });
+    },
   },
 };
 </script>

@@ -11,9 +11,6 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 export default defineConfig({
   plugins: [
     checker({
-      typescript: {
-        buildMode: true,
-      },
       eslint: {
         lintCommand: 'eslint . --ext .ts,.js,.vue',
       },

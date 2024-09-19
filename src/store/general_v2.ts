@@ -95,7 +95,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       } as RequestInit;
 
       this.currentBuilding = (await FetchHelper.apiCall(
-        `${import.meta.env.VITE_MIDDLEWARE_URL}/buildings/${buildingId}?${q}`,
+        `/middleware/buildings/${buildingId}?${q}`,
         requestOptions,
       )) as Building;
 

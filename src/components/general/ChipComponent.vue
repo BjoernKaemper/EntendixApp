@@ -16,13 +16,13 @@
  * @module components/general/ChipComponent
  * @displayName ChipComponent
  */
-import type { PropType } from 'vue'
-import { StatusTypes } from '@/types/enums/StatusTypes'
+import type { PropType } from 'vue';
+import { StatusTypes } from '@/types/enums/StatusTypes';
 
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue'
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue'
-import WarningIcon from '@/components/icons/WarningIcon.vue'
-import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue'
+import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
+import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
+import WarningIcon from '@/components/icons/WarningIcon.vue';
+import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
 
 export default {
   components: {
@@ -39,7 +39,7 @@ export default {
      */
     status: {
       type: String as PropType<StatusTypes>,
-      default: StatusTypes.INFO
+      default: StatusTypes.INFO,
     },
   },
   computed: {
@@ -54,35 +54,35 @@ export default {
             label: 'In Ordnung',
             icon: CheckMarkCircleIcon,
             class: 'success',
-          }
+          };
         case StatusTypes.WARNING:
           return {
             label: 'Achtung',
             icon: ExclamationMarkIcon,
             class: 'warning',
-          }
+          };
         case StatusTypes.ERROR:
           return {
             label: 'Kritisch',
             icon: WarningIcon,
             class: 'alert',
-        }
+          };
         case StatusTypes.INFO:
           return {
             label: 'Unbekannt',
             icon: QuestionMarkIcon,
             class: 'info',
-          }
+          };
         default:
           return {
             label: 'Info',
             icon: QuestionMarkIcon,
             class: 'info',
-          }
+          };
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -109,14 +109,14 @@ export default {
     &.info {
       border: 2px solid $light-purple;
     }
-    
+
     > span {
       background-color: #efefef;
       padding: 0 $xs;
       border-radius: $base-size 0 0 $base-size;
     }
   }
-  
+
   .chip--icon {
     display: flex;
     align-items: center;
@@ -137,5 +137,4 @@ export default {
       background-color: $light-purple;
     }
   }
-
 </style>

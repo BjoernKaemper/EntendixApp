@@ -60,7 +60,7 @@ const navItems = [
   { icon: '', name: 'Monitoring', href: '/monitoring' },
 ];
 
-const header = ref(null);
+const header = ref<HTMLElement | null>(null);
 
 const mainHeight = computed(() => {
   const headerHeight = header.value ? header.value.clientHeight + 1 : 100;

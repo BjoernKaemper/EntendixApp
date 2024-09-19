@@ -3,10 +3,10 @@
     <v-container>
       <v-row>
         <v-col cols="4">
-          <GoogleMapsCardHomeSite :buildings="this.buildings" />
+          <GoogleMapsCardHomeSite :buildings="buildings" />
         </v-col>
         <v-col cols="8">
-          <HomeCardSite :buildings="this.buildings" />
+          <HomeCardSite :buildings="buildings" />
         </v-col>
       </v-row>
     </v-container>

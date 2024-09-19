@@ -170,7 +170,7 @@ const routes = [
         { title: 'Monitoring', to: '/monitoring' },
         {
           title: `${JSON.parse(route.params.siteparams).siteName}`,
-          to: `/monitoring/site/${route.params.siteparams}`,
+          to: `/monitoring/site/${encodeURIComponent(route.params.siteparams)}`,
         },
       ],
     },
@@ -182,7 +182,10 @@ const routes = [
     meta: {
       breadcrumb: (route: any) => {
         const params = JSON.parse(route.params.buildingparams);
-        const siteParams = JSON.stringify({ siteid: params.siteid, siteName: params.siteName });
+        const siteParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+        });
         return [
           { title: 'Monitoring', to: '/monitoring' },
           {
@@ -191,7 +194,7 @@ const routes = [
           },
           {
             title: `${params.buildingName}`,
-            to: `/monitoring/building/${route.params.buildingparams}`,
+            to: `/monitoring/building/${encodeURIComponent(route.params.buildingparams)}`,
           },
         ];
       },

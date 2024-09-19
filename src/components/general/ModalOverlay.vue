@@ -5,14 +5,12 @@
       <div class="modal-overlay__content">
         <div class="modal-overlay__content__header">
           <slot name="header" />
-          <!-- @TODO: figure out cursor: pointer issue -->
           <CloseIcon @click="close" />
         </div>
         <div class="modal-overlay__content__body">
           <slot name="body" />
         </div>
         <div class="modal-overlay__content__footer">
-          <!-- @TODO: figure out cursor: pointer issue -->
           <button type="button" @click="close">Abbrechen
             <CloseIcon />
           </button>

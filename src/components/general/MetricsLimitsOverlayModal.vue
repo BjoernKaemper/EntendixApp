@@ -66,9 +66,15 @@ export default {
     IconChip,
   },
   props: {
+    /**
+     * The state of the metrics modal.
+     * @type {boolean}
+     * @default false
+     */
     isMetricsModalOpen: {
       type: Boolean,
       required: true,
+      default: false,
     },
   },
   data() {

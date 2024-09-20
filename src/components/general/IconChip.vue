@@ -6,6 +6,7 @@
 <script lang="ts">
 import type { PropType } from 'vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
+import { IconTypes } from '@/types/enums/IconTypes';
 
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
 import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
@@ -17,6 +18,11 @@ import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
 export default {
   name: 'IconChip',
   props: {
+    /**
+     * The status of the chip.
+     * The status can be one of 'success', 'warning', 'error', or 'info'.
+     * @default 'info'
+     */
     status: {
       type: String as PropType<StatusTypes>,
       default: StatusTypes.INFO,
@@ -34,37 +40,37 @@ export default {
     icon(): string {
       switch (this.status) {
         case StatusTypes.SUCCESS:
-          return 'CheckMarkCircleIcon';
+          return IconTypes.CHECK_MARK_CIRCLE;
         case StatusTypes.WARNING:
-          return 'ExclamationMarkIcon';
+          return IconTypes.EXCLAMATION_MARK;
         case StatusTypes.ERROR:
-          return 'WarningIcon';
+          return IconTypes.WARNING;
         case StatusTypes.INFO:
-          return 'QuestionMarkIcon';
+          return IconTypes.QUESTION_MARK;
         case StatusTypes.ERROR_COMPONENT:
-          return 'WarningIcon';
+          return IconTypes.WARNING;
         case StatusTypes.WARNING_COMPONENT:
-          return 'ExclamationMarkIcon';
+          return IconTypes.EXCLAMATION_MARK;
         default:
-          return 'QuestionMarkIcon';
+          return IconTypes.QUESTION_MARK;
       }
     },
     colorClass(): string {
       switch (this.status) {
         case StatusTypes.SUCCESS:
-          return 'success';
+          return StatusTypes.SUCCESS.toLocaleLowerCase();
         case StatusTypes.WARNING:
-          return 'warning';
+          return StatusTypes.WARNING.toLocaleLowerCase();
         case StatusTypes.ERROR:
-          return 'error';
+          return StatusTypes.ERROR.toLocaleLowerCase();
         case StatusTypes.INFO:
-          return 'info';
+          return StatusTypes.INFO.toLocaleLowerCase();
         case StatusTypes.ERROR_COMPONENT:
-          return 'error-component';
+          return StatusTypes.ERROR_COMPONENT.replace('.', '-').toLocaleLowerCase();
         case StatusTypes.WARNING_COMPONENT:
-          return 'warning-component';
+          return StatusTypes.WARNING_COMPONENT.replace('.', '-').toLocaleLowerCase();
         default:
-          return 'info';
+          return StatusTypes.INFO.toLocaleLowerCase();
       }
     },
   },

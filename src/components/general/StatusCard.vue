@@ -184,8 +184,9 @@ export default {
   background-color: $lightest;
   display: flex;
   align-items: center;
-  gap: $xs;
+  gap: $xxs;
   margin-bottom: $s;
+  padding-right: $xxs;
   cursor: pointer;
 
   &.isBordered {
@@ -230,7 +231,7 @@ export default {
     display: flex;
     align-items: center;
     & > div {
-      padding: $xxs;
+      padding: $m $xxs;
       border-radius: $base-size 0 0 $base-size;
     }
   }

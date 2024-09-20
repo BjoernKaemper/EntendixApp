@@ -19,7 +19,6 @@
             Unsere intuitive Plattform ermöglicht es Ihnen, Ressourcen gezielt
             einzusetzen und Arbeitsabläufe zu vereinfachen.
           </p>
-          <br />
           <p>Dank moderner Technologien wie dem Digitalen Zwilling sind Sie in der Lage,
             den Zustand Ihrer Gebäude in Echtzeit zu überwachen und fundierte
             Entscheidungen zu treffen.
@@ -79,6 +78,18 @@
       title="Info"
       subtitle="This is some info"
       :status="StatusTypes.INFO"
+      :isBordered="false"
+    />
+    <StatusCard
+      title="Info"
+      subtitle="This is some info"
+      :status="StatusTypes.ERROR_COMPONENT"
+      :isBordered="false"
+    />
+    <StatusCard
+      title="Info"
+      subtitle="This is some info"
+      :status="StatusTypes.WARNING_COMPONENT"
       :isBordered="false"
     />
   </div>

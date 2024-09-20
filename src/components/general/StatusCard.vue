@@ -109,10 +109,19 @@ export default {
       type: Boolean as PropType<boolean>,
       default: true,
     },
+    /**
+     * The type of KPI icon to display.
+     * The KPI icon can be one of 'media', 'heat', 'cold', 'air', 'electricity', or 'security'.
+     * @default 'none'
+     */
     kpiType: {
       type: String as PropType<KpiTypes>,
       default: KpiTypes.NONE,
     },
+    /**
+     * The timestamp of the card.
+     * @default ''
+     */
     timestamp: {
       type: String as PropType<string>,
       default: '',

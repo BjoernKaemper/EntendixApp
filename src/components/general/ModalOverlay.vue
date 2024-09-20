@@ -39,6 +39,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    isMetricsModalOpen: {
+      type: Boolean,
+      required: false,
+    },
   },
   watch: {
     isOpen: {
@@ -113,6 +117,9 @@ export default {
       }
 
       &__body {
+        display: flex;
+        flex-direction: column;
+        gap: $m;
         margin-bottom: $s;
         @include content;
       }

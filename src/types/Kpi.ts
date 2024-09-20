@@ -14,12 +14,12 @@ export type LangString = {
  * @typedef {Object} CalculationValue
  * @property {string} PhysicalUnit - The physical unit of the calculation value
  * @property {string} CalculationType - The calculation type of the calculation value
- * @property {string} PresentValue - The present value of the calculation value
+ * @property {number} PresentValue - The present value of the calculation value
  */
 export type CalculationValue = {
   PhysicalUnit: string;
   CalculationType: string;
-  PresentValue: string;
+  PresentValue: number;
 };
 
 /**

@@ -110,6 +110,7 @@
           :topic="kpi.data.Name.de"
           :value="parseFloat(kpi.data.Value.PresentValue)"
           :unit="kpi.data.Value.PhysicalUnit"
+          :lastUpdateTimestamp="lastBuildingRequestTimestamp"
         />
       </div>
     </div>
@@ -128,6 +129,7 @@ import { KpiTypes } from '@/types/enums/KpiTypes';
 import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
+import type { DateTime } from 'luxon';
 
 export default {
   components: {
@@ -137,8 +139,13 @@ export default {
   },
   computed: {
     ...mapStores(useGeneralStore, useMonitoringStore, useGeneralStoreV2),
+
     building() {
       return this.general_v2Store.currentBuilding;
+    },
+
+    lastBuildingRequestTimestamp(): DateTime | null {
+      return this.general_v2Store.lastBuildingRequestTimestamp;
     },
   },
   data() {

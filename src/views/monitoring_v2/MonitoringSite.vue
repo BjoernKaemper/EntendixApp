@@ -2,7 +2,7 @@
   <div class="grid-wrapper" v-if="site">
     <div>
       <h2>
-        {{ site?.data.SiteName }}
+        {{ siteName }}
       </h2>
       <img
         :alt="site?.data.SiteName || 'Site Name'"
@@ -13,11 +13,9 @@
       <div class="status-container">
         <StatusCard
           v-for="(building, idx) in site?.data.Buildings"
-          @click="openBuilding(
-            $route.params.siteid,
-            Object.values(building)[0].buildingName,
-            Object.keys(building)[0],
-          )"
+          @click="
+            openBuilding(site.id, site.data.SiteName, building.id, building.data.BuildingName)
+          "
           :key="idx"
           :title="building.data.BuildingName"
           subtitle="@TODO: Get subtitle"
@@ -59,6 +57,12 @@ export default {
     };
   },
 
+  data() {
+    return {
+      siteName: '',
+    };
+  },
+
   computed: {
     ...mapStores(useGeneralStoreV2),
     site(): SiteWithBuildinginformation | null {
@@ -70,16 +74,20 @@ export default {
     this.general_v2Store.loadSiteInformation(
       JSON.parse(this.$route.params.siteparams as string).siteid,
     );
+    this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;
   },
 
   methods: {
-    openBuilding(siteid: string | string[], buildingid: string, buildingaasid: string) {
+    openBuilding(siteid: string, siteName: string, buildingid: string, buildingName: string) {
       this.$router.push({
         name: 'Monitoring_Site_Building',
         params: {
-          siteid,
-          buildingid,
-          buildingaasid,
+          buildingparams: JSON.stringify({
+            siteid: encodeURIComponent(siteid),
+            siteName,
+            buildingid: encodeURIComponent(buildingid),
+            buildingName,
+          }),
         },
       });
     },

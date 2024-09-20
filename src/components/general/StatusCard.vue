@@ -138,8 +138,8 @@ export default {
         minute: '2-digit',
         hour12: false,
       });
-      // replace all / with . and remove commas
-      return formatter.format(date).replace(',', '').replaceAll('/', '.');
+      // replace all / with . and remove commas with regex and without replaceAll
+      return formatter.format(date).replace(/,/g, '').replace(/\//g, '.');
     },
     colourClass(): string {
       switch (this.status) {

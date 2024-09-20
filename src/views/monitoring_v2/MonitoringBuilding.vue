@@ -108,7 +108,7 @@
           v-for="(kpi, idx) in building?.data.Kpis"
           :key="idx"
           :topic="kpi.data.Name.de"
-          :value="parseFloat(kpi.data.Value.PresentValue)"
+          :value="kpi.data.Value.PresentValue"
           :unit="kpi.data.Value.PhysicalUnit"
           :lastUpdateTimestamp="lastBuildingRequestTimestamp"
         />

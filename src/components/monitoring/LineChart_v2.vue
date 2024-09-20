@@ -1,14 +1,26 @@
 <template>
   <div class="line-chart-container">
     <div class="line-chart-container--left">
-      <h3>{{ topic }}</h3>
+      <h3>{{ kpi?.data.Name.de || topic }}</h3>
       <div class="line-chart-container--left--values">
-        <!-- @TODO move kpi destructuring to Big Number Component, only pass kpi object -->
-        <!-- @TODO then simply call BigNumber v-for="kpi in kpis" etc. -->
-        <h4 v-if="secondaryValue">{{ primaryKpi }}</h4>
-        <BigNumber :number="value" :unit="unit" />
-        <h4 v-if="secondaryValue">{{ secondaryKpi }}</h4>
-        <BigNumber v-if="secondaryValue" :number="secondaryValue" :unit="secondaryUnit" />
+        <h4>{{ kpi.data.Context.de || topic }}</h4>
+        <div>
+          <!-- If it's an array, loop through each value -->
+          <div v-if="Array.isArray(kpi?.data.Value)">
+            <BigNumber
+              v-for="(value, index) in kpi?.data.Value"
+              :key="index"
+              :number="Number(value.PresentValue)"
+              :unit="value.PhysicalUnit"
+            />
+          </div>
+          <BigNumber
+            v-else
+            :number="Number(kpi.data.Value.PresentValue)"
+            :unit="kpi.data.Value.PhysicalUnit"
+          />
+          <!-- If it's a single object, render it directly -->
+        </div>
       </div>
       <div class="line-chart-container--left--footer">
         <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdateTime }} Minuten</p>
@@ -25,52 +37,27 @@
 import BigNumber from '@/components/general/BigNumber.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
+import type { Kpi } from '@/types/Kpi';
 
 import { DateTime, Interval } from 'luxon';
 import type { PropType } from 'vue';
 
 export default {
   props: {
-    /**
-     * The topic of the line chart
-     * @type {string}
-     * @default 'Line Chart'
-     */
     topic: {
       type: String as PropType<string>,
-      required: true,
+      required: false,
       default: 'Line Chart',
     },
-    // @TODO: remove primaryKpi and secondaryKpi and replace with kpis object
     /**
-     * The primary topic of the line chart
-     * @type {string}
-     * @default 'Line Chart'
+     * The primary kpi of the line chart
+     * @type {Kpi}
+     * @default { number: 0, unit: 'tbd.' }
      */
-    primaryKpi: {
-      type: String as PropType<string>,
-      required: true,
-      default: 'kpi name',
-    },
-    /**
-     * The unit of the value
-     * @type {string}
-     * @default '-'
-     */
-    unit: {
-      type: String as PropType<string>,
+    kpi: {
+      type: Object as PropType<Kpi>,
       required: false,
-      default: '-',
-    },
-    /**
-     * The value of the line chart
-     * @type {number}
-     * @default 0
-     */
-    value: {
-      type: Number as PropType<number>,
-      required: true,
-      default: 0,
+      default: () => ({ data: { number: 0, unit: 'tbd.' } }),
     },
     /**
      * The timestamp of the last update
@@ -82,36 +69,36 @@ export default {
       required: false,
       default: null,
     },
-    /**
-     * The secondary topic of the line chart
-     * @type {string}
-     * @default 'Line Chart'
-     */
-    secondaryKpi: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'kpi name',
-    },
-    /**
-     * The secondary value of the line chart
-     * @type {Number}
-     * @default 0
-     */
-    secondaryValue: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-    /**
-     * The secondary unit of the value
-     * @type {String}
-     * @default '-'
-     */
-    secondaryUnit: {
-      type: String,
-      required: false,
-      default: '-',
-    },
+    // /**
+    //  * The secondary topic of the line chart
+    //  * @type {string}
+    //  * @default 'Line Chart'
+    //  */
+    // secondaryKpi: {
+    //   type: String as PropType<string>,
+    //   required: false,
+    //   default: 'kpi name',
+    // },
+    // /**
+    //  * The secondary value of the line chart
+    //  * @type {Number}
+    //  * @default 0
+    //  */
+    // secondaryValue: {
+    //   type: Number,
+    //   required: false,
+    //   default: 0,
+    // },
+    // /**
+    //  * The secondary unit of the value
+    //  * @type {String}
+    //  * @default '-'
+    //  */
+    // secondaryUnit: {
+    //   type: String,
+    //   required: false,
+    //   default: '-',
+    // },
     /**
      * The status of the line chart
      * @type {String}

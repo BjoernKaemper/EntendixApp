@@ -22,10 +22,12 @@
           – alles auf einen Blick und immer aktuell.</p>
       </template>
     </ModalOverlay>
-    <ChipComponent :status="StatusTypes.SUCCESS" />
-    <ChipComponent :status="StatusTypes.WARNING" />
-    <ChipComponent :status="StatusTypes.ERROR" />
-    <ChipComponent />
+    <div class="chips">
+      <ChipComponent :status="StatusTypes.SUCCESS" />
+      <ChipComponent :status="StatusTypes.WARNING" />
+      <ChipComponent :status="StatusTypes.ERROR" />
+      <ChipComponent />
+    </div>
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Deutz" />
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Gummersbach" />
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Deutz" :showIcon="false" />
@@ -111,4 +113,11 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .chips {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+</style>

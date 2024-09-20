@@ -119,11 +119,7 @@
         <LineChart_v2
           v-for="(kpi, idx) in building?.data.Kpis"
           :key="idx"
-          :topic="kpi.data.Name.de"
-          :value="kpi.data.Value.PresentValue"
-          :unit="kpi.data.Value.PhysicalUnit"
-          :secondaryValue="kpi.data.Value.PresentValue"
-          :secondaryUnit="kpi.data.Value.PhysicalUnit"
+          :kpi="kpi"
           :lastUpdateTimestamp="lastBuildingRequestTimestamp"
         />
       </div>

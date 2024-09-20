@@ -53,6 +53,15 @@
           :actionType="ActionTypes.ARROW"
           :kpiType="KpiTypes.SECURITY"
         />
+        <StatusCard
+          v-for="(kpi, idx) in building?.data.Kpis"
+          :key="idx"
+          :title="kpi.data.Name.de"
+          :isBordered="false"
+          :status="StatusTypes.SUCCESS"
+          :kpiType="KpiTypes.COLD"
+          :actionType="ActionTypes.ARROW"
+        />
       </div>
       <div class="issues-container">
         <h3>Probleme in den Komponenten</h3>
@@ -79,6 +88,15 @@
             :isBordered="false"
             :status="StatusTypes.WARNING_COMPONENT"
             :actionType="ActionTypes.ARROW"
+          />
+          <StatusCard
+            v-for="(kpi, idx) in building?.data.Kpis"
+            :key="idx"
+            :title="kpi.data.Name.de"
+            :isBordered="false"
+            :status="StatusTypes.ERROR_COMPONENT"
+            :actionType="ActionTypes.ARROW"
+            :timestamp="kpi.data.Annotations[0]?.TimestampOfCreation"
           />
         </div>
       </div>

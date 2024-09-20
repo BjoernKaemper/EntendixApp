@@ -20,6 +20,9 @@
         {{ subtitle }}
       </span>
     </div>
+    <div class="timestamp">
+      <span v-if="timestamp">seit {{ timestampFormatted }}</span>
+    </div>
     <div class="action-section" v-if="actionIcon">
       <component :is="actionIcon" />
     </div>
@@ -110,8 +113,25 @@ export default {
       type: String as PropType<KpiTypes>,
       default: KpiTypes.NONE,
     },
+    timestamp: {
+      type: String as PropType<string>,
+      default: '',
+    },
   },
   computed: {
+    timestampFormatted(): string {
+      const date = new Date(this.timestamp);
+      const formatter = new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      });
+      // replace all / with . and remove commas
+      return formatter.format(date).replace(',', '').replaceAll('/', '.');
+    },
     colourClass(): string {
       switch (this.status) {
         case StatusTypes.SUCCESS:
@@ -207,7 +227,12 @@ export default {
     &.info {
       border: 1px solid $light-purple;
     }
+
     &.error-component {
+      border: 1px solid $darkest;
+    }
+
+    &.warning-component {
       border: 1px solid $darkest;
     }
   }
@@ -241,6 +266,15 @@ export default {
     }
   }
 
+  &.warning-component > .icon-section {
+    background-color: $darkest;
+    border-radius: $base-size 0 0 $base-size;
+
+    svg > * > * {
+      fill: $yellow;
+    }
+  }
+
   > .kpi-icon {
     display: flex;
     justify-content: center;
@@ -267,6 +301,10 @@ export default {
 
 .subtitle {
   @include content;
+}
+
+.timestamp {
+  @include meta-information;
 }
 
 </style>

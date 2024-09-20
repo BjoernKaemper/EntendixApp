@@ -53,16 +53,6 @@ export default {
       default: 'kpi name',
     },
     /**
-     * The secondary topic of the line chart
-     * @type {string}
-     * @default 'Line Chart'
-     */
-    secondaryKpi: {
-      type: String as PropType<string>,
-      required: true,
-      default: 'kpi name',
-    },
-    /**
      * The unit of the value
      * @type {string}
      * @default '-'
@@ -91,6 +81,16 @@ export default {
       type: Object as PropType<DateTime | null>,
       required: false,
       default: null,
+    },
+    /**
+     * The secondary topic of the line chart
+     * @type {string}
+     * @default 'Line Chart'
+     */
+    secondaryKpi: {
+      type: String as PropType<string>,
+      required: false,
+      default: 'kpi name',
     },
     /**
      * The secondary value of the line chart

@@ -1,5 +1,5 @@
 <template>
-  <svg width="453" height="362" viewBox="0 0 453 362" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg viewBox="0 0 453 362" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g clip-path="url(#clip0_324_10164)">
       <path d="M0 4.00001C0 1.79087 1.79086 0 4 0H449C451.209 0 453 1.79086 453 4V358C453 360.209 451.209 362 449 362H3.99999C1.79086 362 0 360.209 0 358V4.00001Z" fill="white" />
       <path fill-rule="evenodd" clip-rule="evenodd" d="M345.046 245.089H311.76V48.6084H344.012C344.576 48.6084 345.046 49.0701 345.046 49.643V245.089Z" fill="#9FABB1" stroke="#1A1A18" stroke-width="0.57" stroke-miterlimit="22.93" />
@@ -335,3 +335,9 @@
   </svg>
 
 </template>
+
+<style scopes>
+  svg {
+    width: 100%;
+  }
+</style>

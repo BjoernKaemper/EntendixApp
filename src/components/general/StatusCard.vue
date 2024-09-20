@@ -218,7 +218,7 @@ export default {
   display: flex;
   align-items: center;
   gap: $xs;
-  margin-bottom: $s;
+  margin-bottom: $xxs;
   cursor: pointer;
 
   &.isBordered {

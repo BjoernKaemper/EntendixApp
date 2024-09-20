@@ -37,8 +37,15 @@ export default {
     @include big-number;
     width: 100%;
     display: flex;
-    justify-content: center;
     align-items: end;
+    justify-content: end;
+    opacity: 50%;
+    transition: opacity 0.2s;
+    padding: $m;
+
+    &:hover {
+      opacity: 100%;
+    }
   }
   .unit {
     @include content;

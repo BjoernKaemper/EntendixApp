@@ -92,7 +92,6 @@ export default {
     width: fit-content;
     height: fit-content;
     border-radius: $base-size;
-    margin: $xs 0;
 
     &.success {
       border: 2px solid $light-green;

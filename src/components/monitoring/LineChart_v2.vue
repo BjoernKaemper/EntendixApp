@@ -2,8 +2,18 @@
   <div class="line-chart-container">
     <div class="line-chart-container--left">
       <h3>{{ topic }}</h3>
-      <BigNumber :number="value" :unit="unit" />
-      <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdateTime }} Minuten</p>
+      <div class="line-chart-container--left--values">
+        <!-- @TODO move kpi destructuring to Big Number Component, only pass kpi object -->
+        <!-- @TODO then simply call BigNumber v-for="kpi in kpis" etc. -->
+        <h4 v-if="secondaryValue">{{ primaryKpi }}</h4>
+        <BigNumber :number="value" :unit="unit" />
+        <h4 v-if="secondaryValue">{{ secondaryKpi }}</h4>
+        <BigNumber v-if="secondaryValue" :number="secondaryValue" :unit="secondaryUnit" />
+      </div>
+      <div class="line-chart-container--left--footer">
+        <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdateTime }} Minuten</p>
+        <ChipComponent :status="status" />
+      </div>
     </div>
     <div class="line-chart-container--right">
       <p>@TODO: insert Line Chart here...</p>
@@ -13,6 +23,9 @@
 
 <script lang="ts">
 import BigNumber from '@/components/general/BigNumber.vue';
+import ChipComponent from '@/components/general/ChipComponent.vue';
+import { StatusTypes } from '@/types/enums/StatusTypes';
+
 import { DateTime, Interval } from 'luxon';
 import type { PropType } from 'vue';
 
@@ -27,6 +40,27 @@ export default {
       type: String as PropType<string>,
       required: true,
       default: 'Line Chart',
+    },
+    // @TODO: remove primaryKpi and secondaryKpi and replace with kpis object
+    /**
+     * The primary topic of the line chart
+     * @type {string}
+     * @default 'Line Chart'
+     */
+    primaryKpi: {
+      type: String as PropType<string>,
+      required: true,
+      default: 'kpi name',
+    },
+    /**
+     * The secondary topic of the line chart
+     * @type {string}
+     * @default 'Line Chart'
+     */
+    secondaryKpi: {
+      type: String as PropType<string>,
+      required: true,
+      default: 'kpi name',
     },
     /**
      * The unit of the value
@@ -58,9 +92,40 @@ export default {
       required: false,
       default: null,
     },
+    /**
+     * The secondary value of the line chart
+     * @type {Number}
+     * @default 0
+     */
+    secondaryValue: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    /**
+     * The secondary unit of the value
+     * @type {String}
+     * @default '-'
+     */
+    secondaryUnit: {
+      type: String,
+      required: false,
+      default: '-',
+    },
+    /**
+     * The status of the line chart
+     * @type {String}
+     * @default 'info'
+     */
+    status: {
+      type: String as PropType<StatusTypes>,
+      required: false,
+      default: StatusTypes.INFO,
+    },
   },
   components: {
     BigNumber,
+    ChipComponent,
   },
   computed: {
     lastUpdateTime(): number | string {
@@ -78,19 +143,34 @@ export default {
 
 .line-chart-container {
   width: 100%;
-  height: 35%;
   background-color: $lightest;
   border-radius: $base-size;
   padding: $m;
   display: grid;
   grid-template-columns: 1fr 2fr;
+  gap: $m;
 
-  > .line-chart-container--left {
+  &--left {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    &--values {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: $m;
+      min-height: 150px;
+    }
+
+    &--footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+    }
   }
-  > .line-chart-container--right {
+
+  &--right {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,5 +179,9 @@ export default {
 
 .last-update {
   @include meta-information;
+}
+
+h4 {
+  @include content;
 }
 </style>

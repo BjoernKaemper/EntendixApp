@@ -11,6 +11,7 @@
       />
 
       <div class="status-container">
+        <h3 class="status-headline">Gebäude in der Liegenschaft</h3>
         <StatusCard
           v-for="(building, idx) in site?.data.Buildings"
           @click="
@@ -27,7 +28,10 @@
     </div>
     <div>
       <h3>Performance der Liegenschaft</h3>
-      <LineChart_v2 topic="Nutzungskomfort" />
+      <LineChart_v2
+        topic="Nutzungskomfort"
+        :lastUpdateTimestamp="lastSiteRequestTime"
+      />
     </div>
   </div>
   <div v-else>
@@ -43,6 +47,7 @@ import { ActionTypes } from '@/types/enums/ActionTypes';
 import { useGeneralStoreV2 } from '@/store/general_v2';
 import { mapStores } from 'pinia';
 import type { SiteWithBuildinginformation } from '@/types/Site';
+import type { DateTime } from 'luxon';
 
 export default {
   components: {
@@ -65,8 +70,13 @@ export default {
 
   computed: {
     ...mapStores(useGeneralStoreV2),
+
     site(): SiteWithBuildinginformation | null {
       return this.general_v2Store.currentSite;
+    },
+
+    lastSiteRequestTime(): DateTime | null {
+      return this.general_v2Store.lastSiteRequestTimestamp;
     },
   },
 
@@ -111,13 +121,17 @@ export default {
 }
 
 .status-container {
-  margin-top: $m;
+  margin-top: $s;
+
+  & > h3 {
+    @include content-subtitle;
+    color: $darkest;
+  }
 }
 
 h2,
 h3 {
   @include content-headline;
-  color: $dark-green;
   margin-bottom: $s;
 }
 </style>

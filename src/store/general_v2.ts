@@ -1,4 +1,5 @@
 // Module Imports
+import { DateTime } from 'luxon';
 import { defineStore } from 'pinia';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 
@@ -19,7 +20,9 @@ interface GeneralStoreState {
   sites: Site[];
   companies: Company[];
   currentSite: SiteWithBuildinginformation | null;
+  lastSiteRequestTimestamp: DateTime | null;
   currentBuilding: Building | null;
+  lastBuildingRequestTimestamp: DateTime | null;
 }
 
 export const useGeneralStoreV2 = defineStore('general_v2', {
@@ -28,7 +31,9 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
     sites: [],
     companies: [],
     currentSite: null,
+    lastSiteRequestTimestamp: null,
     currentBuilding: null,
+    lastBuildingRequestTimestamp: null,
   }),
   actions: {
     /**
@@ -79,6 +84,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
         requestOptions,
       ) as SiteWithBuildinginformation;
 
+      this.lastSiteRequestTimestamp = DateTime.now();
       this.globalLoadingOverlay = false;
     },
 
@@ -99,6 +105,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
         requestOptions,
       )) as Building;
 
+      this.lastBuildingRequestTimestamp = DateTime.now();
       this.globalLoadingOverlay = false;
     },
   },

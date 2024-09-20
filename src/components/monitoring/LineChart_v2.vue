@@ -3,7 +3,7 @@
     <div class="line-chart-container--left">
       <h3>{{ topic }}</h3>
       <BigNumber :number="value" :unit="unit" />
-      <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdate }} Minuten</p>
+      <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdateTime }} Minuten</p>
     </div>
     <div class="line-chart-container--right">
       <p>@TODO: insert Line Chart here...</p>
@@ -13,47 +13,62 @@
 
 <script lang="ts">
 import BigNumber from '@/components/general/BigNumber.vue';
+import { DateTime, Interval } from 'luxon';
+import type { PropType } from 'vue';
 
 export default {
   props: {
     /**
      * The topic of the line chart
-     * @type {String}
+     * @type {string}
      * @default 'Line Chart'
      */
     topic: {
-      type: String,
+      type: String as PropType<string>,
       required: true,
       default: 'Line Chart',
     },
     /**
      * The unit of the value
-     * @type {String}
+     * @type {string}
      * @default '-'
      */
     unit: {
-      type: String,
+      type: String as PropType<string>,
       required: false,
       default: '-',
     },
     /**
      * The value of the line chart
-     * @type {Number}
+     * @type {number}
      * @default 0
      */
     value: {
-      type: Number,
+      type: Number as PropType<number>,
       required: true,
       default: 0,
+    },
+    /**
+     * The timestamp of the last update
+     * @type {DateTime | null}
+     * @default null
+     */
+    lastUpdateTimestamp: {
+      type: Object as PropType<DateTime | null>,
+      required: false,
+      default: null,
     },
   },
   components: {
     BigNumber,
   },
-  data() {
-    return {
-      lastUpdate: 0,
-    };
+  computed: {
+    lastUpdateTime(): number | string {
+      if (this.lastUpdateTimestamp) {
+        return Math.round(Interval.fromDateTimes(this.lastUpdateTimestamp, DateTime.now()).length('minutes'));
+      }
+      return '-';
+    },
   },
 };
 </script>

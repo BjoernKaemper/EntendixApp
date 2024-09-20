@@ -9,6 +9,9 @@
     <div class="icon-section">
       <component :is="icon" />
     </div>
+    <div class="kpi-icon">
+      <component :is="kpiIcon" />
+    </div>
     <div class="text-section">
       <span class="title">
         {{ title }}
@@ -16,6 +19,9 @@
       <span v-if="subtitle" class="subtitle">
         {{ subtitle }}
       </span>
+    </div>
+    <div class="timestamp">
+      <span v-if="timestamp">seit {{ timestampFormatted }}</span>
     </div>
     <div class="action-section" v-if="actionIcon">
       <component :is="actionIcon" />
@@ -33,12 +39,20 @@
 import { type PropType } from 'vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
+import { KpiTypes } from '@/types/enums/KpiTypes';
+
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
 import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
 import WarningIcon from '@/components/icons/WarningIcon.vue';
 import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
 import ArrowIcon from '@/components/icons/ArrowIcon.vue';
 import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
+import AirIcon from '@/components/icons/AirIcon.vue';
+import MediaIcon from '@/components/icons/MediaIcon.vue';
+import HeatIcon from '@/components/icons/HeatIcon.vue';
+import ColdIcon from '@/components/icons/ColdIcon.vue';
+import SecurityIcon from '@/components/icons/SecurityIcon.vue';
+import ElectricityIcon from '@/components/icons/ElectricityIcon.vue';
 
 export default {
   components: {
@@ -48,6 +62,12 @@ export default {
     QuestionMarkIcon,
     ArrowIcon,
     InfoCircleIcon,
+    AirIcon,
+    MediaIcon,
+    HeatIcon,
+    ColdIcon,
+    ElectricityIcon,
+    SecurityIcon,
   },
   props: {
     /**
@@ -89,8 +109,38 @@ export default {
       type: Boolean as PropType<boolean>,
       default: true,
     },
+    /**
+     * The type of KPI icon to display.
+     * The KPI icon can be one of 'media', 'heat', 'cold', 'air', 'electricity', or 'security'.
+     * @default 'none'
+     */
+    kpiType: {
+      type: String as PropType<KpiTypes>,
+      default: KpiTypes.NONE,
+    },
+    /**
+     * The timestamp of the card.
+     * @default ''
+     */
+    timestamp: {
+      type: String as PropType<string>,
+      default: '',
+    },
   },
   computed: {
+    timestampFormatted(): string {
+      const date = new Date(this.timestamp);
+      const formatter = new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      });
+      // replace all / with . and remove commas with regex and without replaceAll
+      return formatter.format(date).replace(/,/g, '').replace(/\//g, '.');
+    },
     colourClass(): string {
       switch (this.status) {
         case StatusTypes.SUCCESS:
@@ -101,6 +151,10 @@ export default {
           return 'error';
         case StatusTypes.INFO:
           return 'info';
+        case StatusTypes.ERROR_COMPONENT:
+          return 'error-component';
+        case StatusTypes.WARNING_COMPONENT:
+          return 'warning-component';
         default:
           return 'info';
       }
@@ -115,8 +169,30 @@ export default {
           return 'WarningIcon';
         case StatusTypes.INFO:
           return 'QuestionMarkIcon';
+        case StatusTypes.ERROR_COMPONENT:
+          return 'WarningIcon';
+        case StatusTypes.WARNING_COMPONENT:
+          return 'ExclamationMarkIcon';
         default:
           return 'QuestionMarkIcon';
+      }
+    },
+    kpiIcon(): string | undefined {
+      switch (this.kpiType) {
+        case KpiTypes.MEDIA:
+          return 'MediaIcon';
+        case KpiTypes.HEAT:
+          return 'HeatIcon';
+        case KpiTypes.COLD:
+          return 'ColdIcon';
+        case KpiTypes.AIR:
+          return 'AirIcon';
+        case KpiTypes.ELECTRICITY:
+          return 'ElectricityIcon';
+        case KpiTypes.SECURITY:
+          return 'SecurityIcon';
+        default:
+          return undefined;
       }
     },
     actionIcon(): string | undefined {
@@ -140,6 +216,8 @@ export default {
   border-radius: $base-size;
   background-color: $lightest;
   display: flex;
+  align-items: center;
+  gap: $xs;
   margin-bottom: $s;
   cursor: pointer;
 
@@ -157,6 +235,14 @@ export default {
 
     &.info {
       border: 1px solid $light-purple;
+    }
+
+    &.error-component {
+      border: 1px solid $darkest;
+    }
+
+    &.warning-component {
+      border: 1px solid $darkest;
     }
   }
 
@@ -180,18 +266,41 @@ export default {
     border-radius: $base-size 0 0 $base-size;
   }
 
+  &.error-component > .icon-section {
+    background-color: $darkest;
+    border-radius: $base-size 0 0 $base-size;
+
+    svg > * > * {
+      fill: $orange;
+    }
+  }
+
+  &.warning-component > .icon-section {
+    background-color: $darkest;
+    border-radius: $base-size 0 0 $base-size;
+
+    svg > * > * {
+      fill: $yellow;
+    }
+  }
+
+  > .kpi-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   > .text-section {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: $xxs;
   }
 
   > .icon-section,
   .action-section {
     display: flex;
     align-items: center;
-    padding: $xxs;
+    padding: $xxs $base-size;
   }
 }
 
@@ -202,4 +311,9 @@ export default {
 .subtitle {
   @include content;
 }
+
+.timestamp {
+  @include meta-information;
+}
+
 </style>

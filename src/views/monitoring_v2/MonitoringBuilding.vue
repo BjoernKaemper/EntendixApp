@@ -5,66 +5,19 @@
       <AutomationKlima />
       <div class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
+        <!-- @TODO: Get the rest of the data in the response an map it -->
         <StatusCard
-          title="Medienversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="StatusTypes.SUCCESS"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.MEDIA"
-        />
-        <StatusCard
-          title="Wäremversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="StatusTypes.ERROR"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.HEAT"
-        />
-        <StatusCard
-          title="Kälteversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="StatusTypes.SUCCESS"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.COLD"
-        />
-        <StatusCard
-          title="Luftversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="StatusTypes.SUCCESS"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.AIR"
-        />
-        <StatusCard
-          title="Stromversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="StatusTypes.WARNING"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.ELECTRICITY"
-        />
-        <StatusCard
-          title="Sicherung"
-          subtitle=""
-          :isBordered="false"
-          :status="StatusTypes.SUCCESS"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.SECURITY"
-        />
-        <StatusCard
-          v-for="(kpi, idx) in building?.data.Kpis"
+          v-for="(subsection, idx) in building?.data.Subsections"
           :key="idx"
-          :title="kpi.data.Name.de"
+          :title="subsection.type"
           :isBordered="false"
           :status="StatusTypes.SUCCESS"
-          :kpiType="KpiTypes.COLD"
+          :kpiType="getSubsectionTypeIcon(subsection.type)"
           :actionType="ActionTypes.ARROW"
         />
       </div>
       <div class="issues-container">
-        <h3>Probleme in den Komponenten</h3>
+        <h3>Probleme in den Komponenten @TODO: Fill data</h3>
         <div class="issues">
           <p>Wäremversorgung</p>
           <StatusCard
@@ -118,18 +71,25 @@
 </template>
 
 <script lang="ts">
+// Library imports
+import type { DateTime } from 'luxon';
+import { mapStores } from 'pinia';
+
+// Store imports
 import { useGeneralStore } from '@/store/general';
 import { useGeneralStoreV2 } from '@/store/general_v2';
 import { useMonitoringStore } from '@/store/monitoring';
-import { mapStores } from 'pinia';
+
+// Type Imports
 import { StatusTypes } from '@/types/enums/StatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
-import { KpiTypes } from '@/types/enums/KpiTypes';
+import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
+import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 
+// component imports
 import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
-import type { DateTime } from 'luxon';
 
 export default {
   components: {
@@ -137,6 +97,21 @@ export default {
     AutomationKlima,
     StatusCard,
   },
+
+  data() {
+    return {
+      buildingName: '',
+    };
+  },
+
+  setup() {
+    return {
+      StatusTypes,
+      ActionTypes,
+      SubsectionTypes,
+    };
+  },
+
   computed: {
     ...mapStores(useGeneralStore, useMonitoringStore, useGeneralStoreV2),
 
@@ -148,18 +123,28 @@ export default {
       return this.general_v2Store.lastBuildingRequestTimestamp;
     },
   },
-  data() {
-    return {
-      buildingName: '',
-    };
+
+  methods: {
+    getSubsectionTypeIcon(type: SemanticSubmoduleTypes): SubsectionTypes {
+      switch (type) {
+        case SemanticSubmoduleTypes.AIR_TECHNICAL_SYSTEMS:
+          return SubsectionTypes.AIR;
+        case SemanticSubmoduleTypes.HEAT_SUPPLY_SYSTEMS:
+          return SubsectionTypes.HEAT;
+        case SemanticSubmoduleTypes.WASTEWATER_WATER_GAS_SYSTEMS:
+          return SubsectionTypes.NONE; // @TODO: Add icon for water
+        case SemanticSubmoduleTypes.COLD_SYSTEMS:
+          return SubsectionTypes.COLD;
+        case SemanticSubmoduleTypes.HIGH_VOLTAGE_CURRENT:
+          return SubsectionTypes.ELECTRICITY;
+        case SemanticSubmoduleTypes.BUILDUNG_AUTOMATION_SYSTEM:
+          return SubsectionTypes.SECURITY; // @TODO: Add icon for automation systems
+        default:
+          return SubsectionTypes.NONE;
+      }
+    },
   },
-  setup() {
-    return {
-      StatusTypes,
-      ActionTypes,
-      KpiTypes,
-    };
-  },
+
   created() {
     this.general_v2Store.loadBuildingInformation(
       JSON.parse(this.$route.params.buildingparams as string).buildingid,

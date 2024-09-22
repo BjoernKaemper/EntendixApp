@@ -39,7 +39,7 @@
 import { type PropType } from 'vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
-import { KpiTypes } from '@/types/enums/KpiTypes';
+import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
 import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
@@ -115,8 +115,8 @@ export default {
      * @default 'none'
      */
     kpiType: {
-      type: String as PropType<KpiTypes>,
-      default: KpiTypes.NONE,
+      type: String as PropType<SubsectionTypes>,
+      default: SubsectionTypes.NONE,
     },
     /**
      * The timestamp of the card.
@@ -179,17 +179,17 @@ export default {
     },
     kpiIcon(): string | undefined {
       switch (this.kpiType) {
-        case KpiTypes.MEDIA:
+        case SubsectionTypes.MEDIA:
           return 'MediaIcon';
-        case KpiTypes.HEAT:
+        case SubsectionTypes.HEAT:
           return 'HeatIcon';
-        case KpiTypes.COLD:
+        case SubsectionTypes.COLD:
           return 'ColdIcon';
-        case KpiTypes.AIR:
+        case SubsectionTypes.AIR:
           return 'AirIcon';
-        case KpiTypes.ELECTRICITY:
+        case SubsectionTypes.ELECTRICITY:
           return 'ElectricityIcon';
-        case KpiTypes.SECURITY:
+        case SubsectionTypes.SECURITY:
           return 'SecurityIcon';
         default:
           return undefined;

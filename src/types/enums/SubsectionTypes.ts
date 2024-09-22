@@ -1,4 +1,4 @@
-export enum KpiTypes {
+export enum SubsectionTypes {
   MEDIA = 'MEDIA',
   HEAT = 'HEAT',
   COLD = 'COLD',

@@ -4,7 +4,7 @@
       <h3>{{ kpi?.data.Name.de || topic }}</h3>
       <div class="line-chart-container--left--values">
         <div v-if="primaryKpiValue">
-          <h4>{{ kpi.data.Context.de || topic }}</h4>
+          <h4 v-if="secondaryKpiValue">{{ kpi.data.Context.de || topic }}</h4>
           <BigNumber
             :number="primaryKpiValue"
             :unit="primaryKpiValueUnit"

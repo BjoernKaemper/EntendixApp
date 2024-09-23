@@ -3,9 +3,7 @@
     <span>
       {{ statusData.label }}
     </span>
-    <div class="chip--icon" :class="statusData.class">
-      <component :is="statusData.icon" />
-    </div>
+    <IconChip class="chip--icon" :status="status" />
   </div>
 </template>
 
@@ -20,22 +18,17 @@ import type { PropType } from 'vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
 import type { Kpi } from '@/types/Kpi';
 
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
-import WarningIcon from '@/components/icons/WarningIcon.vue';
-import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
+import IconChip from '@/components/general/IconChip.vue';
 
 export default {
   components: {
-    CheckMarkCircleIcon,
-    ExclamationMarkIcon,
-    WarningIcon,
-    QuestionMarkIcon,
+    IconChip,
   },
   props: {
     /**
      * The status of the chip.
      * The status can be one of 'success', 'warning', 'error', or 'info'.
+     * @type {string}
      * @default 'info'
      */
     status: {
@@ -99,31 +92,26 @@ export default {
         case StatusTypes.SUCCESS:
           return {
             label: 'In Ordnung',
-            icon: CheckMarkCircleIcon,
             class: 'success',
           };
         case StatusTypes.WARNING:
           return {
             label: 'Achtung',
-            icon: ExclamationMarkIcon,
             class: 'warning',
           };
         case StatusTypes.ERROR:
           return {
             label: 'Kritisch',
-            icon: WarningIcon,
             class: 'alert',
           };
         case StatusTypes.INFO:
           return {
             label: 'Unbekannt',
-            icon: QuestionMarkIcon,
             class: 'info',
           };
         default:
           return {
             label: 'Info',
-            icon: QuestionMarkIcon,
             class: 'info',
           };
       }
@@ -168,6 +156,7 @@ export default {
     justify-content: center;
     height: 100%;
     padding: $base-size;
+    border-radius: 0;
 
     &.success {
       background-color: $light-green;

@@ -28,10 +28,6 @@
     </div>
     <div>
       <h3>Performance der Liegenschaft</h3>
-      <LineChart_v2
-        topic="Nutzungskomfort"
-        :lastUpdateTimestamp="lastSiteRequestTime"
-      />
     </div>
   </div>
   <div v-else>
@@ -41,7 +37,6 @@
 </template>
 <script lang="ts">
 import StatusCard from '@/components/general/StatusCard.vue';
-import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { useGeneralStoreV2 } from '@/store/general_v2';
@@ -52,7 +47,6 @@ import type { DateTime } from 'luxon';
 export default {
   components: {
     StatusCard,
-    LineChart_v2,
   },
 
   setup() {

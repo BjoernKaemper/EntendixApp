@@ -1,11 +1,12 @@
 <template>
   <div class="grid-wrapper">
-    <div>
+    <div class="grid-wrapper--left">
       <h2>{{ buildingName }}</h2>
       <AutomationKlima />
       <div class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <!-- @TODO: Get the rest of the data in the response an map it -->
+        <!-- @TODO remove placeholders -->
         <StatusCard
           v-for="(subsection, idx) in building?.data.Subsections"
           :key="idx"
@@ -17,8 +18,9 @@
         />
       </div>
       <div class="issues-container">
-        <h3>Probleme in den Komponenten @TODO: Fill data</h3>
-        <div class="issues">
+        <h3>Probleme in den Komponenten</h3>
+        <div v-if="issues" class="issues">
+          <!-- @TODO remove placeholders -->
           <p>Wäremversorgung</p>
           <StatusCard
             title="Wärmeerzeuger 1"
@@ -52,17 +54,25 @@
             :timestamp="kpi.data.Annotations[0]?.TimestampOfCreation"
           />
         </div>
+        <div v-else class="no-issues">
+          <p>Aktuell sind alle Komponenten im Zielbereich.</p>
+          <p>Es gibt keine kritischen Abweichungen oder Warnungen.</p>
+        </div>
       </div>
     </div>
     <div>
-      <h3>Performance des Gebäudes</h3>
+      <div class="performance-header">
+        <h3>Performance des Gebäudes</h3>
+        <!-- @TODO create dropdown component -->
+        <div class="dropdown">
+          Letzte 14 Tage
+        </div>
+      </div>
       <div class="performance-grid">
         <LineChart_v2
           v-for="(kpi, idx) in building?.data.Kpis"
           :key="idx"
-          :topic="kpi.data.Name.de"
-          :value="kpi.data.Value.PresentValue"
-          :unit="kpi.data.Value.PhysicalUnit"
+          :kpi="kpi"
           :lastUpdateTimestamp="lastBuildingRequestTimestamp"
         />
       </div>
@@ -100,6 +110,7 @@ export default {
 
   data() {
     return {
+      issues: true,
       buildingName: '',
     };
   },
@@ -108,7 +119,6 @@ export default {
     return {
       StatusTypes,
       ActionTypes,
-      SubsectionTypes,
     };
   },
 
@@ -159,6 +169,10 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-gap: $m;
+
+  &--left {
+    overflow-y: hidden;
+  }
 }
 
 .performance-grid {
@@ -187,13 +201,33 @@ export default {
     color: $darkest;
     margin-bottom: $xs;
   }
-}
 
-.issues {
-  & > p {
+  .no-issues {
+    & > p {
+      @include meta-information;
+      text-align: center;
+    }
+  }
+
+  .issues {
+    & > p {
+      @include content;
+      color: $darkest;
+      margin-bottom: $xxs;
+    }
+  }
+}
+.performance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .dropdown {
     @include content;
-    color: $darkest;
-    margin-bottom: $xxs;
+    cursor: pointer;
+    border: 1px solid $light-purple;
+    padding: $base-size;
+    border-radius: $base-size;
   }
 }
 

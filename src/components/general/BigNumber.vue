@@ -5,7 +5,8 @@
   </div>
 </template>
 
-<script langs="ts">
+<script lang="ts">
+import type { PropType } from 'vue';
 
 export default {
   props: {
@@ -14,7 +15,7 @@ export default {
      * @type {Number}
      */
     number: {
-      type: Number,
+      type: Number as PropType<number>,
     },
     /**
      * The unit of the number
@@ -22,7 +23,7 @@ export default {
      * @default 'tbd.'
      */
     unit: {
-      type: String,
+      type: String as PropType<string>,
       default: 'tbd.',
     },
   },
@@ -37,8 +38,15 @@ export default {
     @include big-number;
     width: 100%;
     display: flex;
-    justify-content: center;
     align-items: end;
+    justify-content: end;
+    opacity: 50%;
+    transition: opacity 0.2s;
+    padding: $m;
+
+    &:hover {
+      opacity: 100%;
+    }
   }
   .unit {
     @include content;

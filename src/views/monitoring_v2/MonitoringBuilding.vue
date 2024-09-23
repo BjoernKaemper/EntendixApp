@@ -12,7 +12,7 @@
           :title="subsection.type"
           :isBordered="false"
           :status="StatusTypes.SUCCESS"
-          :kpiType="getSubsectionTypeIcon(subsection.type)"
+          :kpiType="getSubsectionTypeIcon(subsection.type as SemanticSubmoduleTypes)"
           :actionType="ActionTypes.ARROW"
         />
       </div>

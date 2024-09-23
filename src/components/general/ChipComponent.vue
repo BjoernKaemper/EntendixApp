@@ -50,7 +50,7 @@ export default {
     kpi: {
       type: Object as PropType<Kpi>,
       required: false,
-      default: () => ({ data: { number: 0, unit: 'tbd.' } }),
+      default: () => ({ data: { number: undefined, unit: 'tbd.' } }),
     },
   },
   computed: {
@@ -58,7 +58,7 @@ export default {
      * Returns the status type based on the kpi data.
      * @returns The status type.
      */
-    updateStatus(): StatusTypes {
+    currentStatus(): StatusTypes {
       type Limits = string[];
       const limits: Limits | undefined = this.kpi?.data?.Limits;
 
@@ -66,19 +66,11 @@ export default {
         return StatusTypes.INFO;
       }
 
-      const low = Number(limits[0]);
-      const mid = Number(limits[1]);
-      const high = Number(limits[2]);
-
-      if (Number.isNaN(low) || Number.isNaN(mid) || Number.isNaN(high)) {
-        return StatusTypes.INFO; // or handle the error appropriately
-      }
+      const low = parseInt(limits[0], 10);
+      const mid = parseInt(limits[1], 10);
+      const high = parseInt(limits[2], 10);
 
       const value = this.kpi?.data?.Value?.PresentValue;
-
-      if (value === undefined || Number.isNaN(value)) {
-        return StatusTypes.INFO; // or handle the error appropriately
-      }
 
       if (value < low) {
         return StatusTypes.ERROR;

@@ -224,6 +224,7 @@ export default {
     }
   }
 }
+
 .performance-header {
   display: flex;
   justify-content: space-between;

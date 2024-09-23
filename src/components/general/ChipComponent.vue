@@ -45,12 +45,12 @@ export default {
     /**
      * The primary kpi of the line chart
      * @type {Kpi}
-     * @default { number: undefined, unit: 'tbd.' }
+     * @default { number: undefined, unit: '-' }
      */
     kpi: {
       type: Object as PropType<Kpi>,
       required: false,
-      default: () => ({ data: { number: undefined, unit: 'tbd.' } }),
+      default: () => ({ data: { number: undefined, unit: '-' } }),
     },
   },
   computed: {

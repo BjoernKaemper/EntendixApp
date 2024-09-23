@@ -73,6 +73,9 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
     async loadKpiInformation(parentId: string): Promise<void> {
       this.globalLoadingOverlay = true;
 
+      // Reset the KPI Store data
+      this.currentKPIs = [];
+
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
       };
@@ -92,6 +95,9 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
 
     async loadSiteInformation(siteId: string): Promise<void> {
       this.globalLoadingOverlay = true;
+
+      // Reset the site data
+      this.currentSite = null;
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -113,6 +119,10 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
 
     async loadBuildingInformation(buildingId: string): Promise<void> {
       this.globalLoadingOverlay = true;
+
+      // Reset the store data
+      this.currentBuilding = null;
+      this.currentKPIs = [];
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,

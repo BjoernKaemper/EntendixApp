@@ -48,7 +48,7 @@ export default {
     topic: {
       type: String as PropType<string>,
       required: false,
-      default: 'Line Chart',
+      default: '-',
     },
     /**
      * The primary kpi of the line chart
@@ -58,7 +58,7 @@ export default {
     kpi: {
       type: Object as PropType<Kpi>,
       required: false,
-      default: () => ({ data: { number: 0, unit: 'tbd.' } }),
+      default: () => ({ data: { number: undefined, unit: 'tbd.' } }),
     },
     /**
      * The timestamp of the last update
@@ -110,12 +110,12 @@ export default {
     /**
      * @returns The secondary kpi value
      */
-    secondaryKpiValue(): number {
+    secondaryKpiValue(): number | undefined {
       // @ToDo refine this when data is available
       // if (Array.isArray(this.kpi?.data.Value)) {
       //   return Number(this.kpi?.data.Value[1].PresentValue);
       // }
-      return 0;
+      return undefined;
     },
     /**
      * @returns The secondary kpi value unit

@@ -20,7 +20,7 @@
           :key="idx"
           :title="building.data.BuildingName"
           subtitle="@TODO: Get subtitle"
-          :status="StatusTypes.SUCCESS"
+          :status="ChipStatusTypes.SUCCESS"
           :isBordered="false"
           :actionType="ActionTypes.ARROW"
         />
@@ -37,7 +37,7 @@
 </template>
 <script lang="ts">
 import StatusCard from '@/components/general/StatusCard.vue';
-import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { useGeneralStoreV2 } from '@/store/general_v2';
 import { mapStores } from 'pinia';
@@ -51,7 +51,7 @@ export default {
 
   setup() {
     return {
-      StatusTypes,
+      ChipStatusTypes,
       ActionTypes,
     };
   },

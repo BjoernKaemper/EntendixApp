@@ -32,7 +32,7 @@
 <script lang="ts">
 import BigNumber from '@/components/general/BigNumber.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
-import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import type { Kpi } from '@/types/Kpi';
 
 import { DateTime, Interval } from 'luxon';
@@ -76,9 +76,9 @@ export default {
      * @default 'info'
      */
     status: {
-      type: String as PropType<StatusTypes>,
+      type: String as PropType<ChipStatusTypes>,
       required: false,
-      default: StatusTypes.INFO,
+      default: ChipStatusTypes.INFO,
     },
   },
   components: {

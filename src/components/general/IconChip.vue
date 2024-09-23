@@ -5,7 +5,8 @@
 </template>
 <script lang="ts">
 import type { PropType } from 'vue';
-import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { IconTypes } from '@/types/enums/IconTypes';
 
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
@@ -24,8 +25,8 @@ export default {
      * @default 'info'
      */
     status: {
-      type: String as PropType<StatusTypes>,
-      default: StatusTypes.INFO,
+      type: String as PropType<ChipStatusTypes | ComponentStatusTypes>,
+      default: ChipStatusTypes.INFO,
     },
   },
   components: {
@@ -39,17 +40,17 @@ export default {
   computed: {
     icon(): string {
       switch (this.status) {
-        case StatusTypes.SUCCESS:
+        case ChipStatusTypes.SUCCESS:
           return IconTypes.CHECK_MARK_CIRCLE;
-        case StatusTypes.WARNING:
+        case ChipStatusTypes.WARNING:
           return IconTypes.EXCLAMATION_MARK;
-        case StatusTypes.ERROR:
+        case ChipStatusTypes.ERROR:
           return IconTypes.WARNING;
-        case StatusTypes.INFO:
+        case ChipStatusTypes.INFO:
           return IconTypes.QUESTION_MARK;
-        case StatusTypes.ERROR_COMPONENT:
+        case ComponentStatusTypes.ERROR_COMPONENT:
           return IconTypes.WARNING;
-        case StatusTypes.WARNING_COMPONENT:
+        case ComponentStatusTypes.WARNING_COMPONENT:
           return IconTypes.EXCLAMATION_MARK;
         default:
           return IconTypes.QUESTION_MARK;
@@ -57,20 +58,20 @@ export default {
     },
     colorClass(): string {
       switch (this.status) {
-        case StatusTypes.SUCCESS:
-          return StatusTypes.SUCCESS.toLocaleLowerCase();
-        case StatusTypes.WARNING:
-          return StatusTypes.WARNING.toLocaleLowerCase();
-        case StatusTypes.ERROR:
-          return StatusTypes.ERROR.toLocaleLowerCase();
-        case StatusTypes.INFO:
-          return StatusTypes.INFO.toLocaleLowerCase();
-        case StatusTypes.ERROR_COMPONENT:
-          return StatusTypes.ERROR_COMPONENT.replace('.', '-').toLocaleLowerCase();
-        case StatusTypes.WARNING_COMPONENT:
-          return StatusTypes.WARNING_COMPONENT.replace('.', '-').toLocaleLowerCase();
+        case ChipStatusTypes.SUCCESS:
+          return ChipStatusTypes.SUCCESS.toLocaleLowerCase();
+        case ChipStatusTypes.WARNING:
+          return ChipStatusTypes.WARNING.toLocaleLowerCase();
+        case ChipStatusTypes.ERROR:
+          return ChipStatusTypes.ERROR.toLocaleLowerCase();
+        case ChipStatusTypes.INFO:
+          return ChipStatusTypes.INFO.toLocaleLowerCase();
+        case ComponentStatusTypes.ERROR_COMPONENT:
+          return ComponentStatusTypes.ERROR_COMPONENT.replace('.', '-').toLocaleLowerCase();
+        case ComponentStatusTypes.WARNING_COMPONENT:
+          return ComponentStatusTypes.WARNING_COMPONENT.replace('.', '-').toLocaleLowerCase();
         default:
-          return StatusTypes.INFO.toLocaleLowerCase();
+          return ChipStatusTypes.INFO.toLocaleLowerCase();
       }
     },
   },

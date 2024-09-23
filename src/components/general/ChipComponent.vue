@@ -95,7 +95,7 @@ export default {
      * @returns The status data object.
      */
     statusData() {
-      switch (this.updateStatus) {
+      switch (this.currentStatus) {
         case StatusTypes.SUCCESS:
           return {
             label: 'In Ordnung',

@@ -336,7 +336,7 @@
 
 </template>
 
-<style scopes>
+<style scoped>
   svg {
     width: 100%;
   }

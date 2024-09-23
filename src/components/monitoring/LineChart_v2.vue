@@ -42,7 +42,7 @@ export default {
   props: {
     /**
      * The topic of the line chart
-     * @type {String}
+     * @type {string}
      * @default 'Line Chart'
      */
     topic: {
@@ -53,12 +53,12 @@ export default {
     /**
      * The primary kpi of the line chart
      * @type {Kpi}
-     * @default { number: undefined, unit: 'tbd.' }
+     * @default { number: undefined, unit: '-' }
      */
     kpi: {
       type: Object as PropType<Kpi>,
       required: false,
-      default: () => ({ data: { number: undefined, unit: 'tbd.' } }),
+      default: () => ({ data: { number: undefined, unit: '-' } }),
     },
     /**
      * The timestamp of the last update
@@ -72,7 +72,7 @@ export default {
     },
     /**
      * The status of the line chart
-     * @type {String}
+     * @type {string}
      * @default 'info'
      */
     status: {
@@ -98,14 +98,14 @@ export default {
     /**
      * @returns The primary kpi value
      */
-    primaryKpiValue(): number {
-      return Number(this.kpi?.data.Value.PresentValue);
+    primaryKpiValue(): number | undefined {
+      return Number(this.kpi?.data.Value.PresentValue) || undefined;
     },
     /**
      * @returns The primary kpi value unit
      */
     primaryKpiValueUnit(): string {
-      return this.kpi?.data.Value.PhysicalUnit;
+      return this.kpi?.data.Value.PhysicalUnit || '-';
     },
     /**
      * @returns The secondary kpi value
@@ -125,7 +125,7 @@ export default {
       // if (secondaryKpiValue) {
       //   return this.kpi?.data.Value[1].PhysicalUnit;
       // }
-      return 'tbd.';
+      return '-';
     },
   },
 };

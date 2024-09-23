@@ -35,6 +35,7 @@ export default {
     /**
      * The status of the chip.
      * The status can be one of 'success', 'warning', 'error', or 'info'.
+     * @type {string}
      * @default 'info'
      */
     status: {

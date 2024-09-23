@@ -35,9 +35,27 @@ export default {
   },
   name: 'ModalOverlay',
   props: {
+    /**
+     * The state of the modal.
+     * @type {boolean}
+     * @required
+     * @default false
+     */
     isOpen: {
       type: Boolean,
       required: true,
+      default: false,
+    },
+    /**
+     * The state of the metrics modal.
+     * @type {boolean}
+     * @required
+     * @default false
+     */
+    isMetricsModalOpen: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   watch: {
@@ -113,6 +131,9 @@ export default {
       }
 
       &__body {
+        display: flex;
+        flex-direction: column;
+        gap: $m;
         margin-bottom: $s;
         @include content;
       }

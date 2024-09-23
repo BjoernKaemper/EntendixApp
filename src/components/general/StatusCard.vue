@@ -1,13 +1,13 @@
 <template>
   <div
     class="status-card"
-    :class="[{ isBordered }, colourClass]"
+    :class="[{ isBordered }]"
     @click="$emit('clicked')"
     @keydown.enter="$emit('clicked')"
     tabindex="0"
   >
     <div class="icon-section">
-      <component :is="icon" />
+      <IconChip :status="status" />
     </div>
     <div class="kpi-icon">
       <component :is="kpiIcon" />
@@ -54,6 +54,8 @@ import ColdIcon from '@/components/icons/ColdIcon.vue';
 import SecurityIcon from '@/components/icons/SecurityIcon.vue';
 import ElectricityIcon from '@/components/icons/ElectricityIcon.vue';
 
+import IconChip from '@/components/general/IconChip.vue';
+
 export default {
   components: {
     CheckMarkCircleIcon,
@@ -68,6 +70,7 @@ export default {
     ColdIcon,
     ElectricityIcon,
     SecurityIcon,
+    IconChip,
   },
   props: {
     /**
@@ -141,42 +144,6 @@ export default {
       // replace all / with . and remove commas with regex and without replaceAll
       return formatter.format(date).replace(/,/g, '').replace(/\//g, '.');
     },
-    colourClass(): string {
-      switch (this.status) {
-        case StatusTypes.SUCCESS:
-          return 'success';
-        case StatusTypes.WARNING:
-          return 'warning';
-        case StatusTypes.ERROR:
-          return 'error';
-        case StatusTypes.INFO:
-          return 'info';
-        case StatusTypes.ERROR_COMPONENT:
-          return 'error-component';
-        case StatusTypes.WARNING_COMPONENT:
-          return 'warning-component';
-        default:
-          return 'info';
-      }
-    },
-    icon(): string {
-      switch (this.status) {
-        case StatusTypes.SUCCESS:
-          return 'CheckMarkCircleIcon';
-        case StatusTypes.WARNING:
-          return 'ExclamationMarkIcon';
-        case StatusTypes.ERROR:
-          return 'WarningIcon';
-        case StatusTypes.INFO:
-          return 'QuestionMarkIcon';
-        case StatusTypes.ERROR_COMPONENT:
-          return 'WarningIcon';
-        case StatusTypes.WARNING_COMPONENT:
-          return 'ExclamationMarkIcon';
-        default:
-          return 'QuestionMarkIcon';
-      }
-    },
     kpiIcon(): string | undefined {
       switch (this.kpiType) {
         case SubsectionTypes.MEDIA:
@@ -217,8 +184,9 @@ export default {
   background-color: $lightest;
   display: flex;
   align-items: center;
-  gap: $xs;
+  gap: $xxs;
   margin-bottom: $s;
+  padding-right: $xxs;
   cursor: pointer;
 
   &.isBordered {
@@ -246,44 +214,6 @@ export default {
     }
   }
 
-  &.success > .icon-section {
-    background-color: $light-green;
-    border-radius: $base-size 0 0 $base-size;
-  }
-
-  &.warning > .icon-section {
-    background-color: $yellow;
-    border-radius: $base-size 0 0 $base-size;
-  }
-
-  &.error > .icon-section {
-    background-color: $orange;
-    border-radius: $base-size 0 0 $base-size;
-  }
-
-  &.info > .icon-section {
-    background-color: $light-purple;
-    border-radius: $base-size 0 0 $base-size;
-  }
-
-  &.error-component > .icon-section {
-    background-color: $darkest;
-    border-radius: $base-size 0 0 $base-size;
-
-    svg > * > * {
-      fill: $orange;
-    }
-  }
-
-  &.warning-component > .icon-section {
-    background-color: $darkest;
-    border-radius: $base-size 0 0 $base-size;
-
-    svg > * > * {
-      fill: $yellow;
-    }
-  }
-
   > .kpi-icon {
     display: flex;
     justify-content: center;
@@ -300,7 +230,10 @@ export default {
   .action-section {
     display: flex;
     align-items: center;
-    padding: $xxs $base-size;
+    & > div {
+      padding: $m $xxs;
+      border-radius: $base-size 0 0 $base-size;
+    }
   }
 }
 

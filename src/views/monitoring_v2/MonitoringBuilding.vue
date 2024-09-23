@@ -6,7 +6,7 @@
       <div class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <!-- @TODO: Get the rest of the data in the response an map it -->
-        <!-- @TODO remove placeholders -->
+        <!-- @TODO: remove placeholders -->
         <StatusCard
           v-for="(subsection, idx) in building?.data.Subsections"
           :key="idx"
@@ -63,7 +63,7 @@
     <div>
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
-        <!-- @TODO create dropdown component -->
+        <!-- @TODO: create dropdown component -->
         <div class="dropdown">
           Letzte 14 Tage
         </div>

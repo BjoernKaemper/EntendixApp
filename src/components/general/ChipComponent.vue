@@ -18,6 +18,7 @@
  */
 import type { PropType } from 'vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
+import type { Kpi } from '@/types/Kpi';
 
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
 import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
@@ -41,14 +42,68 @@ export default {
       type: String as PropType<StatusTypes>,
       default: StatusTypes.INFO,
     },
+    /**
+     * The primary kpi of the line chart
+     * @type {Kpi}
+     * @default { number: 0, unit: 'tbd.' }
+     */
+    kpi: {
+      type: Object as PropType<Kpi>,
+      required: false,
+      default: () => ({ data: { number: 0, unit: 'tbd.' } }),
+    },
   },
   computed: {
+    /**
+     * Returns the status type based on the kpi data.
+     * @returns The status type.
+     */
+    updateStatus(): StatusTypes {
+      type Limits = string[];
+      const limits: Limits | undefined = this.kpi?.data?.Limits;
+
+      if (!limits || limits.length === 0) {
+        return StatusTypes.INFO;
+      }
+
+      const low = Number(limits[0]);
+      const mid = Number(limits[1]);
+      const high = Number(limits[2]);
+
+      if (Number.isNaN(low) || Number.isNaN(mid) || Number.isNaN(high)) {
+        return StatusTypes.INFO; // or handle the error appropriately
+      }
+
+      const value = this.kpi?.data?.Value?.PresentValue;
+
+      if (value === undefined || Number.isNaN(value)) {
+        return StatusTypes.INFO; // or handle the error appropriately
+      }
+
+      if (value < low) {
+        return StatusTypes.ERROR;
+      }
+
+      if (value > high) {
+        return StatusTypes.ERROR;
+      }
+
+      if (value < mid) {
+        return StatusTypes.WARNING;
+      }
+
+      if (value >= mid) {
+        return StatusTypes.SUCCESS;
+      }
+
+      return StatusTypes.INFO;
+    },
     /**
      * Returns the status data based on the status prop.
      * @returns The status data object.
      */
     statusData() {
-      switch (this.status) {
+      switch (this.updateStatus) {
         case StatusTypes.SUCCESS:
           return {
             label: 'In Ordnung',
@@ -110,7 +165,6 @@ export default {
     }
 
     > span {
-      background-color: #efefef;
       padding: 0 $xs;
       border-radius: $base-size 0 0 $base-size;
     }

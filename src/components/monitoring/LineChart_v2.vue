@@ -53,7 +53,7 @@ export default {
     /**
      * The primary kpi of the line chart
      * @type {Kpi}
-     * @default { number: 0, unit: 'tbd.' }
+     * @default { number: undefined, unit: 'tbd.' }
      */
     kpi: {
       type: Object as PropType<Kpi>,

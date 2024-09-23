@@ -3,7 +3,7 @@
     <span>
       {{ statusData.label }}
     </span>
-    <IconChip class="chip--icon" :status="status" />
+    <IconChip class="chip--icon" :status="currentStatus" />
   </div>
 </template>
 

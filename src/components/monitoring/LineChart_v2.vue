@@ -5,21 +5,15 @@
       <div class="line-chart-container--left--values">
         <h4>{{ kpi.data.Context.de || topic }}</h4>
         <div>
-          <!-- If it's an array, loop through each value -->
-          <div v-if="Array.isArray(kpi?.data.Value)">
-            <BigNumber
-              v-for="(value, index) in kpi?.data.Value"
-              :key="index"
-              :number="Number(value.PresentValue)"
-              :unit="value.PhysicalUnit"
-            />
-          </div>
           <BigNumber
-            v-else
-            :number="Number(kpi.data.Value.PresentValue)"
-            :unit="kpi.data.Value.PhysicalUnit"
+            :number="primaryKpiValue"
+            :unit="primaryKpiValueUnit"
           />
-          <!-- If it's a single object, render it directly -->
+          <BigNumber
+            v-if="secondaryKpiValue"
+            :number="secondaryKpiValue"
+            :unit="secondaryKpiValueUnit"
+          />
         </div>
       </div>
       <div class="line-chart-container--left--footer">
@@ -120,6 +114,26 @@ export default {
         return Math.round(Interval.fromDateTimes(this.lastUpdateTimestamp, DateTime.now()).length('minutes'));
       }
       return '-';
+    },
+    primaryKpiValue(): number {
+      return Number(this.kpi?.data.Value.PresentValue);
+    },
+    primaryKpiValueUnit(): string {
+      return this.kpi?.data.Value.PhysicalUnit;
+    },
+    secondaryKpiValue(): number {
+      // @ToDo refine this when data is available
+      // if (Array.isArray(this.kpi?.data.Value)) {
+      //   return Number(this.kpi?.data.Value[1].PresentValue);
+      // }
+      return 0;
+    },
+    secondaryKpiValueUnit(): string {
+      // @ToDo refine this when data is available
+      // if (secondaryKpiValue) {
+      //   return this.kpi?.data.Value[1].PhysicalUnit;
+      // }
+      return 'tbd.';
     },
   },
 };

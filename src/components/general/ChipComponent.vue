@@ -3,7 +3,7 @@
     <span>
       {{ statusData.label }}
     </span>
-    <IconChip class="chip--icon" :status="status" />
+    <IconChip class="chip--icon" :status="currentStatus" />
   </div>
 </template>
 
@@ -16,6 +16,7 @@
  */
 import type { PropType } from 'vue';
 import { StatusTypes } from '@/types/enums/StatusTypes';
+import type { Kpi } from '@/types/Kpi';
 
 import IconChip from '@/components/general/IconChip.vue';
 
@@ -34,14 +35,60 @@ export default {
       type: String as PropType<StatusTypes>,
       default: StatusTypes.INFO,
     },
+    /**
+     * The primary kpi of the line chart
+     * @type {Kpi}
+     * @default { number: undefined, unit: '-' }
+     */
+    kpi: {
+      type: Object as PropType<Kpi>,
+      required: false,
+      default: () => ({ data: { number: undefined, unit: '-' } }),
+    },
   },
   computed: {
+    /**
+     * Returns the status type based on the kpi data.
+     * @returns The status type.
+     */
+    currentStatus(): StatusTypes {
+      type Limits = string[];
+      const limits: Limits | undefined = this.kpi?.data?.Limits;
+
+      if (!limits || limits.length === 0) {
+        return StatusTypes.INFO;
+      }
+
+      const low = parseInt(limits[0], 10);
+      const mid = parseInt(limits[1], 10);
+      const high = parseInt(limits[2], 10);
+
+      const value = this.kpi?.data?.Value?.PresentValue;
+
+      if (value < low) {
+        return StatusTypes.ERROR;
+      }
+
+      if (value > high) {
+        return StatusTypes.ERROR;
+      }
+
+      if (value < mid) {
+        return StatusTypes.WARNING;
+      }
+
+      if (value >= mid) {
+        return StatusTypes.SUCCESS;
+      }
+
+      return StatusTypes.INFO;
+    },
     /**
      * Returns the status data based on the status prop.
      * @returns The status data object.
      */
     statusData() {
-      switch (this.status) {
+      switch (this.currentStatus) {
         case StatusTypes.SUCCESS:
           return {
             label: 'In Ordnung',
@@ -98,7 +145,6 @@ export default {
     }
 
     > span {
-      background-color: #efefef;
       padding: 0 $xs;
       border-radius: $base-size 0 0 $base-size;
     }

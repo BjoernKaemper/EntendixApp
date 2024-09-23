@@ -18,9 +18,9 @@
         />
       </div>
       <div class="issues-container">
-        <h3>Probleme in den Komponenten</h3>
+        <h3>@TODO: Probleme in den Komponenten</h3>
         <div v-if="issues" class="issues">
-          <!-- @TODO remove placeholders -->
+          <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
           <StatusCard
             title="Wärmeerzeuger 1"
@@ -45,7 +45,7 @@
             :actionType="ActionTypes.ARROW"
           />
           <StatusCard
-            v-for="(kpi, idx) in building?.data.Kpis"
+            v-for="(kpi, idx) in kpis"
             :key="idx"
             :title="kpi.data.Name.de"
             :isBordered="false"
@@ -70,7 +70,7 @@
       </div>
       <div class="performance-grid">
         <LineChart_v2
-          v-for="(kpi, idx) in building?.data.Kpis"
+          v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
           :lastUpdateTimestamp="lastBuildingRequestTimestamp"
@@ -129,6 +129,10 @@ export default {
       return this.general_v2Store.currentBuilding;
     },
 
+    kpis() {
+      return this.general_v2Store.currentKPIs;
+    },
+
     lastBuildingRequestTimestamp(): DateTime | null {
       return this.general_v2Store.lastBuildingRequestTimestamp;
     },
@@ -155,11 +159,14 @@ export default {
     },
   },
 
-  created() {
-    this.general_v2Store.loadBuildingInformation(
+  async created() {
+    await this.general_v2Store.loadBuildingInformation(
       JSON.parse(this.$route.params.buildingparams as string).buildingid,
     );
     this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;
+    this.general_v2Store.loadKpiInformation(
+      JSON.parse(this.$route.params.buildingparams as string).buildingid,
+    );
   },
 };
 </script>

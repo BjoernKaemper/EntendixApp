@@ -11,6 +11,7 @@ import type { Building } from '@/types/Building';
 // Helper Imports
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
+import type { Kpi } from '@/types/Kpi';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -20,6 +21,7 @@ interface GeneralStoreState {
   sites: Site[];
   companies: Company[];
   currentSite: SiteWithBuildinginformation | null;
+  currentKPIs: Kpi[];
   lastSiteRequestTimestamp: DateTime | null;
   currentBuilding: Building | null;
   lastBuildingRequestTimestamp: DateTime | null;
@@ -31,6 +33,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
     sites: [],
     companies: [],
     currentSite: null,
+    currentKPIs: [],
     lastSiteRequestTimestamp: null,
     currentBuilding: null,
     lastBuildingRequestTimestamp: null,
@@ -63,6 +66,26 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
         `/middleware/companies?${q}`,
         requestOptions,
       ) as Company[];
+
+      this.globalLoadingOverlay = false;
+    },
+
+    async loadKpiInformation(parentId: string): Promise<void> {
+      this.globalLoadingOverlay = true;
+
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+
+      this.currentKPIs = (await FetchHelper.apiCall(
+        `/middleware/kpis/${parentId}?${q}`,
+        requestOptions,
+      )) as Kpi[];
 
       this.globalLoadingOverlay = false;
     },

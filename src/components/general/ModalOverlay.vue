@@ -11,13 +11,6 @@
           <slot name="body" />
         </div>
         <div class="modal-overlay__content__footer">
-          <!-- <button v-if="!hasFooterSlot" type="button" @click="close">Abbrechen
-            <CloseIcon />
-          </button> -->
-          <!-- @TODO: add some logic, when accept button is clicked -->
-          <!-- <button v-if="!hasFooterSlot" type="button" class="primary">Akzeptieren
-            <CheckIcon />
-          </button> -->
           <ButtonComponent
             v-if="!hasFooterSlot"
             @click="close"

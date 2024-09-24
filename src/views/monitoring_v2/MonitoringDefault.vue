@@ -34,7 +34,7 @@ export default {
   computed: {
     ...mapStores(useGeneralStoreV2),
     sites(): Array<Site> {
-      return this.general_v2Store.sites;
+      return this.general_v2Store.baseInfoState.sites;
     },
   },
   methods: {

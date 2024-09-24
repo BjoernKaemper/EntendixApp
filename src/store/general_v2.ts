@@ -18,8 +18,12 @@ const auth = useAuthenticator();
 
 interface GeneralStoreState {
   globalLoadingOverlay: boolean;
-  sites: Site[];
-  companies: Company[];
+  baseInfoState: {
+    companies: Company[],
+    sites: Site[],
+    requestTimestamp: DateTime | null,
+    isLoading: boolean,
+  },
   siteState: {
     site: SiteWithBuildinginformation | null;
     kpiState: {
@@ -43,6 +47,13 @@ interface GeneralStoreState {
 }
 
 // @TODO: We can check, if we can put the default values into a different file
+const defaultbaseInfoState = {
+  companies: [],
+  sites: [],
+  requestTimestamp: null,
+  isLoading: false,
+};
+
 const defaultKPIState = {
   kpis: [],
   requestTimestamp: null,
@@ -66,8 +77,7 @@ const defaultBuildingState = {
 export const useGeneralStoreV2 = defineStore('general_v2', {
   state: (): GeneralStoreState => ({
     globalLoadingOverlay: false,
-    sites: [],
-    companies: [],
+    baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
     buildingState: defaultBuildingState,
   }),
@@ -77,6 +87,10 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
      * @returns {Promise<void>}
      */
     async loadBaseInformations(): Promise<void> {
+      this.baseInfoState = defaultbaseInfoState;
+
+      this.baseInfoState.isLoading = true;
+
       // Fetching types Site Information
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -87,16 +101,19 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      this.sites = await FetchHelper.apiCall(
+      this.baseInfoState.sites = await FetchHelper.apiCall(
         `/middleware/sites?${q}`,
         requestOptions,
       ) as Site[];
 
       // Fetching types Company Information
-      this.companies = await FetchHelper.apiCall(
+      this.baseInfoState.companies = await FetchHelper.apiCall(
         `/middleware/companies?${q}`,
         requestOptions,
       ) as Company[];
+
+      this.baseInfoState.requestTimestamp = DateTime.now();
+      this.baseInfoState.isLoading = false;
     },
 
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {

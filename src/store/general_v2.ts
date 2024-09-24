@@ -17,7 +17,6 @@ import type { Kpi } from '@/types/Kpi';
 const auth = useAuthenticator();
 
 interface GeneralStoreState {
-  globalLoadingOverlay: boolean;
   baseInfoState: {
     companies: Company[],
     sites: Site[],
@@ -76,7 +75,6 @@ const defaultBuildingState = {
 
 export const useGeneralStoreV2 = defineStore('general_v2', {
   state: (): GeneralStoreState => ({
-    globalLoadingOverlay: false,
     baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
     buildingState: defaultBuildingState,

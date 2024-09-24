@@ -116,6 +116,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
     },
 
     async loadSiteInformation(siteId: string): Promise<void> {
+      this.siteState = defaultSiteState;
       this.siteState.isLoading = true;
 
       const queryCombined = {
@@ -145,6 +146,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
     },
 
     async loadBuildingInformation(buildingId: string): Promise<void> {
+      this.buildingState = defaultBuildingState;
       this.buildingState.isLoading = false;
 
       const queryCombined = {

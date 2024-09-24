@@ -37,7 +37,8 @@
  * @displayName StatusCard
  */
 import { type PropType } from 'vue';
-import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 
@@ -87,8 +88,8 @@ export default {
      * @default 'info'
      */
     status: {
-      type: String as PropType<StatusTypes>,
-      default: StatusTypes.INFO,
+      type: String as PropType<ChipStatusTypes | ComponentStatusTypes>,
+      default: ChipStatusTypes.INFO,
     },
     /**
      * The subtitle of the card.

@@ -104,9 +104,6 @@ export default {
       JSON.parse(this.$route.params.siteparams as string).siteid,
     );
     this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;
-    this.general_v2Store.loadKpiInformation(
-      JSON.parse(this.$route.params.siteparams as string).siteid,
-    );
   },
 
   methods: {

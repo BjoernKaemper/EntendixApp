@@ -99,7 +99,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       ) as Company[];
     },
 
-    async loadKpiInformation(parentId: string): Promise<Kpi[]> {
+    async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
       };
@@ -134,6 +134,14 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
 
       this.siteState.requestTimestamp = DateTime.now();
       this.siteState.isLoading = false;
+
+      // Fetching KPI Information
+      this.siteState.kpiState.isLoading = true;
+
+      this.siteState.kpiState.kpis = await this.fetchKpiInformation(siteId);
+
+      this.siteState.kpiState.requestTimestamp = DateTime.now();
+      this.siteState.kpiState.isLoading = false;
     },
 
     async loadBuildingInformation(buildingId: string): Promise<void> {
@@ -155,6 +163,14 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
 
       this.buildingState.requestTimestamp = DateTime.now();
       this.buildingState.isLoading = false;
+
+      // Fetching KPI Information
+      this.buildingState.kpiState.isLoading = true;
+
+      this.buildingState.kpiState.kpis = await this.fetchKpiInformation(buildingId);
+
+      this.buildingState.kpiState.requestTimestamp = DateTime.now();
+      this.buildingState.kpiState.isLoading = false;
     },
   },
 });

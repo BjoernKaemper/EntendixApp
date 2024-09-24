@@ -167,9 +167,6 @@ export default {
       JSON.parse(this.$route.params.buildingparams as string).buildingid,
     );
     this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;
-    this.general_v2Store.loadKpiInformation(
-      JSON.parse(this.$route.params.buildingparams as string).buildingid,
-    );
   },
 };
 </script>

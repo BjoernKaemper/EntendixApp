@@ -6,13 +6,13 @@
         <h2>Meine Liegenschaften</h2>
         <p class="subtitle">Ist alles im grünen Bereich? Werden die Betriebsfunktionen erfüllt?</p>
       </div>
-      <!-- TODO: its not possible to get the location -->
       <LiegenschaftCard
         v-for="site in sites"
         :key="site.id"
         :name="site.data.SiteName"
         :location="site.data.Address.CityTown"
         @clicked="loadSite(site)"
+        :isLoading="sitesAreLoading"
       />
     </div>
   </div>
@@ -31,12 +31,19 @@ export default {
     GoogleMaps_v2,
     LiegenschaftCard,
   },
+
   computed: {
     ...mapStores(useGeneralStoreV2),
+
     sites(): Array<Site> {
-      return this.general_v2Store.sites;
+      return this.general_v2Store.baseInfoState.sites;
+    },
+
+    sitesAreLoading(): boolean {
+      return this.general_v2Store.baseInfoState.isLoading;
     },
   },
+
   methods: {
     /**
      * Navigates to the site page

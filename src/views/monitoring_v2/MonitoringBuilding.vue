@@ -129,15 +129,15 @@ export default {
     ...mapStores(useGeneralStore, useMonitoringStore, useGeneralStoreV2),
 
     building() {
-      return this.general_v2Store.currentBuilding;
+      return this.general_v2Store.buildingState.building;
     },
 
     kpis() {
-      return this.general_v2Store.currentKPIs;
+      return this.general_v2Store.buildingState.kpiState.kpis;
     },
 
     lastBuildingRequestTimestamp(): DateTime | null {
-      return this.general_v2Store.lastBuildingRequestTimestamp;
+      return this.general_v2Store.buildingState.requestTimestamp;
     },
   },
 
@@ -167,9 +167,6 @@ export default {
       JSON.parse(this.$route.params.buildingparams as string).buildingid,
     );
     this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;
-    this.general_v2Store.loadKpiInformation(
-      JSON.parse(this.$route.params.buildingparams as string).buildingid,
-    );
   },
 };
 </script>

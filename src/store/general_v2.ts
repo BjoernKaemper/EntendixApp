@@ -43,6 +43,7 @@ interface GeneralStoreState {
     requestTimestamp: DateTime | null;
     isLoading: boolean,
   },
+  chartData: any[];
 }
 
 // @TODO: We can check, if we can put the default values into a different file
@@ -78,6 +79,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
     baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
     buildingState: defaultBuildingState,
+    chartData: [],
   }),
   actions: {
     /**
@@ -114,11 +116,33 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       this.baseInfoState.isLoading = false;
     },
 
+    // TODO fix any type
+    async fetchKpiChartData() {
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+
+      // TODO: Implement correct API call
+      const fetchedTimeline = await FetchHelper.apiCall(
+        `/middleware/timelines?${q}`,
+        requestOptions,
+      );
+
+      this.chartData = fetchedTimeline as any[];
+    },
+
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
       };
       const q = QueryHelper.queryify(queryCombined);
+
+      this.fetchKpiChartData();
 
       const requestOptions = {
         // @TODO: Implement authentication

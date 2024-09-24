@@ -27,6 +27,9 @@ import LineChart from '@/components/general/charts_v2/LineChart_v2.vue';
 import BigNumber from '@/components/general/BigNumber.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 
+import { useGeneralStoreV2 } from '@/store/general_v2';
+import { mapStores } from 'pinia';
+
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import type { Kpi } from '@/types/Kpi';
 
@@ -83,25 +86,16 @@ export default {
     LineChart,
   },
 
-  data() {
-    return {
-      chartData: this.fetchChartData(),
-    };
-  },
-
-  methods: {
-    fetchChartData() {
-      return [
-        { timestamp: '2024-01-01T07:00:00.000+01:00', value: 66 },
-        { timestamp: '2024-01-02T07:00:00.000+01:00', value: 74 },
-        { timestamp: '2024-01-03T07:00:00.000+01:00', value: 77 },
-        { timestamp: '2024-01-04T07:00:00.000+01:00', value: 69 },
-        { timestamp: '2024-02-28T07:00:00.000+01:00', value: 66 },
-      ];
-    },
-  },
-
   computed: {
+    ...mapStores(useGeneralStoreV2),
+
+    chartData() {
+      // TODO: JUST A SHORT TERM SOLUTION TO SHOW THE CHART A BIT LESS CLUMPED
+      // return chart data from store with every second element removed
+      const { chartData } = this.general_v2Store;
+      return chartData.filter((_, index) => index % 2 === 0);
+    },
+
     /**
      * @returns The time since the last update in minutes
      */

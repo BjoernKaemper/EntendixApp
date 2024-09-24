@@ -27,7 +27,21 @@
       </div>
     </div>
     <div>
-      <h3>Performance der Liegenschaft</h3>
+      <div class="performance-header">
+        <h3>Performance der Liegenschaft</h3>
+        <!-- @TODO: create dropdown component -->
+        <div class="dropdown">
+          Letzte 14 Tage
+        </div>
+      </div>
+      <div class="performance-grid">
+        <LineChart_v2
+          v-for="(kpi, idx) in kpis"
+          :key="idx"
+          :kpi="kpi"
+          :lastUpdateTimestamp="lastSiteRequestTime"
+        />
+      </div>
     </div>
   </div>
   <div v-else>
@@ -36,17 +50,24 @@
   </div>
 </template>
 <script lang="ts">
-import StatusCard from '@/components/general/StatusCard.vue';
+// Libraries
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
-import { ActionTypes } from '@/types/enums/ActionTypes';
 import { useGeneralStoreV2 } from '@/store/general_v2';
 import { mapStores } from 'pinia';
-import type { SiteWithBuildinginformation } from '@/types/Site';
 import type { DateTime } from 'luxon';
+
+// Components
+import StatusCard from '@/components/general/StatusCard.vue';
+import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
+
+// Types
+import { ActionTypes } from '@/types/enums/ActionTypes';
+import type { SiteWithBuildinginformation } from '@/types/Site';
 
 export default {
   components: {
     StatusCard,
+    LineChart_v2,
   },
 
   setup() {
@@ -69,6 +90,10 @@ export default {
       return this.general_v2Store.currentSite;
     },
 
+    kpis() {
+      return this.general_v2Store.currentKPIs;
+    },
+
     lastSiteRequestTime(): DateTime | null {
       return this.general_v2Store.lastSiteRequestTimestamp;
     },
@@ -79,6 +104,9 @@ export default {
       JSON.parse(this.$route.params.siteparams as string).siteid,
     );
     this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;
+    this.general_v2Store.loadKpiInformation(
+      JSON.parse(this.$route.params.siteparams as string).siteid,
+    );
   },
 
   methods: {
@@ -127,5 +155,19 @@ h2,
 h3 {
   @include content-headline;
   margin-bottom: $s;
+}
+
+.performance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .dropdown {
+    @include content;
+    cursor: pointer;
+    border: 1px solid $light-purple;
+    padding: $base-size;
+    border-radius: $base-size;
+  }
 }
 </style>

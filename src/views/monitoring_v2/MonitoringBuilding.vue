@@ -5,69 +5,22 @@
       <AutomationKlima />
       <div class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
-        <!-- @TODO remove placeholders -->
+        <!-- @TODO: Get the rest of the data in the response an map it -->
+        <!-- @TODO: remove placeholders -->
         <StatusCard
-          title="Medienversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="ChipStatusTypes.SUCCESS"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.MEDIA"
-        />
-        <StatusCard
-          title="Wäremversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="ChipStatusTypes.ERROR"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.HEAT"
-        />
-        <StatusCard
-          title="Kälteversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="ChipStatusTypes.SUCCESS"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.COLD"
-        />
-        <StatusCard
-          title="Luftversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="ChipStatusTypes.SUCCESS"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.AIR"
-        />
-        <StatusCard
-          title="Stromversorgung"
-          subtitle=""
-          :isBordered="false"
-          :status="ChipStatusTypes.WARNING"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.ELECTRICITY"
-        />
-        <StatusCard
-          title="Sicherung"
-          subtitle=""
-          :isBordered="false"
-          :status="ChipStatusTypes.SUCCESS"
-          :actionType="ActionTypes.ARROW"
-          :kpiType="KpiTypes.SECURITY"
-        />
-        <StatusCard
-          v-for="(kpi, idx) in building?.data.Kpis"
+          v-for="(subsection, idx) in building?.data.Subsections"
           :key="idx"
-          :title="kpi.data.Name.de"
+          :title="subsection.type"
           :isBordered="false"
           :status="ChipStatusTypes.SUCCESS"
-          :kpiType="KpiTypes.COLD"
+          :kpiType="getSubsectionTypeIcon(subsection.type as SemanticSubmoduleTypes)"
           :actionType="ActionTypes.ARROW"
         />
       </div>
       <div class="issues-container">
-        <h3>Probleme in den Komponenten</h3>
+        <h3>@TODO: Probleme in den Komponenten</h3>
         <div v-if="issues" class="issues">
-          <!-- @TODO remove placeholders -->
+          <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
           <StatusCard
             title="Wärmeerzeuger 1"
@@ -92,7 +45,7 @@
             :actionType="ActionTypes.ARROW"
           />
           <StatusCard
-            v-for="(kpi, idx) in building?.data.Kpis"
+            v-for="(kpi, idx) in kpis"
             :key="idx"
             :title="kpi.data.Name.de"
             :isBordered="false"
@@ -110,14 +63,14 @@
     <div>
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
-        <!-- @TODO create dropdown component -->
+        <!-- @TODO: create dropdown component -->
         <div class="dropdown">
           Letzte 14 Tage
         </div>
       </div>
       <div class="performance-grid">
         <LineChart_v2
-          v-for="(kpi, idx) in building?.data.Kpis"
+          v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
           :lastUpdateTimestamp="lastBuildingRequestTimestamp"
@@ -128,19 +81,26 @@
 </template>
 
 <script lang="ts">
+// Library imports
+import type { DateTime } from 'luxon';
+import { mapStores } from 'pinia';
+
+// Store imports
 import { useGeneralStore } from '@/store/general';
 import { useGeneralStoreV2 } from '@/store/general_v2';
 import { useMonitoringStore } from '@/store/monitoring';
-import { mapStores } from 'pinia';
+
+// Type Imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
-import { KpiTypes } from '@/types/enums/KpiTypes';
+import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
+import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 
+// component imports
 import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
-import type { DateTime } from 'luxon';
 
 export default {
   components: {
@@ -148,6 +108,23 @@ export default {
     AutomationKlima,
     StatusCard,
   },
+
+  data() {
+    return {
+      issues: true,
+      buildingName: '',
+    };
+  },
+
+  setup() {
+    return {
+      ChipStatusTypes,
+      ComponentStatusTypes,
+      ActionTypes,
+      SubsectionTypes,
+    };
+  },
+
   computed: {
     ...mapStores(useGeneralStore, useMonitoringStore, useGeneralStoreV2),
 
@@ -155,29 +132,44 @@ export default {
       return this.general_v2Store.currentBuilding;
     },
 
+    kpis() {
+      return this.general_v2Store.currentKPIs;
+    },
+
     lastBuildingRequestTimestamp(): DateTime | null {
       return this.general_v2Store.lastBuildingRequestTimestamp;
     },
   },
-  data() {
-    return {
-      issues: true,
-      buildingName: '',
-    };
+
+  methods: {
+    getSubsectionTypeIcon(type: SemanticSubmoduleTypes): SubsectionTypes {
+      switch (type) {
+        case SemanticSubmoduleTypes.AIR_TECHNICAL_SYSTEMS:
+          return SubsectionTypes.AIR;
+        case SemanticSubmoduleTypes.HEAT_SUPPLY_SYSTEMS:
+          return SubsectionTypes.HEAT;
+        case SemanticSubmoduleTypes.WASTEWATER_WATER_GAS_SYSTEMS:
+          return SubsectionTypes.NONE; // @TODO: Add icon for water
+        case SemanticSubmoduleTypes.COLD_SYSTEMS:
+          return SubsectionTypes.COLD;
+        case SemanticSubmoduleTypes.HIGH_VOLTAGE_CURRENT:
+          return SubsectionTypes.ELECTRICITY;
+        case SemanticSubmoduleTypes.BUILDUNG_AUTOMATION_SYSTEM:
+          return SubsectionTypes.SECURITY; // @TODO: Add icon for automation systems
+        default:
+          return SubsectionTypes.NONE;
+      }
+    },
   },
-  setup() {
-    return {
-      ChipStatusTypes,
-      ComponentStatusTypes,
-      ActionTypes,
-      KpiTypes,
-    };
-  },
-  created() {
-    this.general_v2Store.loadBuildingInformation(
+
+  async created() {
+    await this.general_v2Store.loadBuildingInformation(
       JSON.parse(this.$route.params.buildingparams as string).buildingid,
     );
     this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;
+    this.general_v2Store.loadKpiInformation(
+      JSON.parse(this.$route.params.buildingparams as string).buildingid,
+    );
   },
 };
 </script>
@@ -235,6 +227,7 @@ export default {
     }
   }
 }
+
 .performance-header {
   display: flex;
   justify-content: space-between;

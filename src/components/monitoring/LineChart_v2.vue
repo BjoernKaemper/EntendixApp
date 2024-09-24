@@ -111,7 +111,7 @@ export default {
      * @returns The secondary kpi value
      */
     secondaryKpiValue(): number | undefined {
-      // @ToDo refine this when data is available
+      // @TODO: refine this when data is available
       // if (Array.isArray(this.kpi?.data.Value)) {
       //   return Number(this.kpi?.data.Value[1].PresentValue);
       // }
@@ -121,7 +121,7 @@ export default {
      * @returns The secondary kpi value unit
      */
     secondaryKpiValueUnit(): string {
-      // @ToDo refine this when data is available
+      // @TODO: refine this when data is available
       // if (secondaryKpiValue) {
       //   return this.kpi?.data.Value[1].PhysicalUnit;
       // }

@@ -56,7 +56,7 @@ export default {
       const limits: Limits | undefined = this.kpi?.data?.Limits;
 
       if (!limits || limits.length === 0) {
-        return ChipStatusTypes.INFO;
+        return this.status || ChipStatusTypes.INFO;
       }
 
       const low = parseInt(limits[0], 10);
@@ -81,7 +81,7 @@ export default {
         return ChipStatusTypes.SUCCESS;
       }
 
-      return ChipStatusTypes.INFO;
+      return this.status;
     },
     /**
      * Returns the status data based on the status prop.

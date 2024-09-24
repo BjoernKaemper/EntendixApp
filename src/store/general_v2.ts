@@ -20,23 +20,56 @@ interface GeneralStoreState {
   globalLoadingOverlay: boolean;
   sites: Site[];
   companies: Company[];
-  currentSite: SiteWithBuildinginformation | null;
-  currentKPIs: Kpi[];
-  lastSiteRequestTimestamp: DateTime | null;
-  currentBuilding: Building | null;
-  lastBuildingRequestTimestamp: DateTime | null;
+  siteState: {
+    site: SiteWithBuildinginformation | null;
+    kpiState: {
+      kpis: Kpi[],
+      requestTimestamp: DateTime | null,
+      isLoading: boolean,
+    },
+    requestTimestamp: DateTime | null;
+    isLoading: boolean,
+  },
+  buildingState: {
+    building: Building | null;
+    kpiState: {
+      kpis: Kpi[],
+      requestTimestamp: DateTime | null,
+      isLoading: boolean,
+    },
+    requestTimestamp: DateTime | null;
+    isLoading: boolean,
+  },
 }
+
+// @TODO: We can check, if we can put the default values into a different file
+const defaultKPIState = {
+  kpis: [],
+  requestTimestamp: null,
+  isLoading: false,
+};
+
+const defaultSiteState = {
+  site: null,
+  kpiState: defaultKPIState,
+  requestTimestamp: null,
+  isLoading: false,
+};
+
+const defaultBuildingState = {
+  building: null,
+  kpiState: defaultKPIState,
+  requestTimestamp: null,
+  isLoading: false,
+};
 
 export const useGeneralStoreV2 = defineStore('general_v2', {
   state: (): GeneralStoreState => ({
     globalLoadingOverlay: false,
     sites: [],
     companies: [],
-    currentSite: null,
-    currentKPIs: [],
-    lastSiteRequestTimestamp: null,
-    currentBuilding: null,
-    lastBuildingRequestTimestamp: null,
+    siteState: defaultSiteState,
+    buildingState: defaultBuildingState,
   }),
   actions: {
     /**
@@ -44,8 +77,6 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
      * @returns {Promise<void>}
      */
     async loadBaseInformations(): Promise<void> {
-      this.globalLoadingOverlay = true;
-
       // Fetching types Site Information
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -66,16 +97,9 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
         `/middleware/companies?${q}`,
         requestOptions,
       ) as Company[];
-
-      this.globalLoadingOverlay = false;
     },
 
-    async loadKpiInformation(parentId: string): Promise<void> {
-      this.globalLoadingOverlay = true;
-
-      // Reset the KPI Store data
-      this.currentKPIs = [];
-
+    async loadKpiInformation(parentId: string): Promise<Kpi[]> {
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
       };
@@ -85,19 +109,14 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      this.currentKPIs = (await FetchHelper.apiCall(
+      return (await FetchHelper.apiCall(
         `/middleware/kpis/${parentId}?${q}`,
         requestOptions,
       )) as Kpi[];
-
-      this.globalLoadingOverlay = false;
     },
 
     async loadSiteInformation(siteId: string): Promise<void> {
-      this.globalLoadingOverlay = true;
-
-      // Reset the site data
-      this.currentSite = null;
+      this.siteState.isLoading = true;
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -108,21 +127,17 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      this.currentSite = await FetchHelper.apiCall(
+      this.siteState.site = await FetchHelper.apiCall(
         `/middleware/sites/${siteId}?${q}`,
         requestOptions,
       ) as SiteWithBuildinginformation;
 
-      this.lastSiteRequestTimestamp = DateTime.now();
-      this.globalLoadingOverlay = false;
+      this.siteState.requestTimestamp = DateTime.now();
+      this.siteState.isLoading = false;
     },
 
     async loadBuildingInformation(buildingId: string): Promise<void> {
-      this.globalLoadingOverlay = true;
-
-      // Reset the store data
-      this.currentBuilding = null;
-      this.currentKPIs = [];
+      this.buildingState.isLoading = false;
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -133,13 +148,13 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      this.currentBuilding = (await FetchHelper.apiCall(
+      this.buildingState.building = (await FetchHelper.apiCall(
         `/middleware/buildings/${buildingId}?${q}`,
         requestOptions,
       )) as Building;
 
-      this.lastBuildingRequestTimestamp = DateTime.now();
-      this.globalLoadingOverlay = false;
+      this.buildingState.requestTimestamp = DateTime.now();
+      this.buildingState.isLoading = false;
     },
   },
 });

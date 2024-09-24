@@ -129,15 +129,15 @@ export default {
     ...mapStores(useGeneralStore, useMonitoringStore, useGeneralStoreV2),
 
     building() {
-      return this.general_v2Store.currentBuilding;
+      return this.general_v2Store.buildingState.building;
     },
 
     kpis() {
-      return this.general_v2Store.currentKPIs;
+      return this.general_v2Store.buildingState.kpiState.kpis;
     },
 
     lastBuildingRequestTimestamp(): DateTime | null {
-      return this.general_v2Store.lastBuildingRequestTimestamp;
+      return this.general_v2Store.buildingState.requestTimestamp;
     },
   },
 

@@ -87,15 +87,15 @@ export default {
     ...mapStores(useGeneralStoreV2),
 
     site(): SiteWithBuildinginformation | null {
-      return this.general_v2Store.currentSite;
+      return this.general_v2Store.siteState.site;
     },
 
     kpis() {
-      return this.general_v2Store.currentKPIs;
+      return this.general_v2Store.siteState.kpiState.kpis;
     },
 
     lastSiteRequestTime(): DateTime | null {
-      return this.general_v2Store.lastSiteRequestTimestamp;
+      return this.general_v2Store.siteState.requestTimestamp;
     },
   },
 

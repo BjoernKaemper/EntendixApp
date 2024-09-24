@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="overlays">
+      <button type="button" @click="openCommentsModal">Open Comments Modal</button>
+      <CommentsOverlayModal
+        :isCommentsModalOpen="isCommentsModalOpen"
+        @close="closeCommentsModal" />
       <button type="button" @click="openMetricsModal">Open Metrics Modal</button>
       <MetricsLimitsOverlayModal
         :isMetricsModalOpen="isMetricsModalOpen"
@@ -106,6 +110,7 @@ import MetricsLimitsOverlayModal from '@/components/general/MetricsLimitsOverlay
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
+import CommentsOverlayModal from '@/components/general/CommentsOverlayModal.vue';
 
 export default {
   components: {
@@ -114,11 +119,13 @@ export default {
     ChipComponent,
     ModalOverlay,
     MetricsLimitsOverlayModal,
+    CommentsOverlayModal,
   },
   data() {
     return {
       isModalOpen: false,
       isMetricsModalOpen: false,
+      isCommentsModalOpen: false, // Add this line
       ChipStatusTypes,
       ComponentStatusTypes,
       ActionTypes,
@@ -136,6 +143,12 @@ export default {
     },
     closeMetricsModal() {
       this.isMetricsModalOpen = false;
+    },
+    openCommentsModal() {
+      this.isCommentsModalOpen = true;
+    },
+    closeCommentsModal() {
+      this.isCommentsModalOpen = false;
     },
   },
 };

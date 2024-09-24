@@ -4,6 +4,7 @@
     <component :is="iconClass" />
   </button>
 </template>
+
 <script lang="ts">
 import { IconTypes } from '@/types/enums/IconTypes';
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
@@ -89,6 +90,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 
 button {

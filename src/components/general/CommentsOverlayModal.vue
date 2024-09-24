@@ -73,6 +73,7 @@
     </template>
   </ModalOverlay>
 </template>
+
 <script lang="ts">
 import ModalOverlay from '@/components/general/ModalOverlay.vue';
 import NotesIcon from '@/components/icons/NotesIcon.vue';
@@ -174,8 +175,8 @@ export default {
     },
   },
 };
-
 </script>
+
 <style lang="scss" scoped>
 
 #comments-modal-overlay {

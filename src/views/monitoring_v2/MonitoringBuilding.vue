@@ -69,7 +69,7 @@
         </div>
       </div>
       <div class="performance-grid">
-        <LineChart_v2
+        <ChartContainer_v2
           v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
@@ -98,13 +98,13 @@ import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 
 // component imports
-import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
+import ChartContainer_v2 from '@/components/monitoring/ChartContainer_v2.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 
 export default {
   components: {
-    LineChart_v2,
+    ChartContainer_v2,
     AutomationKlima,
     StatusCard,
   },

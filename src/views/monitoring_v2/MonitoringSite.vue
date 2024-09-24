@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="performance-grid">
-        <LineChart_v2
+        <ChartContainer_v2
           v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
@@ -58,7 +58,7 @@ import type { DateTime } from 'luxon';
 
 // Components
 import StatusCard from '@/components/general/StatusCard.vue';
-import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
+import ChartContainer_v2 from '@/components/monitoring/ChartContainer_v2.vue';
 
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
@@ -67,7 +67,7 @@ import type { SiteWithBuildinginformation } from '@/types/Site';
 export default {
   components: {
     StatusCard,
-    LineChart_v2,
+    ChartContainer_v2,
   },
 
   setup() {

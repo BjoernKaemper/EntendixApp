@@ -3,20 +3,13 @@
     <div class="line-chart-container--left">
       <h3>{{ kpi?.data.Name.de || topic }}</h3>
       <div class="line-chart-container--left--values">
-        <div v-if="primaryKpiValue">
-          <h4 v-if="secondaryKpiValue">{{ kpi.data.Context.de || topic }}</h4>
-          <BigNumber
-            :number="primaryKpiValue"
-            :unit="primaryKpiValueUnit"
-          />
-        </div>
-        <div v-if="secondaryKpiValue">
-          <h4>{{ kpi.data.Context.de || topic }}</h4>
-          <BigNumber
-            :number="secondaryKpiValue"
-            :unit="secondaryKpiValueUnit"
-          />
-        </div>
+        <template v-if="primaryKpiValue">
+          <h4 v-if="hasContext">{{ kpi.data.Context.de || topic }}</h4>
+          <BigNumber :number="primaryKpiValue" :unit="primaryKpiValueUnit" />
+        </template>
+        <template v-if="secondaryKpiValue">
+          <BigNumber :number="secondaryKpiValue" :unit="secondaryKpiValueUnit" />
+        </template>
       </div>
       <div class="line-chart-container--left--footer">
         <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdateTime }} Minuten</p>
@@ -24,14 +17,16 @@
       </div>
     </div>
     <div class="line-chart-container--right">
-      <p>@TODO: insert Line Chart here...</p>
+      <LineChart :data="chartData" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import LineChart from '@/components/general/charts_v2/LineChart_v2.vue';
 import BigNumber from '@/components/general/BigNumber.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
+
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import type { Kpi } from '@/types/Kpi';
 
@@ -81,50 +76,80 @@ export default {
       default: ChipStatusTypes.INFO,
     },
   },
+
   components: {
     BigNumber,
     ChipComponent,
+    LineChart,
   },
+
+  data() {
+    return {
+      chartData: this.fetchChartData(),
+    };
+  },
+
+  methods: {
+    fetchChartData() {
+      return [
+        { timestamp: '2024-01-01T07:00:00.000+01:00', value: 66 },
+        { timestamp: '2024-01-02T07:00:00.000+01:00', value: 74 },
+        { timestamp: '2024-01-03T07:00:00.000+01:00', value: 77 },
+        { timestamp: '2024-01-04T07:00:00.000+01:00', value: 69 },
+        { timestamp: '2024-02-28T07:00:00.000+01:00', value: 66 },
+      ];
+    },
+  },
+
   computed: {
     /**
      * @returns The time since the last update in minutes
      */
     lastUpdateTime(): number | string {
       if (this.lastUpdateTimestamp) {
-        return Math.round(Interval.fromDateTimes(this.lastUpdateTimestamp, DateTime.now()).length('minutes'));
+        return Math.round(
+          Interval.fromDateTimes(this.lastUpdateTimestamp, DateTime.now()).length('minutes'),
+        );
       }
       return '-';
     },
+
     /**
-     * @returns The primary kpi value
+     * @returns Whether the KPI context exists.
+     */
+    hasContext(): boolean {
+      return !!this.kpi?.data?.Context?.de;
+    },
+
+    /**
+     * @returns The primary KPI value if available.
      */
     primaryKpiValue(): number | undefined {
-      return Number(this.kpi?.data.Value.PresentValue) || undefined;
+      return this.kpi?.data?.Value?.PresentValue
+        ? Number(this.kpi.data.Value.PresentValue)
+        : undefined;
     },
+
     /**
-     * @returns The primary kpi value unit
+     * @returns The unit for the primary KPI value.
      */
     primaryKpiValueUnit(): string {
-      return this.kpi?.data.Value.PhysicalUnit || '-';
+      return this.kpi?.data?.Value?.PhysicalUnit || '-';
     },
+
     /**
-     * @returns The secondary kpi value
+     * @returns The secondary KPI value if available.
      */
     secondaryKpiValue(): number | undefined {
-      // @TODO: refine this when data is available
-      // if (Array.isArray(this.kpi?.data.Value)) {
-      //   return Number(this.kpi?.data.Value[1].PresentValue);
-      // }
+      // @TODO: update logic when data is available
       return undefined;
     },
+
     /**
-     * @returns The secondary kpi value unit
+     * @returns The secondary KPI value unit if available.
      */
     secondaryKpiValueUnit(): string {
-      // @TODO: refine this when data is available
-      // if (secondaryKpiValue) {
-      //   return this.kpi?.data.Value[1].PhysicalUnit;
-      // }
+      // @TODO: update logic when data is available
       return '-';
     },
   },

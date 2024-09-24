@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LoadingSpinner />
     <div class="overlays">
       <button type="button" @click="openMetricsModal">Open Metrics Modal</button>
       <MetricsLimitsOverlayModal
@@ -102,6 +103,7 @@ import StatusCard from '@/components/general/StatusCard.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import ModalOverlay from '@/components/general/ModalOverlay.vue';
 import MetricsLimitsOverlayModal from '@/components/general/MetricsLimitsOverlayModal.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
@@ -114,6 +116,7 @@ export default {
     ChipComponent,
     ModalOverlay,
     MetricsLimitsOverlayModal,
+    LoadingSpinner,
   },
   data() {
     return {

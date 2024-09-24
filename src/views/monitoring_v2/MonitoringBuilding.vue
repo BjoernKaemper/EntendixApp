@@ -60,7 +60,7 @@
         </div>
       </div>
     </div>
-    <div>
+    <div class="grid-wrapper--right">
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
         <!-- @TODO: create dropdown component -->
@@ -77,6 +77,7 @@
         />
       </div>
     </div>
+    <SideBar />
   </div>
 </template>
 
@@ -101,12 +102,14 @@ import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
+import SideBar from '@/components/general/SideBar.vue';
 
 export default {
   components: {
     LineChart_v2,
     AutomationKlima,
     StatusCard,
+    SideBar,
   },
 
   data() {
@@ -177,7 +180,7 @@ export default {
 <style scoped lang="scss">
 .grid-wrapper {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 2fr auto;
   grid-gap: $m;
 
   &--left {

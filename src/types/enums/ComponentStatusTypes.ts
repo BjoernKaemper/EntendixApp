@@ -1,8 +1,4 @@
-export enum StatusTypes {
-  SUCCESS = 'SUCCESS',
-  WARNING = 'WARNING',
-  ERROR = 'ERROR',
-  INFO = 'INFO',
+export enum ComponentStatusTypes {
   ISSUE = 'ISSUE',
   NONE = 'NONE',
   ERROR_COMPONENT = 'ERROR.COMPONENT',

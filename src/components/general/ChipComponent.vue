@@ -15,7 +15,7 @@
  * @displayName ChipComponent
  */
 import type { PropType } from 'vue';
-import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import type { Kpi } from '@/types/Kpi';
 
 import IconChip from '@/components/general/IconChip.vue';
@@ -32,8 +32,8 @@ export default {
      * @default 'info'
      */
     status: {
-      type: String as PropType<StatusTypes>,
-      default: StatusTypes.INFO,
+      type: String as PropType<ChipStatusTypes>,
+      default: ChipStatusTypes.INFO,
     },
     /**
      * The primary kpi of the line chart
@@ -51,12 +51,12 @@ export default {
      * Returns the status type based on the kpi data.
      * @returns The status type.
      */
-    currentStatus(): StatusTypes {
+    currentStatus(): ChipStatusTypes {
       type Limits = string[];
       const limits: Limits | undefined = this.kpi?.data?.Limits;
 
       if (!limits || limits.length === 0) {
-        return StatusTypes.INFO;
+        return ChipStatusTypes.INFO;
       }
 
       const low = parseInt(limits[0], 10);
@@ -66,22 +66,22 @@ export default {
       const value = this.kpi?.data?.Value?.PresentValue;
 
       if (value < low) {
-        return StatusTypes.ERROR;
+        return ChipStatusTypes.ERROR;
       }
 
       if (value > high) {
-        return StatusTypes.ERROR;
+        return ChipStatusTypes.ERROR;
       }
 
       if (value < mid) {
-        return StatusTypes.WARNING;
+        return ChipStatusTypes.WARNING;
       }
 
       if (value >= mid) {
-        return StatusTypes.SUCCESS;
+        return ChipStatusTypes.SUCCESS;
       }
 
-      return StatusTypes.INFO;
+      return ChipStatusTypes.INFO;
     },
     /**
      * Returns the status data based on the status prop.
@@ -89,22 +89,22 @@ export default {
      */
     statusData() {
       switch (this.currentStatus) {
-        case StatusTypes.SUCCESS:
+        case ChipStatusTypes.SUCCESS:
           return {
             label: 'In Ordnung',
             class: 'success',
           };
-        case StatusTypes.WARNING:
+        case ChipStatusTypes.WARNING:
           return {
             label: 'Achtung',
             class: 'warning',
           };
-        case StatusTypes.ERROR:
+        case ChipStatusTypes.ERROR:
           return {
             label: 'Kritisch',
             class: 'alert',
           };
-        case StatusTypes.INFO:
+        case ChipStatusTypes.INFO:
           return {
             label: 'Unbekannt',
             class: 'info',

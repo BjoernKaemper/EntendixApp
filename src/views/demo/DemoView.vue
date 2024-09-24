@@ -28,9 +28,9 @@
       </ModalOverlay>
     </div>
     <div class="chips">
-      <ChipComponent :status="StatusTypes.SUCCESS" />
-      <ChipComponent :status="StatusTypes.WARNING" />
-      <ChipComponent :status="StatusTypes.ERROR" />
+      <ChipComponent :status="ChipStatusTypes.SUCCESS" />
+      <ChipComponent :status="ChipStatusTypes.WARNING" />
+      <ChipComponent :status="ChipStatusTypes.ERROR" />
       <ChipComponent />
     </div>
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Deutz" />
@@ -39,59 +39,59 @@
     <StatusCard
       title="Success"
       subtitle="Some description"
-      :status="StatusTypes.SUCCESS"
+      :status="ChipStatusTypes.SUCCESS"
       :actionType="ActionTypes.ARROW"
     />
     <StatusCard
       title="Warning"
       subtitle="Some description"
-      :status="StatusTypes.WARNING"
+      :status="ChipStatusTypes.WARNING"
       :actionType="ActionTypes.INFO"
     />
     <StatusCard
       title="Error"
       subtitle="An error occurred"
-      :status="StatusTypes.ERROR"
+      :status="ChipStatusTypes.ERROR"
       :actionType="ActionTypes.NONE"
     />
-    <StatusCard title="Info" subtitle="This is some info" :status="StatusTypes.INFO" />
+    <StatusCard title="Info" subtitle="This is some info" :status="ChipStatusTypes.INFO" />
     <StatusCard
       title="Success"
       subtitle="Some description"
-      :status="StatusTypes.SUCCESS"
+      :status="ChipStatusTypes.SUCCESS"
       :actionType="ActionTypes.ARROW"
       :isBordered="false"
     />
     <StatusCard
       title="Warning"
       subtitle="Some description"
-      :status="StatusTypes.WARNING"
+      :status="ChipStatusTypes.WARNING"
       :actionType="ActionTypes.INFO"
       :isBordered="false"
     />
     <StatusCard
       title="Error"
       subtitle="An error occurred"
-      :status="StatusTypes.ERROR"
+      :status="ChipStatusTypes.ERROR"
       :actionType="ActionTypes.NONE"
       :isBordered="false"
     />
     <StatusCard
       title="Info"
       subtitle="This is some info"
-      :status="StatusTypes.INFO"
+      :status="ChipStatusTypes.INFO"
       :isBordered="false"
     />
     <StatusCard
       title="Info"
       subtitle="This is some info"
-      :status="StatusTypes.ERROR_COMPONENT"
+      :status="ComponentStatusTypes.ERROR_COMPONENT"
       :isBordered="false"
     />
     <StatusCard
       title="Info"
       subtitle="This is some info"
-      :status="StatusTypes.WARNING_COMPONENT"
+      :status="ComponentStatusTypes.WARNING_COMPONENT"
       :isBordered="false"
     />
   </div>
@@ -103,7 +103,8 @@ import ChipComponent from '@/components/general/ChipComponent.vue';
 import ModalOverlay from '@/components/general/ModalOverlay.vue';
 import MetricsLimitsOverlayModal from '@/components/general/MetricsLimitsOverlayModal.vue';
 
-import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 
 export default {
@@ -118,7 +119,8 @@ export default {
     return {
       isModalOpen: false,
       isMetricsModalOpen: false,
-      StatusTypes,
+      ChipStatusTypes,
+      ComponentStatusTypes,
       ActionTypes,
     };
   },

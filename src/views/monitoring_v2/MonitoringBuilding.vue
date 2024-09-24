@@ -10,7 +10,7 @@
           title="Medienversorgung"
           subtitle=""
           :isBordered="false"
-          :status="StatusTypes.SUCCESS"
+          :status="ChipStatusTypes.SUCCESS"
           :actionType="ActionTypes.ARROW"
           :kpiType="KpiTypes.MEDIA"
         />
@@ -18,7 +18,7 @@
           title="Wäremversorgung"
           subtitle=""
           :isBordered="false"
-          :status="StatusTypes.ERROR"
+          :status="ChipStatusTypes.ERROR"
           :actionType="ActionTypes.ARROW"
           :kpiType="KpiTypes.HEAT"
         />
@@ -26,7 +26,7 @@
           title="Kälteversorgung"
           subtitle=""
           :isBordered="false"
-          :status="StatusTypes.SUCCESS"
+          :status="ChipStatusTypes.SUCCESS"
           :actionType="ActionTypes.ARROW"
           :kpiType="KpiTypes.COLD"
         />
@@ -34,7 +34,7 @@
           title="Luftversorgung"
           subtitle=""
           :isBordered="false"
-          :status="StatusTypes.SUCCESS"
+          :status="ChipStatusTypes.SUCCESS"
           :actionType="ActionTypes.ARROW"
           :kpiType="KpiTypes.AIR"
         />
@@ -42,7 +42,7 @@
           title="Stromversorgung"
           subtitle=""
           :isBordered="false"
-          :status="StatusTypes.WARNING"
+          :status="ChipStatusTypes.WARNING"
           :actionType="ActionTypes.ARROW"
           :kpiType="KpiTypes.ELECTRICITY"
         />
@@ -50,7 +50,7 @@
           title="Sicherung"
           subtitle=""
           :isBordered="false"
-          :status="StatusTypes.SUCCESS"
+          :status="ChipStatusTypes.SUCCESS"
           :actionType="ActionTypes.ARROW"
           :kpiType="KpiTypes.SECURITY"
         />
@@ -59,7 +59,7 @@
           :key="idx"
           :title="kpi.data.Name.de"
           :isBordered="false"
-          :status="StatusTypes.SUCCESS"
+          :status="ChipStatusTypes.SUCCESS"
           :kpiType="KpiTypes.COLD"
           :actionType="ActionTypes.ARROW"
         />
@@ -73,14 +73,14 @@
             title="Wärmeerzeuger 1"
             subtitle="Ursache: Unter Sollwert"
             :isBordered="false"
-            :status="StatusTypes.ERROR_COMPONENT"
+            :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
           />
           <StatusCard
             title="Heizkreis 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
-            :status="StatusTypes.ERROR_COMPONENT"
+            :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
           />
           <p>Stromversorgung</p>
@@ -88,7 +88,7 @@
             title="Stromkreislauf 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
-            :status="StatusTypes.WARNING_COMPONENT"
+            :status="ComponentStatusTypes.WARNING_COMPONENT"
             :actionType="ActionTypes.ARROW"
           />
           <StatusCard
@@ -96,7 +96,7 @@
             :key="idx"
             :title="kpi.data.Name.de"
             :isBordered="false"
-            :status="StatusTypes.ERROR_COMPONENT"
+            :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
             :timestamp="kpi.data.Annotations[0]?.TimestampOfCreation"
           />
@@ -132,7 +132,8 @@ import { useGeneralStore } from '@/store/general';
 import { useGeneralStoreV2 } from '@/store/general_v2';
 import { useMonitoringStore } from '@/store/monitoring';
 import { mapStores } from 'pinia';
-import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { KpiTypes } from '@/types/enums/KpiTypes';
 
@@ -166,7 +167,8 @@ export default {
   },
   setup() {
     return {
-      StatusTypes,
+      ChipStatusTypes,
+      ComponentStatusTypes,
       ActionTypes,
       KpiTypes,
     };

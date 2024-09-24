@@ -31,19 +31,19 @@
         <div v-if="showOptions" class="options">
           <div class="options--option">
             <label for="Option A">Grenzwert "Krtisch"</label>
-            <IconChip :status="StatusTypes.ERROR" />
+            <IconChip :status="ChipStatusTypes.ERROR" />
             <input type="text" id="Option A" placeholder="150">
             <p class="unit">kWh/m<sup>2</sup>/a</p>
           </div>
           <div class="options--option">
             <label for="Option B">Grenzwert "Achtung"</label>
-            <IconChip :status="StatusTypes.WARNING" />
+            <IconChip :status="ChipStatusTypes.WARNING" />
             <input type="text" id="Option B" placeholder="100">
             <p class="unit">kWh/m<sup>2</sup>/a</p>
           </div>
           <div class="options--option">
             <label for="Option C">Grenzwert "In Ordnung"</label>
-            <IconChip :status="StatusTypes.SUCCESS" />
+            <IconChip :status="ChipStatusTypes.SUCCESS" />
             <input type="text" id="Option C" placeholder="50">
             <p class="unit">kWh/m<sup>2</sup>/a</p>
           </div>
@@ -57,7 +57,7 @@
 import ModalOverlay from '@/components/general/ModalOverlay.vue';
 import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
 import IconChip from '@/components/general/IconChip.vue';
-import { StatusTypes } from '@/types/enums/StatusTypes';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 
 export default {
   components: {
@@ -84,7 +84,7 @@ export default {
   },
   setup() {
     return {
-      StatusTypes,
+      ChipStatusTypes,
     };
   },
   methods: {

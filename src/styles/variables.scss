@@ -43,17 +43,20 @@ $yellow-40: rgba($yellow, 0.4);
 $yellow-60: rgba($yellow, 0.6);
 $yellow-80: rgba($yellow, 0.8);
 
-
 $background: #efefef;
 
 // Contrasts
 //-------------------------
 
+// dark
 $darkest: #000;
 $darken: rgba($darkest, 0.8);
+$dark: rgba($darkest, 0.6);
+$shadow: rgba($darkest, 0.25);
+
+// light
 $lightest: #fff;
 $lighten: rgba($lightest, 0.8);
-
 
 // Spacing
 //-------------------------
@@ -71,6 +74,8 @@ $l: $base * 6.25px;     // 25px
 $xl: $base * 8px;       // 32px
 $xxl: $base * 10px;     // 40px
 $xxxl: $base * 16px;    // 64px
+
+$border-radius: $base-size;
 
 
 // Typography

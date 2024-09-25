@@ -18,7 +18,6 @@ interface Description {
  * @property {Description[]} description - The description of the item
  * @see {@link Description}
 */
-
 export interface WissenssammlungItem {
   id: number;
   title: string;
@@ -31,7 +30,6 @@ export interface WissenssammlungItem {
  * @property {WissenssammlungItem[]} wissenssammlung - The collection of items
  * @see {@link WissenssammlungItem}
  */
-
 export interface Wissenssammlung {
   wissenssammlung: WissenssammlungItem[];
 }

@@ -3,27 +3,37 @@
     ref="sidebar"
     class="sidebar"
     :class="{ 'sidebar--open': isOpen }"
-    @click="openSidebar"
-    @keydown.enter="openSidebar"
+    @click="isOpen = true"
+    @keydown.enter="isOpen = true"
   >
     <button
       type="button"
       class="sidebar--button"
-      @click="closeSidebar($event)"
-      @keydown.enter="closeSidebar($event)">Schließen <CloseIcon /></button>
+      @click.stop="isOpen = false"
+      @keydown.enter.stop="isOpen = false"
+    >
+      Schließen <CloseIcon />
+    </button>
     <div class="sidebar--header">
       <QuickRefIcon />
       <h2 class="sidebar--header-headline">Wissens-Sammlung</h2>
-      <h2 class="sidebar--header-headline-topic">Wissen über <br /><strong>{{ wissenssammlung[0]?.title }}</strong></h2>
+      <h2 class="sidebar--header-headline-topic">
+        Wissen über <br /><strong>{{ wissenssammlung[0]?.title }}</strong>
+      </h2>
     </div>
     <p
       class="sidebar--description"
-      v-if="wissenssammlung">{{ wissenssammlung[0]?.description[0].de }}
+      v-if="wissenssammlung"
+    >
+      {{ wissenssammlung[0]?.description[0].de }}
     </p>
   </aside>
 </template>
 
 <script lang="ts">
+// Vue imports
+import type { PropType } from 'vue';
+
 // Component imports
 import QuickRefIcon from '@/components/icons/QuickRefIcon.vue';
 import wissenssammlungData from '@/assets/json/wissenssammlung.json';
@@ -41,8 +51,13 @@ export default {
     CloseIcon,
   },
   props: {
+    /**
+     * The topic of the knowledge collection
+     * @default '-'
+     * @type {String}
+     */
     topic: {
-      type: String,
+      type: String as PropType<string>,
       default: '-',
     },
   },
@@ -54,19 +69,6 @@ export default {
   },
   mounted() {
     this.wissenssammlung = wissenssammlungTyped.wissenssammlung;
-  },
-  methods: {
-    openSidebar() {
-      const sidebar = this.$refs.sidebar as HTMLElement;
-      this.isOpen = true;
-      sidebar.classList.add('sidebar--open');
-    },
-    closeSidebar(event: Event) {
-      event.stopPropagation();
-      this.isOpen = false;
-      const sidebar = this.$refs.sidebar as HTMLElement;
-      sidebar.classList.remove('sidebar--open');
-    },
   },
 };
 </script>

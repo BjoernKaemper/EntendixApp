@@ -103,6 +103,7 @@ import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import SideBar from '@/components/general/SideBar.vue';
+import { SubsectionConditionTypes } from '@/types/enums/SubsectionConditionTypes';
 
 export default {
   components: {
@@ -170,11 +171,11 @@ export default {
 
     getSubsectionChipStatusByCondition(condition: string): ChipStatusTypes {
       switch (condition) {
-        case 'HEALTHY':
+        case SubsectionConditionTypes.HEALTHY:
           return ChipStatusTypes.SUCCESS;
-        case 'WARNING':
+        case SubsectionConditionTypes.WARNING:
           return ChipStatusTypes.WARNING;
-        case 'ERROR':
+        case SubsectionConditionTypes.ALERT:
           return ChipStatusTypes.ERROR;
         default:
           return ChipStatusTypes.INFO;

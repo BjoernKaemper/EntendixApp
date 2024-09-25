@@ -1,9 +1,18 @@
 <template>
   <div class="grid-wrapper">
     <div class="grid-wrapper--left">
-      <h2>{{ buildingName }}</h2>
-      <AutomationKlima />
-      <div class="status-container">
+      <h2>{{ buildingName || "Loading" }}</h2>
+      <template v-if="isLoading">
+        <div class="image-loading">
+          <LoadingSpinner />
+        </div>
+      </template>
+      <AutomationKlima v-else />
+      <div v-if="isLoading" class="status-container">
+        <h3>Funktionserfüllung Anlagentechnik</h3>
+        <StatusCard />
+      </div>
+      <div v-else class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <!-- @TODO: Get the rest of the data in the response an map it -->
         <!-- @TODO: remove placeholders -->
@@ -15,9 +24,18 @@
           :status="ChipStatusTypes.SUCCESS"
           :kpiType="getSubsectionTypeIcon(subsection.type as SemanticSubmoduleTypes)"
           :actionType="ActionTypes.ARROW"
+          :isLoading="isLoading"
         />
       </div>
-      <div class="issues-container">
+      <div v-if="isLoading" class="issues-container">
+        <h3>@TODO: Probleme in den Komponenten</h3>
+        <template v-if="isLoading">
+          <div class="loading">
+            <LoadingSpinner />
+          </div>
+        </template>
+      </div>
+      <div v-else class="issues-container">
         <h3>@TODO: Probleme in den Komponenten</h3>
         <div v-if="issues" class="issues">
           <!-- @TODO: remove placeholders after data is in place -->
@@ -28,6 +46,7 @@
             :isBordered="false"
             :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
+            :isLoading="isLoading"
           />
           <StatusCard
             title="Heizkreis 1"
@@ -35,6 +54,7 @@
             :isBordered="false"
             :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
+            :isLoading="isLoading"
           />
           <p>Stromversorgung</p>
           <StatusCard
@@ -43,6 +63,7 @@
             :isBordered="false"
             :status="ComponentStatusTypes.WARNING_COMPONENT"
             :actionType="ActionTypes.ARROW"
+            :isLoading="isLoading"
           />
           <StatusCard
             v-for="(kpi, idx) in kpis"
@@ -52,6 +73,7 @@
             :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
             :timestamp="kpi.data.Annotations[0]?.TimestampOfCreation"
+            :isLoading="isLoading"
           />
         </div>
         <div v-else class="no-issues">
@@ -68,12 +90,16 @@
           Letzte 14 Tage
         </div>
       </div>
-      <div class="performance-grid">
+      <div v-if="kpiIsLoading" class="performance-grid">
+        <LineChart_v2 />
+      </div>
+      <div v-else class="performance-grid">
         <LineChart_v2
           v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
           :lastUpdateTimestamp="lastBuildingRequestTimestamp"
+          :isLoading="kpiIsLoading"
         />
       </div>
     </div>
@@ -101,12 +127,14 @@ import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
   components: {
     LineChart_v2,
     AutomationKlima,
     StatusCard,
+    LoadingSpinner,
   },
 
   data() {
@@ -138,6 +166,14 @@ export default {
 
     lastBuildingRequestTimestamp(): DateTime | null {
       return this.general_v2Store.buildingState.requestTimestamp;
+    },
+
+    isLoading(): boolean {
+      return this.general_v2Store.buildingState.isLoading;
+    },
+
+    kpiIsLoading(): boolean {
+      return this.general_v2Store.buildingState.kpiState.isLoading;
     },
   },
 
@@ -176,10 +212,15 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-gap: $m;
+}
 
-  &--left {
-    overflow-y: hidden;
-  }
+.image-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: $lightest;
+  border-radius: $base-size;
 }
 
 .performance-grid {

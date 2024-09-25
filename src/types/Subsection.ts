@@ -1,14 +1,17 @@
-import type { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
+import type { SubsectionPlant } from '@/types/SubsectionPlant';
 
 /**
  * Subsection interface
  * @typedef {Object} Subsection
- * @property {string} id - The unique identifier of the subsection
- * @property {SemanticSubmoduleTypes} aasSemanticIdentifyer - Semantic identifier of the subsection
- * @property {string} type - The type of the subsection
+ * @property {string} condition - The condition of the subsection
+ * @property {string} tradeName - The trade name of the subsection
+ * @property {string} tradeType - The trade type of the subsection
+ * @property {Array<SubsectionPlant>} plants - The plants of the subsection
+ * @see {@link SubsectionPlant}
  */
 export interface Subsection {
-  id: string;
-  aasSemanticIdentifyer: SemanticSubmoduleTypes;
-  type: string;
+  condition: string; // @TODO: Add ENUM
+  tradeName: string;
+  tradeType: string;
+  plants: Array<SubsectionPlant>
 }

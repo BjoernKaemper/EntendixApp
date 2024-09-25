@@ -8,12 +8,12 @@
         <!-- @TODO: Get the rest of the data in the response an map it -->
         <!-- @TODO: remove placeholders -->
         <StatusCard
-          v-for="(subsection, idx) in building?.data.Subsections"
+          v-for="(subsection, idx) in subsections"
           :key="idx"
-          :title="subsection.type"
+          :title="subsection.tradeName"
           :isBordered="false"
-          :status="ChipStatusTypes.SUCCESS"
-          :kpiType="getSubsectionTypeIcon(subsection.type as SemanticSubmoduleTypes)"
+          :status="getSubsectionChipStatusByCondition(subsection.condition)"
+          :kpiType="getSubsectionTypeIcon(subsection.tradeType)"
           :actionType="ActionTypes.ARROW"
         />
       </div>
@@ -135,6 +135,10 @@ export default {
       return this.general_v2Store.buildingState.building;
     },
 
+    subsections() {
+      return this.general_v2Store.buildingState.subsectionState.subsections;
+    },
+
     kpis() {
       return this.general_v2Store.buildingState.kpiState.kpis;
     },
@@ -145,7 +149,7 @@ export default {
   },
 
   methods: {
-    getSubsectionTypeIcon(type: SemanticSubmoduleTypes): SubsectionTypes {
+    getSubsectionTypeIcon(type: string): SubsectionTypes {
       switch (type) {
         case SemanticSubmoduleTypes.AIR_TECHNICAL_SYSTEMS:
           return SubsectionTypes.AIR;
@@ -161,6 +165,19 @@ export default {
           return SubsectionTypes.SECURITY; // @TODO: Add icon for automation systems
         default:
           return SubsectionTypes.NONE;
+      }
+    },
+
+    getSubsectionChipStatusByCondition(condition: string): ChipStatusTypes {
+      switch (condition) {
+        case 'HEALTHY':
+          return ChipStatusTypes.SUCCESS;
+        case 'WARNING':
+          return ChipStatusTypes.WARNING;
+        case 'ERROR':
+          return ChipStatusTypes.ERROR;
+        default:
+          return ChipStatusTypes.INFO;
       }
     },
   },

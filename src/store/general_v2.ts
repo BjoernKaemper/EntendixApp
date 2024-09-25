@@ -7,11 +7,12 @@ import { useAuthenticator } from '@aws-amplify/ui-vue';
 import type Company from '@/types/Company';
 import type { Site, SiteWithBuildinginformation } from '@/types/Site';
 import type { Building } from '@/types/Building';
+import type { Kpi } from '@/types/Kpi';
 
 // Helper Imports
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import type { Kpi } from '@/types/Kpi';
+import type { Subsection } from '@/types/Subsection';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -40,6 +41,11 @@ interface GeneralStoreState {
       requestTimestamp: DateTime | null,
       isLoading: boolean,
     },
+    subsectionState: {
+      subsections: Subsection[],
+      requestTimestamp: DateTime | null,
+      isLoading: boolean,
+    },
     requestTimestamp: DateTime | null;
     isLoading: boolean,
   },
@@ -59,6 +65,12 @@ const defaultKPIState = {
   isLoading: false,
 };
 
+const defaultSubsectionState = {
+  subsections: [],
+  requestTimestamp: null,
+  isLoading: false,
+};
+
 const defaultSiteState = {
   site: null,
   kpiState: defaultKPIState,
@@ -71,6 +83,7 @@ const defaultBuildingState = {
   kpiState: defaultKPIState,
   requestTimestamp: null,
   isLoading: false,
+  subsectionState: defaultSubsectionState,
 };
 
 export const useGeneralStoreV2 = defineStore('general_v2', {
@@ -128,6 +141,22 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
         `/middleware/kpis/${parentId}?${q}`,
         requestOptions,
       )) as Kpi[];
+    },
+
+    async fetchSubsectionInformation(subsectionId: string): Promise<Subsection> {
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+
+      return (await FetchHelper.apiCall(
+        `/middleware/subsections/${encodeURIComponent(subsectionId)}?${q}`,
+        requestOptions,
+      )) as Subsection;
     },
 
     async loadSiteInformation(siteId: string): Promise<void> {
@@ -188,6 +217,19 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
 
       this.buildingState.kpiState.requestTimestamp = DateTime.now();
       this.buildingState.kpiState.isLoading = false;
+
+      // Fetching Subsection Information
+      this.buildingState.subsectionState.subsections = [];
+      this.buildingState.subsectionState.isLoading = true;
+
+      this.buildingState.building.data.Subsections?.forEach(async (subsection) => {
+        this.buildingState.subsectionState.subsections.push(
+          await this.fetchSubsectionInformation(subsection.id),
+        );
+      });
+
+      this.buildingState.subsectionState.requestTimestamp = DateTime.now();
+      this.buildingState.subsectionState.isLoading = false;
     },
   },
 });

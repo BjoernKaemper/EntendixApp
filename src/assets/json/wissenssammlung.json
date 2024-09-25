@@ -1,0 +1,34 @@
+{
+  "wissenssammlung": [
+    {
+      "id": 1,
+      "title": "Wäremversorgung",
+      "description": [
+        {
+          "de": "Die Wärmeversorgung in Gebäuden erfolgt über Systeme wie Zentralheizungen, Fernwärme, Wärmepumpen oder Solaranlagen. Wichtige Komponenten sind Kessel, Heizkreisläufe, Wärmetauscher, Thermostate und Regelungstechnik. Typische Probleme sind Ausfälle durch Verschleiß, falsche Einstellungen der Regeltechnik, ungleichmäßige Wärmeverteilung und Luft im Heizsystem. Häufige Fehlerbilder umfassen kalte Heizkörper, ineffiziente Energienutzung und hohe Betriebskosten. Eine regelmäßige Wartung und die Nutzung moderner Steuerungssysteme helfen, diese Probleme zu minimieren.",
+          "en": "The heat supply in buildings is provided by systems such as central heating, district heating, heat pumps or solar systems. Important components are boilers, heating circuits, heat exchangers, thermostats and control technology. Typical problems are failures due to wear and tear, incorrect settings of the control technology, uneven heat distribution and air in the heating system. Common error patterns include cold radiators, inefficient energy use and high operating costs. Regular maintenance and the use of modern control systems help to minimize these problems."
+        }
+      ]
+    }, 
+    {
+      "id": 2,
+      "title": "Klimatisierung",
+      "description": [
+        {
+          "de": "Die Klimatisierung von Gebäuden erfolgt über Systeme wie Klimaanlagen, Lüftungsanlagen, Wärmerückgewinnung oder Verdunstungskühlung. Wichtige Komponenten sind Kältemaschinen, Ventilatoren, Filter, Wärmetauscher und Regelungstechnik. Typische Probleme sind Ausfälle durch Verschleiß, falsche Einstellungen der Regeltechnik, unzureichende Luftqualität und Schimmelbildung. Häufige Fehlerbilder umfassen unangenehme Raumtemperaturen, hohe Luftfeuchtigkeit und schlechte Luftzirkulation. Eine regelmäßige Wartung und die Nutzung moderner Steuerungssysteme helfen, diese Probleme zu minimieren.",
+          "en": "The air conditioning of buildings is provided by systems such as air conditioning systems, ventilation systems, heat recovery or evaporative cooling. Important components are refrigeration machines, fans, filters, heat exchangers and control technology. Typical problems are failures due to wear and tear, incorrect settings of the control technology, inadequate air quality and mold formation. Common error patterns include uncomfortable room temperatures, high humidity and poor air circulation. Regular maintenance and the use of modern control systems help to minimize these problems."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Elektroinstallation",
+      "description": [
+        {
+          "de": "Die Elektroinstallation in Gebäuden umfasst Systeme wie Stromversorgung, Beleuchtung, Steckdosen, Schalter, Sicherungen und Leitungen. Wichtige Komponenten sind Zählerkästen, Verteilerdosen, Schaltkästen, Kabelkanäle und Schutzschalter. Typische Probleme sind Ausfälle durch Überlastung, Kurzschluss, Kabelbruch oder Feuchtigkeit. Häufige Fehlerbilder umfassen defekte Steckdosen, ausgefallene Beleuchtung und defekte Sicherungen. Eine regelmäßige Wartung und die Nutzung moderner Schutztechnik helfen, diese Probleme zu minimieren.",
+          "en": "The electrical installation in buildings includes systems such as power supply, lighting, sockets, switches, fuses and cables. Important components are meter boxes, distribution boxes, switch boxes, cable ducts and protective switches. Typical problems are failures due to overload, short circuit, cable breakage or moisture. Common error patterns include defective sockets, failed lighting and defective fuses. Regular maintenance and the use of modern protection technology help to minimize these problems."
+        }
+      ]
+    }
+  ]
+}

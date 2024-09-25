@@ -204,7 +204,7 @@ export default {
   margin-top: $s;
   background-color: $light-purple-40;
   padding: $xxs;
-  border-radius: $base-size;
+  border-radius: $border-radius;
 
   & > h3 {
     @include content-subtitle;
@@ -238,7 +238,7 @@ export default {
     cursor: pointer;
     border: 1px solid $light-purple;
     padding: $base-size;
-    border-radius: $base-size;
+    border-radius: $border-radius;
   }
 }
 
@@ -256,6 +256,6 @@ h4 {
 
 img {
   width: 100%;
-  border-radius: $base-size;
+  border-radius: $border-radius;
 }
 </style>

@@ -111,7 +111,7 @@ export default {
 <style lang="scss" scoped>
 .card {
   background-color: $lightest;
-  border-radius: $base-size;
+  border-radius: $border-radius;
   display: flex;
   height: $xxxl;
   margin-bottom: $s;
@@ -120,11 +120,11 @@ export default {
 
   > .traffic-light {
     border-right: 1px solid white;
-    border-radius: $base-size 0 0 $base-size;
+    border-radius: $border-radius 0 0 $border-radius;
   }
 
   > img {
-    border-radius: 0 $base-size $base-size 0;
+    border-radius: 0 $border-radius $border-radius 0;
     height: 100%;
   }
 

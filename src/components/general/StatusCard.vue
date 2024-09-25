@@ -181,7 +181,7 @@ export default {
 @import '@/styles/mixins.scss';
 
 .status-card {
-  border-radius: $base-size;
+  border-radius: $border-radius;
   background-color: $lightest;
   display: flex;
   align-items: center;
@@ -233,7 +233,7 @@ export default {
     align-items: center;
     & > div {
       padding: $m $xxs;
-      border-radius: $base-size 0 0 $base-size;
+      border-radius: $border-radius 0 0 $border-radius;
     }
   }
 }

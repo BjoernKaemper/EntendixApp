@@ -137,7 +137,7 @@ export default {
 .line-chart-container {
   width: 100%;
   background-color: $lightest;
-  border-radius: $base-size;
+  border-radius: $border-radius;
   padding: $m;
   display: grid;
   grid-template-columns: 1fr 2fr;

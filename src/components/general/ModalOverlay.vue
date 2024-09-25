@@ -162,7 +162,7 @@ export default {
 
         & > button {
           border: 1px solid $darken;
-          border-radius: $base-size;
+          border-radius: $border-radius;
           padding: $base-size 0 $base-size $xxs;
           cursor: pointer;
           display: flex;

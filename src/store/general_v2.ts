@@ -100,7 +100,6 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
      * @returns {void}
      */
     updateGlobalTime(): void {
-      console.log('Updating global time');
       // Initially we set the global time to now to have a value...
       this.time = DateTime.local();
       // ...then we check how far along we are to the next full minute...

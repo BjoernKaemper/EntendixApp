@@ -1,40 +1,52 @@
 <template>
   <div class="line-chart-container">
-    <div class="line-chart-container--left">
-      <h3>{{ kpi?.data.Name.de || topic }}</h3>
-      <div class="line-chart-container--left--values">
-        <div v-if="primaryKpiValue">
-          <h4 v-if="secondaryKpiValue">{{ kpi.data.Context.de || topic }}</h4>
-          <BigNumber
-            :number="primaryKpiValue"
-            :unit="primaryKpiValueUnit"
-          />
+    <template v-if="isLoading">
+      <div class="loading">
+        <LoadingSpinner />
+      </div>
+    </template>
+    <template v-else>
+      <div class="line-chart-container--left">
+        <h3>{{ kpi?.data.Name.de || topic }}</h3>
+        <div class="line-chart-container--left--values">
+          <div v-if="primaryKpiValue">
+            <h4 v-if="secondaryKpiValue">{{ kpi.data.Context.de || topic }}</h4>
+            <BigNumber
+              :number="primaryKpiValue"
+              :unit="primaryKpiValueUnit"
+            />
+          </div>
+          <div v-if="secondaryKpiValue">
+            <h4>{{ kpi.data.Context.de || topic }}</h4>
+            <BigNumber
+              :number="secondaryKpiValue"
+              :unit="secondaryKpiValueUnit"
+            />
+          </div>
         </div>
-        <div v-if="secondaryKpiValue">
-          <h4>{{ kpi.data.Context.de || topic }}</h4>
-          <BigNumber
-            :number="secondaryKpiValue"
-            :unit="secondaryKpiValueUnit"
-          />
+        <div class="line-chart-container--left--footer">
+          <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdateTime }} Minuten</p>
+          <ChipComponent :status="status" :kpi="kpi" />
         </div>
       </div>
-      <div class="line-chart-container--left--footer">
-        <p class="last-update">Letzte Aktualisierung vor: {{ lastUpdateTime }} Minuten</p>
-        <ChipComponent :status="status" :kpi="kpi" />
+      <div class="line-chart-container--right">
+        <p>@TODO: insert Line Chart here...</p>
       </div>
-    </div>
-    <div class="line-chart-container--right">
-      <p>@TODO: insert Line Chart here...</p>
-    </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
-import BigNumber from '@/components/general/BigNumber.vue';
-import ChipComponent from '@/components/general/ChipComponent.vue';
+// type imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import type { Kpi } from '@/types/Kpi';
 
+// component imports
+import BigNumber from '@/components/general/BigNumber.vue';
+import ChipComponent from '@/components/general/ChipComponent.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+
+// vue / library imports
 import { DateTime, Interval } from 'luxon';
 import type { PropType } from 'vue';
 
@@ -80,10 +92,20 @@ export default {
       required: false,
       default: ChipStatusTypes.INFO,
     },
+    /**
+     * Whether the line chart is loading
+     * @type {boolean}
+     * @default true
+     */
+    isLoading: {
+      type: Boolean as PropType<boolean>,
+      default: true,
+    },
   },
   components: {
     BigNumber,
     ChipComponent,
+    LoadingSpinner,
   },
   computed: {
     /**
@@ -142,6 +164,14 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: $m;
+
+  & .loading {
+    grid-column: 1 / -1;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   &--left {
     display: flex;

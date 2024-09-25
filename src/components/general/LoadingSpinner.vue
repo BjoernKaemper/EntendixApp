@@ -1,7 +1,6 @@
 <template>
   <div class="loading--wrapper">
     <LoadingIcon />
-    <!-- Loading........ -->
   </div>
 </template>
 
@@ -24,7 +23,6 @@ export default {
 <style lang="scss" scoped>
 .loading--wrapper {
   transform: rotate(-45deg);
-  font-size: 1.5rem;
   animation: rotate 1.5s ease-in-out infinite;
 }
 

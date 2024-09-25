@@ -2,10 +2,15 @@
   <aside
     ref="sidebar"
     class="sidebar"
-    @click="toggleSidebar"
-    @keydown.enter="toggleSidebar"
+    :class="{ 'sidebar--open': isOpen }"
+    @click="openSidebar"
+    @keydown.enter="openSidebar"
   >
-    <button type="button" class="sidebar--button">Schließen <CloseIcon /></button>
+    <button
+      type="button"
+      class="sidebar--button"
+      @click="closeSidebar($event)"
+      @keydown.enter="closeSidebar($event)">Schließen <CloseIcon /></button>
     <div class="sidebar--header">
       <QuickRefIcon />
       <h2 class="sidebar--header-headline">Wissens-Sammlung</h2>
@@ -22,6 +27,8 @@
 import QuickRefIcon from '@/components/icons/QuickRefIcon.vue';
 import wissenssammlungData from '@/assets/json/wissenssammlung.json';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
+
+import { nextTick } from 'vue';
 
 // @TODO move type to separate file
 interface Description {
@@ -62,10 +69,20 @@ export default {
     this.wissenssammlung = wissenssammlungTyped.wissenssammlung;
   },
   methods: {
-    toggleSidebar() {
+    openSidebar() {
       const sidebar = this.$refs.sidebar as HTMLElement;
-      this.isOpen = !this.isOpen;
-      sidebar.classList.toggle('sidebar--open');
+      this.isOpen = true;
+      sidebar.classList.add('sidebar--open');
+    },
+    closeSidebar(event: Event) {
+      event.stopPropagation();
+      this.isOpen = false;
+      nextTick(() => {
+        const sidebar = this.$refs.sidebar as HTMLElement;
+        if (sidebar) {
+          sidebar.classList.remove('sidebar--open');
+        }
+      });
     },
   },
 };
@@ -80,6 +97,9 @@ export default {
   color: $dark-purple;
   transition: width 0.3s;
   cursor: pointer;
+  position: sticky;
+  margin: -#{$xxl} -#{$m} -#{$xxl} 0;
+  height: calc(100vh - 111px);
 
   &--button {
     display: none;
@@ -116,6 +136,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    cursor: default;
 
     & .sidebar--header {
       display: flex;

@@ -18,6 +18,7 @@ import type { Subsection } from '@/types/Subsection';
 const auth = useAuthenticator();
 
 interface GeneralStoreState {
+  time: DateTime;
   baseInfoState: {
     companies: Company[],
     sites: Site[],
@@ -88,11 +89,28 @@ const defaultBuildingState = {
 
 export const useGeneralStoreV2 = defineStore('general_v2', {
   state: (): GeneralStoreState => ({
+    time: DateTime.local(),
     baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
     buildingState: defaultBuildingState,
   }),
   actions: {
+    /**
+     * Update the global time
+     * @returns {void}
+     */
+    updateGlobalTime(): void {
+      console.log('Updating global time');
+      // Initially we set the global time to now to have a value...
+      this.time = DateTime.local();
+      // ...then we check how far along we are to the next full minute...
+      const distanceToNearestMinute = this.time.endOf('minute').diff(this.time).as('millisecond');
+      // ...at which time we start the global clock which updates every minute
+      setTimeout(() => {
+        this.updateGlobalTime();
+      }, distanceToNearestMinute);
+    },
+
     /**
      * Load base informations for the application
      * @returns {Promise<void>}

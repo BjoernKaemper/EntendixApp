@@ -28,8 +28,6 @@ import QuickRefIcon from '@/components/icons/QuickRefIcon.vue';
 import wissenssammlungData from '@/assets/json/wissenssammlung.json';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
 
-import { nextTick } from 'vue';
-
 // @TODO move type to separate file
 interface Description {
   de: string;
@@ -77,12 +75,8 @@ export default {
     closeSidebar(event: Event) {
       event.stopPropagation();
       this.isOpen = false;
-      nextTick(() => {
-        const sidebar = this.$refs.sidebar as HTMLElement;
-        if (sidebar) {
-          sidebar.classList.remove('sidebar--open');
-        }
-      });
+      const sidebar = this.$refs.sidebar as HTMLElement;
+      sidebar.classList.remove('sidebar--open');
     },
   },
 };

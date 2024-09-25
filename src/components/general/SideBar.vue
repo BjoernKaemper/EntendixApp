@@ -24,26 +24,15 @@
 </template>
 
 <script lang="ts">
+// Component imports
 import QuickRefIcon from '@/components/icons/QuickRefIcon.vue';
 import wissenssammlungData from '@/assets/json/wissenssammlung.json';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
 
-// @TODO move type to separate file
-interface Description {
-  de: string;
-  en: string;
-}
+// Interface imports
+import type { Wissenssammlung, WissenssammlungItem } from '@/types/Knowledge';
 
-interface WissenssammlungItem {
-  id: number;
-  title: string;
-  description: Description[];
-}
-
-interface Wissenssammlung {
-  wissenssammlung: WissenssammlungItem[];
-}
-
+// Data imports
 const wissenssammlungTyped = wissenssammlungData as Wissenssammlung;
 
 export default {
@@ -83,7 +72,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @TODO: use position fixed (somehow) so that the sidebar is always visible and covers the full height of the page
 .sidebar {
   background-color: $dark-purple-20;
   width: 80px;
@@ -109,7 +97,8 @@ export default {
       transform: rotate(-180deg);
       white-space: nowrap;
       writing-mode: vertical-lr;
-      @include content-subtitle;
+      @include content-headline;
+      color: $dark-purple;
 
       &-topic {
         display: none;

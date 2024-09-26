@@ -15,6 +15,7 @@ import Monitoring_Site from '@/views/monitoring_v2/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring_v2/MonitoringBuilding.vue';
 import Monitoring_Site_Building_Grundfunktion from '@/views/monitoring/site/building/monitoring_grundfunktion.vue';
 import Monitoring_Site_Building_Grundfunktion_Anlage from '@/views/monitoring/site/building/monitoring_anlage.vue';
+import Monitoring_Site_Building_Subsection from '@/views/monitoring_v2/MonitoringSubsection.vue';
 
 const routes = [
   {
@@ -198,6 +199,18 @@ const routes = [
           },
         ];
       },
+    },
+  },
+  {
+    path: '/monitoring/building/subsection/demo',
+    name: 'Monitoring_Site_Building_Subsection_Demo',
+    component: Monitoring_Site_Building_Subsection,
+    meta: {
+      // @TODO add dynamic breadcrumb when data is available
+      breadcrumb: () => [
+        { title: 'Monitoring', to: '/monitoring' },
+        { title: 'Building Demo', to: '/monitoring/building/subsection/demo' },
+      ],
     },
   },
   {

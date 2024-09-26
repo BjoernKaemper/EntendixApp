@@ -23,6 +23,7 @@
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
           <StatusCard
+            @click="openSubsectionDemoPage()"
             title="Wärmeerzeuger 1"
             subtitle="Ursache: Unter Sollwert"
             :isBordered="false"
@@ -30,6 +31,7 @@
             :actionType="ActionTypes.ARROW"
           />
           <StatusCard
+            @click="openSubsectionDemoPage()"
             title="Heizkreis 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -38,6 +40,7 @@
           />
           <p>Stromversorgung</p>
           <StatusCard
+            @click="openSubsectionDemoPage()"
             title="Stromkreislauf 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -162,6 +165,11 @@ export default {
         default:
           return SubsectionTypes.NONE;
       }
+    },
+    openSubsectionDemoPage() {
+      this.$router.push({
+        name: 'Monitoring_Site_Building_Subsection_Demo',
+      });
     },
   },
 

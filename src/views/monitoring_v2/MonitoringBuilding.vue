@@ -80,7 +80,6 @@
         />
       </div>
     </div>
-    <SideBar />
   </div>
 </template>
 
@@ -105,14 +104,12 @@ import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
-import SideBar from '@/components/general/SideBar.vue';
 
 export default {
   components: {
     LineChart_v2,
     AutomationKlima,
     StatusCard,
-    SideBar,
   },
 
   data() {

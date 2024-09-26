@@ -19,8 +19,13 @@
       <div class="status-container">
         <h3 class="status-headline">Gebäude in der Liegenschaft</h3>
         <template v-if="isLoading">
-          <StatusCard
-            :isLoading="true" />
+          <div class="status-container--loading">
+            <StatusCard
+              v-for="index in 3"
+              :key="index"
+              :isLoading="true"
+            />
+          </div>
         </template>
         <div v-else class="status-container-wrapper">
           <StatusCard
@@ -115,6 +120,10 @@ export default {
       return this.general_v2Store.siteState.requestTimestamp;
     },
 
+    statusCardAmount(): number {
+      return this.site?.data?.Buildings?.length || 3;
+    },
+
     isLoading(): boolean {
       return this.general_v2Store.siteState.isLoading;
     },
@@ -164,7 +173,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 50%;
   background-color: $lightest;
   border-radius: $base-size;
 }
@@ -183,6 +192,17 @@ export default {
   & > h3 {
     @include content-subtitle;
     color: $darkest;
+  }
+
+  &--loading {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    @for $i from 1 through 3 {
+      & > div:nth-child(#{$i}) {
+        // from 99% to 66% to 33% opacity
+        opacity: 1 - (($i - 1) * 0.33);
+      }
+    }
   }
 }
 

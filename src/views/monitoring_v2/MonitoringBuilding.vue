@@ -10,7 +10,12 @@
       <AutomationKlima v-else />
       <div v-if="isLoading" class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
-        <StatusCard />
+        <div class="status-container--loading">
+          <StatusCard
+            v-for="index in statusCardAmount"
+            :key="index"
+          />
+        </div>
       </div>
       <div v-else class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
@@ -171,6 +176,10 @@ export default {
       return this.general_v2Store.buildingState.requestTimestamp;
     },
 
+    statusCardAmount(): number {
+      return this.building?.data?.Subsections?.length || 3;
+    },
+
     isLoading(): boolean {
       return this.general_v2Store.buildingState.isLoading;
     },
@@ -225,7 +234,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50%;
+  height: 30%;
   background-color: $lightest;
   border-radius: $base-size;
 }
@@ -242,6 +251,17 @@ export default {
   & > h3 {
     @include content-subtitle;
     color: $darkest;
+  }
+
+  &--loading {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    @for $i from 1 through 3 {
+      & > div:nth-child(#{$i}) {
+        // from 99% to 66% to 33% opacity
+        opacity: 1 - (($i - 1) * 0.33);
+      }
+    }
   }
 }
 

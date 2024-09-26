@@ -90,8 +90,8 @@
           Letzte 14 Tage
         </div>
       </div>
-      <div v-if="kpiIsLoading" class="performance-grid">
-        <LineChart_v2 />
+      <div v-if="kpiIsLoading || !kpis.length" class="performance-grid--loading">
+        <LineChart_v2 v-for="index in kpiAmount" :key="index" />
       </div>
       <div v-else class="performance-grid">
         <LineChart_v2
@@ -178,6 +178,10 @@ export default {
     kpiIsLoading(): boolean {
       return this.general_v2Store.buildingState.kpiState.isLoading;
     },
+
+    kpiAmount(): number {
+      return this.kpis.length ? this.kpis.length : 3;
+    },
   },
 
   methods: {
@@ -221,7 +225,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 50%;
   background-color: $lightest;
   border-radius: $base-size;
 }
@@ -280,6 +284,18 @@ export default {
     border: 1px solid $light-purple;
     padding: $base-size;
     border-radius: $base-size;
+  }
+}
+
+.performance-grid--loading {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: $m;
+  @for $i from 1 through 3 {
+    & > div:nth-child(#{$i}) {
+      // from 99% to 66% to 33% opacity
+      opacity: 1 - (($i - 1) * 0.33);
+    }
   }
 }
 

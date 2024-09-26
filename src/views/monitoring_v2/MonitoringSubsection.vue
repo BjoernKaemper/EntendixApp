@@ -99,6 +99,10 @@ import ChipComponent from '@/components/general/ChipComponent.vue';
 
 export default {
   props: {
+    /**
+     * The name of the subsection.
+     * @default 'Wärmeversorgung'
+     */
     subsectionName: {
       type: String as PropType<string>,
       default: 'Wärmeversorgung',

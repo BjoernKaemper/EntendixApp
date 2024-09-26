@@ -132,7 +132,7 @@ export default {
       gap: $xl;
 
       & > svg {
-        height: 70vh;
+        height: 100%;
       }
     }
     &--right {

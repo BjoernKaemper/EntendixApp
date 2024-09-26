@@ -1,8 +1,6 @@
 <template>
   <div
     class="card"
-    @click="$emit('clicked')"
-    @keydown.enter="$emit('clicked')"
     tabindex="0"
     :class="status ? status : 'no-status'"
   >
@@ -35,7 +33,11 @@
           </span>
           <ArrowIcon />
         </button>
-        <button type="button">
+        <button
+          type="button"
+          @click="$emit('clicked')"
+          @keydown.enter="$emit('clicked')"
+        >
           <span>
             <MonitoringIcon />
             Monitoring
@@ -147,7 +149,6 @@ export default {
   align-items: center;
   height: 100px;
   overflow: hidden;
-  cursor: pointer;
 
   &.no-status {
     opacity: 0.6;

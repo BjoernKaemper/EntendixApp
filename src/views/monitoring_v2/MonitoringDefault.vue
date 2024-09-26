@@ -7,6 +7,19 @@
         <p class="subtitle">Ist alles im grünen Bereich? Werden die Betriebsfunktionen erfüllt?</p>
       </div>
       <LiegenschaftCard_v2
+        v-for="site in sites"
+        :key="site.id"
+        :name="site.data.SiteName"
+        imgsrc="/src/assets/placeholder-campus-deutz.png"
+        :status="ChipStatusTypes.SUCCESS"
+        :location="site.data.Address.CityTown"
+        @clicked="loadSite(site)"
+        :isLoading="sitesAreLoading"
+      />
+
+      <p>Demo Cards below</p>
+
+      <LiegenschaftCard_v2
         name="TH Köln, Camppus Deutz"
         location="Köln"
         :status="ChipStatusTypes.ERROR"
@@ -40,14 +53,6 @@
         :isLoading="sitesAreLoading"
         imgsrc="/src/assets/placeholder-campus-hamburg.png"
       />
-      <LiegenschaftCard
-        v-for="site in sites"
-        :key="site.id"
-        :name="site.data.SiteName"
-        :location="site.data.Address.CityTown"
-        @clicked="loadSite(site)"
-        :isLoading="sitesAreLoading"
-      />
     </div>
   </div>
 </template>
@@ -57,7 +62,6 @@ import { mapStores } from 'pinia';
 import { useGeneralStoreV2 } from '@/store/general_v2';
 
 import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue';
-import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import LiegenschaftCard_v2 from '@/components/monitoring/LiegenschaftCard_v2.vue';
 import type { Site } from '@/types/Site';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -65,7 +69,6 @@ import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 export default {
   components: {
     GoogleMaps_v2,
-    LiegenschaftCard,
     LiegenschaftCard_v2,
   },
 

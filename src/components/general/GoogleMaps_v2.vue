@@ -111,6 +111,19 @@ export default {
     }).load();
 
     this.initMapElement(google);
+
+    // Use document.querySelector to get the header element
+    const header = document.querySelector('header') as HTMLElement;
+    // Fallback to a default height if the header is not found
+    const headerHeight = header ? header.clientHeight + 1 : 100;
+    // Calculate the main height by subtracting the header height from the viewport height
+    const mainHeight = `calc(100vh - ${headerHeight}px)`;
+
+    // Apply the height dynamically to the map container or element
+    const mapContainer = this.$refs.map as HTMLElement;
+    if (mapContainer) {
+      mapContainer.style.height = mainHeight;
+    }
   },
 };
 
@@ -118,7 +131,7 @@ export default {
 
 <style scoped lang="scss">
 .google-map-card {
-  height: 100vh;
+  height: calc(100vh - 121px);
   margin: -40px 0 -40px -20px;
   > #map {
     width: 100%;

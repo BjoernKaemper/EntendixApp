@@ -48,6 +48,10 @@ export default {
           return IconTypes.WARNING;
         case ChipStatusTypes.INFO:
           return IconTypes.QUESTION_MARK;
+        case ComponentStatusTypes.SUCCESS_COMPONENT:
+          return IconTypes.CHECK_MARK_CIRCLE;
+        case ComponentStatusTypes.NONE:
+          return IconTypes.QUESTION_MARK;
         case ComponentStatusTypes.ERROR_COMPONENT:
           return IconTypes.WARNING;
         case ComponentStatusTypes.WARNING_COMPONENT:
@@ -66,6 +70,10 @@ export default {
           return ChipStatusTypes.ERROR.toLocaleLowerCase();
         case ChipStatusTypes.INFO:
           return ChipStatusTypes.INFO.toLocaleLowerCase();
+        case ComponentStatusTypes.SUCCESS_COMPONENT:
+          return ComponentStatusTypes.SUCCESS_COMPONENT.replace('.', '-').toLocaleLowerCase();
+        case ComponentStatusTypes.NONE:
+          return ComponentStatusTypes.NONE.replace('.', '-').toLocaleLowerCase();
         case ComponentStatusTypes.ERROR_COMPONENT:
           return ComponentStatusTypes.ERROR_COMPONENT.replace('.', '-').toLocaleLowerCase();
         case ComponentStatusTypes.WARNING_COMPONENT:
@@ -101,6 +109,22 @@ export default {
 
   &.info {
     background-color: $light-purple;
+  }
+
+  &.success-component {
+    background-color: $darkest;
+
+    svg > * > * {
+      fill: $light-green;
+    }
+  }
+
+  &.none {
+    background-color: $darken;
+
+    svg > * > * {
+      fill: $light-purple;
+    }
   }
 
   &.error-component {

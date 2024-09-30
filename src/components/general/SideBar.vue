@@ -76,14 +76,19 @@ export default {
 <style lang="scss" scoped>
 .sidebar {
   background-color: $dark-purple-20;
-  width: 80px;
+  width: 355px;
+  transform: translateX(80%);
   padding: $xxl $m;
   color: $dark-purple;
-  transition: width 0.3s;
+  transition: transform 0.3s;
   cursor: pointer;
   position: sticky;
   margin: -#{$xxl} -#{$m} -#{$xxl} 0;
   height: calc(100vh - 111px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 
   &--button {
     display: none;
@@ -117,7 +122,7 @@ export default {
   }
 
   &--open {
-    width: 355px;
+    transform: translateX(0);
     display: flex;
     flex-direction: column;
     align-items: flex-end;

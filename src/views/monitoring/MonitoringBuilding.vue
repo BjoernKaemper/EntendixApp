@@ -1,7 +1,7 @@
 <template>
   <div class="grid-wrapper">
     <div class="grid-wrapper--left">
-      <h2>{{ buildingName || "Loading" }}</h2>
+      <h2>{{ buildingName || 'Loading' }}</h2>
       <template v-if="isLoading">
         <div class="image-loading">
           <LoadingSpinner />
@@ -11,10 +11,7 @@
       <div v-if="isLoading" class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <div class="status-container--loading">
-          <StatusCard
-            v-for="index in statusCardAmount"
-            :key="index"
-          />
+          <StatusCard v-for="index in statusCardAmount" :key="index" />
         </div>
       </div>
       <div v-else class="status-container">
@@ -91,15 +88,13 @@
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
         <!-- @TODO: create dropdown component -->
-        <div class="dropdown">
-          Letzte 14 Tage
-        </div>
+        <div class="dropdown">Letzte 14 Tage</div>
       </div>
       <div v-if="kpiIsLoading || !kpis.length" class="performance-grid--loading">
-        <LineChart_v2 v-for="index in kpiAmount" :key="index" />
+        <LineChart v-for="index in kpiAmount" :key="index" />
       </div>
       <div v-else class="performance-grid">
-        <LineChart_v2
+        <LineChart
           v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
@@ -119,8 +114,6 @@ import { mapStores } from 'pinia';
 
 // Store imports
 import { useGeneralStore } from '@/store/general';
-import { useGeneralStoreV2 } from '@/store/general_v2';
-import { useMonitoringStore } from '@/store/monitoring';
 
 // Type Imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -130,7 +123,7 @@ import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 
 // component imports
-import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
+import LineChart from '@/components/monitoring/LineChart.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import SideBar from '@/components/general/SideBar.vue';
@@ -139,7 +132,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
   components: {
-    LineChart_v2,
+    LineChart,
     AutomationKlima,
     StatusCard,
     SideBar,
@@ -163,22 +156,22 @@ export default {
   },
 
   computed: {
-    ...mapStores(useGeneralStore, useMonitoringStore, useGeneralStoreV2),
+    ...mapStores(useGeneralStore),
 
     building() {
-      return this.general_v2Store.buildingState.building;
+      return this.generalStore.buildingState.building;
     },
 
-    subsections() {
-      return this.general_v2Store.buildingState.subsectionState.subsections;
+    subsections(): any {
+      return this.generalStore.buildingState.subsectionState.subsections;
     },
 
     kpis() {
-      return this.general_v2Store.buildingState.kpiState.kpis;
+      return this.generalStore.buildingState.kpiState.kpis;
     },
 
     lastBuildingRequestTimestamp(): DateTime | null {
-      return this.general_v2Store.buildingState.requestTimestamp;
+      return this.generalStore.buildingState.requestTimestamp;
     },
 
     statusCardAmount(): number {
@@ -186,11 +179,11 @@ export default {
     },
 
     isLoading(): boolean {
-      return this.general_v2Store.buildingState.isLoading;
+      return this.generalStore.buildingState.isLoading;
     },
 
     kpiIsLoading(): boolean {
-      return this.general_v2Store.buildingState.kpiState.isLoading;
+      return this.generalStore.buildingState.kpiState.isLoading;
     },
 
     kpiAmount(): number {
@@ -233,7 +226,7 @@ export default {
   },
 
   async created() {
-    await this.general_v2Store.loadBuildingInformation(
+    await this.generalStore.loadBuildingInformation(
       JSON.parse(this.$route.params.buildingparams as string).buildingid,
     );
     this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;

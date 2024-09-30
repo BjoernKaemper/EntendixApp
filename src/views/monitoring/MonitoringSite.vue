@@ -55,10 +55,10 @@
         </div>
       </div>
       <div v-if="kpiIsLoading || !kpis.length" class="performance-grid--loading">
-        <LineChart_v2 v-for="index in kpiAmount" :key="index" />
+        <LineChart v-for="index in kpiAmount" :key="index" />
       </div>
       <div class="performance-grid" v-else>
-        <LineChart_v2
+        <LineChart
           v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
@@ -72,13 +72,13 @@
 <script lang="ts">
 // Libraries
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
-import { useGeneralStoreV2 } from '@/store/general_v2';
+import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
 import type { DateTime } from 'luxon';
 
 // Components
 import StatusCard from '@/components/general/StatusCard.vue';
-import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
+import LineChart from '@/components/monitoring/LineChart.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // Types
@@ -88,7 +88,7 @@ import type { SiteWithBuildinginformation } from '@/types/Site';
 export default {
   components: {
     StatusCard,
-    LineChart_v2,
+    LineChart,
     LoadingSpinner,
   },
 
@@ -106,18 +106,18 @@ export default {
   },
 
   computed: {
-    ...mapStores(useGeneralStoreV2),
+    ...mapStores(useGeneralStore),
 
     site(): SiteWithBuildinginformation | null {
-      return this.general_v2Store.siteState.site;
+      return this.generalStore.siteState.site;
     },
 
     kpis() {
-      return this.general_v2Store.siteState.kpiState.kpis;
+      return this.generalStore.siteState.kpiState.kpis;
     },
 
     lastSiteRequestTime(): DateTime | null {
-      return this.general_v2Store.siteState.requestTimestamp;
+      return this.generalStore.siteState.requestTimestamp;
     },
 
     statusCardAmount(): number {
@@ -125,11 +125,11 @@ export default {
     },
 
     isLoading(): boolean {
-      return this.general_v2Store.siteState.isLoading;
+      return this.generalStore.siteState.isLoading;
     },
 
     kpiIsLoading(): boolean {
-      return this.general_v2Store.siteState.kpiState.isLoading;
+      return this.generalStore.siteState.kpiState.isLoading;
     },
 
     kpiAmount(): number {
@@ -138,7 +138,7 @@ export default {
   },
 
   created() {
-    this.general_v2Store.loadSiteInformation(
+    this.generalStore.loadSiteInformation(
       JSON.parse(this.$route.params.siteparams as string).siteid,
     );
     this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;

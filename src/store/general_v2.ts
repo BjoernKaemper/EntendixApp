@@ -179,6 +179,7 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
     async loadSiteInformation(siteId: string): Promise<void> {
       this.siteState = defaultSiteState;
       this.siteState.isLoading = true;
+      this.siteState.kpiState.isLoading = true;
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -198,8 +199,6 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       this.siteState.isLoading = false;
 
       // Fetching KPI Information
-      this.siteState.kpiState.isLoading = true;
-
       this.siteState.kpiState.kpis = await this.fetchKpiInformation(siteId);
 
       this.siteState.kpiState.requestTimestamp = DateTime.now();
@@ -208,7 +207,8 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
 
     async loadBuildingInformation(buildingId: string): Promise<void> {
       this.buildingState = defaultBuildingState;
-      this.buildingState.isLoading = false;
+      this.buildingState.isLoading = true;
+      this.buildingState.kpiState.isLoading = true;
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -228,8 +228,6 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       this.buildingState.isLoading = false;
 
       // Fetching KPI Information
-      this.buildingState.kpiState.isLoading = true;
-
       this.buildingState.kpiState.kpis = await this.fetchKpiInformation(buildingId);
 
       this.buildingState.kpiState.requestTimestamp = DateTime.now();

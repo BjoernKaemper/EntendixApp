@@ -91,7 +91,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 
 button {
   border: 1px solid $darken;

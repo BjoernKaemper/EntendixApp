@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { useGeneralStoreV2 } from '@/store/general_v2';
+import { useGeneralStore } from '@/store/general';
 
 import { mapStores } from 'pinia';
 // type imports
@@ -111,7 +111,7 @@ export default {
     LoadingSpinner,
   },
   computed: {
-    ...mapStores(useGeneralStoreV2),
+    ...mapStores(useGeneralStore),
 
     /**
      * @returns The time since the last update in minutes
@@ -119,7 +119,7 @@ export default {
     lastUpdateTime(): number | string {
       if (this.lastUpdateTimestamp) {
         return Math.round(
-          this.general_v2Store.time.diff(this.lastUpdateTimestamp).as('minutes'),
+          this.generalStore.time.diff(this.lastUpdateTimestamp).as('minutes'),
         );
       }
       return '-';

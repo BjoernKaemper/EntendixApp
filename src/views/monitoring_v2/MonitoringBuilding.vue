@@ -22,12 +22,12 @@
         <!-- @TODO: Get the rest of the data in the response an map it -->
         <!-- @TODO: remove placeholders -->
         <StatusCard
-          v-for="(subsection, idx) in building?.data.Subsections"
+          v-for="(subsection, idx) in subsections"
           :key="idx"
-          :title="subsection.type"
+          :title="subsection.tradeName"
           :isBordered="false"
-          :status="ChipStatusTypes.SUCCESS"
-          :kpiType="getSubsectionTypeIcon(subsection.type as SemanticSubmoduleTypes)"
+          :status="getSubsectionChipStatusByCondition(subsection.condition)"
+          :kpiType="getSubsectionTypeIcon(subsection.tradeType)"
           :actionType="ActionTypes.ARROW"
           :isLoading="isLoading"
         />
@@ -134,6 +134,7 @@ import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import SideBar from '@/components/general/SideBar.vue';
+import { SubsectionConditionTypes } from '@/types/enums/SubsectionConditionTypes';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
@@ -168,6 +169,10 @@ export default {
       return this.general_v2Store.buildingState.building;
     },
 
+    subsections() {
+      return this.general_v2Store.buildingState.subsectionState.subsections;
+    },
+
     kpis() {
       return this.general_v2Store.buildingState.kpiState.kpis;
     },
@@ -194,7 +199,7 @@ export default {
   },
 
   methods: {
-    getSubsectionTypeIcon(type: SemanticSubmoduleTypes): SubsectionTypes {
+    getSubsectionTypeIcon(type: string): SubsectionTypes {
       switch (type) {
         case SemanticSubmoduleTypes.AIR_TECHNICAL_SYSTEMS:
           return SubsectionTypes.AIR;
@@ -210,6 +215,19 @@ export default {
           return SubsectionTypes.SECURITY; // @TODO: Add icon for automation systems
         default:
           return SubsectionTypes.NONE;
+      }
+    },
+
+    getSubsectionChipStatusByCondition(condition: string): ChipStatusTypes {
+      switch (condition) {
+        case SubsectionConditionTypes.HEALTHY:
+          return ChipStatusTypes.SUCCESS;
+        case SubsectionConditionTypes.WARNING:
+          return ChipStatusTypes.WARNING;
+        case SubsectionConditionTypes.ALERT:
+          return ChipStatusTypes.ERROR;
+        default:
+          return ChipStatusTypes.INFO;
       }
     },
   },

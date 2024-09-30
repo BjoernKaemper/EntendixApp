@@ -37,6 +37,9 @@
 </template>
 
 <script lang="ts">
+import { useGeneralStoreV2 } from '@/store/general_v2';
+
+import { mapStores } from 'pinia';
 // type imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import type { Kpi } from '@/types/Kpi';
@@ -47,7 +50,7 @@ import ChipComponent from '@/components/general/ChipComponent.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // vue / library imports
-import { DateTime, Interval } from 'luxon';
+import { DateTime } from 'luxon';
 import type { PropType } from 'vue';
 
 export default {
@@ -108,12 +111,16 @@ export default {
     LoadingSpinner,
   },
   computed: {
+    ...mapStores(useGeneralStoreV2),
+
     /**
      * @returns The time since the last update in minutes
      */
     lastUpdateTime(): number | string {
       if (this.lastUpdateTimestamp) {
-        return Math.round(Interval.fromDateTimes(this.lastUpdateTimestamp, DateTime.now()).length('minutes'));
+        return Math.round(
+          this.general_v2Store.time.diff(this.lastUpdateTimestamp).as('minutes'),
+        );
       }
       return '-';
     },

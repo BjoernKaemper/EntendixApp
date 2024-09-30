@@ -112,7 +112,7 @@ export default {
   &--description {
     display: none;
     @include content;
-    border-radius: $base-size;
+    border-radius: $border-radius;
     color: $dark-purple;
   }
 
@@ -141,7 +141,7 @@ export default {
       display: block;
       margin-bottom: $l;
       padding: $base-size $xxs;
-      border-radius: $base-size;
+      border-radius: $border-radius;
       background-color: $light-purple;
       color: $darkest;
       cursor: pointer;

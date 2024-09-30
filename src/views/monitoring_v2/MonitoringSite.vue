@@ -181,7 +181,7 @@ export default {
 .site-image {
   width: 100%;
   height: auto;
-  border-radius: $base-size;
+  border-radius: $border-radius;
   aspect-ratio: 3 / 2;
   object-fit: cover;
 }
@@ -222,7 +222,7 @@ h3 {
     cursor: pointer;
     border: 1px solid $light-purple;
     padding: $base-size;
-    border-radius: $base-size;
+    border-radius: $border-radius;
   }
 }
 

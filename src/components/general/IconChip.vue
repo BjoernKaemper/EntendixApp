@@ -63,23 +63,23 @@ export default {
     colorClass(): string {
       switch (this.status) {
         case ChipStatusTypes.SUCCESS:
-          return ChipStatusTypes.SUCCESS.toLocaleLowerCase();
+          return ChipStatusTypes.SUCCESS;
         case ChipStatusTypes.WARNING:
-          return ChipStatusTypes.WARNING.toLocaleLowerCase();
+          return ChipStatusTypes.WARNING;
         case ChipStatusTypes.ERROR:
-          return ChipStatusTypes.ERROR.toLocaleLowerCase();
+          return ChipStatusTypes.ERROR;
         case ChipStatusTypes.INFO:
-          return ChipStatusTypes.INFO.toLocaleLowerCase();
+          return ChipStatusTypes.INFO;
         case ComponentStatusTypes.SUCCESS_COMPONENT:
-          return ComponentStatusTypes.SUCCESS_COMPONENT.replace('.', '-').toLocaleLowerCase();
+          return ComponentStatusTypes.SUCCESS_COMPONENT;
         case ComponentStatusTypes.NONE:
-          return ComponentStatusTypes.NONE.replace('.', '-').toLocaleLowerCase();
+          return ComponentStatusTypes.NONE;
         case ComponentStatusTypes.ERROR_COMPONENT:
-          return ComponentStatusTypes.ERROR_COMPONENT.replace('.', '-').toLocaleLowerCase();
+          return ComponentStatusTypes.ERROR_COMPONENT;
         case ComponentStatusTypes.WARNING_COMPONENT:
-          return ComponentStatusTypes.WARNING_COMPONENT.replace('.', '-').toLocaleLowerCase();
+          return ComponentStatusTypes.WARNING_COMPONENT;
         default:
-          return ChipStatusTypes.INFO.toLocaleLowerCase();
+          return ChipStatusTypes.INFO;
       }
     },
   },

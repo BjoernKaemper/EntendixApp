@@ -191,7 +191,6 @@ export default {
   }
   h3 {
     @include content-subtitle;
-    // margin-bottom: $xxs;
   }
   h4 {
     @include content;

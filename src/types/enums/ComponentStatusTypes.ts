@@ -1,8 +1,8 @@
 export enum ComponentStatusTypes {
-  ISSUE = 'ISSUE',
-  NONE = 'NONE',
-  SUCCESS_COMPONENT = 'SUCCESS.COMPONENT',
-  INFO_COMPONENT = 'INFO.COMPONENT',
-  ERROR_COMPONENT = 'ERROR.COMPONENT',
-  WARNING_COMPONENT = 'WARNING.COMPONENT',
+  ISSUE = 'issue',
+  NONE = 'none',
+  SUCCESS_COMPONENT = 'success-component',
+  INFO_COMPONENT = 'info-component',
+  ERROR_COMPONENT = 'error-component',
+  WARNING_COMPONENT = 'warning-component',
 }

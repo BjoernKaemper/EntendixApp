@@ -1,7 +1,7 @@
 <template>
   <div
     class="status-card"
-    :class="[{ isBordered }, status.toLowerCase()]"
+    :class="[{ isBordered }, status]"
     @click="$emit('clicked')"
     @keydown.enter="$emit('clicked')"
     tabindex="0"
@@ -307,7 +307,8 @@ export default {
   @include content;
 }
 
-.info {
+.info,
+.timestamp {
   @include meta-information;
 }
 

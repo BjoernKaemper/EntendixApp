@@ -1,5 +1,5 @@
 <template>
-  <div class="chip--wrapper" :class="[statusData.class, miniClass]">
+  <div class="chip--wrapper" :class="[statusData.class, isMini ? 'mini' : '']">
     <span>
       {{ statusData.label }}
     </span>
@@ -56,13 +56,6 @@ export default {
     },
   },
   computed: {
-    /**
-     * Returns the mini class if the chip is mini.
-     * @returns The mini class.
-     */
-    miniClass(): string {
-      return this.isMini ? 'mini' : '';
-    },
     /**
      * Returns the status type based on the kpi data.
      * @returns The status type.

@@ -212,7 +212,7 @@ export default {
         flex-direction: column;
         gap: $base-size;
         padding: $s;
-        border-radius: $base-size;
+        border-radius: $border-radius;
 
         p {
           @include content;
@@ -259,7 +259,7 @@ export default {
             width: 100%;
             padding: $base-size;
             border: 1px solid $light-purple;
-            border-radius: $base-size;
+            border-radius: $border-radius;
             min-height: $xxxl;
             padding-left: $l;
 
@@ -275,7 +275,7 @@ export default {
             width: 100%;
             padding: $base-size;
             border: 1px solid $light-purple;
-            border-radius: $base-size;
+            border-radius: $border-radius;
             padding-left: $l;
             &::placeholder {
               color: $light-purple;

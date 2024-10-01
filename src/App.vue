@@ -73,6 +73,7 @@ watchEffect(() => {
     const userId = auth.user.signInUserSession.idToken.payload.sub;
     store.fetchGeneralInfos(userId);
     generalStore.loadBaseInformations();
+    generalStore.updateGlobalTime();
   }
 });
 </script>

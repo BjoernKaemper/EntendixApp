@@ -135,7 +135,7 @@ export default {
         & > input {
           max-width: 100px;
           border: 1px solid $light-purple;
-          border-radius: $base-size;
+          border-radius: $border-radius;
           padding: $base-size $xs;
           outline: none;
           text-align: end;

@@ -6,26 +6,33 @@
     @keydown.enter="$emit('clicked')"
     tabindex="0"
   >
-    <div class="icon-section">
-      <IconChip :status="status" />
-    </div>
-    <div class="kpi-icon">
-      <component :is="kpiIcon" />
-    </div>
-    <div class="text-section">
-      <span class="title">
-        {{ title }}
-      </span>
-      <span v-if="subtitle" class="subtitle">
-        {{ subtitle }}
-      </span>
-    </div>
-    <div class="timestamp">
-      <span v-if="timestamp">seit {{ timestampFormatted }}</span>
-    </div>
-    <div class="action-section" v-if="actionIcon">
-      <component :is="actionIcon" />
-    </div>
+    <template v-if="isLoading">
+      <div class="loading">
+        <LoadingSpinner />
+      </div>
+    </template>
+    <template v-else>
+      <div class="icon-section">
+        <IconChip :status="status" />
+      </div>
+      <div class="kpi-icon">
+        <component :is="kpiIcon" />
+      </div>
+      <div class="text-section">
+        <span class="title">
+          {{ title }}
+        </span>
+        <span v-if="subtitle" class="subtitle">
+          {{ subtitle }}
+        </span>
+      </div>
+      <div class="timestamp">
+        <span v-if="timestamp">seit {{ timestampFormatted }}</span>
+      </div>
+      <div class="action-section" v-if="actionIcon">
+        <component :is="actionIcon" />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -36,12 +43,15 @@
  * @module components/general/StatusCard
  * @displayName StatusCard
  */
+
+// type imports
 import { type PropType } from 'vue';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 
+// icon imports
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
 import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
 import WarningIcon from '@/components/icons/WarningIcon.vue';
@@ -55,7 +65,9 @@ import ColdIcon from '@/components/icons/ColdIcon.vue';
 import SecurityIcon from '@/components/icons/SecurityIcon.vue';
 import ElectricityIcon from '@/components/icons/ElectricityIcon.vue';
 
+// component imports
 import IconChip from '@/components/general/IconChip.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
   components: {
@@ -72,6 +84,7 @@ export default {
     ElectricityIcon,
     SecurityIcon,
     IconChip,
+    LoadingSpinner,
   },
   props: {
     /**
@@ -130,6 +143,14 @@ export default {
       type: String as PropType<string>,
       default: '',
     },
+    /**
+     * Whether the card is loading.
+     * @default true
+     */
+    isLoading: {
+      type: Boolean as PropType<boolean>,
+      default: true,
+    },
   },
   computed: {
     timestampFormatted(): string {
@@ -181,7 +202,7 @@ export default {
 @import '@/styles/mixins.scss';
 
 .status-card {
-  border-radius: $base-size;
+  border-radius: $border-radius;
   background-color: $lightest;
   display: flex;
   align-items: center;
@@ -189,6 +210,18 @@ export default {
   margin-bottom: $s;
   padding-right: $xxs;
   cursor: pointer;
+
+  & .loading {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &--wrapper > * {
+      width: 50%;
+    }
+  }
 
   &.isBordered {
     &.success {
@@ -233,7 +266,7 @@ export default {
     align-items: center;
     & > div {
       padding: $m $xxs;
-      border-radius: $base-size 0 0 $base-size;
+      border-radius: $border-radius 0 0 $border-radius;
     }
   }
 }

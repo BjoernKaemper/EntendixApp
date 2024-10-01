@@ -83,7 +83,7 @@ export default {
         color: white;
         text-decoration: none;
         padding: $xxs;
-        border-radius: $base-size;
+        border-radius: $border-radius;
 
         &.active {
           color: $dark-green;

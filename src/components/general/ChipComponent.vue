@@ -142,7 +142,7 @@ export default {
     align-items: center;
     width: fit-content;
     height: fit-content;
-    border-radius: $base-size;
+    border-radius: $border-radius;
 
     &.mini {
       border-radius: $s;
@@ -195,7 +195,7 @@ export default {
 
     > span {
       padding: 0 $xs;
-      border-radius: $base-size 0 0 $base-size;
+      border-radius: $border-radius 0 0 $border-radius;
     }
   }
 

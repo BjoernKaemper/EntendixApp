@@ -7,16 +7,18 @@ import { useAuthenticator } from '@aws-amplify/ui-vue';
 import type Company from '@/types/Company';
 import type { Site, SiteWithBuildinginformation } from '@/types/Site';
 import type { Building } from '@/types/Building';
+import type { Kpi } from '@/types/Kpi';
 
 // Helper Imports
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import type { Kpi } from '@/types/Kpi';
+import type { Subsection } from '@/types/Subsection';
 
 // Authenticator definition
 const auth = useAuthenticator();
 
 interface GeneralStoreState {
+  time: DateTime;
   baseInfoState: {
     companies: Company[],
     sites: Site[],
@@ -40,6 +42,11 @@ interface GeneralStoreState {
       requestTimestamp: DateTime | null,
       isLoading: boolean,
     },
+    subsectionState: {
+      subsections: Subsection[],
+      requestTimestamp: DateTime | null,
+      isLoading: boolean,
+    },
     requestTimestamp: DateTime | null;
     isLoading: boolean,
   },
@@ -59,6 +66,12 @@ const defaultKPIState = {
   isLoading: false,
 };
 
+const defaultSubsectionState = {
+  subsections: [],
+  requestTimestamp: null,
+  isLoading: false,
+};
+
 const defaultSiteState = {
   site: null,
   kpiState: defaultKPIState,
@@ -71,15 +84,32 @@ const defaultBuildingState = {
   kpiState: defaultKPIState,
   requestTimestamp: null,
   isLoading: false,
+  subsectionState: defaultSubsectionState,
 };
 
 export const useGeneralStoreV2 = defineStore('general_v2', {
   state: (): GeneralStoreState => ({
+    time: DateTime.local(),
     baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
     buildingState: defaultBuildingState,
   }),
   actions: {
+    /**
+     * Update the global time
+     * @returns {void}
+     */
+    updateGlobalTime(): void {
+      // Initially we set the global time to now to have a value...
+      this.time = DateTime.local();
+      // ...then we check how far along we are to the next full minute...
+      const distanceToNearestMinute = this.time.endOf('minute').diff(this.time).as('millisecond');
+      // ...at which time we start the global clock which updates every minute
+      setTimeout(() => {
+        this.updateGlobalTime();
+      }, distanceToNearestMinute);
+    },
+
     /**
      * Load base informations for the application
      * @returns {Promise<void>}
@@ -130,9 +160,26 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       )) as Kpi[];
     },
 
+    async fetchSubsectionInformation(subsectionId: string): Promise<Subsection> {
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+
+      return (await FetchHelper.apiCall(
+        `/middleware/subsections/${encodeURIComponent(subsectionId)}?${q}`,
+        requestOptions,
+      )) as Subsection;
+    },
+
     async loadSiteInformation(siteId: string): Promise<void> {
       this.siteState = defaultSiteState;
       this.siteState.isLoading = true;
+      this.siteState.kpiState.isLoading = true;
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -152,8 +199,6 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       this.siteState.isLoading = false;
 
       // Fetching KPI Information
-      this.siteState.kpiState.isLoading = true;
-
       this.siteState.kpiState.kpis = await this.fetchKpiInformation(siteId);
 
       this.siteState.kpiState.requestTimestamp = DateTime.now();
@@ -162,7 +207,8 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
 
     async loadBuildingInformation(buildingId: string): Promise<void> {
       this.buildingState = defaultBuildingState;
-      this.buildingState.isLoading = false;
+      this.buildingState.isLoading = true;
+      this.buildingState.kpiState.isLoading = true;
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
@@ -182,12 +228,23 @@ export const useGeneralStoreV2 = defineStore('general_v2', {
       this.buildingState.isLoading = false;
 
       // Fetching KPI Information
-      this.buildingState.kpiState.isLoading = true;
-
       this.buildingState.kpiState.kpis = await this.fetchKpiInformation(buildingId);
 
       this.buildingState.kpiState.requestTimestamp = DateTime.now();
       this.buildingState.kpiState.isLoading = false;
+
+      // Fetching Subsection Information
+      this.buildingState.subsectionState.subsections = [];
+      this.buildingState.subsectionState.isLoading = true;
+
+      this.buildingState.building.data.Subsections?.forEach(async (subsection) => {
+        this.buildingState.subsectionState.subsections.push(
+          await this.fetchSubsectionInformation(subsection.id),
+        );
+      });
+
+      this.buildingState.subsectionState.requestTimestamp = DateTime.now();
+      this.buildingState.subsectionState.isLoading = false;
     },
   },
 });

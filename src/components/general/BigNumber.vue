@@ -16,6 +16,7 @@ export default {
      */
     number: {
       type: Number as PropType<number>,
+      default: null,
     },
     /**
      * The unit of the number

@@ -29,13 +29,12 @@ import { computed, ref, watchEffect } from 'vue';
 import NavBar from '@/components/general/NavBar.vue';
 import Breadcrumbs from '@/components/general/BreadCrumbs.vue';
 
-import { useGeneralStore } from '@/store/general';
 import { Authenticator, useAuthenticator, translations } from '@aws-amplify/ui-vue';
 // @TODO: Remove this import when the new styles are ready
 import '@aws-amplify/ui-vue/styles.css';
 
 import { I18n } from 'aws-amplify';
-import { useGeneralStoreV2 } from './store/general_v2';
+import { useGeneralStore } from './store/general';
 
 I18n.putVocabularies(translations);
 I18n.setLanguage('de');
@@ -52,8 +51,7 @@ I18n.putVocabularies({
   },
 });
 const auth = useAuthenticator();
-const store = useGeneralStore();
-const generalStore = useGeneralStoreV2();
+const generalStore = useGeneralStore();
 
 const navItems = [
   { icon: '', name: 'Digitale Zwillinge', href: '/digitaltwins' },
@@ -70,8 +68,6 @@ const mainHeight = computed(() => {
 watchEffect(() => {
   // Check if auth.user is available and contains the necessary properties.
   if (auth.user && auth.user.signInUserSession) {
-    const userId = auth.user.signInUserSession.idToken.payload.sub;
-    store.fetchGeneralInfos(userId);
     generalStore.loadBaseInformations();
     generalStore.updateGlobalTime();
   }

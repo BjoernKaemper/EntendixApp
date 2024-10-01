@@ -52,10 +52,6 @@ import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 
 // icon imports
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
-import WarningIcon from '@/components/icons/WarningIcon.vue';
-import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
 import ArrowIcon from '@/components/icons/ArrowIcon.vue';
 import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
 import AirIcon from '@/components/icons/AirIcon.vue';
@@ -148,23 +144,6 @@ export default {
     isLoading: {
       type: Boolean as PropType<boolean>,
       default: true,
-    },
-  },
-  data() {
-    return {
-      isFullWidthClass: '',
-    };
-  },
-  mounted() {
-    this.checkWidth();
-    window.addEventListener('resize', this.checkWidth);
-  },
-  beforeUnmount() {
-    window.removeEventListener('resize', this.checkWidth);
-  },
-  methods: {
-    checkWidth() {
-      this.isFullWidthClass = this.$el.getBoundingClientRect().width > window.innerWidth / 2 ? 'full-width' : '';
     },
   },
   data() {

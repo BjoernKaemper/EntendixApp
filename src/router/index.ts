@@ -4,7 +4,7 @@ import DemoView from '@/views/demo/DemoView.vue';
 import Monitoring from '@/views/monitoring/MonitoringDefault.vue';
 import Monitoring_Site from '@/views/monitoring/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue';
-import Monitoring_Site_Building_Subsection from '@/views/monitoring_v2/MonitoringSubsection.vue';
+import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
 
 const routes = [
   {
@@ -129,54 +129,6 @@ const routes = [
         { title: 'Monitoring', to: '/monitoring' },
         { title: 'Building Demo', to: '/monitoring/building/subsection/demo' },
       ],
-    },
-  },
-  {
-    path: '/monitoring/:siteid/:buildingid/:buildingaasid/:grundfunktion',
-    name: 'Monitoring_Site_Building_Grundfunktion',
-    component: Monitoring_Site_Building_Grundfunktion,
-    meta: {
-      breadcrumb: (route: any) => {
-        const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid);
-        return [
-          { title: 'Monitoring', to: '/monitoring' },
-          { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` },
-          {
-            title: `${route.params.buildingid}`,
-            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`,
-          },
-          {
-            title: `${route.params.grundfunktion}`,
-            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}`,
-          },
-        ];
-      },
-    },
-  },
-  {
-    path: '/monitoring/:siteid/:buildingid/:buildingaasid/:grundfunktion/:anlage',
-    name: 'Monitoring_Site_Building_Grundfunktion_Anlage',
-    component: Monitoring_Site_Building_Grundfunktion_Anlage,
-    meta: {
-      breadcrumb: (route: any) => {
-        const encodedBuildingaasid = encodeURIComponent(route.params.buildingaasid);
-        return [
-          { title: 'Monitoring', to: '/monitoring' },
-          { title: `${route.params.siteid}`, to: `/monitoring/${route.params.siteid}` },
-          {
-            title: `${route.params.buildingid}`,
-            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}`,
-          },
-          {
-            title: `${route.params.grundfunktion}`,
-            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}`,
-          },
-          {
-            title: `${route.params.anlage}`,
-            to: `/monitoring/${route.params.siteid}/${route.params.buildingid}/${encodedBuildingaasid}/${route.params.grundfunktion}/${route.params.anlage}`,
-          },
-        ];
-      },
     },
   },
 ];

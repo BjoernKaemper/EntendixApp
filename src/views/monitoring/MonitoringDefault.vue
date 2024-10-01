@@ -6,13 +6,52 @@
         <h2>Meine Liegenschaften</h2>
         <p class="subtitle">Ist alles im grünen Bereich? Werden die Betriebsfunktionen erfüllt?</p>
       </div>
-      <LiegenschaftCard
+      <LiegenschaftCard_v2
         v-for="site in sites"
         :key="site.id"
         :name="site.data.SiteName"
+        imgsrc="/src/assets/placeholder-campus-deutz.png"
+        :status="ChipStatusTypes.SUCCESS"
         :location="site.data.Address.CityTown"
         @clicked="loadSite(site)"
         :isLoading="sitesAreLoading"
+      />
+
+      <p>Demo Cards below</p>
+
+      <LiegenschaftCard_v2
+        name="TH Köln, Camppus Deutz"
+        location="Köln"
+        :status="ChipStatusTypes.ERROR"
+        :isLoading="sitesAreLoading"
+        imgsrc="/src/assets/placeholder-campus-deutz.png"
+      />
+      <LiegenschaftCard_v2
+        name="TH Köln, Camppus Gummersbach"
+        location="Gummersbach"
+        :status="ChipStatusTypes.SUCCESS"
+        :isLoading="sitesAreLoading"
+        imgsrc="/src/assets/placeholder-campus-gummersbach.png"
+      />
+      <LiegenschaftCard_v2
+        name="TH Köln, Camppus Ubierring"
+        location="Köln"
+        :status="ChipStatusTypes.SUCCESS"
+        :isLoading="sitesAreLoading"
+        imgsrc="/src/assets/placeholder-campus-ubierring.png"
+      />
+      <LiegenschaftCard_v2
+        name="Kurt-Tucholsky-Schule"
+        location="Hamburg"
+        :status="ChipStatusTypes.WARNING"
+        :isLoading="sitesAreLoading"
+        imgsrc="/src/assets/placeholder-campus-hamburg.png"
+      />
+      <LiegenschaftCard_v2
+        name="Heinrich Schütz Schule"
+        location="Kassel"
+        :isLoading="sitesAreLoading"
+        imgsrc="/src/assets/placeholder-campus-hamburg.png"
       />
     </div>
   </div>
@@ -23,13 +62,14 @@ import { mapStores } from 'pinia';
 import { useGeneralStore } from '@/store/general';
 
 import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue';
-import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
+import LiegenschaftCard_v2 from '@/components/monitoring/LiegenschaftCard_v2.vue';
 import type { Site } from '@/types/Site';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 
 export default {
   components: {
     GoogleMaps_v2,
-    LiegenschaftCard,
+    LiegenschaftCard_v2,
   },
 
   computed: {
@@ -60,6 +100,12 @@ export default {
         },
       });
     },
+  },
+
+  setup() {
+    return {
+      ChipStatusTypes,
+    };
   },
 };
 </script>

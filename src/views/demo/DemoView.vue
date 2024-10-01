@@ -37,6 +37,10 @@
       <ChipComponent :status="ChipStatusTypes.WARNING" />
       <ChipComponent :status="ChipStatusTypes.ERROR" />
       <ChipComponent />
+      <ChipComponent :status="ChipStatusTypes.SUCCESS" :isMini="true" />
+      <ChipComponent :status="ChipStatusTypes.WARNING" :isMini="true" />
+      <ChipComponent :status="ChipStatusTypes.ERROR" :isMini="true" />
+      <ChipComponent :isMini="true" />
     </div>
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Deutz" />
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Gummersbach" />

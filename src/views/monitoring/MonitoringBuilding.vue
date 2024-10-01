@@ -43,6 +43,7 @@
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
           <StatusCard
+            @click="openSubsectionDemoPage()"
             title="Wärmeerzeuger 1"
             subtitle="Ursache: Unter Sollwert"
             :isBordered="false"
@@ -51,6 +52,7 @@
             :isLoading="isLoading"
           />
           <StatusCard
+            @click="openSubsectionDemoPage()"
             title="Heizkreis 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -60,6 +62,7 @@
           />
           <p>Stromversorgung</p>
           <StatusCard
+            @click="openSubsectionDemoPage()"
             title="Stromkreislauf 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -103,7 +106,6 @@
         />
       </div>
     </div>
-    <SideBar />
   </div>
 </template>
 
@@ -126,7 +128,6 @@ import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 import LineChart from '@/components/monitoring/LineChart.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
-import SideBar from '@/components/general/SideBar.vue';
 import { SubsectionConditionTypes } from '@/types/enums/SubsectionConditionTypes';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
@@ -135,7 +136,6 @@ export default {
     LineChart,
     AutomationKlima,
     StatusCard,
-    SideBar,
     LoadingSpinner,
   },
 
@@ -222,6 +222,11 @@ export default {
         default:
           return ChipStatusTypes.INFO;
       }
+    },
+    openSubsectionDemoPage() {
+      this.$router.push({
+        name: 'Monitoring_Site_Building_Subsection_Demo',
+      });
     },
   },
 

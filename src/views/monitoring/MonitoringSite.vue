@@ -54,7 +54,7 @@
           Letzte 14 Tage
         </div>
       </div>
-      <div v-if="kpiIsLoading || !kpis.length" class="performance-grid--loading">
+      <div v-if="kpiIsLoading" class="performance-grid--loading">
         <LineChart v-for="index in kpiAmount" :key="index" />
       </div>
       <div class="performance-grid" v-else>

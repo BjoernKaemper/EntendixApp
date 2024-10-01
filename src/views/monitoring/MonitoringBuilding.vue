@@ -1,51 +1,71 @@
 <template>
   <div class="grid-wrapper">
     <div class="grid-wrapper--left">
-      <h2>{{ buildingName }}</h2>
-      <AutomationKlima />
-      <div class="status-container">
+      <h2>{{ buildingName || 'Loading' }}</h2>
+      <template v-if="isLoading">
+        <div class="image-loading">
+          <LoadingSpinner />
+        </div>
+      </template>
+      <AutomationKlima v-else />
+      <div v-if="isLoading" class="status-container">
+        <h3>Funktionserfüllung Anlagentechnik</h3>
+        <div class="status-container--loading">
+          <StatusCard v-for="index in statusCardAmount" :key="index" />
+        </div>
+      </div>
+      <div v-else class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <!-- @TODO: Get the rest of the data in the response an map it -->
         <!-- @TODO: remove placeholders -->
         <StatusCard
-          v-for="(subsection, idx) in building?.data.Subsections"
+          v-for="(subsection, idx) in subsections"
           :key="idx"
-          :title="subsection.type"
+          :title="subsection.tradeName"
           :isBordered="false"
-          :status="ChipStatusTypes.SUCCESS"
-          :kpiType="getSubsectionTypeIcon(subsection.type as SemanticSubmoduleTypes)"
+          :status="getSubsectionChipStatusByCondition(subsection.condition)"
+          :kpiType="getSubsectionTypeIcon(subsection.tradeType)"
           :actionType="ActionTypes.ARROW"
+          :isLoading="isLoading"
         />
       </div>
-      <div class="issues-container">
+      <div v-if="isLoading" class="issues-container">
+        <h3>@TODO: Probleme in den Komponenten</h3>
+        <template v-if="isLoading">
+          <div class="loading">
+            <LoadingSpinner />
+          </div>
+        </template>
+      </div>
+      <div v-else class="issues-container">
         <h3>@TODO: Probleme in den Komponenten</h3>
         <div v-if="issues" class="issues">
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Wärmeerzeuger 1"
             subtitle="Ursache: Unter Sollwert"
             :isBordered="false"
             :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
+            :isLoading="isLoading"
           />
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Heizkreis 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
             :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
+            :isLoading="isLoading"
           />
           <p>Stromversorgung</p>
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Stromkreislauf 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
             :status="ComponentStatusTypes.WARNING_COMPONENT"
             :actionType="ActionTypes.ARROW"
+            :isLoading="isLoading"
           />
           <StatusCard
             v-for="(kpi, idx) in kpis"
@@ -55,6 +75,7 @@
             :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
             :timestamp="kpi.data.Annotations[0]?.TimestampOfCreation"
+            :isLoading="isLoading"
           />
         </div>
         <div v-else class="no-issues">
@@ -67,19 +88,22 @@
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
         <!-- @TODO: create dropdown component -->
-        <div class="dropdown">
-          Letzte 14 Tage
-        </div>
+        <div class="dropdown">Letzte 14 Tage</div>
       </div>
-      <div class="performance-grid">
-        <LineChart_v2
+      <div v-if="kpiIsLoading || !kpis.length" class="performance-grid--loading">
+        <LineChart v-for="index in kpiAmount" :key="index" />
+      </div>
+      <div v-else class="performance-grid">
+        <LineChart
           v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
           :lastUpdateTimestamp="lastBuildingRequestTimestamp"
+          :isLoading="kpiIsLoading"
         />
       </div>
     </div>
+    <SideBar />
   </div>
 </template>
 
@@ -90,8 +114,6 @@ import { mapStores } from 'pinia';
 
 // Store imports
 import { useGeneralStore } from '@/store/general';
-import { useGeneralStoreV2 } from '@/store/general_v2';
-import { useMonitoringStore } from '@/store/monitoring';
 
 // Type Imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -101,15 +123,20 @@ import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 
 // component imports
-import LineChart_v2 from '@/components/monitoring/LineChart_v2.vue';
+import LineChart from '@/components/monitoring/LineChart.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
+import SideBar from '@/components/general/SideBar.vue';
+import { SubsectionConditionTypes } from '@/types/enums/SubsectionConditionTypes';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
   components: {
-    LineChart_v2,
+    LineChart,
     AutomationKlima,
     StatusCard,
+    SideBar,
+    LoadingSpinner,
   },
 
   data() {
@@ -129,23 +156,43 @@ export default {
   },
 
   computed: {
-    ...mapStores(useGeneralStore, useMonitoringStore, useGeneralStoreV2),
+    ...mapStores(useGeneralStore),
 
     building() {
-      return this.general_v2Store.buildingState.building;
+      return this.generalStore.buildingState.building;
+    },
+
+    subsections(): any {
+      return this.generalStore.buildingState.subsectionState.subsections;
     },
 
     kpis() {
-      return this.general_v2Store.buildingState.kpiState.kpis;
+      return this.generalStore.buildingState.kpiState.kpis;
     },
 
     lastBuildingRequestTimestamp(): DateTime | null {
-      return this.general_v2Store.buildingState.requestTimestamp;
+      return this.generalStore.buildingState.requestTimestamp;
+    },
+
+    statusCardAmount(): number {
+      return this.building?.data?.Subsections?.length || 3;
+    },
+
+    isLoading(): boolean {
+      return this.generalStore.buildingState.isLoading;
+    },
+
+    kpiIsLoading(): boolean {
+      return this.generalStore.buildingState.kpiState.isLoading;
+    },
+
+    kpiAmount(): number {
+      return this.kpis.length ? this.kpis.length : 3;
     },
   },
 
   methods: {
-    getSubsectionTypeIcon(type: SemanticSubmoduleTypes): SubsectionTypes {
+    getSubsectionTypeIcon(type: string): SubsectionTypes {
       switch (type) {
         case SemanticSubmoduleTypes.AIR_TECHNICAL_SYSTEMS:
           return SubsectionTypes.AIR;
@@ -163,15 +210,23 @@ export default {
           return SubsectionTypes.NONE;
       }
     },
-    openSubsectionDemoPage() {
-      this.$router.push({
-        name: 'Monitoring_Site_Building_Subsection_Demo',
-      });
+
+    getSubsectionChipStatusByCondition(condition: string): ChipStatusTypes {
+      switch (condition) {
+        case SubsectionConditionTypes.HEALTHY:
+          return ChipStatusTypes.SUCCESS;
+        case SubsectionConditionTypes.WARNING:
+          return ChipStatusTypes.WARNING;
+        case SubsectionConditionTypes.ALERT:
+          return ChipStatusTypes.ERROR;
+        default:
+          return ChipStatusTypes.INFO;
+      }
     },
   },
 
   async created() {
-    await this.general_v2Store.loadBuildingInformation(
+    await this.generalStore.loadBuildingInformation(
       JSON.parse(this.$route.params.buildingparams as string).buildingid,
     );
     this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;
@@ -184,10 +239,15 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr auto;
   grid-gap: $m;
+}
 
-  &--left {
-    overflow-y: hidden;
-  }
+.image-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30%;
+  background-color: $lightest;
+  border-radius: $base-size;
 }
 
 .performance-grid {
@@ -203,13 +263,24 @@ export default {
     @include content-subtitle;
     color: $darkest;
   }
+
+  &--loading {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    @for $i from 1 through 3 {
+      & > div:nth-child(#{$i}) {
+        // from 99% to 66% to 33% opacity
+        opacity: 1 - (($i - 1) * 0.33);
+      }
+    }
+  }
 }
 
 .issues-container {
   margin-top: $s;
   background-color: $light-purple-40;
   padding: $xxs;
-  border-radius: $base-size;
+  border-radius: $border-radius;
 
   & > h3 {
     @include content-subtitle;
@@ -243,7 +314,19 @@ export default {
     cursor: pointer;
     border: 1px solid $light-purple;
     padding: $base-size;
-    border-radius: $base-size;
+    border-radius: $border-radius;
+  }
+}
+
+.performance-grid--loading {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: $m;
+  @for $i from 1 through 3 {
+    & > div:nth-child(#{$i}) {
+      // from 99% to 66% to 33% opacity
+      opacity: 1 - (($i - 1) * 0.33);
+    }
   }
 }
 
@@ -261,6 +344,6 @@ h4 {
 
 img {
   width: 100%;
-  border-radius: $base-size;
+  border-radius: $border-radius;
 }
 </style>

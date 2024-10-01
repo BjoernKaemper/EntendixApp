@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { mapStores } from 'pinia';
-import { useGeneralStoreV2 } from '@/store/general_v2';
+import { useGeneralStore } from '@/store/general';
 
 import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
@@ -33,14 +33,14 @@ export default {
   },
 
   computed: {
-    ...mapStores(useGeneralStoreV2),
+    ...mapStores(useGeneralStore),
 
     sites(): Array<Site> {
-      return this.general_v2Store.baseInfoState.sites;
+      return this.generalStore.baseInfoState.sites;
     },
 
     sitesAreLoading(): boolean {
-      return this.general_v2Store.baseInfoState.isLoading;
+      return this.generalStore.baseInfoState.isLoading;
     },
   },
 

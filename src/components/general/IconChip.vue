@@ -93,7 +93,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: $base-size;
-  border-radius: $base-size;
+  border-radius: $border-radius;
 
   &.success {
     background-color: $light-green;

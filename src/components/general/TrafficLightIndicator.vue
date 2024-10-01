@@ -79,7 +79,7 @@ export default {
 .light {
   width: $m;
   height: $m;
-  border-radius: $base-size;
+  border-radius: $border-radius;
   display: flex;
   align-items: center;
   justify-content: center;

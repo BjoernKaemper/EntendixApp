@@ -5,15 +5,15 @@ import { useAuthenticator } from '@aws-amplify/ui-vue';
 import { v4 as uuidv4 } from 'uuid';
 
 // Type Imports
-import type Company from '@/types/company/Company';
-import type { Site, SiteWithBuildinginformation } from '@/types/site/Site';
-import type { Building } from '@/types/building/Building';
-import type { Kpi } from '@/types/kpi/Kpi';
-import type { Subsection } from '@/types/subsections/Subsection';
-import type { Alert } from '@/types/general/Alert';
-import { AlertTypes } from '@/types/enums/AlertTypes';
+import type Company from '@/types/global/company/Company';
+import type { Site, SiteWithBuildinginformation } from '@/types/global/site/Site';
+import type { Building } from '@/types/global/building/Building';
+import type { Kpi } from '@/types/global/kpi/Kpi';
+import type { Subsection } from '@/types/global/subsections/Subsection';
+import type { Alert } from '@/types/Alert';
 
 // Helper Imports
+import { AlertTypes } from '@/types/enums/AlertTypes';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 

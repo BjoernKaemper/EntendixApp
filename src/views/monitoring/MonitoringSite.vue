@@ -80,7 +80,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
-import type { SiteWithBuildinginformation } from '@/types/site/Site';
+import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
 
 export default {
   components: {

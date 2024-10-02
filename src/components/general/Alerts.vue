@@ -15,7 +15,7 @@
 import AlertElement from '@/components/general/AlertElement.vue';
 import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
-import type { Alert } from '@/types/general/Alert';
+import type { Alert } from '@/types/Alert';
 
 export default {
   name: 'AlertsComponent',

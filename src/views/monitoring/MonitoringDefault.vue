@@ -26,7 +26,7 @@ import { useGeneralStore } from '@/store/general';
 
 import GoogleMaps from '@/components/general/GoogleMaps.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
-import type { Site } from '@/types/site/Site';
+import type { Site } from '@/types/global/site/Site';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 
 export default {

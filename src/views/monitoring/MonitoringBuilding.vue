@@ -119,7 +119,7 @@ import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
-import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
+import { SemanticSubmoduleTypes } from '@/types/global/enums/SemanticSubmoduleTypes';
 
 // component imports
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';

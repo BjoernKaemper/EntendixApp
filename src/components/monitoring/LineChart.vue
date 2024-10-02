@@ -31,8 +31,8 @@ import { mapStores } from 'pinia';
 // component imports
 import BigNumber from '@/components/general/BigNumber.vue';
 
-import type { Kpi } from '@/types/kpi/Kpi';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import type { Kpi } from '@/types/global/kpi/Kpi';
 
 export default {
   props: {

@@ -11,7 +11,7 @@ import mapStyles from '@/styles/mapStyles';
 import { type PropType } from 'vue';
 
 import { Loader } from '@googlemaps/js-api-loader';
-import type { Site } from '@/types/site/Site';
+import type { Site } from '@/types/global/site/Site';
 
 export default {
   /**

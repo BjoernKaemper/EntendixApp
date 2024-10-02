@@ -17,7 +17,7 @@
 import type { PropType } from 'vue';
 import IconChip from '@/components/general/IconChip.vue';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
-import type { Kpi } from '@/types/kpi/Kpi';
+import type { Kpi } from '@/types/global/kpi/Kpi';
 
 export default {
   components: {

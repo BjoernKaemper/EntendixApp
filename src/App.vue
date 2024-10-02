@@ -19,11 +19,7 @@
       </header>
       <main :style="mainHeight">
         <router-view />
-        <div class="alert-section">
-          <Alerts :type="ChipStatusTypes.ERROR" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat." />
-          <Alerts :type="ChipStatusTypes.SUCCESS" text="Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. " />
-          <Alerts :type="ChipStatusTypes.SUCCESS" text="Lorem ipsum dolor sit amet." />
-        </div>
+        <Alerts />
       </main>
     </template>
   </div>
@@ -33,8 +29,7 @@
 import { computed, ref, watchEffect } from 'vue';
 import NavBar from '@/components/general/NavBar.vue';
 import Breadcrumbs from '@/components/general/BreadCrumbs.vue';
-import Alerts from '@/components/general/AlertTiles.vue';
-import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import Alerts from '@/components/general/Alerts.vue';
 
 import { Authenticator, useAuthenticator, translations } from '@aws-amplify/ui-vue';
 // @TODO: Remove this import when the new styles are ready
@@ -113,16 +108,5 @@ main {
   width: 100vw;
   overflow-y: scroll;
   padding: $xxl $m; // TODO: used $xxl instead of 45px
-
-  .alert-section {
-    position: absolute;
-    top: 140px;
-    right: 20px;
-    z-index: 1000;
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    gap: $xxs;
-  }
 }
 </style>

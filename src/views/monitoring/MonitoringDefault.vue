@@ -1,12 +1,12 @@
 <template>
   <div class="grid-wrapper">
-    <GoogleMaps_v2 :sites="sites" />
+    <GoogleMaps :sites="sites" />
     <div>
       <div class="site-header">
         <h2>Meine Liegenschaften</h2>
         <p class="subtitle">Ist alles im grünen Bereich? Werden die Betriebsfunktionen erfüllt?</p>
       </div>
-      <LiegenschaftCard_v2
+      <LiegenschaftCard
         v-for="site in sites"
         :key="site.id"
         :name="site.data.SiteName"
@@ -19,35 +19,35 @@
 
       <p>Demo Cards below</p>
 
-      <LiegenschaftCard_v2
+      <LiegenschaftCard
         name="TH Köln, Camppus Deutz"
         location="Köln"
         :status="ChipStatusTypes.ERROR"
         :isLoading="sitesAreLoading"
         imgsrc="/src/assets/placeholder-campus-deutz.png"
       />
-      <LiegenschaftCard_v2
+      <LiegenschaftCard
         name="TH Köln, Camppus Gummersbach"
         location="Gummersbach"
         :status="ChipStatusTypes.SUCCESS"
         :isLoading="sitesAreLoading"
         imgsrc="/src/assets/placeholder-campus-gummersbach.png"
       />
-      <LiegenschaftCard_v2
+      <LiegenschaftCard
         name="TH Köln, Camppus Ubierring"
         location="Köln"
         :status="ChipStatusTypes.SUCCESS"
         :isLoading="sitesAreLoading"
         imgsrc="/src/assets/placeholder-campus-ubierring.png"
       />
-      <LiegenschaftCard_v2
+      <LiegenschaftCard
         name="Kurt-Tucholsky-Schule"
         location="Hamburg"
         :status="ChipStatusTypes.WARNING"
         :isLoading="sitesAreLoading"
         imgsrc="/src/assets/placeholder-campus-hamburg.png"
       />
-      <LiegenschaftCard_v2
+      <LiegenschaftCard
         name="Heinrich Schütz Schule"
         location="Kassel"
         :isLoading="sitesAreLoading"
@@ -61,15 +61,15 @@
 import { mapStores } from 'pinia';
 import { useGeneralStore } from '@/store/general';
 
-import GoogleMaps_v2 from '@/components/general/GoogleMaps_v2.vue';
-import LiegenschaftCard_v2 from '@/components/monitoring/LiegenschaftCard_v2.vue';
+import GoogleMaps from '@/components/general/GoogleMaps.vue';
+import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import type { Site } from '@/types/Site';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 
 export default {
   components: {
-    GoogleMaps_v2,
-    LiegenschaftCard_v2,
+    GoogleMaps,
+    LiegenschaftCard,
   },
 
   computed: {

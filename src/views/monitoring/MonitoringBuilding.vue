@@ -93,11 +93,8 @@
         <!-- @TODO: create dropdown component -->
         <div class="dropdown">Letzte 14 Tage</div>
       </div>
-      <div v-if="kpiIsLoading || !kpis.length" class="performance-grid--loading">
-        <LineChart v-for="index in kpiAmount" :key="index" />
-      </div>
-      <div v-else class="performance-grid">
-        <LineChart
+      <div class="performance-grid">
+        <ChartContainer
           v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
@@ -125,7 +122,7 @@ import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
 
 // component imports
-import LineChart from '@/components/monitoring/LineChart.vue';
+import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import { SubsectionConditionTypes } from '@/types/enums/SubsectionConditionTypes';
@@ -133,7 +130,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
   components: {
-    LineChart,
+    ChartContainer,
     AutomationKlima,
     StatusCard,
     LoadingSpinner,

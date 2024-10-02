@@ -10,7 +10,7 @@ import type { Site, SiteWithBuildinginformation } from '@/types/site/Site';
 import type { Building } from '@/types/building/Building';
 import type { Kpi } from '@/types/kpi/Kpi';
 import type { Subsection } from '@/types/subsections/Subsection';
-import type { Alert } from '@/types/Alert';
+import type { Alert } from '@/types/general/Alert';
 import { AlertTypes } from '@/types/enums/AlertTypes';
 
 // Helper Imports

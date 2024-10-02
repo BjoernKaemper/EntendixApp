@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref } from 'vue';
 import NavBar from '@/components/general/NavBar.vue';
 import Breadcrumbs from '@/components/general/BreadCrumbs.vue';
 import Alerts from '@/components/general/Alerts.vue';
@@ -58,6 +58,9 @@ const generalStore = useGeneralStore();
 // Attaching the window event listener for size change
 window.addEventListener('resize', () => generalStore.setWindowDimensions());
 
+// Starting the global clock
+generalStore.updateGlobalTime();
+
 const navItems = [
   { icon: '', name: 'Digitale Zwillinge', href: '/digitaltwins' },
   { icon: '', name: 'Monitoring', href: '/monitoring' },
@@ -68,14 +71,6 @@ const header = ref<HTMLElement | null>(null);
 const mainHeight = computed(() => {
   const headerHeight = header.value ? header.value.clientHeight + 1 : 100;
   return `height: calc(100vh - ${headerHeight}px);`;
-});
-
-watchEffect(() => {
-  // Check if auth.user is available and contains the necessary properties.
-  if (auth.user && auth.user.signInUserSession) {
-    generalStore.loadBaseInformations();
-    generalStore.updateGlobalTime();
-  }
 });
 </script>
 

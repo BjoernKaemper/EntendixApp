@@ -80,6 +80,10 @@ const routes = [
     meta: {
       breadcrumb: () => [{ title: 'Monitoring', to: '/monitoring' }],
     },
+    beforeEnter: () => {
+      const generalStore = useGeneralStore();
+      generalStore.loadBaseInformations();
+    },
   },
   {
     path: '/monitoring/site/:siteparams',

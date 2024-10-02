@@ -9,10 +9,10 @@
       <LiegenschaftCard
         v-for="site in sites"
         :key="site.id"
-        :name="site.data.SiteName"
+        :name="site.data.siteName"
         imgsrc="/src/assets/placeholder-campus-deutz.png"
         :status="ChipStatusTypes.SUCCESS"
-        :location="site.data.Address.CityTown"
+        :location="site.data.address.cityTown"
         @clicked="loadSite(site)"
         :isLoading="sitesAreLoading"
       />
@@ -26,7 +26,7 @@ import { useGeneralStore } from '@/store/general';
 
 import GoogleMaps from '@/components/general/GoogleMaps.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
-import type { Site } from '@/types/Site';
+import type { Site } from '@/types/global/site/Site';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 
 export default {
@@ -58,7 +58,7 @@ export default {
         params: {
           siteparams: JSON.stringify({
             siteid: encodeURIComponent(site.id),
-            siteName: site.data.SiteName,
+            siteName: site.data.siteName,
           }),
         },
       });

@@ -5,17 +5,17 @@ import { useAuthenticator } from '@aws-amplify/ui-vue';
 import { v4 as uuidv4 } from 'uuid';
 
 // Type Imports
-import type Company from '@/types/Company';
-import type { Site, SiteWithBuildinginformation } from '@/types/Site';
-import type { Building } from '@/types/Building';
-import type { Kpi } from '@/types/Kpi';
+import type Company from '@/types/global/company/Company';
+import type { Site, SiteWithBuildinginformation } from '@/types/global/site/Site';
+import type { Building } from '@/types/global/building/Building';
+import type { Kpi } from '@/types/global/kpi/Kpi';
+import type { Subsection } from '@/types/global/subsections/Subsection';
 import type { Alert } from '@/types/Alert';
-import { AlertTypes } from '@/types/enums/AlertTypes';
 
 // Helper Imports
+import { AlertTypes } from '@/types/enums/AlertTypes';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import type { Subsection } from '@/types/Subsection';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -324,7 +324,7 @@ export const useGeneralStore = defineStore('general', {
       this.buildingState.subsectionState.subsections = [];
       this.buildingState.subsectionState.isLoading = true;
 
-      this.buildingState.building.data.Subsections?.forEach(async (subsection) => {
+      this.buildingState.building.data.subsections?.forEach(async (subsection) => {
         this.buildingState.subsectionState.subsections.push(
           await this.fetchSubsectionInformation(subsection.id),
         );

@@ -14,7 +14,7 @@
         <time>{{ alert.time }} Uhr</time>
       </small>
     </div>
-    <button type="button" @click="closeAlert">
+    <button type="button" @click="closeAlert(alert.id)">
       <CloseIcon />
     </button>
   </div>
@@ -41,6 +41,8 @@ import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
 import { IconTypes } from '@/types/enums/IconTypes';
 import { AlertTypes } from '@/types/enums/AlertTypes';
 import type { Alert } from '@/types/Alert';
+import { useGeneralStore } from '@/store/general';
+import { mapStores } from 'pinia';
 
 export default {
   name: 'AlertElement',
@@ -62,6 +64,7 @@ export default {
     },
   },
   computed: {
+    ...mapStores(useGeneralStore),
     icon() {
       switch (this.alert.type) {
         case AlertTypes.INFO:
@@ -78,9 +81,9 @@ export default {
     },
   },
   methods: {
-    closeAlert() {
-      const alert = this.$refs.alert as HTMLElement;
-      alert.style.display = 'none';
+    closeAlert(alertId: string) {
+      // console.log('Closing alert with id:', this.alert.id);
+      this.generalStore.removeAlerts(alertId);
     },
   },
 };

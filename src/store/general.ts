@@ -2,6 +2,7 @@
 import { DateTime } from 'luxon';
 import { defineStore } from 'pinia';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
+import { v4 as uuidv4 } from 'uuid';
 
 // Type Imports
 import type Company from '@/types/Company';
@@ -9,6 +10,7 @@ import type { Site, SiteWithBuildinginformation } from '@/types/Site';
 import type { Building } from '@/types/Building';
 import type { Kpi } from '@/types/Kpi';
 import type { Alert } from '@/types/Alert';
+import { AlertTypes } from '@/types/enums/AlertTypes';
 
 // Helper Imports
 import QueryHelper from '@/helpers/QueryHelper';
@@ -138,7 +140,38 @@ export const useGeneralStore = defineStore('general', {
      */
     async loadAlerts(): Promise<void> {
       // @TODO Implement loading of alerts
-      this.alerts = [];
+      this.alerts = [
+        {
+          id: uuidv4(),
+          title: 'Notification Title 1',
+          type: AlertTypes.ERROR,
+          description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
+          time: DateTime.now().toFormat('HH:mm'),
+        },
+        {
+          id: uuidv4(),
+          title: 'Notification Title 2',
+          type: AlertTypes.SUCCESS,
+          description: 'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ',
+          time: DateTime.now().toFormat('HH:mm'),
+        },
+        {
+          id: uuidv4(),
+          title: 'Notification Title 3',
+          type: AlertTypes.SUCCESS,
+          description: 'Lorem ipsum dolor sit amet.',
+          time: DateTime.now().toFormat('HH:mm'),
+        },
+      ];
+    },
+
+    /**
+     * Add a new alert to the alert list
+     * @param {Alert} alert
+     * @returns {void}
+     */
+    removeAlerts(alertId: string): void {
+      this.alerts = this.alerts.filter((alert) => alert.id !== alertId);
     },
 
     /**

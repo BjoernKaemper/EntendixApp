@@ -1,9 +1,8 @@
 <template>
   <div
     class="card"
-    @click="$emit('clicked')"
-    @keydown.enter="$emit('clicked')"
     tabindex="0"
+    :class="status ? status : 'no-status'"
   >
     <template v-if="isLoading">
       <div class="loading">
@@ -11,14 +10,46 @@
       </div>
     </template>
     <template v-else>
-      <TrafficLightIndicator class="traffic-light" :light="currentLight" />
-      <img src="@/assets/gebäude_deutz.png" alt="Gebäudebild" />
+      <img :src="imgsrc" alt="Gebäudebild" />
       <div class="info">
-        <span class="title">{{ name }}</span>
-        <span class="subtitle">{{ location }}</span>
+        <ChipComponent
+          v-if="status"
+          :status="status"
+          :isMini="true"
+        />
+        <div class="info--text">
+          <span class="title">{{ name }}</span>
+          <span class="subtitle">{{ location }}</span>
+        </div>
       </div>
-      <div v-if="showIcon" class="action">
-        <ChevronIcon />
+      <div
+        class="action"
+        v-if="status"
+      >
+        <button type="button">
+          <span>
+            <HouseIcon />
+            Digitaler Zwilling
+          </span>
+          <ArrowIcon />
+        </button>
+        <button
+          type="button"
+          @click="$emit('clicked')"
+          @keydown.enter="$emit('clicked')"
+        >
+          <span>
+            <MonitoringIcon />
+            Monitoring
+          </span>
+          <ArrowIcon />
+        </button>
+      </div>
+      <div
+        class="no-action"
+        v-else
+      >
+        <LockIcon />
       </div>
     </template>
   </div>
@@ -32,12 +63,19 @@
  * @displayName LiegenschaftCard
  */
 
-import TrafficLightIndicator from '@/components/general/TrafficLightIndicator.vue';
-import ChevronIcon from '@/components/icons/ChevronIcon.vue';
-import { TrafficLightTypes } from '@/types/enums/TrafficLightTypes';
-import { ConditionTypes } from '@/types/enums/ConditionTypes';
-import { type PropType } from 'vue';
+// component imports
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import ChipComponent from '@/components/general/ChipComponent.vue';
+
+// icon imports
+import ArrowIcon from '@/components/icons/ArrowIcon.vue';
+import HouseIcon from '@/components/icons/HouseIcon.vue';
+import MonitoringIcon from '@/components/icons/MonitoringIcon.vue';
+import LockIcon from '@/components/icons/LockIcon.vue';
+
+// type imports
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import { type PropType } from 'vue';
 
 export default {
   props: {
@@ -73,37 +111,31 @@ export default {
       type: Boolean,
       default: true,
     },
+    /**
+     * The image source of the card
+     * @default '-'
+     */
+    imgsrc: {
+      type: String as PropType<string>,
+      default: '-',
+    },
+    /**
+     * The status of the card
+     * @default TrafficLightTypes.GREEN
+     */
+    status: {
+      type: String as PropType<ChipStatusTypes>,
+      required: false,
+      default: '' as ChipStatusTypes,
+    },
   },
   components: {
-    TrafficLightIndicator,
-    ChevronIcon,
     LoadingSpinner,
-  },
-  data() {
-    return {
-      currentLight: TrafficLightTypes.GREEN,
-    };
-  },
-  mounted() {
-    // Example of dynamically setting the light
-    this.updateLightBasedOnCondition();
-  },
-  methods: {
-    /**
-     * Updates the light based on a condition
-     */
-    updateLightBasedOnCondition() {
-      const condition = /* some logic to determine the light */ ConditionTypes.ALERT;
-
-      const conditionToLightMap = {
-        [ConditionTypes.ALERT]: TrafficLightTypes.RED,
-        [ConditionTypes.WARNING]: TrafficLightTypes.YELLOW,
-        [ConditionTypes.NORMAL]: TrafficLightTypes.GREEN,
-      };
-
-      // Default to GREEN if the condition doesn't match
-      this.currentLight = conditionToLightMap[condition] || TrafficLightTypes.GREEN;
-    },
+    ChipComponent,
+    ArrowIcon,
+    HouseIcon,
+    MonitoringIcon,
+    LockIcon,
   },
 };
 </script>
@@ -113,35 +145,73 @@ export default {
   background-color: $lightest;
   border-radius: $base-size;
   display: flex;
-  height: $xxxl;
   margin-bottom: $s;
   align-items: center;
-  cursor: pointer;
+  height: 100px;
+  overflow: hidden;
 
-  > .traffic-light {
-    border-right: 1px solid white;
-    border-radius: $base-size 0 0 $base-size;
+  &.no-status {
+    opacity: 0.6;
   }
 
   > img {
-    border-radius: 0 $base-size $base-size 0;
     height: 100%;
+    border-radius: 0 $base-size $base-size 0;
   }
 
   > .info {
     display: flex;
     flex-direction: column;
+    gap: $xxs;
     padding: $m;
     flex-grow: 1;
-    > .title {
-      @include section-headline;
-    }
-    > .subtitle {
-      @include content;
+
+    & > .info--text {
+      display: flex;
+      flex-direction: column;
+      > .title {
+        @include section-headline;
+      }
+      > .subtitle {
+        @include content;
+      }
     }
   }
   > .action {
-    padding: $xs;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+
+    & > button {
+      @include content;
+      border: none;
+      cursor: pointer;
+      height: 100%;
+      width: 100%;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $xxs;
+
+      & > span {
+        display: flex;
+        align-items: center;
+        gap: $xxs;
+      }
+    }
+
+    & > button:first-child {
+      background-color: $light-green-20;
+    }
+    & > button:last-child {
+      background-color: $light-purple-20;
+    }
+  }
+
+  > .no-action {
+    padding-right: $xxs;
   }
 }
 </style>

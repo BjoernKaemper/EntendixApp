@@ -1,6 +1,6 @@
 export enum ChipStatusTypes {
-  SUCCESS = 'SUCCESS',
-  WARNING = 'WARNING',
-  ERROR = 'ERROR',
-  INFO = 'INFO',
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  ERROR = 'error',
+  INFO = 'info',
 }

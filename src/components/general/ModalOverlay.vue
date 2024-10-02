@@ -11,13 +11,18 @@
           <slot name="body" />
         </div>
         <div class="modal-overlay__content__footer">
-          <button type="button" @click="close">Abbrechen
-            <CloseIcon />
-          </button>
-          <!-- @TODO: add some logic, when accept button is clicked -->
-          <button type="button" class="primary">Akzeptieren
-            <CheckIcon />
-          </button>
+          <ButtonComponent
+            v-if="!hasFooterSlot"
+            @click="close"
+            :primary="false"
+            text="Abbrechen"
+            :icon="IconTypes.CLOSE" />
+          <ButtonComponent
+            v-if="!hasFooterSlot"
+            :primary="true"
+            text="Akzeptieren"
+            :icon="IconTypes.CHECK_MARK" />
+          <slot name="footer" />
         </div>
       </div>
     </slot>
@@ -26,12 +31,18 @@
 
 <script lang="ts">
 import CloseIcon from '@/components/icons/CloseIcon.vue';
-import CheckIcon from '@/components/icons/CheckIcon.vue';
+import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import { IconTypes } from '@/types/enums/IconTypes';
 
 export default {
   components: {
     CloseIcon,
-    CheckIcon,
+    ButtonComponent,
+  },
+  setup() {
+    return {
+      IconTypes,
+    };
   },
   name: 'ModalOverlay',
   props: {
@@ -70,6 +81,11 @@ export default {
           document.removeEventListener('keydown', this.handleKeydown); // Remove keyboard listener
         }
       },
+    },
+  },
+  computed: {
+    hasFooterSlot(): boolean {
+      return !!this.$slots.footer;
     },
   },
   methods: {
@@ -123,7 +139,7 @@ export default {
         @include content-subtitle;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: start;
 
         & > svg {
           cursor: pointer;
@@ -146,7 +162,7 @@ export default {
 
         & > button {
           border: 1px solid $darken;
-          border-radius: $base-size;
+          border-radius: $border-radius;
           padding: $base-size 0 $base-size $xxs;
           cursor: pointer;
           display: flex;

@@ -1,192 +1,159 @@
 <template>
-  <div>
-    <div class="lineChart" ref="lineChart" />
-  </div>
+  <div ref="chart" class="line-chart" />
 </template>
 
-<script>
-import * as am5 from '@amcharts/amcharts5';
-import * as am5xy from '@amcharts/amcharts5/xy';
-import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
-import { useMonitoringStore } from '@/store/monitoring';
+<script lang="ts" setup>
+import * as d3 from 'd3';
+import {
+  ref, onMounted, watch, type PropType,
+} from 'vue';
 
-export default {
-  /*
-    data() {
-    return {
-      data: []
-    };
-  },
+interface UnparsedDataPoint {
+  timestamp: string;
+  value: number;
+}
 
-    methods: {
-        async getData () {
-            await this.monitoringStore.createLineChart(this.submodelElementPath, this.submodelRefIdShort, this.aasId)
-            // const data = this.monitoringStore.roomTemperature
-            // return data
-        }
+interface DataPoint {
+  timestamp: Date;
+  value: number;
+}
+
+const props = defineProps(
+  {
+    data: {
+      type: Array as PropType<UnparsedDataPoint[]>,
+      required: true,
     },
-    */
-  props: {
-    aasId: String,
-    submodelRefIdShort: String,
-    submodelElementPath: String,
-  },
-  async mounted() {
-    let valueType = 'number';
-    const data = await this.getTimeSeriesData();
-    console.log(data);
-    // let data = this.data
-
-    for (let i = 0; i < data.length; i++) {
-      if (typeof data[i].value === 'boolean') {
-        data[i].value = data[i].value ? 1 : 0;
-        valueType = 'boolean';
-      }
-    }
-
-    const root = am5.Root.new(this.$refs.lineChart);
-
-    const customTheme = am5themes_Animated.new(root);
-
-    const chart = root.container.children.push(
-      am5xy.XYChart.new(root, {
-        panX: true,
-        panY: true,
-        wheelX: 'panX',
-        wheelY: 'zoomX',
-        pinchZoomX: true,
+    width: {
+      type: Number as PropType<number>,
+      default: 700,
+    },
+    height: {
+      type: Number as PropType<number>,
+      default: 300,
+    },
+    margin: {
+      type: Object as PropType<{ top: number; right: number; bottom: number; left: number }>,
+      default: () => ({
+        top: 20, right: 50, bottom: 40, left: 20,
       }),
-    );
-
-    root.setThemes([customTheme]);
-
-    // root.setThemes([
-    //  am5themes_Animated.new(root)
-    // ]);
-
-    const cursor = chart.set(
-      'cursor',
-      am5xy.XYCursor.new(root, {
-        behavior: 'none',
-      }),
-    );
-    cursor.lineY.set('visible', false);
-
-    const date = new Date();
-    date.setHours(0, 0, 0, 0);
-
-    const tooltipTime = am5.Tooltip.new(root, {
-      getFillFromSprite: false,
-    });
-
-    tooltipTime.get('background').setAll({
-      fill: am5.color(0x3b5249),
-    });
-
-    const xAxis = chart.xAxes.push(
-      am5xy.DateAxis.new(root, {
-        maxDeviation: 0.2,
-        baseInterval: {
-          // Zu Minute setzen wenn Daten jede Minute angezeigt werden, Stunde wenn nur jede Stunde
-
-          // timeUnit: "hour",
-          timeUnit: 'minute',
-          count: 1,
-        },
-        renderer: am5xy.AxisRendererX.new(root, {}),
-        // tooltip: am5.Tooltip.new(root, {})
-        tooltip: tooltipTime,
-      }),
-    );
-
-    const xRenderer = xAxis.get('renderer');
-    xRenderer.labels.template.setAll({
-      // fill: am5.color(0xFF0000),
-      fontSize: '12px',
-      fontFamily: 'Montserrat',
-    });
-
-    let yAxis;
-
-    if (valueType == 'boolean') {
-      yAxis = chart.yAxes.push(
-        am5xy.ValueAxis.new(root, {
-          renderer: am5xy.AxisRendererY.new(root, {
-            pan: 'zoom',
-          }),
-          maxPrecision: 0,
-          min: 0, // Set minimum value to 0
-          max: 1, // Set maximum value to 1
-        }),
-      );
-    } else {
-      yAxis = chart.yAxes.push(
-        am5xy.ValueAxis.new(root, {
-          renderer: am5xy.AxisRendererY.new(root, {
-            pan: 'zoom',
-          }),
-        }),
-      );
-    }
-
-    const yRenderer = yAxis.get('renderer');
-    yRenderer.labels.template.setAll({
-      // fill: am5.color(0xFF0000),
-      fontSize: '12px',
-      fontFamily: 'Montserrat',
-    });
-
-    const series = chart.series.push(
-      am5xy.LineSeries.new(root, {
-        name: 'Series',
-        xAxis,
-        yAxis,
-        valueYField: 'value',
-        valueXField: 'date',
-        tooltip: am5.Tooltip.new(root, {
-          labelText: '{valueY}',
-        }),
-      }),
-    );
-
-    chart.set(
-      'scrollbarX',
-      am5.Scrollbar.new(root, {
-        orientation: 'horizontal',
-      }),
-    );
-    // let color = am5.Color.fromHex(0xff0000)
-    series.set('stroke', am5.color(0xff4a1c));
-    series.set('fill', am5.color(0x3b5249));
-    series.data.setAll(data);
-    series.appear(1000);
-    chart.appear(1000, 100);
-  },
-  computed: {
-    monitoringStore() {
-      return useMonitoringStore();
     },
   },
-  methods: {
-    async getTimeSeriesData() {
-      console.log(this.submodelElementPath);
-      console.log(this.submodelRefIdShort);
-      console.log(this.aasId);
-      const timeSeriesData = await this.monitoringStore.getTimeSeriesValues(
-        this.submodelElementPath,
-        this.submodelRefIdShort,
-        this.aasId,
+);
+
+// Define ref for chart container
+const chart = ref<HTMLDivElement | null>(null);
+
+// Parse the date using d3
+const parseDate = d3.timeParse('%Y-%m-%dT%H:%M:%S.%L%Z');
+
+// Map the data to convert timestamp to Date object
+const parsedData = ref<DataPoint[]>(props.data.map((d) => ({
+  timestamp: parseDate(d.timestamp) as Date,
+  value: d.value,
+})));
+
+// Function to draw the chart
+const drawChart = () => {
+  const svgWidth = props.width - props.margin.left - props.margin.right;
+  const svgHeight = props.height - props.margin.top - props.margin.bottom;
+
+  if (chart.value) {
+    d3.select(chart.value).selectAll('*').remove();
+
+    const svg = d3
+      .select(chart.value)
+      .append('svg')
+      .attr('width', props.width)
+      .attr('height', props.height)
+      .append('g')
+      .attr('transform', `translate(${props.margin.left},${props.margin.top})`);
+
+    // Define scales for x and y axes
+    const x = d3
+      .scaleTime()
+      .domain(d3.extent(parsedData.value, (d) => d.timestamp) as [Date, Date])
+      .range([0, svgWidth]);
+
+    // Restore and display the X axis at the bottom
+    svg
+      .append('g')
+      .attr('transform', `translate(0,${svgHeight})`)
+      .call(
+        d3.axisBottom(x)
+          .ticks(8)
+          .tickFormat((domainValue) => d3.timeFormat('%d.%m')(domainValue as Date)),
+      )
+      .selectAll('text')
+      .attr('fill', '#372D72');
+
+    const min = d3.min(parsedData.value, (d) => d.value) as number;
+    const max = d3.max(parsedData.value, (d) => d.value) as number;
+
+    const y = d3
+      .scaleLinear()
+      .domain([min * 0.97, max * 1.03])
+      .range([svgHeight, 0]);
+
+    // Add horizontal gridlines with dashed lines
+    const gridlines = svg
+      .append('g')
+      .attr('class', 'grid')
+      .call(
+        d3.axisRight(y).ticks(5).tickSize(svgWidth),
       );
-      // this.data = timeSeriesData
-      return timeSeriesData;
-    },
-  },
+
+    gridlines.selectAll('line')
+      .style('stroke', '#ccc')
+      .style('stroke-dasharray', '4,4');
+
+    gridlines.select('.domain').remove();
+
+    // Define line generator for data points
+    const line = d3.line<DataPoint>()
+      .x((d) => x(d.timestamp))
+      .y((d) => y(d.value));
+
+    // Add the line path
+    svg
+      .append('path')
+      .datum(parsedData.value)
+      .attr('fill', 'none')
+      .attr('stroke', '#372D72')
+      .attr('stroke-props.width', 1.3)
+      .attr('d', line);
+
+    // Add circles at data points
+    svg.selectAll('circle')
+      .data(parsedData.value)
+      .enter()
+      .append('circle')
+      .attr('cx', (d) => x(d.timestamp))
+      .attr('cy', (d) => y(d.value))
+      .attr('r', 3)
+      .attr('fill', '#372D72');
+  }
 };
+
+// Watch for data changes and redraw the chart
+watch(() => props.data, () => {
+  parsedData.value = props.data.map((d) => ({
+    timestamp: parseDate(d.timestamp) as Date,
+    value: d.value,
+  }));
+  drawChart();
+}, { deep: true });
+
+// Draw the chart once on mount
+onMounted(() => {
+  drawChart();
+});
 </script>
 
 <style scoped>
-.lineChart {
-  width: 100%;
-  height: 250px;
+.line-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -1,6 +1,11 @@
 <template>
   <div>
+    <LoadingSpinner />
     <div class="overlays">
+      <button type="button" @click="openCommentsModal">Open Comments Modal</button>
+      <CommentsOverlayModal
+        :isCommentsModalOpen="isCommentsModalOpen"
+        @close="closeCommentsModal" />
       <button type="button" @click="openMetricsModal">Open Metrics Modal</button>
       <MetricsLimitsOverlayModal
         :isMetricsModalOpen="isMetricsModalOpen"
@@ -32,6 +37,10 @@
       <ChipComponent :status="ChipStatusTypes.WARNING" />
       <ChipComponent :status="ChipStatusTypes.ERROR" />
       <ChipComponent />
+      <ChipComponent :status="ChipStatusTypes.SUCCESS" :isMini="true" />
+      <ChipComponent :status="ChipStatusTypes.WARNING" :isMini="true" />
+      <ChipComponent :status="ChipStatusTypes.ERROR" :isMini="true" />
+      <ChipComponent :isMini="true" />
     </div>
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Deutz" />
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Gummersbach" />
@@ -102,10 +111,12 @@ import StatusCard from '@/components/general/StatusCard.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import ModalOverlay from '@/components/general/ModalOverlay.vue';
 import MetricsLimitsOverlayModal from '@/components/general/MetricsLimitsOverlayModal.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
+import CommentsOverlayModal from '@/components/general/CommentsOverlayModal.vue';
 
 export default {
   components: {
@@ -114,11 +125,14 @@ export default {
     ChipComponent,
     ModalOverlay,
     MetricsLimitsOverlayModal,
+    CommentsOverlayModal,
+    LoadingSpinner,
   },
   data() {
     return {
       isModalOpen: false,
       isMetricsModalOpen: false,
+      isCommentsModalOpen: false, // Add this line
       ChipStatusTypes,
       ComponentStatusTypes,
       ActionTypes,
@@ -136,6 +150,12 @@ export default {
     },
     closeMetricsModal() {
       this.isMetricsModalOpen = false;
+    },
+    openCommentsModal() {
+      this.isCommentsModalOpen = true;
+    },
+    closeCommentsModal() {
+      this.isCommentsModalOpen = false;
     },
   },
 };

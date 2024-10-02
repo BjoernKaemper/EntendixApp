@@ -5,7 +5,6 @@ import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
 import checker from 'vite-plugin-checker';
-import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
 // https://vitejs.dev/config/
 export default ({ mode }: any) => {
@@ -18,15 +17,7 @@ export default ({ mode }: any) => {
         },
         vueTsc: true,
       }),
-      vue({
-        template: { transformAssetUrls },
-      }),
-      vuetify({
-        autoImport: true,
-        styles: {
-          configFile: 'src/styles/settings.scss',
-        },
-      }),
+      vue({}),
     ],
     define: {
       'process.env': {},

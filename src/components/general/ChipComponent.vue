@@ -61,7 +61,7 @@ export default {
      */
     currentStatus(): ChipStatusTypes {
       type Limits = string[];
-      const limits: Limits | undefined = this.kpi?.data?.Limits;
+      const limits: Limits | undefined = this.kpi?.data?.limits;
 
       if (!limits || limits.length === 0) {
         return this.status || ChipStatusTypes.INFO;
@@ -71,7 +71,7 @@ export default {
       const mid = parseInt(limits[1], 10);
       const high = parseInt(limits[2], 10);
 
-      const value = this.kpi?.data?.Value?.PresentValue;
+      const value = this.kpi?.data?.value?.presentValue;
 
       if (value < low) {
         return ChipStatusTypes.ERROR;

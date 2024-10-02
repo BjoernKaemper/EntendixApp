@@ -1,10 +1,10 @@
 <template>
   <div class="line-chart-container">
     <div class="line-chart-container--left">
-      <h3>{{ kpi?.data.Name.de || topic }}</h3>
+      <h3>{{ kpi?.data.name.de || topic }}</h3>
       <div class="line-chart-container--left--values">
         <template v-if="primaryKpiValue">
-          <h4 v-if="hasContext">{{ kpi.data.Context.de || topic }}</h4>
+          <h4 v-if="hasContext">{{ kpi.data.context.de || topic }}</h4>
           <BigNumber :number="primaryKpiValue" :unit="primaryKpiValueUnit" />
         </template>
         <template v-if="secondaryKpiValue">
@@ -117,15 +117,15 @@ export default {
      * @returns Whether the KPI context exists.
      */
     hasContext(): boolean {
-      return !!this.kpi?.data?.Context?.de;
+      return !!this.kpi?.data?.context?.de;
     },
 
     /**
      * @returns The primary KPI value if available.
      */
     primaryKpiValue(): number | undefined {
-      return this.kpi?.data?.Value?.PresentValue
-        ? Number(this.kpi.data.Value.PresentValue)
+      return this.kpi?.data?.value?.presentValue
+        ? Number(this.kpi.data.value.presentValue)
         : undefined;
     },
 
@@ -133,7 +133,7 @@ export default {
      * @returns The unit for the primary KPI value.
      */
     primaryKpiValueUnit(): string {
-      return this.kpi?.data?.Value?.PhysicalUnit || '-';
+      return this.kpi?.data?.value?.physicalUnit || '-';
     },
 
     /**

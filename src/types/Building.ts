@@ -1,5 +1,5 @@
 import type { AddressWithGeoLatLong } from '@/types/Address';
-import type { Subsection } from '@/types/Subsection';
+import type { BuildingSubsection } from '@/types/BuildingSubsection';
 
 /**
  * Building interface
@@ -11,7 +11,7 @@ import type { Subsection } from '@/types/Subsection';
  * @property {number} data.UsableSpace - The usable space of the building
  * @property {number} data.BuildingVolume - The volume of the building
  * @property {number} data.QuantityFloors - The quantity of floors of the building
- * @property {Array<Subsection>} [data.Subsections] - The subsections of the building
+ * @property {Array<BuildingSubsection>} [data.BuildingSubsection] - The subsections of the building
  */
 export interface Building {
   id: string;
@@ -21,6 +21,6 @@ export interface Building {
     UsableSpace: number;
     BuildingVolume: number;
     QuantityFloors: number;
-    Subsections?: Array<Subsection>;
+    Subsections?: Array<BuildingSubsection>;
   };
 }

@@ -32,11 +32,14 @@
  * @displayName LiegenschaftCard
  */
 
-import TrafficLightIndicator from '@/components/general/TrafficLightIndicator.vue';
-import ChevronIcon from '@/components/icons/ChevronIcon.vue';
+// type imports
 import { TrafficLightTypes } from '@/types/enums/TrafficLightTypes';
 import { ConditionTypes } from '@/types/enums/ConditionTypes';
 import { type PropType } from 'vue';
+
+// component imports
+import TrafficLightIndicator from '@/components/general/TrafficLightIndicator.vue';
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
@@ -111,20 +114,24 @@ export default {
 <style lang="scss" scoped>
 .card {
   background-color: $lightest;
-  border-radius: $base-size;
+  border-radius: $border-radius;
   display: flex;
   height: $xxxl;
   margin-bottom: $s;
   align-items: center;
   cursor: pointer;
 
+  > .loading {
+    margin: 0 auto;
+  }
+
   > .traffic-light {
     border-right: 1px solid white;
-    border-radius: $base-size 0 0 $base-size;
+    border-radius: $border-radius 0 0 $border-radius;
   }
 
   > img {
-    border-radius: 0 $base-size $base-size 0;
+    border-radius: 0 $border-radius $border-radius 0;
     height: 100%;
   }
 

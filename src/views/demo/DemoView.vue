@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LoadingSpinner />
     <div class="overlays">
       <button type="button" @click="openCommentsModal">Open Comments Modal</button>
       <CommentsOverlayModal
@@ -36,6 +37,10 @@
       <ChipComponent :status="ChipStatusTypes.WARNING" />
       <ChipComponent :status="ChipStatusTypes.ERROR" />
       <ChipComponent />
+      <ChipComponent :status="ChipStatusTypes.SUCCESS" :isMini="true" />
+      <ChipComponent :status="ChipStatusTypes.WARNING" :isMini="true" />
+      <ChipComponent :status="ChipStatusTypes.ERROR" :isMini="true" />
+      <ChipComponent :isMini="true" />
     </div>
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Deutz" />
     <LiegenschaftCard location="Köln" name="TH Köln, Campus Gummersbach" />
@@ -106,6 +111,7 @@ import StatusCard from '@/components/general/StatusCard.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import ModalOverlay from '@/components/general/ModalOverlay.vue';
 import MetricsLimitsOverlayModal from '@/components/general/MetricsLimitsOverlayModal.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
@@ -120,6 +126,7 @@ export default {
     ModalOverlay,
     MetricsLimitsOverlayModal,
     CommentsOverlayModal,
+    LoadingSpinner,
   },
   data() {
     return {

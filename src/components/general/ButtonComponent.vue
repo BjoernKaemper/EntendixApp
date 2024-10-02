@@ -91,11 +91,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 
 button {
   border: 1px solid $darken;
-  border-radius: $base-size;
+  border-radius: $border-radius;
   padding: $base-size 0 $base-size $xxs;
   display: flex;
   justify-content: center;

@@ -1,5 +1,5 @@
 <template>
-  <div class="chip--wrapper" :class="statusData.class">
+  <div class="chip--wrapper" :class="[statusData.class, isMini ? 'mini' : '']">
     <span>
       {{ statusData.label }}
     </span>
@@ -44,6 +44,15 @@ export default {
       type: Object as PropType<Kpi>,
       required: false,
       default: () => ({ data: { number: undefined, unit: '-' } }),
+    },
+    /**
+     * The flag to determine if the chip is mini.
+     * @type {boolean}
+     * @default false
+     */
+    isMini: {
+      type: Boolean as PropType<boolean>,
+      default: false,
     },
   },
   computed: {
@@ -126,27 +135,60 @@ export default {
     align-items: center;
     width: fit-content;
     height: fit-content;
-    border-radius: $base-size;
+    border-radius: $border-radius;
+
+    &.mini {
+      border-radius: $s;
+      overflow: hidden;
+      & > span {
+        @include meta-information;
+        padding: 0 $base-size;
+      };
+      & > .chip--icon {
+        padding: 0;
+
+        & > * {
+          width: 70%;
+          height: 70%;
+        }
+      }
+    }
 
     &.success {
       border: 2px solid $light-green;
+
+      &.mini {
+        background-color: $light-green;
+      }
     }
 
     &.warning {
       border: 2px solid $yellow;
+
+      &.mini {
+        background-color: $yellow;
+      }
     }
 
     &.alert {
       border: 2px solid $orange;
+
+      &.mini {
+        background-color: $orange;
+      }
     }
 
     &.info {
       border: 2px solid $light-purple;
+
+      &.mini {
+        background-color: $light-purple;
+      }
     }
 
     > span {
       padding: 0 $xs;
-      border-radius: $base-size 0 0 $base-size;
+      border-radius: $border-radius 0 0 $border-radius;
     }
   }
 
@@ -154,7 +196,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
     padding: $base-size;
     border-radius: 0;
 

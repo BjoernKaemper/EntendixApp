@@ -118,7 +118,8 @@ export default {
 
 <style scoped lang="scss">
 .google-map-card {
-  height: 80vh;
+  height: calc(100vh - 121px);
+  margin: -40px 0 -40px -20px;
   > #map {
     width: 100%;
     height: 100%;

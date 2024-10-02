@@ -54,11 +54,8 @@
           Letzte 14 Tage
         </div>
       </div>
-      <div v-if="kpiIsLoading" class="performance-grid--loading">
-        <LineChart v-for="index in kpiAmount" :key="index" />
-      </div>
-      <div class="performance-grid" v-else>
-        <LineChart
+      <div class="performance-grid">
+        <ChartContainer
           v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
@@ -78,7 +75,7 @@ import type { DateTime } from 'luxon';
 
 // Components
 import StatusCard from '@/components/general/StatusCard.vue';
-import LineChart from '@/components/monitoring/LineChart.vue';
+import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // Types
@@ -88,7 +85,7 @@ import type { SiteWithBuildinginformation } from '@/types/Site';
 export default {
   components: {
     StatusCard,
-    LineChart,
+    ChartContainer,
     LoadingSpinner,
   },
 
@@ -138,9 +135,6 @@ export default {
   },
 
   created() {
-    this.generalStore.loadSiteInformation(
-      JSON.parse(this.$route.params.siteparams as string).siteid,
-    );
     this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;
   },
 

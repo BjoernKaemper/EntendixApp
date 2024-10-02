@@ -5,6 +5,7 @@ import Monitoring from '@/views/monitoring/MonitoringDefault.vue';
 import Monitoring_Site from '@/views/monitoring/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue';
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
+import { useGeneralStore } from '@/store/general';
 
 const routes = [
   {
@@ -93,6 +94,10 @@ const routes = [
         },
       ],
     },
+    beforeEnter: (route: any) => {
+      const generalStore = useGeneralStore();
+      generalStore.loadSiteInformation(JSON.parse(route.params.siteparams as string).siteid);
+    },
   },
   {
     path: '/monitoring/building/:buildingparams',
@@ -117,6 +122,12 @@ const routes = [
           },
         ];
       },
+    },
+    beforeEnter: (route: any) => {
+      const generalStore = useGeneralStore();
+      generalStore.loadBuildingInformation(
+        JSON.parse(route.params.buildingparams as string).buildingid,
+      );
     },
   },
   {

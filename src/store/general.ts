@@ -28,36 +28,37 @@ interface GeneralStoreState {
   },
   alerts: Alert[],
   baseInfoState: {
-    companies: Company[],
-    sites: Site[],
-    requestTimestamp: DateTime | null,
-    isLoading: boolean,
-  },
+    companies: Company[];
+    sites: Site[];
+    requestTimestamp: DateTime | null;
+    isLoading: boolean;
+  };
   siteState: {
     site: SiteWithBuildinginformation | null;
     kpiState: {
-      kpis: Kpi[],
-      requestTimestamp: DateTime | null,
-      isLoading: boolean,
-    },
+      kpis: Kpi[];
+      requestTimestamp: DateTime | null;
+      isLoading: boolean;
+    };
     requestTimestamp: DateTime | null;
-    isLoading: boolean,
-  },
+    isLoading: boolean;
+  };
   buildingState: {
     building: Building | null;
     kpiState: {
-      kpis: Kpi[],
-      requestTimestamp: DateTime | null,
-      isLoading: boolean,
-    },
+      kpis: Kpi[];
+      requestTimestamp: DateTime | null;
+      isLoading: boolean;
+    };
     subsectionState: {
-      subsections: Subsection[],
-      requestTimestamp: DateTime | null,
-      isLoading: boolean,
-    },
+      subsections: Subsection[];
+      requestTimestamp: DateTime | null;
+      isLoading: boolean;
+    };
     requestTimestamp: DateTime | null;
-    isLoading: boolean,
-  },
+    isLoading: boolean;
+  };
+  chartData: any[];
 }
 
 // @TODO: We can check, if we can put the default values into a different file
@@ -107,6 +108,7 @@ export const useGeneralStore = defineStore('general', {
     baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
     buildingState: defaultBuildingState,
+    chartData: [],
     alerts: [],
   }),
   actions: {
@@ -193,19 +195,39 @@ export const useGeneralStore = defineStore('general', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      this.baseInfoState.sites = await FetchHelper.apiCall(
+      this.baseInfoState.sites = (await FetchHelper.apiCall(
         `/middleware/sites?${q}`,
         requestOptions,
-      ) as Site[];
+      )) as Site[];
 
       // Fetching types Company Information
-      this.baseInfoState.companies = await FetchHelper.apiCall(
+      this.baseInfoState.companies = (await FetchHelper.apiCall(
         `/middleware/companies?${q}`,
         requestOptions,
-      ) as Company[];
+      )) as Company[];
 
       this.baseInfoState.requestTimestamp = DateTime.now();
       this.baseInfoState.isLoading = false;
+    },
+
+    // TODO fix any type
+    async fetchKpiChartData() {
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+
+      // TODO: Implement correct API call
+      const fetchedTimeline = await FetchHelper.apiCall(
+        `/middleware/timelines?${q}`,
+        requestOptions,
+      );
+
+      this.chartData = fetchedTimeline as any[];
     },
 
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
@@ -214,6 +236,7 @@ export const useGeneralStore = defineStore('general', {
       };
       const q = QueryHelper.queryify(queryCombined);
 
+      this.fetchKpiChartData();
       const requestOptions = {
         // @TODO: Implement authentication
       } as RequestInit;
@@ -254,10 +277,10 @@ export const useGeneralStore = defineStore('general', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      this.siteState.site = await FetchHelper.apiCall(
+      this.siteState.site = (await FetchHelper.apiCall(
         `/middleware/sites/${siteId}?${q}`,
         requestOptions,
-      ) as SiteWithBuildinginformation;
+      )) as SiteWithBuildinginformation;
 
       this.siteState.requestTimestamp = DateTime.now();
       this.siteState.isLoading = false;

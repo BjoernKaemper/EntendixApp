@@ -3,14 +3,14 @@
     ref="sidebar"
     class="sidebar"
     :class="{ 'sidebar--open': isOpen }"
-    @click="isOpen = true"
-    @keydown.enter="isOpen = true"
+    @click="toggleSidebar(true)"
+    @keydown.enter="toggleSidebar(true)"
   >
     <button
       type="button"
       class="sidebar--button"
-      @click.stop="isOpen = false"
-      @keydown.enter.stop="isOpen = false"
+      @click.stop="toggleSidebar(false)"
+      @keydown.enter.stop="toggleSidebar(false)"
     >
       Schließen <CloseIcon />
     </button>
@@ -70,6 +70,12 @@ export default {
   mounted() {
     this.wissenssammlung = wissenssammlungTyped.wissenssammlung;
   },
+  methods: {
+    toggleSidebar(state: boolean) {
+      this.isOpen = state;
+      this.$emit('toggle-sidebar', state);
+    },
+  },
 };
 </script>
 
@@ -77,13 +83,12 @@ export default {
 .sidebar {
   background-color: $dark-purple-20;
   width: 355px;
-  transform: translateX(80%);
   padding: $xxl $m;
   color: $dark-purple;
   transition: transform 0.3s;
   cursor: pointer;
   position: sticky;
-  margin: -#{$xxl} -#{$m} -#{$xxl} 0;
+  margin: -#{$xxl} 0 -#{$xxl} #{$m};
   height: calc(100vh - 111px);
 
   display: flex;
@@ -122,7 +127,6 @@ export default {
   }
 
   &--open {
-    transform: translateX(0);
     display: flex;
     flex-direction: column;
     align-items: flex-end;

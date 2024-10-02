@@ -48,6 +48,10 @@ export default {
           return IconTypes.WARNING;
         case ChipStatusTypes.INFO:
           return IconTypes.QUESTION_MARK;
+        case ComponentStatusTypes.SUCCESS_COMPONENT:
+          return IconTypes.CHECK_MARK_CIRCLE;
+        case ComponentStatusTypes.NONE:
+          return IconTypes.QUESTION_MARK;
         case ComponentStatusTypes.ERROR_COMPONENT:
           return IconTypes.WARNING;
         case ComponentStatusTypes.WARNING_COMPONENT:
@@ -59,19 +63,23 @@ export default {
     colorClass(): string {
       switch (this.status) {
         case ChipStatusTypes.SUCCESS:
-          return ChipStatusTypes.SUCCESS.toLocaleLowerCase();
+          return ChipStatusTypes.SUCCESS;
         case ChipStatusTypes.WARNING:
-          return ChipStatusTypes.WARNING.toLocaleLowerCase();
+          return ChipStatusTypes.WARNING;
         case ChipStatusTypes.ERROR:
-          return ChipStatusTypes.ERROR.toLocaleLowerCase();
+          return ChipStatusTypes.ERROR;
         case ChipStatusTypes.INFO:
-          return ChipStatusTypes.INFO.toLocaleLowerCase();
+          return ChipStatusTypes.INFO;
+        case ComponentStatusTypes.SUCCESS_COMPONENT:
+          return ComponentStatusTypes.SUCCESS_COMPONENT;
+        case ComponentStatusTypes.NONE:
+          return ComponentStatusTypes.NONE;
         case ComponentStatusTypes.ERROR_COMPONENT:
-          return ComponentStatusTypes.ERROR_COMPONENT.replace('.', '-').toLocaleLowerCase();
+          return ComponentStatusTypes.ERROR_COMPONENT;
         case ComponentStatusTypes.WARNING_COMPONENT:
-          return ComponentStatusTypes.WARNING_COMPONENT.replace('.', '-').toLocaleLowerCase();
+          return ComponentStatusTypes.WARNING_COMPONENT;
         default:
-          return ChipStatusTypes.INFO.toLocaleLowerCase();
+          return ChipStatusTypes.INFO;
       }
     },
   },
@@ -101,6 +109,22 @@ export default {
 
   &.info {
     background-color: $light-purple;
+  }
+
+  &.success-component {
+    background-color: $darkest;
+
+    svg > * > * {
+      fill: $light-green;
+    }
+  }
+
+  &.none {
+    background-color: $darken;
+
+    svg > * > * {
+      fill: $light-purple;
+    }
   }
 
   &.error-component {

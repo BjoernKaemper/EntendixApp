@@ -1,7 +1,7 @@
 <template>
   <div
     class="status-card"
-    :class="[{ isBordered }]"
+    :class="[{ isBordered }, status]"
     @click="$emit('clicked')"
     @keydown.enter="$emit('clicked')"
     tabindex="0"
@@ -52,10 +52,6 @@ import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 
 // icon imports
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
-import WarningIcon from '@/components/icons/WarningIcon.vue';
-import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
 import ArrowIcon from '@/components/icons/ArrowIcon.vue';
 import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
 import AirIcon from '@/components/icons/AirIcon.vue';
@@ -64,6 +60,7 @@ import HeatIcon from '@/components/icons/HeatIcon.vue';
 import ColdIcon from '@/components/icons/ColdIcon.vue';
 import SecurityIcon from '@/components/icons/SecurityIcon.vue';
 import ElectricityIcon from '@/components/icons/ElectricityIcon.vue';
+import OpenInBrowserIcon from '@/components/icons/OpenInBrowserIcon.vue';
 
 // component imports
 import IconChip from '@/components/general/IconChip.vue';
@@ -71,10 +68,6 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
   components: {
-    CheckMarkCircleIcon,
-    ExclamationMarkIcon,
-    WarningIcon,
-    QuestionMarkIcon,
     ArrowIcon,
     InfoCircleIcon,
     AirIcon,
@@ -83,6 +76,7 @@ export default {
     ColdIcon,
     ElectricityIcon,
     SecurityIcon,
+    OpenInBrowserIcon,
     IconChip,
     LoadingSpinner,
   },
@@ -152,6 +146,23 @@ export default {
       default: true,
     },
   },
+  data() {
+    return {
+      isFullWidthClass: '',
+    };
+  },
+  mounted() {
+    this.checkWidth();
+    window.addEventListener('resize', this.checkWidth);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.checkWidth);
+  },
+  methods: {
+    checkWidth() {
+      this.isFullWidthClass = this.$el.getBoundingClientRect().width > window.innerWidth / 2 ? 'full-width' : '';
+    },
+  },
   computed: {
     timestampFormatted(): string {
       const date = new Date(this.timestamp);
@@ -190,15 +201,22 @@ export default {
           return 'InfoCircleIcon';
         case ActionTypes.ARROW:
           return 'ArrowIcon';
+        case ActionTypes.OPEN:
+          return 'OpenInBrowserIcon';
         default:
           return undefined;
       }
     },
   },
+  setup() {
+    return {
+      ComponentStatusTypes,
+    };
+  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @import '@/styles/mixins.scss';
 
 .status-card {
@@ -207,7 +225,7 @@ export default {
   display: flex;
   align-items: center;
   gap: $xxs;
-  margin-bottom: $s;
+  margin-bottom: $xxs;
   padding-right: $xxs;
   cursor: pointer;
 
@@ -221,6 +239,10 @@ export default {
     &--wrapper > * {
       width: 50%;
     }
+  }
+
+  &.none {
+    opacity: 0.6;
   }
 
   &.isBordered {
@@ -258,6 +280,12 @@ export default {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+
+    &.full-width {
+      flex-direction: row;
+      gap: $xxs;
+      align-items: center;
+    }
   }
 
   > .icon-section,
@@ -265,7 +293,7 @@ export default {
     display: flex;
     align-items: center;
     & > div {
-      padding: $m $xxs;
+      padding: $s $xxs;
       border-radius: $border-radius 0 0 $border-radius;
     }
   }
@@ -279,6 +307,7 @@ export default {
   @include content;
 }
 
+.info,
 .timestamp {
   @include meta-information;
 }

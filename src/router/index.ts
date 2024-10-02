@@ -4,6 +4,7 @@ import DemoView from '@/views/demo/DemoView.vue';
 import Monitoring from '@/views/monitoring/MonitoringDefault.vue';
 import Monitoring_Site from '@/views/monitoring/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue';
+import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
 
 const routes = [
   {
@@ -116,6 +117,18 @@ const routes = [
           },
         ];
       },
+    },
+  },
+  {
+    path: '/monitoring/building/subsection/demo',
+    name: 'Monitoring_Site_Building_Subsection_Demo',
+    component: Monitoring_Site_Building_Subsection,
+    meta: {
+      // @TODO add dynamic breadcrumb when data is available
+      breadcrumb: () => [
+        { title: 'Monitoring', to: '/monitoring' },
+        { title: 'Building Demo', to: '/monitoring/building/subsection/demo' },
+      ],
     },
   },
 ];

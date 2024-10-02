@@ -8,6 +8,7 @@ import type Company from '@/types/Company';
 import type { Site, SiteWithBuildinginformation } from '@/types/Site';
 import type { Building } from '@/types/Building';
 import type { Kpi } from '@/types/Kpi';
+import type { Alert } from '@/types/Alert';
 
 // Helper Imports
 import QueryHelper from '@/helpers/QueryHelper';
@@ -23,6 +24,7 @@ interface GeneralStoreState {
     width: number | null;
     height: number | null;
   },
+  alerts: Alert[],
   baseInfoState: {
     companies: Company[],
     sites: Site[],
@@ -103,6 +105,7 @@ export const useGeneralStore = defineStore('general', {
     baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
     buildingState: defaultBuildingState,
+    alerts: [],
   }),
   actions: {
     /**
@@ -127,6 +130,15 @@ export const useGeneralStore = defineStore('general', {
     setWindowDimensions(): void {
       this.windowDimensions.width = window.innerWidth;
       this.windowDimensions.height = window.innerHeight;
+    },
+
+    /**
+     * Load alerts for the application
+     * @returns {Promise<void>}
+     */
+    async loadAlerts(): Promise<void> {
+      // @TODO Implement loading of alerts
+      this.alerts = [];
     },
 
     /**

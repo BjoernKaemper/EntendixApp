@@ -138,9 +138,6 @@ export default {
   },
 
   created() {
-    this.generalStore.loadSiteInformation(
-      JSON.parse(this.$route.params.siteparams as string).siteid,
-    );
     this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;
   },
 

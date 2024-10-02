@@ -231,9 +231,6 @@ export default {
   },
 
   async created() {
-    await this.generalStore.loadBuildingInformation(
-      JSON.parse(this.$route.params.buildingparams as string).buildingid,
-    );
     this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;
   },
 };

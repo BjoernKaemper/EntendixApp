@@ -18,7 +18,7 @@
       <div class="kpi-icon">
         <component :is="kpiIcon" />
       </div>
-      <div class="text-section">
+      <div class="text-section" :class="{ isFullWidthClass }">
         <span class="title">
           {{ title }}
         </span>
@@ -43,6 +43,10 @@
  * @module components/general/StatusCard
  * @displayName StatusCard
  */
+
+// Module imports
+import { mapStores } from 'pinia';
+import { useGeneralStore } from '@/store/general';
 
 // type imports
 import { type PropType } from 'vue';
@@ -80,6 +84,7 @@ export default {
     IconChip,
     LoadingSpinner,
   },
+
   props: {
     /**
      * The title of the card.
@@ -146,24 +151,32 @@ export default {
       default: true,
     },
   },
+
   data() {
     return {
       isFullWidthClass: '',
     };
   },
-  mounted() {
-    this.checkWidth();
-    window.addEventListener('resize', this.checkWidth);
-  },
-  beforeUnmount() {
-    window.removeEventListener('resize', this.checkWidth);
-  },
+
   methods: {
     checkWidth() {
-      this.isFullWidthClass = this.$el.getBoundingClientRect().width > window.innerWidth / 2 ? 'full-width' : '';
+      if (!this.windowWidth || !this.$el) {
+        return;
+      }
+
+      console.log('checkWidth called', this.$el.getBoundingClientRect().width, 'window', this.windowWidth / 2, 'class', this.isFullWidthClass);
+
+      this.isFullWidthClass = this.$el.getBoundingClientRect().width > this.windowWidth / 2 ? 'full-width' : '';
     },
   },
+
   computed: {
+    ...mapStores(useGeneralStore),
+
+    windowWidth(): number | null {
+      return this.generalStore.windowDimensions.width;
+    },
+
     timestampFormatted(): string {
       const date = new Date(this.timestamp);
       const formatter = new Intl.DateTimeFormat('en-GB', {
@@ -177,6 +190,7 @@ export default {
       // replace all / with . and remove commas with regex and without replaceAll
       return formatter.format(date).replace(/,/g, '').replace(/\//g, '.');
     },
+
     kpiIcon(): string | undefined {
       switch (this.kpiType) {
         case SubsectionTypes.MEDIA:
@@ -195,6 +209,7 @@ export default {
           return undefined;
       }
     },
+
     actionIcon(): string | undefined {
       switch (this.actionType) {
         case ActionTypes.INFO:
@@ -208,6 +223,13 @@ export default {
       }
     },
   },
+
+  watch: {
+    windowWidth() {
+      this.checkWidth();
+    },
+  },
+
   setup() {
     return {
       ComponentStatusTypes,

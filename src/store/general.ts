@@ -19,6 +19,10 @@ const auth = useAuthenticator();
 
 interface GeneralStoreState {
   time: DateTime;
+  windowDimensions: {
+    width: number | null;
+    height: number | null;
+  },
   baseInfoState: {
     companies: Company[],
     sites: Site[],
@@ -60,6 +64,11 @@ const defaultbaseInfoState = {
   isLoading: false,
 };
 
+const defaultWindowDimensionsState = {
+  width: null,
+  height: null,
+};
+
 const defaultKPIState = {
   kpis: [],
   requestTimestamp: null,
@@ -90,6 +99,7 @@ const defaultBuildingState = {
 export const useGeneralStore = defineStore('general', {
   state: (): GeneralStoreState => ({
     time: DateTime.local(),
+    windowDimensions: defaultWindowDimensionsState,
     baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
     buildingState: defaultBuildingState,
@@ -108,6 +118,15 @@ export const useGeneralStore = defineStore('general', {
       setTimeout(() => {
         this.updateGlobalTime();
       }, distanceToNearestMinute);
+    },
+
+    /**
+     * Set the window dimensions
+     * @returns {void}
+     */
+    setWindowDimensions(): void {
+      this.windowDimensions.width = window.innerWidth;
+      this.windowDimensions.height = window.innerHeight;
     },
 
     /**

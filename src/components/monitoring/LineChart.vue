@@ -22,18 +22,17 @@
 </template>
 
 <script lang="ts">
+// vue / library imports
+import { DateTime, Interval } from 'luxon';
+import type { PropType } from 'vue';
 import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
-
-import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
-import type { Kpi } from '@/types/kpi/Kpi';
 
 // component imports
 import BigNumber from '@/components/general/BigNumber.vue';
 
-// vue / library imports
-import { DateTime } from 'luxon';
-import type { PropType } from 'vue';
+import type { Kpi } from '@/types/kpi/Kpi';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 
 export default {
   props: {

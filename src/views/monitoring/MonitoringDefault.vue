@@ -16,43 +16,6 @@
         @clicked="loadSite(site)"
         :isLoading="sitesAreLoading"
       />
-
-      <p>Demo Cards below</p>
-
-      <LiegenschaftCard
-        name="TH Köln, Camppus Deutz"
-        location="Köln"
-        :status="ChipStatusTypes.ERROR"
-        :isLoading="sitesAreLoading"
-        imgsrc="/src/assets/placeholder-campus-deutz.png"
-      />
-      <LiegenschaftCard
-        name="TH Köln, Camppus Gummersbach"
-        location="Gummersbach"
-        :status="ChipStatusTypes.SUCCESS"
-        :isLoading="sitesAreLoading"
-        imgsrc="/src/assets/placeholder-campus-gummersbach.png"
-      />
-      <LiegenschaftCard
-        name="TH Köln, Camppus Ubierring"
-        location="Köln"
-        :status="ChipStatusTypes.SUCCESS"
-        :isLoading="sitesAreLoading"
-        imgsrc="/src/assets/placeholder-campus-ubierring.png"
-      />
-      <LiegenschaftCard
-        name="Kurt-Tucholsky-Schule"
-        location="Hamburg"
-        :status="ChipStatusTypes.WARNING"
-        :isLoading="sitesAreLoading"
-        imgsrc="/src/assets/placeholder-campus-hamburg.png"
-      />
-      <LiegenschaftCard
-        name="Heinrich Schütz Schule"
-        location="Kassel"
-        :isLoading="sitesAreLoading"
-        imgsrc="/src/assets/placeholder-campus-hamburg.png"
-      />
     </div>
   </div>
 </template>

@@ -19,6 +19,7 @@
       </header>
       <main :style="mainHeight">
         <router-view />
+        <Alerts />
       </main>
     </template>
   </div>
@@ -28,6 +29,7 @@
 import { computed, ref, watchEffect } from 'vue';
 import NavBar from '@/components/general/NavBar.vue';
 import Breadcrumbs from '@/components/general/BreadCrumbs.vue';
+import Alerts from '@/components/general/Alerts.vue';
 
 import { Authenticator, useAuthenticator, translations } from '@aws-amplify/ui-vue';
 // @TODO: Remove this import when the new styles are ready

@@ -312,8 +312,12 @@ export default {
 
     &.full-width {
       flex-direction: row;
-      gap: $xxs;
       align-items: center;
+      flex-wrap: wrap;
+
+      > .title {
+        margin-right: $xxs;
+      }
     }
   }
 

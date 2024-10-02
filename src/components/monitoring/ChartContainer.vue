@@ -31,11 +31,10 @@ import type { Kpi } from '@/types/Kpi';
 
 // component imports
 import BigNumber from '@/components/general/BigNumber.vue';
-import ChipComponent from '@/components/general/ChipComponent.vue';
 import LineChart from '@/components/general/charts/LineChart.vue';
 
 // vue / library imports
-import { DateTime } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 import type { PropType } from 'vue';
 
 export default {
@@ -93,7 +92,6 @@ export default {
 
   components: {
     BigNumber,
-    ChipComponent,
     LineChart,
   },
 

@@ -22,8 +22,6 @@
 </template>
 
 <script lang="ts">
-
-import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
 
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -31,12 +29,11 @@ import type { Kpi } from '@/types/Kpi';
 
 // component imports
 import BigNumber from '@/components/general/BigNumber.vue';
-import ChipComponent from '@/components/general/ChipComponent.vue';
-import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // vue / library imports
-import { DateTime } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 import type { PropType } from 'vue';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   props: {
@@ -93,18 +90,16 @@ export default {
 
   components: {
     BigNumber,
-    ChipComponent,
-    LoadingSpinner,
   },
 
   computed: {
-    ...mapStores(useGeneralStoreV2),
+    ...mapStores(useGeneralStore),
 
     chartData() {
       // TODO: JUST A SHORT TERM SOLUTION TO SHOW THE CHART A BIT LESS CLUMPED
       // return chart data from store with every second element removed
-      const { chartData } = this.general_Store;
-      return chartData.filter((_, index) => index % 2 === 0);
+      const { chartData } = this.generalStore;
+      return chartData.filter((_: any, index: number) => index % 2 === 0);
     },
     /**
      * @returns The time since the last update in minutes

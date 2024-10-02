@@ -230,10 +230,10 @@ export default {
 
   mounted() {
     this.$nextTick(() => {
-      if (this.windowWidth) {
-        this.checkWidth();
+      if (!this.windowWidth) {
+        window.dispatchEvent(new Event('resize'));
       }
-      window.dispatchEvent(new Event('resize'));
+      this.checkWidth();
     });
   },
 

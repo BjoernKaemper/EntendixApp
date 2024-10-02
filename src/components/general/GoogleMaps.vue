@@ -46,8 +46,8 @@ export default {
     // extract long and lat from site object which is passed as prop
     siteCoordinates(): Array<{ lat: number; lng: number }> {
       return this.sites.map((site) => ({
-        lat: parseFloat(site.data.Address.Lattitude),
-        lng: parseFloat(site.data.Address.Longitude),
+        lat: parseFloat(site.data.address.lattitude),
+        lng: parseFloat(site.data.address.longitude),
       }));
     },
   },

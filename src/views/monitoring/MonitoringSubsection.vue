@@ -13,24 +13,26 @@
         <div class="grid-wrapper--right--content">
           <div>
             <h3>Wärmeerzeugung</h3>
-            <StatusCard
-              :isLoading="false"
-              title="Wärmeerzeuger 1"
-              subtitle="Ursache: Unter Sollwert"
-              :isBordered="false"
-              :status="ComponentStatusTypes.ERROR_COMPONENT"
-              :actionType="ActionTypes.ARROW"
-              timestamp="2024-08-14T18:27:00"
-            />
-            <StatusCard
-              :isLoading="false"
-              title="Wärmeerzeuger 2"
-              subtitle="Ursache: Unter Sollwert"
-              :isBordered="false"
-              :status="ComponentStatusTypes.WARNING_COMPONENT"
-              :actionType="ActionTypes.ARROW"
-              timestamp="2024-08-14T18:27:00"
-            />
+            <div>
+              <StatusCard
+                :isLoading="false"
+                title="Wärmeerzeuger 1"
+                subtitle="Ursache: Unter Sollwert"
+                :isBordered="false"
+                :status="ComponentStatusTypes.ERROR_COMPONENT"
+                :actionType="ActionTypes.ARROW"
+                timestamp="2024-08-14T18:27:00"
+              />
+              <StatusCard
+                :isLoading="false"
+                title="Wärmeerzeuger 2"
+                subtitle="Ursache: Unter Sollwert"
+                :isBordered="false"
+                :status="ComponentStatusTypes.WARNING_COMPONENT"
+                :actionType="ActionTypes.ARROW"
+                timestamp="2024-08-14T18:27:00"
+              />
+            </div>
           </div>
           <div>
             <h3>Wäremverteilung</h3>

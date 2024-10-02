@@ -53,6 +53,9 @@ I18n.putVocabularies({
 const auth = useAuthenticator();
 const generalStore = useGeneralStore();
 
+// Attaching the window event listener for size change
+window.addEventListener('resize', () => generalStore.setWindowDimensions());
+
 const navItems = [
   { icon: '', name: 'Digitale Zwillinge', href: '/digitaltwins' },
   { icon: '', name: 'Monitoring', href: '/monitoring' },

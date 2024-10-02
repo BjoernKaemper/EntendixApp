@@ -23,6 +23,7 @@
     "luxon": "^3.5.0",
     "pinia": "^2.1.7",
     "roboto-fontface": "*",
+    "uuid": "^10.0.0",
     "vue": "^3.2.29",
     "vue-router": "^4.3.3",
     "webfontloader": "^1.0.0"
@@ -33,6 +34,7 @@
     "@types/google.maps": "^3.58.0",
     "@types/luxon": "^3.4.2",
     "@types/node": "^20.14.5",
+    "@types/uuid": "^10.0.0",
     "@types/webfontloader": "^1.6.38",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/eslint-config-airbnb-with-typescript": "^8.0.0",

@@ -40,7 +40,7 @@ import wissenssammlungData from '@/assets/json/wissenssammlung.json';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
 
 // Interface imports
-import type { Wissenssammlung, WissenssammlungItem } from '@/types/Knowledge';
+import type { Wissenssammlung, WissenssammlungItem } from '@/types/general/Knowledge';
 
 // Data imports
 const wissenssammlungTyped = wissenssammlungData as Wissenssammlung;

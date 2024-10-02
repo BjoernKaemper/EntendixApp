@@ -63,7 +63,7 @@ import { useGeneralStore } from '@/store/general';
 
 import GoogleMaps from '@/components/general/GoogleMaps.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
-import type { Site } from '@/types/Site';
+import type { Site } from '@/types/site/Site';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 
 export default {

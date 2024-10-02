@@ -4,15 +4,15 @@ import { defineStore } from 'pinia';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 // Type Imports
-import type Company from '@/types/Company';
-import type { Site, SiteWithBuildinginformation } from '@/types/Site';
-import type { Building } from '@/types/Building';
-import type { Kpi } from '@/types/Kpi';
+import type Company from '@/types/company/Company';
+import type { Site, SiteWithBuildinginformation } from '@/types/site/Site';
+import type { Building } from '@/types/building/Building';
+import type { Kpi } from '@/types/kpi/Kpi';
+import type { Subsection } from '@/types/subsections/Subsection';
 
 // Helper Imports
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import type { Subsection } from '@/types/Subsection';
 
 // Authenticator definition
 const auth = useAuthenticator();

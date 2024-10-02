@@ -15,10 +15,9 @@
  * @displayName ChipComponent
  */
 import type { PropType } from 'vue';
-import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
-import type { Kpi } from '@/types/Kpi';
-
 import IconChip from '@/components/general/IconChip.vue';
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import type { Kpi } from '@/types/kpi/Kpi';
 
 export default {
   components: {
@@ -130,86 +129,86 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .chip--wrapper {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    height: fit-content;
-    border-radius: $border-radius;
+.chip--wrapper {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  border-radius: $border-radius;
 
-    &.mini {
-      border-radius: $s;
-      overflow: hidden;
-      & > span {
-        @include meta-information;
-        padding: 0 $base-size;
-      };
-      & > .chip--icon {
-        padding: 0;
-
-        & > * {
-          width: 70%;
-          height: 70%;
-        }
-      }
+  &.mini {
+    border-radius: $s;
+    overflow: hidden;
+    & > span {
+      @include meta-information;
+      padding: 0 $base-size;
     }
+    & > .chip--icon {
+      padding: 0;
 
-    &.success {
-      border: 2px solid $light-green;
-
-      &.mini {
-        background-color: $light-green;
+      & > * {
+        width: 70%;
+        height: 70%;
       }
-    }
-
-    &.warning {
-      border: 2px solid $yellow;
-
-      &.mini {
-        background-color: $yellow;
-      }
-    }
-
-    &.alert {
-      border: 2px solid $orange;
-
-      &.mini {
-        background-color: $orange;
-      }
-    }
-
-    &.info {
-      border: 2px solid $light-purple;
-
-      &.mini {
-        background-color: $light-purple;
-      }
-    }
-
-    > span {
-      padding: 0 $xs;
-      border-radius: $border-radius 0 0 $border-radius;
     }
   }
 
-  .chip--icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: $base-size;
-    border-radius: 0;
+  &.success {
+    border: 2px solid $light-green;
 
-    &.success {
+    &.mini {
       background-color: $light-green;
     }
-    &.warning {
+  }
+
+  &.warning {
+    border: 2px solid $yellow;
+
+    &.mini {
       background-color: $yellow;
     }
-    &.alert {
+  }
+
+  &.alert {
+    border: 2px solid $orange;
+
+    &.mini {
       background-color: $orange;
     }
-    &.info {
+  }
+
+  &.info {
+    border: 2px solid $light-purple;
+
+    &.mini {
       background-color: $light-purple;
     }
   }
+
+  > span {
+    padding: 0 $xs;
+    border-radius: $border-radius 0 0 $border-radius;
+  }
+}
+
+.chip--icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $base-size;
+  border-radius: 0;
+
+  &.success {
+    background-color: $light-green;
+  }
+  &.warning {
+    background-color: $yellow;
+  }
+  &.alert {
+    background-color: $orange;
+  }
+  &.info {
+    background-color: $light-purple;
+  }
+}
 </style>

@@ -279,7 +279,7 @@ export const useGeneralStore = defineStore('general', {
       this.buildingState.subsectionState.subsections = [];
       this.buildingState.subsectionState.isLoading = true;
 
-      this.buildingState.building.data.Subsections?.forEach(async (subsection) => {
+      this.buildingState.building.data.subsections?.forEach(async (subsection) => {
         this.buildingState.subsectionState.subsections.push(
           await this.fetchSubsectionInformation(subsection.id),
         );

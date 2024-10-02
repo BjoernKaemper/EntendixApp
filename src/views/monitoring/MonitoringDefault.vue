@@ -9,10 +9,10 @@
       <LiegenschaftCard
         v-for="site in sites"
         :key="site.id"
-        :name="site.data.SiteName"
+        :name="site.data.siteName"
         imgsrc="/src/assets/placeholder-campus-deutz.png"
         :status="ChipStatusTypes.SUCCESS"
-        :location="site.data.Address.CityTown"
+        :location="site.data.address.cityTown"
         @clicked="loadSite(site)"
         :isLoading="sitesAreLoading"
       />
@@ -95,7 +95,7 @@ export default {
         params: {
           siteparams: JSON.stringify({
             siteid: encodeURIComponent(site.id),
-            siteName: site.data.SiteName,
+            siteName: site.data.siteName,
           }),
         },
       });

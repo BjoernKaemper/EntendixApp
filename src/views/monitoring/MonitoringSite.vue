@@ -11,7 +11,7 @@
       </template>
       <img
         v-else
-        :alt="site?.data.SiteName || 'Site Name'"
+        :alt="site?.data.siteName || 'Site Name'"
         src="@/assets/gebäude_deutz.png"
         class="site-image"
       />
@@ -29,14 +29,14 @@
         </template>
         <div v-else class="status-container-wrapper">
           <StatusCard
-            v-for="(building, idx) in site?.data.Buildings"
+            v-for="(building, idx) in site?.data.buildings"
             @click="
               if (site) {
-                openBuilding(site.id, site.data.SiteName, building.id, building.data.BuildingName);
+                openBuilding(site.id, site.data.siteName, building.id, building.data.buildingName);
               }
             "
             :key="idx"
-            :title="building.data.BuildingName"
+            :title="building.data.buildingName"
             subtitle="@TODO: Get subtitle"
             :status="ChipStatusTypes.SUCCESS"
             :isBordered="false"
@@ -118,7 +118,7 @@ export default {
     },
 
     statusCardAmount(): number {
-      return this.site?.data?.Buildings?.length || 3;
+      return this.site?.data?.buildings?.length || 3;
     },
 
     isLoading(): boolean {

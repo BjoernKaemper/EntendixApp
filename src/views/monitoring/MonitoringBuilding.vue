@@ -73,11 +73,11 @@
           <StatusCard
             v-for="(kpi, idx) in kpis"
             :key="idx"
-            :title="kpi.data.Name.de"
+            :title="kpi.data.name.de"
             :isBordered="false"
             :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
-            :timestamp="kpi.data.Annotations[0]?.TimestampOfCreation"
+            :timestamp="kpi.data.annotations[0]?.timestampOfCreation"
             :isLoading="isLoading"
           />
         </div>
@@ -172,7 +172,7 @@ export default {
     },
 
     statusCardAmount(): number {
-      return this.building?.data?.Subsections?.length || 3;
+      return this.building?.data?.subsections?.length || 3;
     },
 
     isLoading(): boolean {

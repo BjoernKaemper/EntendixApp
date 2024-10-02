@@ -18,7 +18,7 @@
       <div class="kpi-icon">
         <component :is="kpiIcon" />
       </div>
-      <div class="text-section" :class="{ isFullWidthClass }">
+      <div class="text-section" :class="isFullWidthClass">
         <span class="title">
           {{ title }}
         </span>
@@ -164,8 +164,6 @@ export default {
         return;
       }
 
-      console.log('checkWidth called', this.$el.getBoundingClientRect().width, 'window', this.windowWidth / 2, 'class', this.isFullWidthClass);
-
       this.isFullWidthClass = this.$el.getBoundingClientRect().width > this.windowWidth / 2 ? 'full-width' : '';
     },
   },
@@ -228,6 +226,15 @@ export default {
     windowWidth() {
       this.checkWidth();
     },
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      if (this.windowWidth) {
+        this.checkWidth();
+      }
+      window.dispatchEvent(new Event('resize'));
+    });
   },
 
   setup() {

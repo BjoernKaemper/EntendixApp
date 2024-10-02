@@ -6,16 +6,27 @@
         <h2>Meine Liegenschaften</h2>
         <p class="subtitle">Ist alles im grünen Bereich? Werden die Betriebsfunktionen erfüllt?</p>
       </div>
-      <LiegenschaftCard
-        v-for="site in sites"
-        :key="site.id"
-        :name="site.data.SiteName"
-        imgsrc="/src/assets/placeholder-campus-deutz.png"
-        :status="ChipStatusTypes.SUCCESS"
-        :location="site.data.Address.CityTown"
-        @clicked="loadSite(site)"
-        :isLoading="sitesAreLoading"
-      />
+      <template v-if="sitesAreLoading">
+        <div class="loading">
+          <LiegenschaftCard
+            v-for="(site, index) in (sites && sites.length > 0 ? sites : 3)"
+            :key="index"
+            :isLoading="true"
+          />
+        </div>
+      </template>
+      <template v-else>
+        <LiegenschaftCard
+          v-for="site in sites"
+          :key="site.id"
+          :name="site.data.SiteName"
+          imgsrc="/src/assets/placeholder-campus-deutz.png"
+          :status="ChipStatusTypes.SUCCESS"
+          :location="site.data.Address.CityTown"
+          @clicked="loadSite(site)"
+          :isLoading="sitesAreLoading"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -43,7 +54,7 @@ export default {
     },
 
     sitesAreLoading(): boolean {
-      return this.generalStore.baseInfoState.isLoading;
+      return true;
     },
   },
 
@@ -80,7 +91,16 @@ export default {
   gap: $m;
 }
 
-.site-header {
+.loading {
+  @for $i from 1 through 3 {
+    & > div:nth-child(#{$i}) {
+      // from 99% to 66% to 33% opacity
+      opacity: 1 - (($i - 1) * 0.33);
+    }
+  }
+}
+
+  .site-header {
   margin-bottom: $xl;
   > h2 {
     @include title;

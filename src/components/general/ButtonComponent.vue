@@ -101,6 +101,7 @@ button {
   justify-content: center;
   align-items: center;
   gap: $base-size;
+  width: fit-content;
   cursor: pointer;
 
   &.primary {

@@ -15,6 +15,7 @@
             <h3>Wärmeerzeugung</h3>
             <div>
               <StatusCard
+                @click="openSystemDemoPage()"
                 :isLoading="false"
                 title="Wärmeerzeuger 1"
                 subtitle="Ursache: Unter Sollwert"
@@ -24,6 +25,7 @@
                 timestamp="2024-08-14T18:27:00"
               />
               <StatusCard
+                @click="openSystemDemoPage()"
                 :isLoading="false"
                 title="Wärmeerzeuger 2"
                 subtitle="Ursache: Unter Sollwert"
@@ -39,6 +41,7 @@
             <div>
               <h4>Erdgeschoss</h4>
               <StatusCard
+                @click="openSystemDemoPage()"
                 :isLoading="false"
                 title="Heizkreis 1"
                 subtitle="Ursache: Unter Sollwert"
@@ -48,6 +51,7 @@
                 timestamp="2024-08-14T18:27:00"
               />
               <StatusCard
+                @click="openSystemDemoPage()"
                 :isLoading="false"
                 title="Heizkreis 2"
                 subtitle="Ursache: Unter Sollwert"
@@ -60,6 +64,7 @@
             <div>
               <h4>Erste Etage</h4>
               <StatusCard
+                @click="openSystemDemoPage()"
                 :isLoading="false"
                 title="Heizkreis 3"
                 subtitle="Ursache: Fehlender Datenpunkt"
@@ -68,6 +73,7 @@
                 :actionType="ActionTypes.OPEN"
               />
               <StatusCard
+                @click="openSystemDemoPage()"
                 :isLoading="false"
                 title="Heizkreis 4"
                 subtitle="Ursache: Fehlender Datenpunkt"
@@ -80,6 +86,7 @@
           <div>
             <h3>Wäremspeicher</h3>
             <StatusCard
+              @click="openSystemDemoPage()"
               :isLoading="false"
               title="Speicher 1"
               :isBordered="false"
@@ -93,6 +100,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 // type imports
 import type { PropType } from 'vue';
@@ -117,22 +125,31 @@ export default {
       default: 'Wärmeversorgung',
     },
   },
+
   data() {
     return {
       isSidebarOpen: false,
     };
   },
+
   components: {
     AutomationHZG,
     SideBar,
     StatusCard,
     ChipComponent,
   },
+
   methods: {
     toggleSidebar(state: boolean) {
       this.isSidebarOpen = state;
     },
+    openSystemDemoPage() {
+      this.$router.push({
+        name: 'Monitoring_Site_Building_Subsection_System_Demo',
+      });
+    },
   },
+
   setup() {
     return {
       ChipStatusTypes,
@@ -146,9 +163,9 @@ export default {
 <style scoped lang="scss">
 .grid-wrapper {
   display: grid;
-  grid-template-columns: 1fr 2fr 80px; // Sidebar closed, width 0
+  grid-template-columns: 1fr 2fr 80px;
   grid-gap: $m;
-  transition: grid-template-columns 0.3s ease; // Smooth transition on layout change
+  transition: grid-template-columns 0.3s ease;
 
   &--left {
     display: flex;

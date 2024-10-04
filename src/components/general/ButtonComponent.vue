@@ -65,6 +65,8 @@ export default {
     },
     iconClass(): IconTypes {
       switch (this.icon) {
+        case IconTypes.NONE:
+          return IconTypes.NONE;
         case IconTypes.ARROW:
           return IconTypes.ARROW;
         case IconTypes.CHECK_MARK_CIRCLE:
@@ -84,7 +86,7 @@ export default {
         case IconTypes.CLOSE:
           return IconTypes.CLOSE;
         default:
-          return IconTypes.ARROW;
+          return IconTypes.NONE;
       }
     },
   },
@@ -101,6 +103,7 @@ button {
   justify-content: center;
   align-items: center;
   gap: $base-size;
+  width: fit-content;
   cursor: pointer;
 
   &.primary {

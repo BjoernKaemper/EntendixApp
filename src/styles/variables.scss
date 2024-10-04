@@ -66,6 +66,7 @@ $base: 4;
 $base-size: $base * 1px;
 
 // Spacing
+$xxxs: $base + 1px;     // 5px
 $xxs: $base * 2.5px;    // 10px
 $xs: $base * 3px;       // 12px
 $s: $base * 4px;        // 16px

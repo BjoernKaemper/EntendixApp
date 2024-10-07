@@ -73,11 +73,11 @@
           <StatusCard
             v-for="(kpi, idx) in kpis"
             :key="idx"
-            :title="kpi.data.Name.de"
+            :title="kpi.data.name.de"
             :isBordered="false"
             :status="ComponentStatusTypes.ERROR_COMPONENT"
             :actionType="ActionTypes.ARROW"
-            :timestamp="kpi.data.Annotations[0]?.TimestampOfCreation"
+            :timestamp="kpi.data.annotations[0]?.timestampOfCreation"
             :isLoading="isLoading"
           />
         </div>
@@ -119,7 +119,7 @@ import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
-import { SemanticSubmoduleTypes } from '@/types/enums/SemanticSubmoduleTypes';
+import { SemanticSubmoduleTypes } from '@/types/global/enums/SemanticSubmoduleTypes';
 
 // component imports
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
@@ -172,7 +172,7 @@ export default {
     },
 
     statusCardAmount(): number {
-      return this.building?.data?.Subsections?.length || 3;
+      return this.building?.data?.subsections?.length || 3;
     },
 
     isLoading(): boolean {

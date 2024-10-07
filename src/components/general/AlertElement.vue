@@ -40,9 +40,9 @@ import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
 // type imports
 import { IconTypes } from '@/types/enums/IconTypes';
 import { AlertTypes } from '@/types/enums/AlertTypes';
-import type { Alert } from '@/types/Alert';
 import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
+import type { Alert } from '@/types/Alert';
 
 export default {
   name: 'AlertElement',

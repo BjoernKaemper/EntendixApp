@@ -4,7 +4,11 @@
     <nav>
       <ul>
         <li v-for="(navItem, idx) in navItems" :key="idx">
-          <router-link :to="navItem.href" :class="{ active: isActive(navItem.href) }">
+          <router-link
+            v-if="!isHomePage"
+            :to="navItem.href"
+            :class="{ active: isActive(navItem.href) }"
+          >
             <component :is="navItem.icon" />
             {{ navItem.name }}
           </router-link>
@@ -50,6 +54,12 @@ export default {
       return this.$route.path.includes(route);
     },
   },
+  computed: {
+    isHomePage(): boolean {
+      // @TODO: fix homepage path when level 0 is ready
+      return this.$route.path === '/monitoring';
+    },
+  },
   setup() {
     const auth = useAuthenticator();
 
@@ -67,6 +77,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: $xxs $m;
+  min-height: 62px;
 
   > h1 {
     @include title;

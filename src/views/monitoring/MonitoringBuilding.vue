@@ -30,7 +30,7 @@
         />
       </div>
       <div v-if="isLoading" class="issues-container">
-        <h3>@TODO: Probleme in den Komponenten</h3>
+        <h3>Probleme in den Komponenten</h3>
         <template v-if="isLoading">
           <div class="loading">
             <LoadingSpinner />
@@ -38,7 +38,7 @@
         </template>
       </div>
       <div v-else class="issues-container">
-        <h3>@TODO: Probleme in den Komponenten</h3>
+        <h3>Probleme in den Komponenten</h3>
         <div v-if="issues" class="issues">
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
@@ -94,13 +94,24 @@
         <div class="dropdown">Letzte 14 Tage</div>
       </div>
       <div class="performance-grid">
-        <ChartContainer
-          v-for="(kpi, idx) in kpis"
-          :key="idx"
-          :kpi="kpi"
-          :lastUpdateTimestamp="lastBuildingRequestTimestamp"
-          :isLoading="kpiIsLoading"
-        />
+        <!-- @TODO update status with data / remove hard coded value -->
+        <div v-if="kpiIsLoading" class="performance-grid--loading">
+          <ChartContainer
+            v-for="(kpi, index) in (kpis && kpis.length > 0 ? kpis : 3)"
+            :key="index"
+            :isLoading="kpiIsLoading"
+          />
+        </div>
+        <div v-else>
+          <ChartContainer
+            v-for="(kpi, idx) in kpis"
+            :key="idx"
+            :kpi="kpi"
+            :lastUpdateTimestamp="lastBuildingRequestTimestamp"
+            :isLoading="kpiIsLoading"
+            :status="ChipStatusTypes.SUCCESS"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -280,6 +291,10 @@ export default {
   background-color: $light-purple-40;
   padding: $xxs;
   border-radius: $border-radius;
+
+  & .loading > * > * {
+    height: 20px;
+  }
 
   & > h3 {
     @include content-subtitle;

@@ -1,10 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeGeneral from '@/views/home/home_general.vue';
 import DemoView from '@/views/demo/DemoView.vue';
+
+// monitoring views
 import Monitoring from '@/views/monitoring/MonitoringDefault.vue';
 import Monitoring_Site from '@/views/monitoring/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue';
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
+
+// digital twins views
+import DigitalTwinsSite from '@/views/digitaltwins/DigitalTwinsSite.vue';
 import { useGeneralStore } from '@/store/general';
 
 const routes = [
@@ -16,14 +21,17 @@ const routes = [
       breadcrumb: () => [{ title: 'Home', to: '/' }],
     },
   },
-  // {
-  //   path: '/digitaltwins',
-  //   name: 'DigitalTwins',
-  //   component: DigitalTwins, // TODO: Doesn't exist right now
-  //   meta: {
-  //     breadcrumb: () => [{ title: 'Digital Twins', to: '/digitaltwins' }],
-  //   },
-  // },
+  {
+    path: '/digitaltwins',
+    name: 'DigitalTwins',
+    component: DigitalTwinsSite, // TODO: Doesn't exist right now
+    meta: {
+      breadcrumb: () => [
+        { title: 'TH Köln, Campus Deutz', to: '/digitaltwins/campus-deutz' },
+        { title: 'IWZ', to: '/digitaltwins/campus-deutz' },
+      ],
+    },
+  },
   // {
   //   path: '/digitaltwins/site/:siteparams',
   //   name: 'DigitalTwins_Site',

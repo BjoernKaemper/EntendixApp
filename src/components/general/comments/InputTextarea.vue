@@ -55,4 +55,8 @@ export default {
     }
   }
 }
+
+h3 {
+  @include section-headline;
+}
 </style>

@@ -32,59 +32,10 @@
             />
           </div>
           <BigNumber :number="15" unit="Kelvin (K)" />
-          <div
-            class="subgrid--left--comments"
-            v-if="comments"
-          >
-            <h4>Kommentare</h4>
-            <CommentsWrapper
-              :comments="comments"
-            />
-            <p class="subgrid--left--fetchmore">weitere laden...</p>
-          </div>
-          <InputTextarea />
-          <ButtonComponent
-            text="Kommentar hinzufügen"
-            :primary="true"
-            :icon="IconTypes.ADD"
-          />
+          <CommentsContainer :comments="comments" />
         </div>
         <div class="subgrid--right">
-          <h4>Optimierungen</h4>
-          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-            sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua.
-            At vero eos et accusam et justo duo dolores et ea rebum.
-            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-            sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua.</p>
-          <ul>
-            <li>
-              At vero eos et accusam et justo duo dolores et ea rebum.
-            </li>
-            <li>
-              Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-            </li>
-          </ul>
-          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-            sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua.
-            At vero eos et accusam et justo duo dolores et ea rebum.
-            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-            sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua.</p>
-          <ButtonComponent
-            text="ENTENDIX zur Ausführung berechtigen"
-            :primary="true"
-            :icon="IconTypes.ARROW"
-          />
-          <ButtonComponent
-            text="Optimierung durch externe Firma vor Ort"
-            :primary="true"
-            :icon="IconTypes.ARROW"
-          />
+          <ImprovementsContainer :improvement="improvements" />
         </div>
       </div>
     </div>
@@ -99,14 +50,15 @@ import Heizkreis from '@/assets/AutomationHeizkreis.vue';
 import LineChart from '@/components/general/charts/LineChart.vue';
 import SideBar from '@/components/general/SideBar.vue';
 import BigNumber from '@/components/general/BigNumber.vue';
-import CommentsWrapper from '@/components/general/comments/CommentsWrapper.vue';
-import InputTextarea from '@/components/general/comments/InputTextarea.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
+import CommentsContainer from '@/components/monitoring/CommentsContainer.vue';
+import ImprovementsContainer from '@/components/monitoring/ImprovementsContainer.vue';
 
 // type imports
 import { IconTypes } from '@/types/enums/IconTypes';
 import comments from '@/assets/json/comments.json';
+import improvements from '@/assets/json/improvements.json';
 import type { Comment } from '@/types/Comment';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 
@@ -116,16 +68,17 @@ export default {
     LineChart,
     SideBar,
     BigNumber,
-    CommentsWrapper,
-    InputTextarea,
     ButtonComponent,
     ChipComponent,
+    CommentsContainer,
+    ImprovementsContainer,
   },
 
   data() {
     return {
       isSidebarOpen: false,
       comments: comments.comments as Comment[],
+      improvements: improvements.improvements,
     };
   },
 

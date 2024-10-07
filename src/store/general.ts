@@ -16,6 +16,7 @@ import type { Alert } from '@/types/Alert';
 import { AlertTypes } from '@/types/enums/AlertTypes';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
+import type { Plant } from '@/types/global/plant/Plant';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -25,8 +26,8 @@ interface GeneralStoreState {
   windowDimensions: {
     width: number | null;
     height: number | null;
-  },
-  alerts: Alert[],
+  };
+  alerts: Alert[];
   baseInfoState: {
     companies: Company[];
     sites: Site[];
@@ -58,6 +59,16 @@ interface GeneralStoreState {
     requestTimestamp: DateTime | null;
     isLoading: boolean;
   };
+  subsectionState: {
+    subsection: Subsection | null;
+    requestTimestamp: DateTime | null;
+    isLoading: boolean;
+    plantState: {
+      plants: Plant[];
+      requestTimestamp: DateTime | null;
+      isLoading: boolean;
+    };
+  };
   chartData: any[];
 }
 
@@ -80,8 +91,21 @@ const defaultKPIState = {
   isLoading: false,
 };
 
-const defaultSubsectionState = {
+const defaultPlantState = {
+  plants: [],
+  requestTimestamp: null,
+  isLoading: false,
+};
+
+const defaultSubsectionsState = {
   subsections: [],
+  requestTimestamp: null,
+  isLoading: false,
+};
+
+const defaultSubsectionState = {
+  subsection: null,
+  plantState: defaultPlantState,
   requestTimestamp: null,
   isLoading: false,
 };
@@ -98,7 +122,7 @@ const defaultBuildingState = {
   kpiState: defaultKPIState,
   requestTimestamp: null,
   isLoading: false,
-  subsectionState: defaultSubsectionState,
+  subsectionState: defaultSubsectionsState,
 };
 
 export const useGeneralStore = defineStore('general', {
@@ -110,6 +134,7 @@ export const useGeneralStore = defineStore('general', {
     buildingState: defaultBuildingState,
     chartData: [],
     alerts: [],
+    subsectionState: defaultSubsectionState,
   }),
   actions: {
     /**
@@ -263,6 +288,22 @@ export const useGeneralStore = defineStore('general', {
       )) as Subsection;
     },
 
+    async fetchPlantInformation(plantId: string): Promise<any> {
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+
+      return (await FetchHelper.apiCall(
+        `/middleware/plants/${encodeURIComponent(plantId)}/modules?${q}`,
+        requestOptions,
+      )) as any; //  as Plant;
+    },
+
     async loadSiteInformation(siteId: string): Promise<void> {
       this.siteState = defaultSiteState;
       this.siteState.isLoading = true;
@@ -332,6 +373,39 @@ export const useGeneralStore = defineStore('general', {
 
       this.buildingState.subsectionState.requestTimestamp = DateTime.now();
       this.buildingState.subsectionState.isLoading = false;
+    },
+
+    async loadSubsectionInformation(subsectionId: string): Promise<void> {
+      this.subsectionState.isLoading = true;
+
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+      this.subsectionState.subsection = (await FetchHelper.apiCall(
+        `/middleware/subsections/${subsectionId}/plants?${q}`,
+        requestOptions,
+      )) as Subsection;
+
+      this.subsectionState.requestTimestamp = DateTime.now();
+
+      // Fetching Subsection Information
+      this.subsectionState.plantState.plants = [];
+      this.subsectionState.plantState.isLoading = true;
+
+      this.subsectionState.subsection.data.plants?.forEach(async (plant) => {
+        this.subsectionState.plantState.plants.push(
+          await this.fetchPlantInformation(plant.id),
+        );
+      });
+
+      this.subsectionState.isLoading = false;
+
+      this.subsectionState.plantState.requestTimestamp = DateTime.now();
+      this.subsectionState.plantState.isLoading = false;
     },
   },
 });

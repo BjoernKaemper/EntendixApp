@@ -62,8 +62,8 @@ window.addEventListener('resize', () => generalStore.setWindowDimensions());
 generalStore.updateGlobalTime();
 
 const navItems = [
-  { icon: '', name: 'Digitale Zwillinge', href: '/digitaltwins' },
-  { icon: '', name: 'Monitoring', href: '/monitoring' },
+  { icon: 'HomeIcon', name: 'Digitale Zwillinge', href: '/digitaltwins' },
+  { icon: 'MonitoringIcon', name: 'Monitoring', href: '/monitoring' },
 ];
 
 const header = ref<HTMLElement | null>(null);

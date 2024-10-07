@@ -12,7 +12,7 @@
       <img
         v-else
         :alt="site?.data.siteName || 'Site Name'"
-        src="@/assets/gebäude_deutz.png"
+        src="@/assets/3_campus_deutz_iwz_sharon_nathan_th_koeln.png"
         class="site-image"
       />
 
@@ -37,7 +37,6 @@
             "
             :key="idx"
             :title="building.data.buildingName"
-            subtitle="@TODO: Get subtitle"
             :status="ChipStatusTypes.SUCCESS"
             :isBordered="false"
             :actionType="ActionTypes.ARROW"
@@ -54,14 +53,23 @@
           Letzte 14 Tage
         </div>
       </div>
-      <div class="performance-grid">
-        <ChartContainer
-          v-for="(kpi, idx) in kpis"
-          :key="idx"
-          :kpi="kpi"
-          :lastUpdateTimestamp="lastSiteRequestTime"
-          :isLoading="isLoading"
-        />
+      <div v-if="kpis.length" class="performance-grid">
+        <div v-if="kpiIsLoading" class="performance-grid--loading">
+          <ChartContainer
+            v-for="(kpi, index) in (kpis && kpis.length > 0 ? kpis : 3)"
+            :key="index"
+            :isLoading="kpiIsLoading"
+          />
+        </div>
+        <div v-else>
+          <ChartContainer
+            v-for="(kpi, idx) in kpis"
+            :key="idx"
+            :kpi="kpi"
+            :lastUpdateTimestamp="lastSiteRequestTime"
+            :isLoading="isLoading"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -126,7 +134,7 @@ export default {
     },
 
     kpiIsLoading(): boolean {
-      return this.generalStore.siteState.kpiState.isLoading;
+      return true;
     },
 
     kpiAmount(): number {

@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import BuildingCardPreview from '@/assets/BuildingCardPreview.vue';
+import BuildingCardPreview from '@/assets/BuildingCardPreview.svg';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 
 import type { PropType } from 'vue';

@@ -19,8 +19,8 @@
       </header>
       <main :style="mainHeight">
         <router-view />
-        <Alerts />
       </main>
+      <Alerts />
     </template>
   </div>
 </template>

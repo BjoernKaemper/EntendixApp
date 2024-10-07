@@ -1,7 +1,10 @@
 <template>
   <div class="card">
     <h1>{{ buildingName }}</h1>
-    <img :src="BuildingCardPreview" alt="">
+    <img
+      :src="BuildingCardPreview"
+      :alt="`Schema des Gebäudes ${buildingName}`
+      ">
     <ButtonComponent
       text="Zur Verwaltung"
       :primary="true"

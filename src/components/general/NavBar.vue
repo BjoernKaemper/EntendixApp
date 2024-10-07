@@ -5,6 +5,7 @@
       <ul>
         <li v-for="(navItem, idx) in navItems" :key="idx">
           <router-link :to="navItem.href" :class="{ active: isActive(navItem.href) }">
+            <component :is="navItem.icon" />
             {{ navItem.name }}
           </router-link>
         </li>
@@ -26,6 +27,8 @@
 <script lang="ts">
 import ProfileIcon from '@/components/icons/ProfileIcon.vue';
 import EntendixLogo from '@/components/icons/EntendixLogo.vue';
+import HomeIcon from '@/components/icons/HomeIcon.vue';
+import MonitoringIcon from '@/components/icons/MonitoringIcon.vue';
 
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 
@@ -33,10 +36,12 @@ export default {
   components: {
     ProfileIcon,
     EntendixLogo,
+    HomeIcon,
+    MonitoringIcon,
   },
   props: {
     navItems: {
-      type: Array<{ href: string; name: string }>,
+      type: Array<{ icon: string, href: string; name: string }>,
       default: () => [],
     },
   },
@@ -84,6 +89,8 @@ export default {
         text-decoration: none;
         padding: $xxs;
         border-radius: $border-radius;
+        display: flex;
+        gap: $xxs;
 
         &.active {
           color: $dark-green;

@@ -26,7 +26,11 @@
         class="action"
         v-if="status"
       >
-        <button type="button">
+        <button
+          type="button"
+          @click="$emit('digitalTwinClicked')"
+          @keydown.enter="$emit('clicked')"
+        >
           <span>
             <HouseIcon />
             Digitaler Zwilling
@@ -35,7 +39,7 @@
         </button>
         <button
           type="button"
-          @click="$emit('clicked')"
+          @click="$emit('monitoringClicked')"
           @keydown.enter="$emit('clicked')"
         >
           <span>

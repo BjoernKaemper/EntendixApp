@@ -23,7 +23,8 @@
           imgsrc="/src/assets/placeholder-campus-deutz.png"
           :status="ChipStatusTypes.SUCCESS"
           :location="site.data.address.cityTown"
-          @clicked="loadSite(site)"
+          @digitalTwinClicked="loadTwin(site)"
+          @monitoringClicked="loadSite(site)"
           :isLoading="sitesAreLoading"
         />
       </template>
@@ -39,6 +40,7 @@ import GoogleMaps from '@/components/general/GoogleMaps.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import type { Site } from '@/types/global/site/Site';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+// import { load } from 'webfontloader';
 
 export default {
   components: {
@@ -59,6 +61,21 @@ export default {
   },
 
   methods: {
+    /**
+     * Navigates to the digital twin page
+     * @param {Site} site Object of the site to navigate to
+     */
+    loadTwin(site: Site): void {
+      this.$router.push({
+        name: 'DigitalTwins',
+        params: {
+          siteparams: JSON.stringify({
+            siteid: encodeURIComponent(site.id),
+            siteName: site.data.siteName,
+          }),
+        },
+      });
+    },
     /**
      * Navigates to the site page
      * @param {Site} site Object of the site to navigate to

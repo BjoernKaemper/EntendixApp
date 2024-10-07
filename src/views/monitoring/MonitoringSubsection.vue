@@ -58,7 +58,7 @@ import ChipComponent from '@/components/general/ChipComponent.vue';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
-import { SubsectionConditionTypes } from '@/types/enums/SubsectionConditionTypes';
+import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
 
 export default {
   data() {
@@ -89,25 +89,25 @@ export default {
     toggleSidebar(state: boolean) {
       this.isSidebarOpen = state;
     },
-    getChipStatusByCondition(condition: string): ChipStatusTypes {
+    getChipStatusByCondition(condition: ConditionTypes): ChipStatusTypes {
       switch (condition) {
-        case SubsectionConditionTypes.HEALTHY:
+        case ConditionTypes.HEALTHY:
           return ChipStatusTypes.SUCCESS;
-        case SubsectionConditionTypes.WARNING:
+        case ConditionTypes.WARNING:
           return ChipStatusTypes.WARNING;
-        case SubsectionConditionTypes.ALERT:
+        case ConditionTypes.ALERT:
           return ChipStatusTypes.ERROR;
         default:
           return ChipStatusTypes.INFO;
       }
     },
-    getModuleChipStatusByCondition(condition: SubsectionConditionTypes): ComponentStatusTypes {
+    getModuleChipStatusByCondition(condition: ConditionTypes | undefined): ComponentStatusTypes {
       switch (condition) {
-        case SubsectionConditionTypes.HEALTHY:
+        case ConditionTypes.HEALTHY:
           return ComponentStatusTypes.SUCCESS_COMPONENT;
-        case SubsectionConditionTypes.WARNING:
+        case ConditionTypes.WARNING:
           return ComponentStatusTypes.WARNING_COMPONENT;
-        case SubsectionConditionTypes.ALERT:
+        case ConditionTypes.ALERT:
           return ComponentStatusTypes.ERROR_COMPONENT;
         default:
           return ComponentStatusTypes.INFO_COMPONENT;

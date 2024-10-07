@@ -134,7 +134,7 @@ import { SemanticSubmoduleTypes } from '@/types/global/enums/SemanticSubmoduleTy
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
-import { SubsectionConditionTypes } from '@/types/enums/SubsectionConditionTypes';
+import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
@@ -221,13 +221,13 @@ export default {
       }
     },
 
-    getSubsectionChipStatusByCondition(condition: string): ChipStatusTypes {
+    getSubsectionChipStatusByCondition(condition: ConditionTypes): ChipStatusTypes {
       switch (condition) {
-        case SubsectionConditionTypes.HEALTHY:
+        case ConditionTypes.HEALTHY:
           return ChipStatusTypes.SUCCESS;
-        case SubsectionConditionTypes.WARNING:
+        case ConditionTypes.WARNING:
           return ChipStatusTypes.WARNING;
-        case SubsectionConditionTypes.ALERT:
+        case ConditionTypes.ALERT:
           return ChipStatusTypes.ERROR;
         default:
           return ChipStatusTypes.INFO;

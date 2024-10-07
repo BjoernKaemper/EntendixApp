@@ -102,6 +102,7 @@ main {
   background-color: $background;
   width: 100vw;
   overflow-y: scroll;
+  overflow-x: hidden;
   padding: $xxl $m; // TODO: used $xxl instead of 45px
 }
 </style>

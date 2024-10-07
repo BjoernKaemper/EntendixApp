@@ -326,7 +326,6 @@ export default {
     display: flex;
     align-items: center;
     & > div {
-      padding: $s $xxs;
       border-radius: $border-radius 0 0 $border-radius;
     }
   }

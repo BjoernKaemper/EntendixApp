@@ -13,8 +13,8 @@
         imgsrc="/src/assets/placeholder-campus-deutz.png"
         :status="ChipStatusTypes.SUCCESS"
         :location="site.data.address.cityTown"
-        @clicked-digitaltwin="loadTwin(site)"
-        @clicked-monitoring="loadSite(site)"
+        @digitalTwinClicked="loadTwin(site)"
+        @monitoringClicked="loadSite(site)"
         :isLoading="sitesAreLoading"
       />
     </div>

@@ -17,6 +17,10 @@ import type { PropType } from 'vue';
 
 export default {
   props: {
+    /**
+     * The name of the building
+     * @required
+     */
     buildingName: {
       type: String as PropType<string>,
       required: true,

@@ -28,7 +28,7 @@
       >
         <button
           type="button"
-          @click="$emit('clicked-digitaltwin')"
+          @click="$emit('digitalTwinClicked')"
           @keydown.enter="$emit('clicked')"
         >
           <span>
@@ -39,7 +39,7 @@
         </button>
         <button
           type="button"
-          @click="$emit('clicked-monitoring')"
+          @click="$emit('monitoringClicked')"
           @keydown.enter="$emit('clicked')"
         >
           <span>

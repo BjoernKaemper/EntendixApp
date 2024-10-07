@@ -74,7 +74,7 @@ export default {
       padding: 0;
 
       > a {
-        color: $light-green;
+        color: $lightest;
 
         > svg {
           width: $m;

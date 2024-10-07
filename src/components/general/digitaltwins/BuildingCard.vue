@@ -1,7 +1,10 @@
 <template>
   <div class="card">
     <h1>{{ buildingName }}</h1>
-    <BuildingCardPreview />
+    <img
+      :src="BuildingCardPreview"
+      :alt="`Schema des Gebäudes ${buildingName}`
+      ">
     <ButtonComponent
       text="Zur Verwaltung"
       :primary="true"
@@ -27,8 +30,12 @@ export default {
     },
   },
   components: {
-    BuildingCardPreview,
     ButtonComponent,
+  },
+  data() {
+    return {
+      BuildingCardPreview,
+    };
   },
 };
 </script>

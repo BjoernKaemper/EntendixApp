@@ -154,6 +154,10 @@ export default {
   height: 100px;
   overflow: hidden;
 
+  & > .loading {
+    margin: 0 auto;
+  }
+
   &.no-status {
     opacity: 0.6;
   }

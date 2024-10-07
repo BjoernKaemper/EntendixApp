@@ -1,3 +1,4 @@
 [submodule "src/types/global"]
 	path = src/types/global
 	url = ../entendix-types
+	branch = m-feat/additional-types

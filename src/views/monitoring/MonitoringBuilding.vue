@@ -20,11 +20,23 @@
         <!-- @TODO: remove placeholders -->
         <StatusCard
           v-for="(subsection, idx) in subsections"
+          @click="
+            if (site && building) {
+              openSubsection(
+                site.id,
+                site.data.siteName,
+                building.id,
+                building.data.buildingName,
+                subsection.data.tradeName,
+                subsection.id,
+              );
+            }
+          "
           :key="idx"
-          :title="subsection.tradeName"
+          :title="subsection.data.tradeName"
           :isBordered="false"
-          :status="getSubsectionChipStatusByCondition(subsection.condition)"
-          :kpiType="getSubsectionTypeIcon(subsection.tradeType)"
+          :status="getSubsectionChipStatusByCondition(subsection.data.condition)"
+          :kpiType="getSubsectionTypeIcon(subsection.data.tradeType)"
           :actionType="ActionTypes.ARROW"
           :isLoading="isLoading"
         />
@@ -43,7 +55,6 @@
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Wärmeerzeuger 1"
             subtitle="Ursache: Unter Sollwert"
             :isBordered="false"
@@ -52,7 +63,6 @@
             :isLoading="isLoading"
           />
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Heizkreis 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -62,7 +72,6 @@
           />
           <p>Stromversorgung</p>
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Stromkreislauf 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -159,6 +168,10 @@ export default {
       return this.generalStore.buildingState.building;
     },
 
+    site() {
+      return this.generalStore.siteState.site;
+    },
+
     subsections(): any {
       return this.generalStore.buildingState.subsectionState.subsections;
     },
@@ -220,9 +233,26 @@ export default {
           return ChipStatusTypes.INFO;
       }
     },
-    openSubsectionDemoPage() {
+    openSubsection(
+      siteid: string,
+      siteName: string,
+      buildingid: string,
+      buildingName: string,
+      subsectionName: string,
+      subsectionid: string,
+    ) {
       this.$router.push({
-        name: 'Monitoring_Site_Building_Subsection_Demo',
+        name: 'Monitoring_Site_Building_Subsection',
+        params: {
+          subsectionparams: JSON.stringify({
+            siteid: encodeURIComponent(siteid),
+            siteName,
+            buildingid: encodeURIComponent(buildingid),
+            buildingName,
+            subsectionName,
+            subsectionid: encodeURIComponent(subsectionid),
+          }),
+        },
       });
     },
   },

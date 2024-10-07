@@ -1,23 +1,31 @@
 <template>
   <div class="line-chart-container">
-    <div class="line-chart-container--left">
-      <h3>{{ kpi?.data.name.de || topic }}</h3>
-      <div class="line-chart-container--left--values">
-        <template v-if="primaryKpiValue">
-          <h4 v-if="hasContext">{{ kpi.data.context.de || topic }}</h4>
-          <BigNumber :number="primaryKpiValue" :unit="primaryKpiValueUnit" />
-        </template>
-        <template v-if="secondaryKpiValue">
-          <BigNumber :number="secondaryKpiValue" :unit="secondaryKpiValueUnit" />
-        </template>
+    <tempalte v-if="isLoading" class="loading">
+      <LoadingSpinner />
+    </tempalte>
+    <template v-else>
+      <div class="line-chart-container--left">
+        <h3>{{ kpi?.data.name.de || topic }}</h3>
+        <div class="line-chart-container--left--values">
+          <template v-if="primaryKpiValue">
+            <!-- <h4 v-if="hasContext">{{ kpi.data.context.de || topic }}</h4> -->
+            <BigNumber :number="primaryKpiValue" :unit="primaryKpiValueUnit" />
+          </template>
+          <template v-if="secondaryKpiValue">
+            <BigNumber :number="secondaryKpiValue" :unit="secondaryKpiValueUnit" />
+          </template>
+        </div>
+        <div class="line-chart-container--left--footer">
+          <p>
+            Letztes Update vor {{ lastUpdateTime }} Minuten
+          </p>
+          <ChipComponent :status="status" />
+        </div>
       </div>
       <div class="line-chart-container--right">
-        <p>@TODO: insert Line Chart here...</p>
+        <LineChart :data="chartData" />
       </div>
-    </div>
-    <div class="line-chart-container--right">
-      <LineChart :data="chartData" />
-    </div>
+    </template>
   </div>
 </template>
 
@@ -31,6 +39,8 @@ import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 // component imports
 import BigNumber from '@/components/general/BigNumber.vue';
 import LineChart from '@/components/general/charts/LineChart.vue';
+import ChipComponent from '@/components/general/ChipComponent.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // vue / library imports
 import { DateTime, Interval } from 'luxon';
@@ -93,6 +103,8 @@ export default {
   components: {
     BigNumber,
     LineChart,
+    ChipComponent,
+    LoadingSpinner,
   },
 
   computed: {
@@ -182,19 +194,23 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-width: 300px;
 
     &--values {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      margin: $m;
       min-height: 150px;
     }
 
     &--footer {
       display: flex;
       justify-content: space-between;
-      align-items: end;
+      align-items: flex-end;
+
+      & > p {
+        @include meta-information;
+      }
     }
   }
 

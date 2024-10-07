@@ -1,5 +1,6 @@
 <template>
   <aside
+    v-if="wissenssammlung && knowledgeItem"
     ref="sidebar"
     class="sidebar"
     :class="{ 'sidebar--open': isOpen }"
@@ -18,14 +19,11 @@
       <QuickRefIcon />
       <h2 class="sidebar--header-headline">Wissens-Sammlung</h2>
       <h2 class="sidebar--header-headline-topic">
-        Wissen über <br /><strong>{{ wissenssammlung[0]?.title }}</strong>
+        Wissen über <br /><strong>{{ knowledgeItem.title }}</strong>
       </h2>
     </div>
-    <p
-      class="sidebar--description"
-      v-if="wissenssammlung"
-    >
-      {{ wissenssammlung[0]?.description[0].de }}
+    <p class="sidebar--description" v-if="wissenssammlung">
+      {{ knowledgeItem.description[0].de }}
     </p>
   </aside>
 </template>
@@ -66,6 +64,11 @@ export default {
       isOpen: false,
       wissenssammlung: [] as WissenssammlungItem[],
     };
+  },
+  computed: {
+    knowledgeItem() {
+      return this.wissenssammlung.find((item) => item.title === this.topic);
+    },
   },
   mounted() {
     this.wissenssammlung = wissenssammlungTyped.wissenssammlung;

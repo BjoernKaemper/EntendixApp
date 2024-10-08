@@ -99,9 +99,6 @@ export default {
     subsection() {
       return this.generalStore.subsectionState.subsection;
     },
-    plants() {
-      return this.generalStore.subsectionState.plantState?.plants;
-    },
     isLoading(): boolean {
       return this.generalStore.subsectionState.isLoading;
     },

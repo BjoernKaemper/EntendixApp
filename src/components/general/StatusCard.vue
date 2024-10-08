@@ -1,7 +1,7 @@
 <template>
   <div
     class="status-card"
-    :class="[{ isBordered }, status]"
+    :class="[{ isBordered }, status, { hasSubtitle: subtitle }, isFullWidthClass]"
     @click="$emit('clicked')"
     @keydown.enter="$emit('clicked')"
     tabindex="0"
@@ -254,8 +254,6 @@ export default {
   display: flex;
   align-items: center;
   gap: $xxs;
-  margin-bottom: $xxs;
-  padding-right: $xxs;
   cursor: pointer;
 
   & .loading {
@@ -329,7 +327,14 @@ export default {
       border-radius: $border-radius 0 0 $border-radius;
     }
   }
+  .action-section {
+    padding-right: $xxs;
+  }
 }
+
+  .hasSubtitle:not(.full-width) > .icon-section > div {
+    padding: $s $xxxs;
+  }
 
 .title {
   @include section-headline;

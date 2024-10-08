@@ -1,12 +1,12 @@
 <template>
-  <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="20" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
     <mask
       id="mask0_180_517"
       style="mask-type: alpha"
       maskUnits="userSpaceOnUse"
       x="0"
       y="0"
-      width="21"
+      width="20"
       height="20"
     >
       <rect x="0.333496" width="20" height="20" fill="#D9D9D9" />

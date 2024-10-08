@@ -1,6 +1,6 @@
 <template>
   <div class="grid-wrapper">
-    <div>
+    <div class="grid-wrapper--left">
       <h2>
         {{ siteName }}
       </h2>
@@ -27,25 +27,23 @@
             />
           </div>
         </template>
-        <div v-else class="status-container-wrapper">
-          <StatusCard
-            v-for="(building, idx) in site?.data.buildings"
-            @click="
-              if (site) {
-                openBuilding(site.id, site.data.siteName, building.id, building.data.buildingName);
-              }
-            "
-            :key="idx"
-            :title="building.data.buildingName"
-            :status="ChipStatusTypes.SUCCESS"
-            :isBordered="false"
-            :actionType="ActionTypes.ARROW"
-            :isLoading="isLoading"
-          />
-        </div>
+        <StatusCard
+          v-for="(building, idx) in site?.data.buildings"
+          @click="
+            if (site) {
+              openBuilding(site.id, site.data.siteName, building.id, building.data.buildingName);
+            }
+          "
+          :key="idx"
+          :title="building.data.buildingName"
+          :status="ChipStatusTypes.SUCCESS"
+          :isBordered="false"
+          :actionType="ActionTypes.ARROW"
+          :isLoading="isLoading"
+        />
       </div>
     </div>
-    <div>
+    <div class="grid-wrapper--right">
       <div class="performance-header">
         <h3>Performance der Liegenschaft</h3>
         <!-- @TODO: create dropdown component -->
@@ -134,7 +132,7 @@ export default {
     },
 
     kpiIsLoading(): boolean {
-      return true;
+      return this.generalStore.siteState.kpiState.isLoading;
     },
 
     kpiAmount(): number {
@@ -169,13 +167,19 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: $m;
+
+  &--left {
+    display: flex;
+    flex-direction: column;
+    gap: $s;
+  }
 }
 
 .image-loading {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50%;
+  height: 300px;
   background-color: $lightest;
   border-radius: $base-size;
 }
@@ -189,7 +193,9 @@ export default {
 }
 
 .status-container {
-  margin-top: $s;
+  display: flex;
+  flex-direction: column;
+  gap: $xxs;
 
   & > h3 {
     @include content-subtitle;
@@ -198,7 +204,8 @@ export default {
 
   &--loading {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    gap: $xxs;
+
     @for $i from 1 through 3 {
       & > div:nth-child(#{$i}) {
         // from 99% to 66% to 33% opacity
@@ -211,7 +218,6 @@ export default {
 h2,
 h3 {
   @include content-headline;
-  margin-bottom: $s;
 }
 
 .performance-header {

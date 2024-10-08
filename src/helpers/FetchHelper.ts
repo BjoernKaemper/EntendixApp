@@ -1,3 +1,5 @@
+import { Auth } from 'aws-amplify';
+
 export default {
   /**
    * Make an api call
@@ -8,9 +10,12 @@ export default {
    * @return {any} Api call response data, JSON is returned already parsed
    */
   async apiCall(url: string, options: RequestInit = {}): Promise<any> {
+    const jwt = (await Auth.currentSession()).getIdToken().getJwtToken();
+
     const defaultOptions: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `${jwt}`,
       },
     };
 

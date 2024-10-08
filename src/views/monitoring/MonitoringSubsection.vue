@@ -79,13 +79,16 @@
           </div>
           <div>
             <h3>Wäremspeicher</h3>
-            <StatusCard
-              :isLoading="false"
-              title="Speicher 1"
-              :isBordered="false"
-              :status="ComponentStatusTypes.SUCCESS_COMPONENT"
-              :actionType="ActionTypes.ARROW"
-            />
+            <div>
+              <StatusCard
+                :isLoading="false"
+                title="Speicher 1"
+                :isBordered="false"
+                :status="ComponentStatusTypes.SUCCESS_COMPONENT"
+                :actionType="ActionTypes.ARROW"
+              />
+            </div>
+
           </div>
         </div>
       </div>
@@ -159,12 +162,12 @@ export default {
   &--right {
     display: flex;
     flex-direction: column;
+    gap: $m;
 
     &--header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: $l;
     }
 
     &--content {
@@ -176,8 +179,10 @@ export default {
         display: flex;
         flex-direction: column;
         gap: $xxs;
-        & > div > div {
-          margin-bottom: $xxs;
+        & > div {
+          display: flex;
+          flex-direction: column;
+          gap: $xxs;
         }
       }
     }
@@ -196,6 +201,5 @@ export default {
   }
   h4 {
     @include content;
-    margin-bottom: $xxs;
   }
 </style>

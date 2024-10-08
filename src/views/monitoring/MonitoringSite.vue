@@ -1,6 +1,6 @@
 <template>
   <div class="grid-wrapper">
-    <div>
+    <div class="grid-wrapper--left">
       <h2>
         {{ siteName }}
       </h2>
@@ -12,7 +12,7 @@
       <img
         v-else
         :alt="site?.data.siteName || 'Site Name'"
-        src="@/assets/gebäude_deutz.png"
+        src="@/assets/3_campus_deutz_iwz_sharon_nathan_th_koeln.png"
         class="site-image"
       />
 
@@ -27,26 +27,23 @@
             />
           </div>
         </template>
-        <div v-else class="status-container-wrapper">
-          <StatusCard
-            v-for="(building, idx) in site?.data.buildings"
-            @click="
-              if (site) {
-                openBuilding(site.id, site.data.siteName, building.id, building.data.buildingName);
-              }
-            "
-            :key="idx"
-            :title="building.data.buildingName"
-            subtitle="@TODO: Get subtitle"
-            :status="ChipStatusTypes.SUCCESS"
-            :isBordered="false"
-            :actionType="ActionTypes.ARROW"
-            :isLoading="isLoading"
-          />
-        </div>
+        <StatusCard
+          v-for="(building, idx) in site?.data.buildings"
+          @click="
+            if (site) {
+              openBuilding(site.id, site.data.siteName, building.id, building.data.buildingName);
+            }
+          "
+          :key="idx"
+          :title="building.data.buildingName"
+          :status="ChipStatusTypes.SUCCESS"
+          :isBordered="false"
+          :actionType="ActionTypes.ARROW"
+          :isLoading="isLoading"
+        />
       </div>
     </div>
-    <div>
+    <div class="grid-wrapper--right">
       <div class="performance-header">
         <h3>Performance der Liegenschaft</h3>
         <!-- @TODO: create dropdown component -->
@@ -54,14 +51,23 @@
           Letzte 14 Tage
         </div>
       </div>
-      <div class="performance-grid">
-        <ChartContainer
-          v-for="(kpi, idx) in kpis"
-          :key="idx"
-          :kpi="kpi"
-          :lastUpdateTimestamp="lastSiteRequestTime"
-          :isLoading="isLoading"
-        />
+      <div v-if="kpis.length" class="performance-grid">
+        <div v-if="kpiIsLoading" class="performance-grid--loading">
+          <ChartContainer
+            v-for="(kpi, index) in (kpis && kpis.length > 0 ? kpis : 3)"
+            :key="index"
+            :isLoading="kpiIsLoading"
+          />
+        </div>
+        <div class="performance-grid" v-else>
+          <ChartContainer
+            v-for="(kpi, idx) in kpis"
+            :key="idx"
+            :kpi="kpi"
+            :lastUpdateTimestamp="lastSiteRequestTime"
+            :isLoading="isLoading"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -161,13 +167,19 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: $m;
+
+  &--left, &--right {
+    display: flex;
+    flex-direction: column;
+    gap: $s;
+  }
 }
 
 .image-loading {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50%;
+  height: 300px;
   background-color: $lightest;
   border-radius: $base-size;
 }
@@ -181,7 +193,9 @@ export default {
 }
 
 .status-container {
-  margin-top: $s;
+  display: flex;
+  flex-direction: column;
+  gap: $xxs;
 
   & > h3 {
     @include content-subtitle;
@@ -190,7 +204,8 @@ export default {
 
   &--loading {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    gap: $xxs;
+
     @for $i from 1 through 3 {
       & > div:nth-child(#{$i}) {
         // from 99% to 66% to 33% opacity
@@ -203,7 +218,6 @@ export default {
 h2,
 h3 {
   @include content-headline;
-  margin-bottom: $s;
 }
 
 .performance-header {
@@ -215,7 +229,8 @@ h3 {
     @include content;
     cursor: pointer;
     border: 1px solid $light-purple;
-    padding: $base-size;
+    margin: 0;
+    padding: 0 $xxs;
     border-radius: $border-radius;
   }
 }

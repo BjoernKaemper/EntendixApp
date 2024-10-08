@@ -89,7 +89,6 @@ export default {
   cursor: pointer;
   position: sticky;
   margin: -#{$xxl} 0 -#{$xxl} #{$m};
-  height: calc(100vh - 111px);
 
   display: flex;
   flex-direction: column;

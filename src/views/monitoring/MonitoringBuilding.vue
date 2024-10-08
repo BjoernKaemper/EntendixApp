@@ -1,5 +1,7 @@
 <template>
   <div class="grid-wrapper">
+
+    <!-- left side of grid -->
     <div class="grid-wrapper--left">
       <h2>{{ buildingName || 'Loading' }}</h2>
       <template v-if="isLoading">
@@ -18,27 +20,26 @@
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <!-- @TODO: Get the rest of the data in the response an map it -->
         <!-- @TODO: remove placeholders -->
-        <StatusCard
-          v-for="(subsection, idx) in subsections"
-          :key="idx"
-          :title="subsection.tradeName"
-          :isBordered="false"
-          :status="getSubsectionChipStatusByCondition(subsection.condition)"
-          :kpiType="getSubsectionTypeIcon(subsection.tradeType)"
-          :actionType="ActionTypes.ARROW"
-          :isLoading="isLoading"
-        />
+        <div class="status-container--cards">
+          <StatusCard
+            v-for="(subsection, idx) in subsections"
+            :key="idx"
+            :title="subsection.tradeName"
+            :isBordered="false"
+            :status="getSubsectionChipStatusByCondition(subsection.condition)"
+            :kpiType="getSubsectionTypeIcon(subsection.tradeType)"
+            :actionType="ActionTypes.ARROW"
+            :isLoading="isLoading"
+          />
+        </div>
       </div>
-      <div v-if="isLoading" class="issues-container">
-        <h3>@TODO: Probleme in den Komponenten</h3>
+      <div class="issues-container">
+        <h3>Probleme in den Komponenten</h3>
         <template v-if="isLoading">
           <div class="loading">
             <LoadingSpinner />
           </div>
         </template>
-      </div>
-      <div v-else class="issues-container">
-        <h3>@TODO: Probleme in den Komponenten</h3>
         <div v-if="issues" class="issues">
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
@@ -87,6 +88,8 @@
         </div>
       </div>
     </div>
+
+    <!-- right side of grid -->
     <div class="grid-wrapper--right">
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
@@ -94,13 +97,24 @@
         <div class="dropdown">Letzte 14 Tage</div>
       </div>
       <div class="performance-grid">
-        <ChartContainer
-          v-for="(kpi, idx) in kpis"
-          :key="idx"
-          :kpi="kpi"
-          :lastUpdateTimestamp="lastBuildingRequestTimestamp"
-          :isLoading="kpiIsLoading"
-        />
+        <!-- @TODO update status with data / remove hard coded value -->
+        <div v-if="kpiIsLoading" class="performance-grid--loading">
+          <ChartContainer
+            v-for="(kpi, index) in (kpis && kpis.length > 0 ? kpis : 3)"
+            :key="index"
+            :isLoading="kpiIsLoading"
+          />
+        </div>
+        <div class="performance-grid" v-else>
+          <ChartContainer
+            v-for="(kpi, idx) in kpis"
+            :key="idx"
+            :kpi="kpi"
+            :lastUpdateTimestamp="lastBuildingRequestTimestamp"
+            :isLoading="kpiIsLoading"
+            :status="ChipStatusTypes.SUCCESS"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -238,6 +252,12 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr auto;
   grid-gap: $m;
+
+  &--left, &--right {
+    display: flex;
+    flex-direction: column;
+    gap: $s;
+  }
 }
 
 .image-loading {
@@ -256,7 +276,15 @@ export default {
 }
 
 .status-container {
-  margin-top: $s;
+  display: flex;
+  flex-direction: column;
+  gap: $xxs;
+
+  &--cards {
+    display: flex;
+    flex-direction: column;
+    gap: $xxs;
+  }
 
   & > h3 {
     @include content-subtitle;
@@ -265,7 +293,9 @@ export default {
 
   &--loading {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    gap: $xxs;
+    width: 100%;
+
     @for $i from 1 through 3 {
       & > div:nth-child(#{$i}) {
         // from 99% to 66% to 33% opacity
@@ -276,15 +306,20 @@ export default {
 }
 
 .issues-container {
-  margin-top: $s;
   background-color: $light-purple-40;
   padding: $xxs;
   border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  gap: $xs;
+
+  & .loading > * > * {
+    height: 20px;
+  }
 
   & > h3 {
     @include content-subtitle;
     color: $darkest;
-    margin-bottom: $xs;
   }
 
   .no-issues {
@@ -295,10 +330,12 @@ export default {
   }
 
   .issues {
+    display: flex;
+    flex-direction: column;
+    gap: $xxs;
     & > p {
       @include content;
       color: $darkest;
-      margin-bottom: $xxs;
     }
   }
 }
@@ -312,7 +349,8 @@ export default {
     @include content;
     cursor: pointer;
     border: 1px solid $light-purple;
-    padding: $base-size;
+    margin: 0;
+    padding: 0 $xxs;
     border-radius: $border-radius;
   }
 }
@@ -331,14 +369,12 @@ export default {
 
 h2,
 h3 {
-  @include title;
+  @include content-headline;
   color: $dark-green;
-  margin-bottom: $s;
 }
 
 h4 {
   @include content-subtitle;
-  margin-bottom: $xxs;
 }
 
 img {

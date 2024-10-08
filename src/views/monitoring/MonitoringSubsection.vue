@@ -16,7 +16,7 @@
         <div class="grid-wrapper--right--content">
           <template v-if="isLoading">
             <div class="status-container--loading">
-              <StatusCard v-for="index in 3" :key="index" :isLoading="true" />
+              <StatusCard v-for="index in 3" :key="index" :isLoading="true" :isBordered="false" />
             </div>
           </template>
           <div v-else v-for="plantType in subsection!.data.plantsByType" :key="plantType.type">
@@ -217,13 +217,13 @@ export default {
   }
 }
 
-  h2 {
-    @include content-headline;
-  }
-  h3 {
-    @include content-subtitle;
-  }
-  h4 {
-    @include content;
-  }
+h2 {
+  @include content-headline;
+}
+h3 {
+  @include content-subtitle;
+}
+h4 {
+  @include content;
+}
 </style>

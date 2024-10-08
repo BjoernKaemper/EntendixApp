@@ -1,6 +1,5 @@
 <template>
   <div class="grid-wrapper">
-
     <!-- left side of grid -->
     <div class="grid-wrapper--left">
       <h2>{{ buildingName || 'Loading' }}</h2>
@@ -13,7 +12,7 @@
       <div v-if="isLoading" class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <div class="status-container--loading">
-          <StatusCard v-for="index in statusCardAmount" :key="index" />
+          <StatusCard v-for="index in statusCardAmount" :key="index" :is-bordered="false" />
         </div>
       </div>
       <div v-else class="status-container">
@@ -43,7 +42,7 @@
             :actionType="ActionTypes.ARROW"
             :isLoading="isLoading"
           />
-       </div>
+        </div>
       </div>
       <div class="issues-container">
         <h3>Probleme in den Komponenten</h3>
@@ -109,7 +108,7 @@
         <!-- @TODO update status with data / remove hard coded value -->
         <div v-if="kpiIsLoading" class="performance-grid--loading">
           <ChartContainer
-            v-for="(kpi, index) in (kpis && kpis.length > 0 ? kpis : 3)"
+            v-for="(kpi, index) in kpis && kpis.length > 0 ? kpis : 3"
             :key="index"
             :isLoading="kpiIsLoading"
           />
@@ -283,7 +282,8 @@ export default {
   grid-template-columns: 1fr 2fr auto;
   grid-gap: $m;
 
-  &--left, &--right {
+  &--left,
+  &--right {
     display: flex;
     flex-direction: column;
     gap: $s;

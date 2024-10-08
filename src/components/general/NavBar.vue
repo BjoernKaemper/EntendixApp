@@ -5,9 +5,8 @@
       <ul>
         <li v-for="(navItem, idx) in navItems" :key="idx">
           <router-link
-            v-if="!isHomePage"
             :to="navItem.href"
-            :class="{ active: isActive(navItem.href) }"
+            :class="{ active: isActive(navItem.href), isHomePage }"
           >
             <component :is="navItem.icon" />
             {{ navItem.name }}
@@ -77,7 +76,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: $xxs $m;
-  min-height: 62px;
 
   > h1 {
     @include title;
@@ -93,6 +91,12 @@ export default {
     > li {
       color: white;
       display: flex;
+
+      > .isHomePage {
+        // disable and hide the links
+        pointer-events: none;
+        opacity: 0;
+      }
 
       > a {
         @include subtitle;

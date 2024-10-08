@@ -59,7 +59,7 @@
             :isLoading="kpiIsLoading"
           />
         </div>
-        <div v-else>
+        <div class="performance-grid" v-else>
           <ChartContainer
             v-for="(kpi, idx) in kpis"
             :key="idx"

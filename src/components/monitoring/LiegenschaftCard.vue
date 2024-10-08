@@ -211,10 +211,16 @@ export default {
     }
 
     & > button:first-child {
-      background-color: $light-green-20;
+      background-color: $dark-green-15;
+      & > span > svg  {
+        color: $dark-green;
+      }
     }
     & > button:last-child {
-      background-color: $light-purple-20;
+      background-color: $dark-purple-15;
+      & > span > svg {
+        color: $dark-purple;
+      }
     }
   }
 

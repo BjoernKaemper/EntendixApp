@@ -22,7 +22,6 @@
           <div v-else v-for="plantType in subsection!.data.plantsByType" :key="plantType.type">
             <h3>{{ plantType.name }}</h3>
             <div>
-
               <StatusCard
                 v-for="plant in plantType.plants"
                 @click="
@@ -187,12 +186,12 @@ export default {
   &--right {
     display: flex;
     flex-direction: column;
+    gap: $m;
 
     &--header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: $l;
     }
 
     &--content {
@@ -204,8 +203,10 @@ export default {
         display: flex;
         flex-direction: column;
         gap: $xxs;
-        & > div > div {
-          margin-bottom: $xxs;
+        & > div {
+          display: flex;
+          flex-direction: column;
+          gap: $xxs;
         }
       }
     }
@@ -216,14 +217,13 @@ export default {
   }
 }
 
-h2 {
-  @include content-headline;
-}
-h3 {
-  @include content-subtitle;
-}
-h4 {
-  @include content;
-  margin-bottom: $xxs;
-}
+  h2 {
+    @include content-headline;
+  }
+  h3 {
+    @include content-subtitle;
+  }
+  h4 {
+    @include content;
+  }
 </style>

@@ -35,7 +35,7 @@ export default {
 
 <style scoped lang="scss">
 .breadcrumb {
-  background-color: $dark-green-20;
+  background-color: $dark-green-15;
   padding: $xxs $m; // TODO: used $s instead of 8px
   display: flex;
   justify-content: flex-start;
@@ -74,7 +74,7 @@ export default {
       padding: 0;
 
       > a {
-        color: $light-green;
+        color: $lightest;
 
         > svg {
           width: $m;

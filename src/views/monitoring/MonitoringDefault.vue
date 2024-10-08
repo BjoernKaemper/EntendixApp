@@ -4,7 +4,6 @@
     <div>
       <div class="site-header">
         <h2>Meine Liegenschaften</h2>
-        <p class="subtitle">Ist alles im grünen Bereich? Werden die Betriebsfunktionen erfüllt?</p>
       </div>
       <template v-if="sitesAreLoading">
         <div class="loading">
@@ -120,7 +119,7 @@ export default {
   .site-header {
   margin-bottom: $xl;
   > h2 {
-    @include title;
+    @include content-headline;
     color: $dark-green;
   }
   > .subtitle {

@@ -6,7 +6,7 @@
     <g mask="url(#mask0_238_1150)">
       <path
         d="M5.5 15.5H7.5V10.5H12.5V15.5H14.5V8.25L10 4.875L5.5 8.25V15.5ZM4 17V7.5L10 3L16 7.5V17H11V12H9V17H4Z"
-        fill="white"
+        fill="currentColor"
       />
     </g>
   </svg>

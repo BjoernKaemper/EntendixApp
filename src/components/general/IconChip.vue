@@ -94,6 +94,8 @@ export default {
   justify-content: center;
   padding: $base-size;
   border-radius: $border-radius;
+  height: 100%;
+  padding: $xxs $xxxs;
 
   &.success {
     background-color: $light-green;

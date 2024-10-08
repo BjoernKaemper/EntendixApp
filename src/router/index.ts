@@ -8,7 +8,7 @@ import Monitoring from '@/views/monitoring/MonitoringDefault.vue';
 import Monitoring_Site from '@/views/monitoring/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue';
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
-
+import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/MonitoringPlant.vue';
 // digital twins views
 import DigitalTwinsSite from '@/views/digitaltwins/DigitalTwinsSite.vue';
 
@@ -188,6 +188,67 @@ const routes = [
         generalStore.loadBuildingInformation(params.buildingid);
       }
       generalStore.loadSubsectionInformation(params.subsectionid);
+    },
+  },
+  {
+    path: '/monitoring/plant/:plantparams',
+    name: 'Monitoring_Site_Building_Subsection_Plant',
+    component: Monitoring_Site_Building_Subsection_Plant,
+    meta: {
+      breadcrumb: (route: any) => {
+        const params = JSON.parse(route.params.plantparams);
+        const siteParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+        });
+        const buildingParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+          buildingid: encodeURIComponent(params.buildingid),
+          buildingName: params.buildingName,
+        });
+        const subsectionParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+          buildingid: encodeURIComponent(params.buildingid),
+          buildingName: params.buildingName,
+          subsectionid: encodeURIComponent(params.subsectionid),
+          subsectionName: params.subsectionName,
+        });
+        return [
+          { title: 'Monitoring', to: '/monitoring' },
+          {
+            title: params.siteName,
+            to: `/monitoring/site/${siteParams}`,
+          },
+          {
+            title: params.buildingName,
+            to: `/monitoring/building/${buildingParams}`,
+          },
+          {
+            title: params.subsectionName,
+            to: `/monitoring/subsection/${subsectionParams}`,
+          },
+          {
+            title: params.plantName,
+            to: `/monitoring/subsection/${encodeURIComponent(route.params.plantparams)}`,
+          },
+        ];
+      },
+    },
+    beforeEnter: (route: any) => {
+      const generalStore = useGeneralStore();
+      const params = JSON.parse(route.params.plantparams as string);
+      if (generalStore.siteState.site?.id !== params.siteid) {
+        generalStore.loadSiteInformation(params.siteid);
+      }
+      if (generalStore.buildingState.building?.id !== params.buildingid) {
+        generalStore.loadBuildingInformation(params.buildingid);
+      }
+      if (generalStore.subsectionState.subsection?.id !== params.subsectionid) {
+        generalStore.loadSubsectionInformation(params.subsectionid);
+      }
+      generalStore.loadPlantInformation(params.plantid);
     },
   },
 ];

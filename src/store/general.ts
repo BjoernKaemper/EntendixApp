@@ -63,11 +63,11 @@ interface GeneralStoreState {
     subsection: Subsection | null;
     requestTimestamp: DateTime | null;
     isLoading: boolean;
-    plantState: {
-      plants: Plant[];
-      requestTimestamp: DateTime | null;
-      isLoading: boolean;
-    };
+  };
+  plantState: {
+    plant: Plant | null;
+    requestTimestamp: DateTime | null;
+    isLoading: boolean;
   };
   chartData: any[];
 }
@@ -92,7 +92,7 @@ const defaultKPIState = {
 };
 
 const defaultPlantState = {
-  plants: [],
+  plant: null,
   requestTimestamp: null,
   isLoading: false,
 };
@@ -105,7 +105,6 @@ const defaultSubsectionsState = {
 
 const defaultSubsectionState = {
   subsection: null,
-  plantState: defaultPlantState,
   requestTimestamp: null,
   isLoading: false,
 };
@@ -135,6 +134,7 @@ export const useGeneralStore = defineStore('general', {
     chartData: [],
     alerts: [],
     subsectionState: defaultSubsectionState,
+    plantState: defaultPlantState,
   }),
   actions: {
     /**
@@ -172,14 +172,16 @@ export const useGeneralStore = defineStore('general', {
           id: uuidv4(),
           title: 'Notification Title 1',
           type: AlertTypes.ERROR,
-          description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
+          description:
+            'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
           time: DateTime.now().toFormat('HH:mm'),
         },
         {
           id: uuidv4(),
           title: 'Notification Title 2',
           type: AlertTypes.SUCCESS,
-          description: 'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ',
+          description:
+            'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ',
           time: DateTime.now().toFormat('HH:mm'),
         },
         {
@@ -392,20 +394,27 @@ export const useGeneralStore = defineStore('general', {
 
       this.subsectionState.requestTimestamp = DateTime.now();
 
-      // Fetching Subsection Information
-      this.subsectionState.plantState.plants = [];
-      this.subsectionState.plantState.isLoading = true;
-
-      this.subsectionState.subsection.data.plants?.forEach(async (plant) => {
-        this.subsectionState.plantState.plants.push(
-          await this.fetchPlantInformation(plant.id),
-        );
-      });
-
       this.subsectionState.isLoading = false;
+    },
 
-      this.subsectionState.plantState.requestTimestamp = DateTime.now();
-      this.subsectionState.plantState.isLoading = false;
+    async loadPlantInformation(plantid: string): Promise<void> {
+      this.plantState.isLoading = true;
+
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+      this.plantState.plant = (await FetchHelper.apiCall(
+        `/middleware/plants/${plantid}/modules?${q}`,
+        requestOptions,
+      )) as Plant;
+
+      this.plantState.requestTimestamp = DateTime.now();
+
+      this.plantState.isLoading = false;
     },
   },
 });

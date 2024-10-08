@@ -19,17 +19,32 @@
               <StatusCard v-for="index in 3" :key="index" :isLoading="true" />
             </div>
           </template>
-          <div v-else v-for="plant in plants" :key="plant.id">
-            <h3>{{ plant.data.plantName }}</h3>
+          <div v-else v-for="plantType in subsection!.data.plantsByType" :key="plantType.type">
+            <h3>{{ plantType.name }}</h3>
             <div>
+
               <StatusCard
-                v-for="currentModule in plant.data.modules"
-                :key="currentModule.id"
+                v-for="plant in plantType.plants"
+                @click="
+                  if (site && building && subsection) {
+                    openPlant(
+                      site.id,
+                      site.data.siteName,
+                      building.id,
+                      building.data.buildingName,
+                      subsection.data.tradeName,
+                      subsection.id,
+                      plant.data.plantName,
+                      plant.id,
+                    );
+                  }
+                "
+                :key="plant.id"
                 :isLoading="false"
-                :title="currentModule.data.moduleName"
+                :title="plant.data.plantName"
                 subtitle=""
                 :isBordered="false"
-                :status="getModuleChipStatusByCondition(currentModule.data.condition)"
+                :status="getModuleChipStatusByCondition(plant.data.condition)"
                 :actionType="ActionTypes.ARROW"
                 timestamp="2024-08-14T18:27:00"
               />
@@ -75,6 +90,12 @@ export default {
   },
   computed: {
     ...mapStores(useGeneralStore),
+    site() {
+      return this.generalStore.siteState.site;
+    },
+    building() {
+      return this.generalStore.buildingState.building;
+    },
     subsection() {
       return this.generalStore.subsectionState.subsection;
     },
@@ -112,6 +133,32 @@ export default {
         default:
           return ComponentStatusTypes.INFO_COMPONENT;
       }
+    },
+    openPlant(
+      siteid: string,
+      siteName: string,
+      buildingid: string,
+      buildingName: string,
+      subsectionName: string,
+      subsectionid: string,
+      plantName: string,
+      plantid: string,
+    ) {
+      this.$router.push({
+        name: 'Monitoring_Site_Building_Subsection_Plant',
+        params: {
+          plantparams: JSON.stringify({
+            siteid: encodeURIComponent(siteid),
+            siteName,
+            buildingid: encodeURIComponent(buildingid),
+            buildingName,
+            subsectionName,
+            subsectionid: encodeURIComponent(subsectionid),
+            plantName,
+            plantid: encodeURIComponent(plantid),
+          }),
+        },
+      });
     },
   },
   setup() {

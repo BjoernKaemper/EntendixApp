@@ -162,12 +162,12 @@ export default {
   &--right {
     display: flex;
     flex-direction: column;
+    gap: $m;
 
     &--header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: $l;
     }
 
     &--content {
@@ -201,6 +201,5 @@ export default {
   }
   h4 {
     @include content;
-    margin-bottom: $xxs;
   }
 </style>

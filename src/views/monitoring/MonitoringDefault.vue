@@ -119,7 +119,7 @@ export default {
   .site-header {
   margin-bottom: $xl;
   > h2 {
-    @include title;
+    @include content-headline;
     color: $dark-green;
   }
   > .subtitle {

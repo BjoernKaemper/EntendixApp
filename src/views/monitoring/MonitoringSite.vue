@@ -168,7 +168,7 @@ export default {
   grid-template-columns: 1fr 2fr;
   gap: $m;
 
-  &--left {
+  &--left, &--right {
     display: flex;
     flex-direction: column;
     gap: $s;
@@ -229,7 +229,8 @@ h3 {
     @include content;
     cursor: pointer;
     border: 1px solid $light-purple;
-    padding: $base-size;
+    margin: 0;
+    padding: 0 $xxs;
     border-radius: $border-radius;
   }
 }

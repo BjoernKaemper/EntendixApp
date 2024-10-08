@@ -225,6 +225,10 @@ export default {
   @include meta-information;
 }
 
+h3 {
+  @include section-headline;
+}
+
 h4 {
   @include content;
 }

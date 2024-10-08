@@ -349,7 +349,8 @@ export default {
     @include content;
     cursor: pointer;
     border: 1px solid $light-purple;
-    padding: $base-size;
+    margin: 0;
+    padding: 0 $xxs;
     border-radius: $border-radius;
   }
 }
@@ -368,7 +369,7 @@ export default {
 
 h2,
 h3 {
-  @include title;
+  @include content-headline;
   color: $dark-green;
 }
 

@@ -52,6 +52,7 @@ I18n.putVocabularies({
     'Your passwords must match': 'Die Passwörter müssen übereinstimmen',
   },
 });
+
 const auth = useAuthenticator();
 const generalStore = useGeneralStore();
 

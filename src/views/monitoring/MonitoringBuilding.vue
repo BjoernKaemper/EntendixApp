@@ -22,18 +22,7 @@
         <div class="status-container--cards">
           <StatusCard
             v-for="(subsection, idx) in subsections"
-            @click="
-              if (site && building) {
-                openSubsection(
-                  site.id,
-                  site.data.siteName,
-                  building.id,
-                  building.data.buildingName,
-                  subsection.data.tradeName,
-                  subsection.id,
-                );
-              }
-            "
+            @click="openSubsection(subsection.data.tradeName, subsection.id)"
             :key="idx"
             :title="subsection.data.tradeName"
             :isBordered="false"
@@ -246,27 +235,22 @@ export default {
           return ChipStatusTypes.INFO;
       }
     },
-    openSubsection(
-      siteid: string,
-      siteName: string,
-      buildingid: string,
-      buildingName: string,
-      subsectionName: string,
-      subsectionid: string,
-    ) {
-      this.$router.push({
-        name: 'Monitoring_Site_Building_Subsection',
-        params: {
-          subsectionparams: JSON.stringify({
-            siteid: encodeURIComponent(siteid),
-            siteName,
-            buildingid: encodeURIComponent(buildingid),
-            buildingName,
-            subsectionName,
-            subsectionid: encodeURIComponent(subsectionid),
-          }),
-        },
-      });
+    openSubsection(subsectionName: string, subsectionid: string) {
+      if (this.site && this.building) {
+        this.$router.push({
+          name: 'Monitoring_Site_Building_Subsection',
+          params: {
+            subsectionparams: JSON.stringify({
+              siteid: encodeURIComponent(this.site!.id),
+              siteName: this.site!.data.siteName,
+              buildingid: encodeURIComponent(this.building!.id),
+              buildingName: this.building!.data.buildingName,
+              subsectionName,
+              subsectionid: encodeURIComponent(subsectionid),
+            }),
+          },
+        });
+      }
     },
   },
 

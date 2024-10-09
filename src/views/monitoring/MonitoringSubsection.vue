@@ -24,20 +24,7 @@
             <div>
               <StatusCard
                 v-for="plant in plantType.plants"
-                @click="
-                  if (site && building && subsection) {
-                    openPlant(
-                      site.id,
-                      site.data.siteName,
-                      building.id,
-                      building.data.buildingName,
-                      subsection.data.tradeName,
-                      subsection.id,
-                      plant.data.plantName,
-                      plant.id,
-                    );
-                  }
-                "
+                @click="openPlant(plant.data.plantName, plant.id)"
                 :key="plant.id"
                 :isLoading="false"
                 :title="plant.data.plantName"
@@ -130,31 +117,24 @@ export default {
           return ComponentStatusTypes.INFO_COMPONENT;
       }
     },
-    openPlant(
-      siteid: string,
-      siteName: string,
-      buildingid: string,
-      buildingName: string,
-      subsectionName: string,
-      subsectionid: string,
-      plantName: string,
-      plantid: string,
-    ) {
-      this.$router.push({
-        name: 'Monitoring_Site_Building_Subsection_Plant',
-        params: {
-          plantparams: JSON.stringify({
-            siteid: encodeURIComponent(siteid),
-            siteName,
-            buildingid: encodeURIComponent(buildingid),
-            buildingName,
-            subsectionName,
-            subsectionid: encodeURIComponent(subsectionid),
-            plantName,
-            plantid: encodeURIComponent(plantid),
-          }),
-        },
-      });
+    openPlant(plantName: string, plantid: string) {
+      if (this.site && this.building && this.subsection) {
+        this.$router.push({
+          name: 'Monitoring_Site_Building_Subsection_Plant',
+          params: {
+            plantparams: JSON.stringify({
+              siteid: encodeURIComponent(this.site.id),
+              siteName: this.site.data.siteName,
+              buildingid: encodeURIComponent(this.building.id),
+              buildingName: this.building.data.buildingName,
+              subsectionName: this.subsection.data.tradeName,
+              subsectionid: encodeURIComponent(this.subsection.id),
+              plantName,
+              plantid: encodeURIComponent(plantid),
+            }),
+          },
+        });
+      }
     },
   },
   setup() {

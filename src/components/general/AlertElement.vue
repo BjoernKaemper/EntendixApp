@@ -82,8 +82,7 @@ export default {
   },
   methods: {
     closeAlert(alertId: string) {
-      // console.log('Closing alert with id:', this.alert.id);
-      this.generalStore.removeAlerts(alertId);
+      this.generalStore.removeAlert(alertId);
     },
   },
 };

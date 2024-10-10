@@ -199,7 +199,7 @@ export const useGeneralStore = defineStore('general', {
      * @param {Alert} alert
      * @returns {void}
      */
-    removeAlerts(alertId: string): void {
+    removeAlert(alertId: string): void {
       this.alerts = this.alerts.filter((alert) => alert.id !== alertId);
     },
 

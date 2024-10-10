@@ -1,6 +1,5 @@
 <template>
   <div class="grid-wrapper">
-
     <!-- left side of grid -->
     <div class="grid-wrapper--left">
       <h2>{{ buildingName || 'Loading' }}</h2>
@@ -13,7 +12,7 @@
       <div v-if="isLoading" class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <div class="status-container--loading">
-          <StatusCard v-for="index in statusCardAmount" :key="index" />
+          <StatusCard v-for="index in statusCardAmount" :key="index" :is-bordered="false" />
         </div>
       </div>
       <div v-else class="status-container">
@@ -23,11 +22,12 @@
         <div class="status-container--cards">
           <StatusCard
             v-for="(subsection, idx) in subsections"
+            @click="openSubsection(subsection.data.tradeName, subsection.id)"
             :key="idx"
-            :title="subsection.tradeName"
+            :title="subsection.data.tradeName"
             :isBordered="false"
-            :status="getSubsectionChipStatusByCondition(subsection.condition)"
-            :kpiType="getSubsectionTypeIcon(subsection.tradeType)"
+            :status="getSubsectionChipStatusByCondition(subsection.data.condition)"
+            :kpiType="getSubsectionTypeIcon(subsection.data.tradeType)"
             :actionType="ActionTypes.ARROW"
             :isLoading="isLoading"
           />
@@ -44,7 +44,6 @@
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Wärmeerzeuger 1"
             subtitle="Ursache: Unter Sollwert"
             :isBordered="false"
@@ -53,7 +52,6 @@
             :isLoading="isLoading"
           />
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Heizkreis 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -63,7 +61,6 @@
           />
           <p>Stromversorgung</p>
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Stromkreislauf 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -100,7 +97,7 @@
         <!-- @TODO update status with data / remove hard coded value -->
         <div v-if="kpiIsLoading" class="performance-grid--loading">
           <ChartContainer
-            v-for="(kpi, index) in (kpis && kpis.length > 0 ? kpis : 3)"
+            v-for="(kpi, index) in kpis && kpis.length > 0 ? kpis : 3"
             :key="index"
             :isLoading="kpiIsLoading"
           />
@@ -139,7 +136,7 @@ import { SemanticSubmoduleTypes } from '@/types/global/enums/SemanticSubmoduleTy
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
-import { SubsectionConditionTypes } from '@/types/enums/SubsectionConditionTypes';
+import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
@@ -171,6 +168,10 @@ export default {
 
     building() {
       return this.generalStore.buildingState.building;
+    },
+
+    site() {
+      return this.generalStore.siteState.site;
     },
 
     subsections(): any {
@@ -222,22 +223,34 @@ export default {
       }
     },
 
-    getSubsectionChipStatusByCondition(condition: string): ChipStatusTypes {
+    getSubsectionChipStatusByCondition(condition: ConditionTypes): ChipStatusTypes {
       switch (condition) {
-        case SubsectionConditionTypes.HEALTHY:
+        case ConditionTypes.HEALTHY:
           return ChipStatusTypes.SUCCESS;
-        case SubsectionConditionTypes.WARNING:
+        case ConditionTypes.WARNING:
           return ChipStatusTypes.WARNING;
-        case SubsectionConditionTypes.ALERT:
+        case ConditionTypes.ALERT:
           return ChipStatusTypes.ERROR;
         default:
           return ChipStatusTypes.INFO;
       }
     },
-    openSubsectionDemoPage() {
-      this.$router.push({
-        name: 'Monitoring_Site_Building_Subsection_Demo',
-      });
+    openSubsection(subsectionName: string, subsectionid: string) {
+      if (this.site && this.building) {
+        this.$router.push({
+          name: 'Monitoring_Site_Building_Subsection',
+          params: {
+            subsectionparams: JSON.stringify({
+              siteid: encodeURIComponent(this.site!.id),
+              siteName: this.site!.data.siteName,
+              buildingid: encodeURIComponent(this.building!.id),
+              buildingName: this.building!.data.buildingName,
+              subsectionName,
+              subsectionid: encodeURIComponent(subsectionid),
+            }),
+          },
+        });
+      }
     },
   },
 
@@ -253,7 +266,8 @@ export default {
   grid-template-columns: 1fr 2fr auto;
   grid-gap: $m;
 
-  &--left, &--right {
+  &--left,
+  &--right {
     display: flex;
     flex-direction: column;
     gap: $s;

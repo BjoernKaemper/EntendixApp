@@ -16,6 +16,7 @@ import type { Alert } from '@/types/Alert';
 import { AlertTypes } from '@/types/enums/AlertTypes';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
+import type { Plant } from '@/types/global/plant/Plant';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -25,8 +26,8 @@ interface GeneralStoreState {
   windowDimensions: {
     width: number | null;
     height: number | null;
-  },
-  alerts: Alert[],
+  };
+  alerts: Alert[];
   baseInfoState: {
     companies: Company[];
     sites: Site[];
@@ -58,6 +59,16 @@ interface GeneralStoreState {
     requestTimestamp: DateTime | null;
     isLoading: boolean;
   };
+  subsectionState: {
+    subsection: Subsection | null;
+    requestTimestamp: DateTime | null;
+    isLoading: boolean;
+  };
+  plantState: {
+    plant: Plant | null;
+    requestTimestamp: DateTime | null;
+    isLoading: boolean;
+  };
   chartData: any[];
 }
 
@@ -80,8 +91,20 @@ const defaultKPIState = {
   isLoading: false,
 };
 
-const defaultSubsectionState = {
+const defaultPlantState = {
+  plant: null,
+  requestTimestamp: null,
+  isLoading: false,
+};
+
+const defaultSubsectionsState = {
   subsections: [],
+  requestTimestamp: null,
+  isLoading: false,
+};
+
+const defaultSubsectionState = {
+  subsection: null,
   requestTimestamp: null,
   isLoading: false,
 };
@@ -98,7 +121,7 @@ const defaultBuildingState = {
   kpiState: defaultKPIState,
   requestTimestamp: null,
   isLoading: false,
-  subsectionState: defaultSubsectionState,
+  subsectionState: defaultSubsectionsState,
 };
 
 export const useGeneralStore = defineStore('general', {
@@ -110,6 +133,8 @@ export const useGeneralStore = defineStore('general', {
     buildingState: defaultBuildingState,
     chartData: [],
     alerts: [],
+    subsectionState: defaultSubsectionState,
+    plantState: defaultPlantState,
   }),
   actions: {
     /**
@@ -147,14 +172,16 @@ export const useGeneralStore = defineStore('general', {
           id: uuidv4(),
           title: 'Notification Title 1',
           type: AlertTypes.ERROR,
-          description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
+          description:
+            'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
           time: DateTime.now().toFormat('HH:mm'),
         },
         {
           id: uuidv4(),
           title: 'Notification Title 2',
           type: AlertTypes.SUCCESS,
-          description: 'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ',
+          description:
+            'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ',
           time: DateTime.now().toFormat('HH:mm'),
         },
         {
@@ -263,6 +290,22 @@ export const useGeneralStore = defineStore('general', {
       )) as Subsection;
     },
 
+    async fetchPlantInformation(plantId: string): Promise<any> {
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+
+      return (await FetchHelper.apiCall(
+        `/middleware/plants/${encodeURIComponent(plantId)}/modules?${q}`,
+        requestOptions,
+      )) as any; //  as Plant;
+    },
+
     async loadSiteInformation(siteId: string): Promise<void> {
       this.siteState = defaultSiteState;
       this.siteState.isLoading = true;
@@ -332,6 +375,46 @@ export const useGeneralStore = defineStore('general', {
 
       this.buildingState.subsectionState.requestTimestamp = DateTime.now();
       this.buildingState.subsectionState.isLoading = false;
+    },
+
+    async loadSubsectionInformation(subsectionId: string): Promise<void> {
+      this.subsectionState.isLoading = true;
+
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+      this.subsectionState.subsection = (await FetchHelper.apiCall(
+        `/middleware/subsections/${subsectionId}/plants?${q}`,
+        requestOptions,
+      )) as Subsection;
+
+      this.subsectionState.requestTimestamp = DateTime.now();
+
+      this.subsectionState.isLoading = false;
+    },
+
+    async loadPlantInformation(plantid: string): Promise<void> {
+      this.plantState.isLoading = true;
+
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+      this.plantState.plant = (await FetchHelper.apiCall(
+        `/middleware/plants/${plantid}/modules?${q}`,
+        requestOptions,
+      )) as Plant;
+
+      this.plantState.requestTimestamp = DateTime.now();
+
+      this.plantState.isLoading = false;
     },
   },
 });

@@ -161,6 +161,24 @@ export const useGeneralStore = defineStore('general', {
       this.windowDimensions.height = window.innerHeight;
     },
 
+    /**
+     * Add a new alert to the alert list
+     * @param {AlertTypes} alertType The type of the alert
+     * @param {string} message The message of the alert
+     * @param {string} title The title of the alert
+     * @returns {string} The id of the alert
+     */
+    addAlert(alertType: AlertTypes, message: string, title: string): string {
+      const alertId = uuidv4();
+      this.alerts.push({
+        id: alertId,
+        title,
+        type: alertType,
+        description: message,
+        time: DateTime.now().toFormat('HH:mm'),
+      });
+      return alertId;
+    },
 
     /**
      * Add a new alert to the alert list

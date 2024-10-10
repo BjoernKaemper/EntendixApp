@@ -1,32 +1,27 @@
 <template>
-  <ModalOverlay :isOpen="isCommentsModalOpen" @close="closeMetricsModal">
+  <ModalOverlay :isOpen="isCommentsModalOpen">
     <template #header>
       <div id="comments-modal-overlay__header">
-        <h3>Kommentare für "@TODO insert kpi name"</h3>
-        <p>in der Liegenschaft "@TODO insert site name"</p>
-        <p>vom @TODO insert Date & Time here</p>
+        <h3>Kommentare für "{{ commentName }}"</h3>
+        <p>in {{ commentType }} "{{ commentIn }}"</p>
+        <p>vom {{ startDate }} bis {{ endDate }}</p>
       </div>
     </template>
     <template #body>
-      <p
-        v-if="!comments.length"
-        id="comments-modal-overlay__body__text">
-        Es gibt keine Kommentare für den gewählten Zeitraum.
-        Ändern Sie den Zeitraum oder fügen Sie einen neuen Kommentar hinzu.
+      <p v-if="!comments.length" id="comments-modal-overlay__body__text">
+        Es gibt keine Kommentare für den gewählten Zeitraum. Ändern Sie den Zeitraum oder fügen Sie
+        einen neuen Kommentar hinzu.
       </p>
-      <div
-        v-else
-        id="comments-modal-overlay__body__comments">
-        <div
-          v-for="comment in comments"
-          :key="comment.id"
-          class="comment">
+      <div v-else id="comments-modal-overlay__body__comments">
+        <div v-for="(comment, idx) in comments" :key="idx" class="comment">
           <p>
-            <span>{{ comment.startDate }}</span>
-            <span v-if="comments.endDate"> - {{ comment.endDate }}</span>
+            <span>{{ prettierDate(comment.referringTimestamp) }}</span>
+            <!-- <span v-if="comments.endDate"> - {{ comment.endDate }}</span> -->
           </p>
-          <p>{{ comment.comment }}</p>
-          <span class="comment__timestamp">verfasst von {{ comment.user }} am {{ comment.dateOfSubmission }}</span>
+          <p>{{ comment.annotationText }}</p>
+          <span class="comment__timestamp">
+            verfasst von {{ comment.creator }} am {{ prettierDate(comment.timestampOfCreation) }}
+          </span>
         </div>
       </div>
 
@@ -69,7 +64,8 @@
         @click="submitComment"
         :primary="true"
         text="Kommentar hinzufügen"
-        :icon="IconTypes.ADD" />
+        :icon="IconTypes.ADD"
+      />
     </template>
   </ModalOverlay>
 </template>
@@ -80,6 +76,9 @@ import NotesIcon from '@/components/icons/NotesIcon.vue';
 import CalendarIcon from '@/components/icons/CalendarIcon.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import { IconTypes } from '@/types/enums/IconTypes';
+import { ModuleTypes } from '@/types/enums/ModuleTypes';
+import type { Annotation } from '@/types/global/kpi/Kpi';
+import { DateTime } from 'luxon';
 
 export default {
   components: {
@@ -99,15 +98,34 @@ export default {
       type: Boolean,
       required: true,
     },
+    commentName: {
+      type: String,
+      required: true,
+    },
+    commentType: {
+      type: String as () => ModuleTypes,
+      required: true,
+    },
+    commentIn: {
+      type: String,
+      required: true,
+    },
+    startDate: {
+      type: String,
+      required: true,
+    },
+    endDate: {
+      type: String,
+      required: true,
+    },
+    comments: {
+      type: Array<Annotation>,
+      default: () => [],
+    },
   },
   setup() {
     return {
       IconTypes,
-    };
-  },
-  data() {
-    return {
-      comments: JSON.parse(window.localStorage.getItem('comment') || '[]'),
     };
   },
   computed: {
@@ -116,9 +134,6 @@ export default {
     },
   },
   methods: {
-    closeMetricsModal() {
-      this.$emit('close');
-    },
     validateComment(comment: string, startDate: Date): boolean {
       // validate comment
       if (!comment) {
@@ -141,13 +156,14 @@ export default {
       const endDate = document.getElementById('end-date') as HTMLInputElement;
       // add a unique id to the comment using hash function
       const id: number = Math.floor(Math.random() * 1000000);
-      const user: string = window.localStorage.getItem('CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser') || 'User'; // @TODO get user from backend
+      const user: string =
+        window.localStorage.getItem(
+          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
+        ) || 'User'; // @TODO get user from backend
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 
-      if (!this.validateComment(
-        comment.value,
-        new Date(startDate.value),
-      )) {
+      if (!this.validateComment(comment.value, new Date(startDate.value))) {
+        // TODO: show error message
         return;
       }
 
@@ -173,12 +189,14 @@ export default {
       // check local storage for comments
       window.localStorage.setItem('comment', JSON.stringify(comments));
     },
+    prettierDate(date: string): string {
+      return DateTime.fromJSDate(new Date(date)).toFormat('dd.MM.yyyy HH:mm');
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
 #comments-modal-overlay {
   // header styles
   &__header {
@@ -193,7 +211,7 @@ export default {
 
   // body styles
   &__body {
-      &__text {
+    &__text {
       @include meta-information;
       text-align: center;
       max-width: 70%;
@@ -295,5 +313,4 @@ export default {
     }
   }
 }
-
 </style>

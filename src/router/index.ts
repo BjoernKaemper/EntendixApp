@@ -9,7 +9,8 @@ import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue'
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
 import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/MonitoringPlant.vue';
 // digital twins views
-import DigitalTwinsSite from '@/views/digitaltwins/DigitalTwinsSite.vue';
+import DigitalTwins_Site from '@/views/digitaltwins/DigitalTwinsSite.vue';
+import DigitalTwins_Site_Building from '@/views/digitaltwins/DigitalTwinBuilding.vue';
 
 const routes = [
   {
@@ -26,11 +27,10 @@ const routes = [
   },
   {
     path: '/digitaltwins/site/:siteparams',
-    name: 'DigitalTwins',
-    component: DigitalTwinsSite,
+    name: 'DigitalTwins_Site',
+    component: DigitalTwins_Site,
     meta: {
       breadcrumb: (route: any) => [
-        { title: 'Digitaler Zwillinge', to: '/digitaltwins' },
         {
           title: `${JSON.parse(route.params.siteparams).siteName}`,
           to: `/monitoring/site/${encodeURIComponent(route.params.siteparams)}`,
@@ -43,43 +43,38 @@ const routes = [
     },
 
   },
-  // {
-  //   path: '/digitaltwins/site/:siteparams',
-  //   name: 'DigitalTwins_Site',
-  //   component: DigitalTwins_Site, // TODO: Doesn't exist right now
-  //   meta: {
-  //     breadcrumb: (route: any) => [
-  //       {
-  //         title: `${JSON.parse(route.params.siteparams).siteName}`,
-  //         to: `/digitaltwins/site/${encodeURIComponent(route.params.siteparams)}`,
-  //       },
-  //     ],
-  //   },
-  // },
-  // {
-  //   path: '/digitaltwins/building/:buildingparams',
-  //   name: 'DigitalTwins_Site_Building',
-  //   component: DigitalTwins_Site_Building, // TODO: Doesn't exist right now
-  //   meta: {
-  //     breadcrumb: (route: any) => {
-  //       const params = JSON.parse(route.params.buildingparams);
-  //       const siteParams = JSON.stringify({
-  //         siteid: encodeURIComponent(params.siteid),
-  //         siteName: params.siteName,
-  //       });
-  //       return [
-  //         {
-  //           title: params.siteName,
-  //           to: `/digitaltwins/site/${siteParams}`,
-  //         },
-  //         {
-  //           title: `${params.buildingName}`,
-  //           to: `/digitaltwins/building/${encodeURIComponent(route.params.buildingparams)}`,
-  //         },
-  //       ];
-  //     },
-  //   },
-  // },
+  {
+    path: '/digitaltwins/building/:buildingparams',
+    name: 'DigitalTwins_Site_Building',
+    component: DigitalTwins_Site_Building,
+    meta: {
+      breadcrumb: (route: any) => {
+        const params = JSON.parse(route.params.buildingparams);
+        const siteParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+        });
+        return [
+          {
+            title: params.siteName,
+            to: `/digitaltwins/site/${siteParams}`,
+          },
+          {
+            title: params.buildingName,
+            to: `/digitaltwins/building/${encodeURIComponent(route.params.buildingparams)}`,
+          },
+        ];
+      },
+    },
+    beforeEnter: (route: any) => {
+      const generalStore = useGeneralStore();
+      const params = JSON.parse(route.params.buildingparams as string);
+      if (generalStore.siteState.site?.id !== params.siteid) {
+        generalStore.loadSiteInformation(params.siteid);
+      }
+      generalStore.loadBuildingInformation(params.buildingid);
+    },
+  },
 
   // TODO: Remove when DemoView is not needed anymore
   {

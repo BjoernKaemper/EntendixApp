@@ -6,7 +6,7 @@
       <SiteDetails v-else-if="site" :site="site" />
     </template>
     <template #right>
-      <h1>Gebäude in der Liegenschaft</h1>
+      <h3>Gebäude in der Liegenschaft</h3>
       <div class="digital-twin-site__buildings">
         <BuildingCardLoading v-if="isLoading" />
         <BuildingCard
@@ -14,6 +14,7 @@
           v-for="(building, idx) in site?.data.buildings"
           :key="idx"
           :building-name="building.data.buildingName"
+          :open-building="() => openBuilding(building.id, building.data.buildingName)"
         />
       </div>
     </template>
@@ -61,9 +62,16 @@ export default {
     },
   },
   methods: {
-    openBuilding(siteid: string, siteName: string, buildingid: string, buildingName: string) {
+    openBuilding(buildingid: string, buildingName: string) {
+      if (!this.site) {
+        return;
+      }
+
+      const siteid = this.site.id;
+      const { siteName } = this.site.data;
+
       this.$router.push({
-        name: 'Monitoring_Site_Building',
+        name: 'DigitalTwins_Site_Building',
         params: {
           buildingparams: JSON.stringify({
             siteid: encodeURIComponent(siteid),
@@ -103,6 +111,11 @@ export default {
 
 h1 {
   @include content-headline;
+}
+
+h2, h3 {
+  @include content-headline;
+  color: $dark-green;
 }
 
 p,

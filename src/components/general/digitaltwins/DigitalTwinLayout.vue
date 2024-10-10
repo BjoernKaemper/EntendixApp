@@ -60,10 +60,6 @@ export default {
   }
 }
 
-h1 {
-  @include content-headline;
-}
-
 p,
 label {
   @include content;

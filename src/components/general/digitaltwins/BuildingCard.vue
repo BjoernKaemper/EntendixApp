@@ -1,13 +1,14 @@
 <template>
   <div class="card">
-    <h1>{{ buildingName }}</h1>
+    <h2>{{ buildingName }}</h2>
     <img
       :src="BuildingCardPreview"
-      :alt="`Schema des Gebäudes ${buildingName}`
-      ">
+      :alt="`Schema des Gebäudes ${buildingName}`"
+    />
     <ButtonComponent
       text="Zur Verwaltung"
-      :primary="true"
+      state="primary"
+      @click="openBuilding()"
     />
   </div>
 </template>
@@ -26,6 +27,10 @@ export default {
      */
     buildingName: {
       type: String as PropType<string>,
+      required: true,
+    },
+    openBuilding: {
+      type: Function as PropType<() => void>,
       required: true,
     },
   },
@@ -58,7 +63,8 @@ export default {
     }
   }
 
-  h1 {
+  h2 {
     @include section-headline;
+    color: $dark-green;
   }
 </style>

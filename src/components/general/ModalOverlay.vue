@@ -14,12 +14,11 @@
           <ButtonComponent
             v-if="!hasFooterSlot"
             @click="close"
-            :primary="false"
             text="Abbrechen"
             :icon="IconTypes.CLOSE" />
           <ButtonComponent
             v-if="!hasFooterSlot"
-            :primary="true"
+            state="primary"
             text="Akzeptieren"
             :icon="IconTypes.CHECK_MARK" />
           <slot name="footer" />

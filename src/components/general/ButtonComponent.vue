@@ -1,5 +1,5 @@
 <template>
-  <button type="button" :class="colorClass">
+  <button type="button" :class="state">
     {{ text }}
     <component :is="iconClass" />
   </button>
@@ -16,6 +16,7 @@ import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
 import ArrowIcon from '@/components/icons/ArrowIcon.vue';
 import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
 import AddIcon from '@/components/icons/AddIcon.vue';
+import type { PropType } from 'vue';
 
 export default {
   name: 'ButtonComponent',
@@ -50,19 +51,15 @@ export default {
       default: '',
     },
     /**
-     * The primary state of the button.
-     * @type {boolean}
-     * @default false
+     * The state of the button.
+     * @type {string}
      */
-    primary: {
-      type: Boolean,
-      default: false,
+    state: {
+      type: String as PropType<'primary' | 'tertiary'>,
+      default: '',
     },
   },
   computed: {
-    colorClass(): string {
-      return this.primary ? 'primary' : '';
-    },
     iconClass(): IconTypes {
       switch (this.icon) {
         case IconTypes.ARROW:
@@ -107,6 +104,11 @@ button {
   &.primary {
     background-color: $light-purple;
     border-color: $light-purple;
+  }
+
+  &.tertiary {
+    background-color: $lightest;
+    border: 1px solid $light-purple;
   }
 
   & > * {

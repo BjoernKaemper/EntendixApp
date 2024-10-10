@@ -1,124 +1,112 @@
 <template>
-  <div>
-    <div :class="['grid-wrapper', { 'grid-wrapper--sidebar-open': isSidebarOpen }]">
-      <div class="grid-wrapper--left">
-        <h1>{{ 'TH Köln, Campus Deutz'}}</h1>
-        <img src="@/assets/placeholder-campus-deutz.png" alt="image of {{ buildingName }}">
-        <h3>Informationen über die Liegenschaft</h3>
-        <div class="group">
-          <label for="street-input">Straße</label>
-          <input id="street-input" type="text" placeholder="Betzdorfer Straße" />
-        </div>
-        <div class="group">
-          <label for="plz-input">PLZ</label>
-          <input id="plz-input" type="text" placeholder="50679" />
-        </div>
-        <div class="group">
-          <label for="city-input">Stadt</label>
-          <input id="city-input" type="text" placeholder="Köln" />
-        </div>
-        <div class="group">
-          <label for="land-input">Land</label>
-          <input id="land-input" type="text" placeholder="Deutschland" />
-        </div>
+  <DigitalTwinLayout>
+    <template #left>
+      <h1>{{ siteName || 'Loading' }}</h1>
+      <BuildingCardLoading v-if="isLoading" />
+      <SiteDetails v-else-if="site" :site="site" />
+    </template>
+    <template #right>
+      <h1>Gebäude in der Liegenschaft</h1>
+      <div class="digital-twin-site__buildings">
+        <BuildingCardLoading v-if="isLoading" />
+        <BuildingCard
+          v-else
+          v-for="(building, idx) in site?.data.buildings"
+          :key="idx"
+          :building-name="building.data.buildingName"
+        />
       </div>
-      <div class="grid-wrapper--right">
-        <h1>Gebäude in der Liegenschaft</h1>
-        <div>
-          <BuildingCard buildingName="IWZ" />
-          <BuildingCard buildingName="Halle West" />
-          <BuildingCard buildingName="Halle Süd" />
-          <BuildingCard buildingName="Halle Ost" />
-          <BuildingCard buildingName="Halle Nord" />
-        </div>
-      </div>
-      <SideBar @toggle-sidebar="toggleSidebar" />
-    </div>
-  </div>
+    </template>
+  </DigitalTwinLayout>
 </template>
 
 <script lang="ts">
+import DigitalTwinLayout from '@/components/general/digitaltwins/DigitalTwinLayout.vue';
 import BuildingCard from '@/components/general/digitaltwins/BuildingCard.vue';
-import SideBar from '@/components/general/SideBar.vue';
+import BuildingCardLoading from '@/components/general/digitaltwins/BuildingCardLoading.vue';
+import SiteDetails from '@/components/general/digitaltwins/SiteDetails.vue';
+
+import { useGeneralStore } from '@/store/general';
+import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
+import { mapStores } from 'pinia';
 
 export default {
   components: {
-    SideBar,
+    DigitalTwinLayout,
     BuildingCard,
+    BuildingCardLoading,
+    SiteDetails,
   },
   data() {
     return {
-      isSidebarOpen: false,
+      siteName: '',
+      street: '',
+      zipCode: '',
+      city: '',
+      country: '',
     };
   },
+  created() {
+    this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;
+  },
+  computed: {
+    ...mapStores(useGeneralStore),
+
+    site(): SiteWithBuildinginformation | null {
+      return this.generalStore.siteState.site;
+    },
+
+    isLoading(): boolean {
+      return this.generalStore.siteState.isLoading;
+    },
+  },
   methods: {
-    toggleSidebar(state: boolean) {
-      this.isSidebarOpen = state;
+    openBuilding(siteid: string, siteName: string, buildingid: string, buildingName: string) {
+      this.$router.push({
+        name: 'Monitoring_Site_Building',
+        params: {
+          buildingparams: JSON.stringify({
+            siteid: encodeURIComponent(siteid),
+            siteName,
+            buildingid: encodeURIComponent(buildingid),
+            buildingName,
+          }),
+        },
+      });
+    },
+  },
+  watch: {
+    site: {
+      handler() {
+        if (this.site?.data.address) {
+          this.street = this.site.data.address.street;
+          this.zipCode = this.site.data.address.zipcode;
+          this.city = this.site.data.address.cityTown;
+          this.country = this.site.data.address.nationalCode;
+        }
+      },
+      immediate: true,
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-  .grid-wrapper {
+.digital-twin-site {
+  &__buildings {
     display: grid;
-    grid-template-columns: 1fr 2fr 80px; // Sidebar closed, width 0
-    transition: grid-template-columns 0.3s ease; // Smooth transition on layout change
-    gap: 2rem;
-
-    &--sidebar-open {
-    grid-template-columns: 1fr 2fr 355px; // Sidebar open, width 355px
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    flex-wrap: wrap;
+    gap: $s;
   }
+}
 
-    &--left {
-      display: flex;
-      flex-direction: column;
-      gap: $s;
+h1 {
+  @include content-headline;
+}
 
-      img {
-        aspect-ratio: 3 / 2;
-        border-radius: $border-radius;
-      }
-    }
-
-    &--right > div {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(200px, 1fr));
-      flex-wrap: wrap;
-      gap: $s;
-    }
-  }
-
-  h1 {
-    @include content-headline;
-  }
-
-  h3 {
-    @include content-subtitle;
-  }
-
-  p, label {
-    @include content;
-  }
-
-  .group {
-    display: flex;
-    flex-direction: column;
-    gap: $base-size;
-  }
-
-  input {
-    background-color: $lightest;
-    padding: $base-size $xxs;
-    border-radius: $border-radius;
-    border: 1px solid $light-purple;
-
-    &::placeholder {
-      @include content;
-    }
-
-    &:focus {
-      outline: none;
-    }
-  }
+p,
+label {
+  @include content;
+}
 </style>

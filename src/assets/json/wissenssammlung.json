@@ -9,7 +9,7 @@
           "en": "The heat supply in buildings is provided by systems such as central heating, district heating, heat pumps or solar systems. Important components are boilers, heating circuits, heat exchangers, thermostats and control technology. Typical problems are failures due to wear and tear, incorrect settings of the control technology, uneven heat distribution and air in the heating system. Common error patterns include cold radiators, inefficient energy use and high operating costs. Regular maintenance and the use of modern control systems help to minimize these problems."
         }
       ]
-    }, 
+    },
     {
       "id": 2,
       "title": "Klimatisierung",
@@ -27,6 +27,16 @@
         {
           "de": "Die Elektroinstallation in Gebäuden umfasst Systeme wie Stromversorgung, Beleuchtung, Steckdosen, Schalter, Sicherungen und Leitungen. Wichtige Komponenten sind Zählerkästen, Verteilerdosen, Schaltkästen, Kabelkanäle und Schutzschalter. Typische Probleme sind Ausfälle durch Überlastung, Kurzschluss, Kabelbruch oder Feuchtigkeit. Häufige Fehlerbilder umfassen defekte Steckdosen, ausgefallene Beleuchtung und defekte Sicherungen. Eine regelmäßige Wartung und die Nutzung moderner Schutztechnik helfen, diese Probleme zu minimieren.",
           "en": "The electrical installation in buildings includes systems such as power supply, lighting, sockets, switches, fuses and cables. Important components are meter boxes, distribution boxes, switch boxes, cable ducts and protective switches. Typical problems are failures due to overload, short circuit, cable breakage or moisture. Common error patterns include defective sockets, failed lighting and defective fuses. Regular maintenance and the use of modern protection technology help to minimize these problems."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Lufttechnische Anlagen",
+      "description": [
+        {
+          "de": "Lorem Ipsum.",
+          "en": "Lorem Ipsum."
         }
       ]
     }

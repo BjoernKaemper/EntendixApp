@@ -1,7 +1,7 @@
 <template>
-  <button type="button" :class="colorClass">
+  <button type="button" :class="[colorClass, size, onlyIconClass]">
     {{ text }}
-    <component :is="iconClass" />
+    <component v-if="icon" :is="iconName" />
   </button>
 </template>
 
@@ -16,6 +16,8 @@ import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
 import ArrowIcon from '@/components/icons/ArrowIcon.vue';
 import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
 import AddIcon from '@/components/icons/AddIcon.vue';
+import CommentIcon from '@/components/icons/CommentIcon.vue';
+import SettingsIcon from '@/components/icons/SettingsIcon.vue';
 
 export default {
   name: 'ButtonComponent',
@@ -29,6 +31,8 @@ export default {
     InfoCircleIcon,
     AddIcon,
     CloseIcon,
+    CommentIcon,
+    SettingsIcon,
   },
   props: {
     /**
@@ -38,7 +42,7 @@ export default {
      */
     text: {
       type: String,
-      default: '-',
+      default: '',
     },
     /**
      * The icon of the button.
@@ -46,8 +50,8 @@ export default {
      * @default ''
      */
     icon: {
-      type: String as () => IconTypes,
-      default: '',
+      type: [String as () => IconTypes, Boolean],
+      default: false,
     },
     /**
      * The primary state of the button.
@@ -58,12 +62,24 @@ export default {
       type: Boolean,
       default: false,
     },
+    /**
+     * The size of the button.
+     * @type {'normal' | 'small' }
+     * @default 'normal'
+     */
+    size: {
+      type: String as () => 'normal' | 'small',
+      default: 'normal',
+    },
   },
   computed: {
     colorClass(): string {
       return this.primary ? 'primary' : '';
     },
-    iconClass(): IconTypes {
+    onlyIconClass(): string {
+      return this.text === '' ? 'only-icon' : '';
+    },
+    iconName(): IconTypes {
       switch (this.icon) {
         case IconTypes.ARROW:
           return IconTypes.ARROW;
@@ -83,8 +99,12 @@ export default {
           return IconTypes.ADD;
         case IconTypes.CLOSE:
           return IconTypes.CLOSE;
+        case IconTypes.COMMENT:
+          return IconTypes.COMMENT;
+        case IconTypes.SETTINGS:
+          return IconTypes.SETTINGS;
         default:
-          return IconTypes.ARROW;
+          return IconTypes.QUESTION_MARK;
       }
     },
   },
@@ -92,25 +112,33 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 button {
   border: 1px solid $darken;
   border-radius: $border-radius;
-  padding: $base-size 0 $base-size $xxs;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: $base-size;
+  gap: $xxxs;
   width: fit-content;
   cursor: pointer;
-
+  &.small {
+    padding: $xxxs;
+    @include meta-information;
+    > svg {
+      width: $xs;
+      height: $xs;
+    }
+  }
+  &.normal {
+    &.only-icon {
+      padding: $xxxs;
+    }
+    padding: $xxxs $xxs $xxxs $xxs;
+    @include content;
+  }
   &.primary {
     background-color: $light-purple;
     border-color: $light-purple;
-  }
-
-  & > * {
-    margin-right: $base-size;
   }
 }
 </style>

@@ -1,4 +1,6 @@
 import { Auth } from 'aws-amplify';
+import { AlertTypes } from '@/types/enums/AlertTypes';
+import { useGeneralStore } from '../store/general';
 
 export default {
   /**
@@ -22,7 +24,7 @@ export default {
     const CONTENT_TYPE = 'content-type';
 
     try {
-      const response = await fetch(url, { ...defaultOptions, ...(options) });
+      const response = await fetch(url, { ...defaultOptions, ...options });
 
       if (response.headers.get(CONTENT_TYPE)?.includes('application/json')) {
         return await response.json();
@@ -32,6 +34,12 @@ export default {
       throw new Error('API call failed, unexpected response type');
     } catch (error) {
       // @TODO: Implement global error handler
+      const generalStore = useGeneralStore();
+      generalStore.addAlert(
+        AlertTypes.ERROR,
+        'Beim Laden der Daten ist ein Fehler aufgetreten. Bitte versuche es zu einem späteren Zeitpunkt erneut.',
+        'Fehler beim Laden der Daten',
+      );
       // eslint-disable-next-line no-console
       console.error('API call failed', error);
       throw error;

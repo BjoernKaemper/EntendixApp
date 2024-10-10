@@ -161,38 +161,6 @@ export const useGeneralStore = defineStore('general', {
       this.windowDimensions.height = window.innerHeight;
     },
 
-    /**
-     * Load alerts for the application
-     * @returns {Promise<void>}
-     */
-    async loadAlerts(): Promise<void> {
-      // @TODO Implement loading of alerts
-      this.alerts = [
-        {
-          id: uuidv4(),
-          title: 'Notification Title 1',
-          type: AlertTypes.ERROR,
-          description:
-            'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
-          time: DateTime.now().toFormat('HH:mm'),
-        },
-        {
-          id: uuidv4(),
-          title: 'Notification Title 2',
-          type: AlertTypes.SUCCESS,
-          description:
-            'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ',
-          time: DateTime.now().toFormat('HH:mm'),
-        },
-        {
-          id: uuidv4(),
-          title: 'Notification Title 3',
-          type: AlertTypes.SUCCESS,
-          description: 'Lorem ipsum dolor sit amet.',
-          time: DateTime.now().toFormat('HH:mm'),
-        },
-      ];
-    },
 
     /**
      * Add a new alert to the alert list

@@ -3,9 +3,10 @@
     <EntendixLogo />
     <nav>
       <ul>
-        <li v-for="(navItem, idx) in navItems" :key="idx">
+        <!-- eslint-disable-next-line vue/no-use-v-if-with-v-for -->
+        <li v-if="!isHomePage" v-for="(navItem, idx) in navItems" :key="idx">
           <router-link
-            :to="navItem.href"
+            :to="createNavHref(navItem.href)"
             :class="{ active: isActive(navItem.href), isHomePage }"
           >
             <component :is="navItem.icon" />
@@ -14,11 +15,7 @@
         </li>
         <li>
           <!-- TODO: click logs out, propably a dropdown opens in the future -->
-          <button
-            type="button"
-            @click="auth.signOut"
-            @keydown.enter="auth.signOut"
-          >
+          <button type="button" @click="auth.signOut" @keydown.enter="auth.signOut">
             <ProfileIcon />
           </button>
         </li>
@@ -42,21 +39,31 @@ export default {
     HomeIcon,
     MonitoringIcon,
   },
-  props: {
-    navItems: {
-      type: Array<{ icon: string, href: string; name: string }>,
-      default: () => [],
-    },
+  data() {
+    return {
+      navItems: [
+        { icon: 'HomeIcon', name: 'Digitale Zwillinge', href: '/digitaltwins' },
+        { icon: 'MonitoringIcon', name: 'Monitoring', href: '/monitoring' },
+      ],
+    };
   },
   methods: {
     isActive(route: string): boolean {
       return this.$route.path.includes(route);
     },
+    createNavHref(href: string): string {
+      const route = this.$route.path;
+      if (route.includes(href)) {
+        // Link will linking to the current page
+        return route;
+      }
+      // Link will link to the other page type, so we replace the type-part of the route
+      return route.replace(this.navItems.find((item) => item.href !== href)!.href, href);
+    },
   },
   computed: {
     isHomePage(): boolean {
-      // @TODO: fix homepage path when level 0 is ready
-      return this.$route.path === '/monitoring';
+      return this.$route.path === '/';
     },
   },
   setup() {
@@ -82,7 +89,7 @@ export default {
     color: white;
   }
 
-  > nav> ul {
+  > nav > ul {
     list-style: none;
     display: flex;
     align-items: center;

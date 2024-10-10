@@ -14,7 +14,7 @@
     </Authenticator>
     <template v-if="auth.authStatus === 'authenticated'">
       <header ref="header">
-        <NavBar :navItems="navItems" />
+        <NavBar />
         <Breadcrumbs />
       </header>
       <main :style="mainHeight">
@@ -61,11 +61,6 @@ window.addEventListener('resize', () => generalStore.setWindowDimensions());
 
 // Starting the global clock
 generalStore.updateGlobalTime();
-
-const navItems = [
-  { icon: 'HomeIcon', name: 'Digitale Zwillinge', href: '/digitaltwins' },
-  { icon: 'MonitoringIcon', name: 'Monitoring', href: '/monitoring' },
-];
 
 const header = ref<HTMLElement | null>(null);
 

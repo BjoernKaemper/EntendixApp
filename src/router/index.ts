@@ -1,10 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useGeneralStore } from '@/store/general';
-import HomeGeneral from '@/views/home/home_general.vue';
+import HomeGeneral from '@/views/home/Home.vue';
 import DemoView from '@/views/demo/DemoView.vue';
 
 // monitoring views
-import Monitoring from '@/views/monitoring/MonitoringDefault.vue';
 import Monitoring_Site from '@/views/monitoring/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue';
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
@@ -19,6 +18,10 @@ const routes = [
     component: HomeGeneral,
     meta: {
       breadcrumb: () => [{ title: 'Home', to: '/' }],
+    },
+    beforeEnter: () => {
+      const generalStore = useGeneralStore();
+      generalStore.loadBaseInformations();
     },
   },
   {
@@ -46,7 +49,6 @@ const routes = [
   //   component: DigitalTwins_Site, // TODO: Doesn't exist right now
   //   meta: {
   //     breadcrumb: (route: any) => [
-  //       { title: 'Digital Twins', to: '/digitaltwins' },
   //       {
   //         title: `${JSON.parse(route.params.siteparams).siteName}`,
   //         to: `/digitaltwins/site/${encodeURIComponent(route.params.siteparams)}`,
@@ -66,7 +68,6 @@ const routes = [
   //         siteName: params.siteName,
   //       });
   //       return [
-  //         { title: 'Digital Twins', to: '/digitaltwins' },
   //         {
   //           title: params.siteName,
   //           to: `/digitaltwins/site/${siteParams}`,
@@ -90,24 +91,11 @@ const routes = [
     },
   },
   {
-    path: '/monitoring',
-    name: 'Monitoring',
-    component: Monitoring,
-    meta: {
-      breadcrumb: () => [{ title: 'Monitoring', to: '/monitoring' }],
-    },
-    beforeEnter: () => {
-      const generalStore = useGeneralStore();
-      generalStore.loadBaseInformations();
-    },
-  },
-  {
     path: '/monitoring/site/:siteparams',
     name: 'Monitoring_Site',
     component: Monitoring_Site,
     meta: {
       breadcrumb: (route: any) => [
-        { title: 'Monitoring', to: '/monitoring' },
         {
           title: `${JSON.parse(route.params.siteparams).siteName}`,
           to: `/monitoring/site/${encodeURIComponent(route.params.siteparams)}`,
@@ -131,7 +119,6 @@ const routes = [
           siteName: params.siteName,
         });
         return [
-          { title: 'Monitoring', to: '/monitoring' },
           {
             title: params.siteName,
             to: `/monitoring/site/${siteParams}`,
@@ -170,7 +157,6 @@ const routes = [
           buildingName: params.buildingName,
         });
         return [
-          { title: 'Monitoring', to: '/monitoring' },
           {
             title: params.siteName,
             to: `/monitoring/site/${siteParams}`,
@@ -224,7 +210,6 @@ const routes = [
           subsectionName: params.subsectionName,
         });
         return [
-          { title: 'Monitoring', to: '/monitoring' },
           {
             title: params.siteName,
             to: `/monitoring/site/${siteParams}`,

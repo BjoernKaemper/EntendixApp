@@ -22,15 +22,23 @@ const routes = [
     },
   },
   {
-    path: '/digitaltwins',
+    path: '/digitaltwins/site/:siteparams',
     name: 'DigitalTwins',
-    component: DigitalTwinsSite, // TODO: Doesn't exist right now
+    component: DigitalTwinsSite,
     meta: {
-      breadcrumb: () => [
-        { title: 'TH Köln, Campus Deutz', to: '/digitaltwins/campus-deutz' },
-        { title: 'IWZ', to: '/digitaltwins/campus-deutz' },
+      breadcrumb: (route: any) => [
+        { title: 'Digitaler Zwillinge', to: '/digitaltwins' },
+        {
+          title: `${JSON.parse(route.params.siteparams).siteName}`,
+          to: `/monitoring/site/${encodeURIComponent(route.params.siteparams)}`,
+        },
       ],
     },
+    beforeEnter: (route: any) => {
+      const generalStore = useGeneralStore();
+      generalStore.loadSiteInformation(JSON.parse(route.params.siteparams as string).siteid);
+    },
+
   },
   // {
   //   path: '/digitaltwins/site/:siteparams',

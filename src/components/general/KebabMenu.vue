@@ -68,7 +68,6 @@ export default {
       this.isOpen = !this.isOpen;
     },
     optionSelected(emits: string) {
-      console.log(emits);
       this.$emit(emits);
       this.isOpen = false;
     },

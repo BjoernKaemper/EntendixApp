@@ -14,10 +14,17 @@
       </p>
       <div v-else id="comments-modal-overlay__body__comments">
         <div v-for="(comment, idx) in comments" :key="idx" class="comment">
-          <p>
-            <span>{{ prettierDate(comment.referringTimestamp) }}</span>
-            <!-- <span v-if="comments.endDate"> - {{ comment.endDate }}</span> -->
-          </p>
+          <div class="comment__header">
+            <p>
+              <span>{{ prettierDate(comment.referringTimestamp) }}</span>
+              <!-- <span v-if="comments.endDate"> - {{ comment.endDate }}</span> -->
+            </p>
+            <KebabMenu
+              :options="[{ icon: IconTypes.DELETE, text: 'Kommentar löschen', emits: 'delete' }]"
+              @delete="deleteComment(comment.id)"
+              class="comment__header__kebab-menu"
+            />
+          </div>
           <p>{{ comment.annotationText }}</p>
           <span class="comment__timestamp">
             verfasst von {{ comment.creator }} am {{ prettierDate(comment.timestampOfCreation) }}
@@ -71,10 +78,11 @@
 </template>
 
 <script lang="ts">
-import ModalOverlay from '@/components/general/ModalOverlay.vue';
+import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
 import NotesIcon from '@/components/icons/NotesIcon.vue';
 import CalendarIcon from '@/components/icons/CalendarIcon.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import KebabMenu from '@/components/general/KebabMenu.vue';
 import { IconTypes } from '@/types/enums/IconTypes';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
 import type { Annotation } from '@/types/global/kpi/Kpi';
@@ -86,6 +94,7 @@ export default {
     NotesIcon,
     CalendarIcon,
     ButtonComponent,
+    KebabMenu,
   },
   props: {
     /**
@@ -192,6 +201,11 @@ export default {
     prettierDate(date: string): string {
       return DateTime.fromJSDate(new Date(date)).toFormat('dd.MM.yyyy HH:mm');
     },
+    deleteComment(id: string): void {
+      // @TODO handle deletion of comment
+      // eslint-disable-next-line no-console
+      console.log('delete comment with id:', id);
+    },
   },
 };
 </script>
@@ -229,9 +243,24 @@ export default {
         display: flex;
         flex-direction: column;
         gap: $base-size;
-        padding: $s;
+        padding: $xxs;
         border-radius: $border-radius;
 
+        &__header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          p {
+            @include content;
+            span {
+              @include meta-information;
+              font-weight: bold;
+            }
+          }
+          &__kebab-menu {
+            flex-grow: 1;
+          }
+        }
         p {
           @include content;
           span {

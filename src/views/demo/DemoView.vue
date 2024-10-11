@@ -109,14 +109,14 @@
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
-import ModalOverlay from '@/components/general/ModalOverlay.vue';
-import MetricsLimitsOverlayModal from '@/components/general/MetricsLimitsOverlayModal.vue';
+import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
+import MetricsLimitsOverlayModal from '@/components/general/modals/MetricsLimitsOverlayModal.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import CommentsOverlayModal from '@/components/general/modals/CommentsOverlayModal.vue';
 
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
-import CommentsOverlayModal from '@/components/general/CommentsOverlayModal.vue';
 
 export default {
   components: {

@@ -10,4 +10,5 @@ export enum IconTypes {
   CLOSE = 'CloseIcon',
   COMMENT = 'CommentIcon',
   SETTINGS = 'SettingsIcon',
+  DELETE = 'DeleteIcon',
 }

@@ -43,26 +43,12 @@
       startDate="@TODO"
       endDate="@TODO"
     />
-    <ModalOverlay :isOpen="settingsOpen" @close="toggleSettings">
-      <template #header>
-        <p>Title of Modal</p>
-      </template>
-      <template #body>
-        <p>
-          Ein effizientes Gebäudemanagement beginnt mit klaren Strukturen. Mit unserer Lösung
-          behalten Sie jederzeit den Überblick über alle relevanten Prozesse – von der
-          Instandhaltung bis zur Optimierung Ihrer Gebäudedaten. Transparenz und Übersichtlichkeit
-          stehen dabei im Vordergrund. Unsere intuitive Plattform ermöglicht es Ihnen, Ressourcen
-          gezielt einzusetzen und Arbeitsabläufe zu vereinfachen.
-        </p>
-        <p>
-          Dank moderner Technologien wie dem Digitalen Zwilling sind Sie in der Lage, den Zustand
-          Ihrer Gebäude in Echtzeit zu überwachen und fundierte Entscheidungen zu treffen. So
-          reduzieren Sie langfristig Kosten und erhöhen die Effizienz – alles auf einen Blick und
-          immer aktuell.
-        </p>
-      </template>
-    </ModalOverlay>
+    <MetricsLimitsOverlayModal
+      :isMetricsModalOpen="settingsOpen"
+      @close="toggleSettings"
+      :modal-title="kpi?.data.name?.de || topic"
+      :modal-description="kpi?.data.context?.de"
+    />
   </div>
 </template>
 
@@ -80,8 +66,8 @@ import LineChart from '@/components/general/charts/LineChart.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
-import CommentsOverlayModal from '@/components/general/CommentsOverlayModal.vue';
-import ModalOverlay from '@/components/general/ModalOverlay.vue';
+import CommentsOverlayModal from '@/components/general/modals/CommentsOverlayModal.vue';
+import MetricsLimitsOverlayModal from '@/components/general/modals/MetricsLimitsOverlayModal.vue';
 
 // vue / library imports
 import { DateTime, Interval } from 'luxon';
@@ -156,7 +142,7 @@ export default {
     LoadingSpinner,
     ButtonComponent,
     CommentsOverlayModal,
-    ModalOverlay,
+    MetricsLimitsOverlayModal,
   },
   data() {
     return {

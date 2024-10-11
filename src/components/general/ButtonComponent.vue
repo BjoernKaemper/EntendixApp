@@ -101,6 +101,8 @@ button {
   width: fit-content;
   cursor: pointer;
 
+  @include content;
+
   &.primary {
     background-color: $light-purple;
     border-color: $light-purple;

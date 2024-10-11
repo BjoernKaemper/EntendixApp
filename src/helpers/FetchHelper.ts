@@ -1,5 +1,6 @@
 import { Auth } from 'aws-amplify';
-import { AlertTypes } from '@/types/enums/AlertTypes';
+import { AlertMessageTypes } from '@/types/enums/AlertMessageTypes';
+import { AlertMessages } from '@/assets/json/AlertMessages';
 import { useGeneralStore } from '../store/general';
 
 export default {
@@ -35,11 +36,7 @@ export default {
     } catch (error) {
       // @TODO: Implement global error handler
       const generalStore = useGeneralStore();
-      generalStore.addAlert(
-        AlertTypes.ERROR,
-        'Beim Laden der Daten ist ein Fehler aufgetreten. Bitte versuche es zu einem späteren Zeitpunkt erneut.',
-        'Fehler beim Laden der Daten',
-      );
+      generalStore.addAlert(AlertMessages[AlertMessageTypes.FETCH_ERROR]);
       // eslint-disable-next-line no-console
       console.error('API call failed', error);
       throw error;

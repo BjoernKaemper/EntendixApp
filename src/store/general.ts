@@ -13,7 +13,6 @@ import type { Subsection } from '@/types/global/subsections/Subsection';
 import type { Alert } from '@/types/Alert';
 
 // Helper Imports
-import { AlertTypes } from '@/types/enums/AlertTypes';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import type { Plant } from '@/types/global/plant/Plant';
@@ -163,18 +162,14 @@ export const useGeneralStore = defineStore('general', {
 
     /**
      * Add a new alert to the alert list
-     * @param {AlertTypes} alertType The type of the alert
-     * @param {string} message The message of the alert
-     * @param {string} title The title of the alert
+     * @param {Alert} alert
      * @returns {string} The id of the alert
      */
-    addAlert(alertType: AlertTypes, message: string, title: string): string {
+    addAlert(alert: Alert): string {
       const alertId = uuidv4();
       this.alerts.push({
+        ...alert,
         id: alertId,
-        title,
-        type: alertType,
-        description: message,
         time: DateTime.now().toFormat('HH:mm'),
       });
       return alertId;

@@ -73,10 +73,20 @@ export default {
       required: true,
       default: false,
     },
+    /**
+     * The title of the modal.
+     * @type {string}
+     * @required
+     */
     modalTitle: {
       type: String,
       required: true,
     },
+    /**
+     * The description of the modal.
+     * @type {string}
+     * @required
+     */
     modalDescription: {
       type: String,
       required: true,

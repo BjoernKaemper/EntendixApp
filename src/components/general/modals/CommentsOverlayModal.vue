@@ -17,7 +17,6 @@
           <div class="comment__header">
             <p>
               <span>{{ prettierDate(comment.referringTimestamp) }}</span>
-              <!-- <span v-if="comments.endDate"> - {{ comment.endDate }}</span> -->
             </p>
             <KebabMenu
               :options="[{ icon: IconTypes.DELETE, text: 'Kommentar löschen', emits: 'delete' }]"
@@ -107,26 +106,56 @@ export default {
       type: Boolean,
       required: true,
     },
+    /**
+     * The name of the thing for which the comment is, e.g. "Energieverbrauch"
+     * @type {string}
+     * @required
+     */
     commentName: {
       type: String,
       required: true,
     },
+    /**
+     * The type of the module where the thing which has the comments is in, e.g. "Gebäude"
+     * @type {ModuleTypes}
+     * @required
+     */
     commentType: {
       type: String as () => ModuleTypes,
       required: true,
     },
+    /**
+     * The name of the module where the comment is in, e.g. "Gebäude 1"
+     * @type {string}
+     * @required
+     */
     commentIn: {
       type: String,
       required: true,
     },
+    /**
+     * The start date of the comment period.
+     * @type {string}
+     * @required
+     */
     startDate: {
       type: String,
       required: true,
     },
+    /**
+     * The end date of the comment period.
+     * @type {string}
+     * @required
+     */
     endDate: {
       type: String,
       required: true,
     },
+    /**
+     * The comments for the selected period.
+     * @type {Array<Annotation>}
+     * @default []
+     */
     comments: {
       type: Array<Annotation>,
       default: () => [],
@@ -165,7 +194,10 @@ export default {
       const endDate = document.getElementById('end-date') as HTMLInputElement;
       // add a unique id to the comment using hash function
       const id: number = Math.floor(Math.random() * 1000000);
-      const user: string = window.localStorage.getItem('CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser') || 'User'; // @TODO get user from backend
+      const user: string =
+        window.localStorage.getItem(
+          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
+        ) || 'User'; // @TODO get user from backend
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 
       if (!this.validateComment(comment.value, new Date(startDate.value))) {

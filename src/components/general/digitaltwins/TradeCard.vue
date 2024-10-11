@@ -12,7 +12,7 @@
       </p>
     </div>
     <footer class="trade-card__footer" v-if="plantTypes">
-      <ButtonComponent state="primary" text="Komponenten" :icon="IconTypes.ARROW" />
+      <ButtonComponent @click="openTrade()" state="primary" text="Komponenten" :icon="IconTypes.ARROW" />
     </footer>
   </div>
 </template>
@@ -61,6 +61,13 @@ export default {
     isLoading: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * Function to open current trade page
+     */
+    openTrade: {
+      type: Function,
+      default: () => {},
     },
   },
   data() {

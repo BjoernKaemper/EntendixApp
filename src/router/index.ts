@@ -11,6 +11,7 @@ import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/Monito
 // digital twins views
 import DigitalTwins_Site from '@/views/digitaltwins/DigitalTwinsSite.vue';
 import DigitalTwins_Site_Building from '@/views/digitaltwins/DigitalTwinBuilding.vue';
+import DigitalTwins_Site_Building_Subsection from '@/views/digitaltwins/DigitalTwinSubsection.vue';
 
 const routes = [
   {
@@ -73,6 +74,51 @@ const routes = [
         generalStore.loadSiteInformation(params.siteid);
       }
       generalStore.loadBuildingInformation(params.buildingid);
+    },
+  },
+  {
+    path: '/digitaltwins/subsection/:subsectionparams',
+    name: 'DigitalTwins_Site_Building_Subsection',
+    component: DigitalTwins_Site_Building_Subsection,
+    meta: {
+      breadcrumb: (route: any) => {
+        const params = JSON.parse(route.params.subsectionparams);
+        const siteParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+        });
+        const buildingParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+          buildingid: encodeURIComponent(params.buildingid),
+          buildingName: params.buildingName,
+        });
+        return [
+          {
+            title: params.siteName,
+            to: `/digitaltwins/site/${siteParams}`,
+          },
+          {
+            title: params.buildingName,
+            to: `/digitaltwins/building/${buildingParams}`,
+          },
+          {
+            title: params.subsectionName,
+            to: `/digitaltwins/subsection/${encodeURIComponent(route.params.subsectionparams)}`,
+          },
+        ];
+      },
+    },
+    beforeEnter: (route: any) => {
+      const generalStore = useGeneralStore();
+      const params = JSON.parse(route.params.subsectionparams as string);
+      if (generalStore.siteState.site?.id !== params.siteid) {
+        generalStore.loadSiteInformation(params.siteid);
+      }
+      if (generalStore.buildingState.building?.id !== params.buildingid) {
+        generalStore.loadBuildingInformation(params.buildingid);
+      }
+      generalStore.loadSubsectionInformation(params.subsectionid);
     },
   },
 

@@ -13,6 +13,7 @@
           :icon="trade.icon"
           :name="trade.title"
           :plantTypes="'plantCounter' in trade ? trade.plantCounter : undefined"
+          :openTrade="'openTrade' in trade ? trade.openTrade : undefined"
           :isLoading="subSectionsLoading"
         />
       </div>
@@ -48,6 +49,10 @@ export default {
   },
   computed: {
     ...mapStores(useGeneralStore),
+
+    site() {
+      return this.generalStore.siteState.site;
+    },
 
     building() {
       return this.generalStore.buildingState.building;
@@ -95,8 +100,28 @@ export default {
         return {
           ...trade,
           plantCounter,
+          openTrade: () => this.openSubsection(trade.title, tradeId),
         };
       });
+    },
+  },
+  methods: {
+    openSubsection(subsectionName: string, subsectionid: string) {
+      if (this.site && this.building) {
+        this.$router.push({
+          name: 'DigitalTwins_Site_Building_Subsection',
+          params: {
+            subsectionparams: JSON.stringify({
+              siteid: encodeURIComponent(this.site!.id),
+              siteName: this.site!.data.siteName,
+              buildingid: encodeURIComponent(this.building!.id),
+              buildingName: this.building!.data.buildingName,
+              subsectionName,
+              subsectionid: encodeURIComponent(subsectionid),
+            }),
+          },
+        });
+      }
     },
   },
   created() {

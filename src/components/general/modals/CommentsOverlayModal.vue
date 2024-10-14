@@ -1,32 +1,33 @@
 <template>
-  <ModalOverlay :isOpen="isCommentsModalOpen" @close="closeMetricsModal">
+  <ModalOverlay :isOpen="isCommentsModalOpen">
     <template #header>
       <div id="comments-modal-overlay__header">
-        <h3>Kommentare für "@TODO insert kpi name"</h3>
-        <p>in der Liegenschaft "@TODO insert site name"</p>
-        <p>vom @TODO insert Date & Time here</p>
+        <h3>Kommentare für "{{ commentName }}"</h3>
+        <p>in {{ commentType }} "{{ commentIn }}"</p>
+        <p>vom {{ startDate }} bis {{ endDate }}</p>
       </div>
     </template>
     <template #body>
-      <p
-        v-if="!comments.length"
-        id="comments-modal-overlay__body__text">
-        Es gibt keine Kommentare für den gewählten Zeitraum.
-        Ändern Sie den Zeitraum oder fügen Sie einen neuen Kommentar hinzu.
+      <p v-if="!comments.length" id="comments-modal-overlay__body__text">
+        Es gibt keine Kommentare für den gewählten Zeitraum. Ändern Sie den Zeitraum oder fügen Sie
+        einen neuen Kommentar hinzu.
       </p>
-      <div
-        v-else
-        id="comments-modal-overlay__body__comments">
-        <div
-          v-for="comment in comments"
-          :key="comment.id"
-          class="comment">
-          <p>
-            <span>{{ comment.startDate }}</span>
-            <span v-if="comments.endDate"> - {{ comment.endDate }}</span>
-          </p>
-          <p>{{ comment.comment }}</p>
-          <span class="comment__timestamp">verfasst von {{ comment.user }} am {{ comment.dateOfSubmission }}</span>
+      <div v-else id="comments-modal-overlay__body__comments">
+        <div v-for="(comment, idx) in comments" :key="idx" class="comment">
+          <div class="comment__header">
+            <p>
+              <span>{{ prettierDate(comment.referringTimestamp) }}</span>
+            </p>
+            <KebabMenu
+              :options="[{ icon: IconTypes.DELETE, text: 'Kommentar löschen', emits: 'delete' }]"
+              @delete="deleteComment('TODO - Add Identifier')"
+              class="comment__header__kebab-menu"
+            />
+          </div>
+          <p>{{ comment.annotationText }}</p>
+          <span class="comment__timestamp">
+            verfasst von {{ comment.creator }} am {{ prettierDate(comment.timestampOfCreation) }}
+          </span>
         </div>
       </div>
 
@@ -69,17 +70,22 @@
         @click="submitComment"
         state="primary"
         text="Kommentar hinzufügen"
-        :icon="IconTypes.ADD" />
+        :icon="IconTypes.ADD"
+      />
     </template>
   </ModalOverlay>
 </template>
 
 <script lang="ts">
-import ModalOverlay from '@/components/general/ModalOverlay.vue';
+import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
 import NotesIcon from '@/components/icons/NotesIcon.vue';
 import CalendarIcon from '@/components/icons/CalendarIcon.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import KebabMenu from '@/components/general/KebabMenu.vue';
 import { IconTypes } from '@/types/enums/IconTypes';
+import { ModuleTypes } from '@/types/enums/ModuleTypes';
+import type { Annotation } from '@/types/global/kpi/Kpi';
+import { DateTime } from 'luxon';
 
 export default {
   components: {
@@ -87,6 +93,7 @@ export default {
     NotesIcon,
     CalendarIcon,
     ButtonComponent,
+    KebabMenu,
   },
   props: {
     /**
@@ -99,15 +106,64 @@ export default {
       type: Boolean,
       required: true,
     },
+    /**
+     * The name of the thing for which the comment is, e.g. "Energieverbrauch"
+     * @type {string}
+     * @required
+     */
+    commentName: {
+      type: String,
+      required: true,
+    },
+    /**
+     * The type of the module where the thing which has the comments is in, e.g. "Gebäude"
+     * @type {ModuleTypes}
+     * @required
+     */
+    commentType: {
+      type: String as () => ModuleTypes,
+      required: true,
+    },
+    /**
+     * The name of the module where the comment is in, e.g. "Gebäude 1"
+     * @type {string}
+     * @required
+     */
+    commentIn: {
+      type: String,
+      required: true,
+    },
+    /**
+     * The start date of the comment period.
+     * @type {string}
+     * @required
+     */
+    startDate: {
+      type: String,
+      required: true,
+    },
+    /**
+     * The end date of the comment period.
+     * @type {string}
+     * @required
+     */
+    endDate: {
+      type: String,
+      required: true,
+    },
+    /**
+     * The comments for the selected period.
+     * @type {Array<Annotation>}
+     * @default []
+     */
+    comments: {
+      type: Array<Annotation>,
+      default: () => [],
+    },
   },
   setup() {
     return {
       IconTypes,
-    };
-  },
-  data() {
-    return {
-      comments: JSON.parse(window.localStorage.getItem('comment') || '[]'),
     };
   },
   computed: {
@@ -116,9 +172,6 @@ export default {
     },
   },
   methods: {
-    closeMetricsModal() {
-      this.$emit('close');
-    },
     validateComment(comment: string, startDate: Date): boolean {
       // validate comment
       if (!comment) {
@@ -141,13 +194,14 @@ export default {
       const endDate = document.getElementById('end-date') as HTMLInputElement;
       // add a unique id to the comment using hash function
       const id: number = Math.floor(Math.random() * 1000000);
-      const user: string = window.localStorage.getItem('CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser') || 'User'; // @TODO get user from backend
+      const user: string =
+        window.localStorage.getItem(
+          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
+        ) || 'User'; // @TODO get user from backend
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 
-      if (!this.validateComment(
-        comment.value,
-        new Date(startDate.value),
-      )) {
+      if (!this.validateComment(comment.value, new Date(startDate.value))) {
+        // TODO: show error message
         return;
       }
 
@@ -173,12 +227,19 @@ export default {
       // check local storage for comments
       window.localStorage.setItem('comment', JSON.stringify(comments));
     },
+    prettierDate(date: string): string {
+      return DateTime.fromJSDate(new Date(date)).toFormat('dd.MM.yyyy HH:mm');
+    },
+    deleteComment(id: string): void {
+      // @TODO handle deletion of comment
+      // eslint-disable-next-line no-console
+      console.log('delete comment with id:', id);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
 #comments-modal-overlay {
   // header styles
   &__header {
@@ -193,7 +254,7 @@ export default {
 
   // body styles
   &__body {
-      &__text {
+    &__text {
       @include meta-information;
       text-align: center;
       max-width: 70%;
@@ -211,9 +272,24 @@ export default {
         display: flex;
         flex-direction: column;
         gap: $base-size;
-        padding: $s;
+        padding: $xxs;
         border-radius: $border-radius;
 
+        &__header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          p {
+            @include content;
+            span {
+              @include meta-information;
+              font-weight: bold;
+            }
+          }
+          &__kebab-menu {
+            flex-grow: 1;
+          }
+        }
         p {
           @include content;
           span {
@@ -295,5 +371,4 @@ export default {
     }
   }
 }
-
 </style>

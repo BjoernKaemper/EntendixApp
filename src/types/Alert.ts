@@ -9,9 +9,9 @@
  */
 
 export interface Alert {
-  id: string;
+  id?: string;
   type: string;
   title: string;
   description: string;
-  time: string;
+  time?: string;
 }

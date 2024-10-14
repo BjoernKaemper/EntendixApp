@@ -13,7 +13,6 @@ import type { Subsection } from '@/types/global/subsections/Subsection';
 import type { Alert } from '@/types/Alert';
 
 // Helper Imports
-import { AlertTypes } from '@/types/enums/AlertTypes';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import type { Plant } from '@/types/global/plant/Plant';
@@ -162,36 +161,18 @@ export const useGeneralStore = defineStore('general', {
     },
 
     /**
-     * Load alerts for the application
-     * @returns {Promise<void>}
+     * Add a new alert to the alert list
+     * @param {Alert} alert
+     * @returns {string} The id of the alert
      */
-    async loadAlerts(): Promise<void> {
-      // @TODO Implement loading of alerts
-      this.alerts = [
-        {
-          id: uuidv4(),
-          title: 'Notification Title 1',
-          type: AlertTypes.ERROR,
-          description:
-            'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
-          time: DateTime.now().toFormat('HH:mm'),
-        },
-        {
-          id: uuidv4(),
-          title: 'Notification Title 2',
-          type: AlertTypes.SUCCESS,
-          description:
-            'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ',
-          time: DateTime.now().toFormat('HH:mm'),
-        },
-        {
-          id: uuidv4(),
-          title: 'Notification Title 3',
-          type: AlertTypes.SUCCESS,
-          description: 'Lorem ipsum dolor sit amet.',
-          time: DateTime.now().toFormat('HH:mm'),
-        },
-      ];
+    addAlert(alert: Alert): string {
+      const alertId = uuidv4();
+      this.alerts.push({
+        ...alert,
+        id: alertId,
+        time: DateTime.now().toFormat('HH:mm'),
+      });
+      return alertId;
     },
 
     /**
@@ -199,7 +180,7 @@ export const useGeneralStore = defineStore('general', {
      * @param {Alert} alert
      * @returns {void}
      */
-    removeAlerts(alertId: string): void {
+    removeAlert(alertId: string): void {
       this.alerts = this.alerts.filter((alert) => alert.id !== alertId);
     },
 

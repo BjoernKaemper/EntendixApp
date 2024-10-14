@@ -81,7 +81,11 @@ export default {
     },
   },
   methods: {
-    closeAlert(alertId: string) {
+    closeAlert(alertId: string | undefined) {
+      if (!alertId) {
+        return;
+      }
+
       this.generalStore.removeAlert(alertId);
     },
   },

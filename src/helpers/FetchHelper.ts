@@ -1,7 +1,4 @@
 import { Auth } from 'aws-amplify';
-import { AlertMessageTypes } from '@/types/enums/AlertMessageTypes';
-import { AlertMessages } from '@/assets/json/AlertMessages';
-import { useGeneralStore } from '../store/general';
 
 export default {
   /**
@@ -34,9 +31,6 @@ export default {
       // @TODO: Implement global error handler
       throw new Error('API call failed, unexpected response type');
     } catch (error) {
-      // @TODO: Implement global error handler
-      const generalStore = useGeneralStore();
-      generalStore.addAlert(AlertMessages[AlertMessageTypes.FETCH_ERROR]);
       // eslint-disable-next-line no-console
       console.error('API call failed', error);
       throw error;

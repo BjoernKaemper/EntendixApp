@@ -9,14 +9,14 @@
             :to="createNavHref(navItem.href)"
             :class="{ active: isActive(navItem.href), isHomePage }"
           >
-            <component :is="navItem.icon" />
+            <MaterialSymbol :symbol="navItem.icon" />
             {{ navItem.name }}
           </router-link>
         </li>
         <li>
           <!-- TODO: click logs out, propably a dropdown opens in the future -->
           <button type="button" @click="auth.signOut" @keydown.enter="auth.signOut">
-            <ProfileIcon />
+            <MaterialSymbol :symbol="IconTypes.PROFILE" />
           </button>
         </li>
       </ul>
@@ -25,25 +25,21 @@
 </template>
 
 <script lang="ts">
-import ProfileIcon from '@/components/icons/ProfileIcon.vue';
 import EntendixLogo from '@/components/icons/EntendixLogo.vue';
-import HomeIcon from '@/components/icons/HomeIcon.vue';
-import MonitoringIcon from '@/components/icons/MonitoringIcon.vue';
-
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import { IconTypes } from '@/types/enums/IconTypes';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 export default {
   components: {
-    ProfileIcon,
     EntendixLogo,
-    HomeIcon,
-    MonitoringIcon,
+    MaterialSymbol,
   },
   data() {
     return {
       navItems: [
-        { icon: 'HomeIcon', name: 'Digitale Zwillinge', href: '/digitaltwins' },
-        { icon: 'MonitoringIcon', name: 'Monitoring', href: '/monitoring' },
+        { icon: IconTypes.HOME, name: 'Digitale Zwillinge', href: '/digitaltwins' },
+        { icon: IconTypes.MONITORING, name: 'Monitoring', href: '/monitoring' },
       ],
     };
   },
@@ -71,6 +67,7 @@ export default {
 
     return {
       auth,
+      IconTypes,
     };
   },
 };
@@ -124,9 +121,10 @@ export default {
       &:last-child {
         margin-left: $base-size;
 
-        > button > svg {
-          width: $xxl;
-          height: $xxl;
+        > button > span {
+          font-size: $xxl;
+          color: $lightest;
+          display: flex;
         }
       }
     }

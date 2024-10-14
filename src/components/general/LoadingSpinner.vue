@@ -1,6 +1,6 @@
 <template>
   <div class="loading--wrapper">
-    <LoadingIcon />
+    <MaterialSymbol :symbol="IconTypes.LOADING" />
   </div>
 </template>
 
@@ -10,25 +10,35 @@
  * @module components/general/LoadingSpinner
  * @displayName LoadingSpinner
  */
-import LoadingIcon from '@/components/icons/LoadingIcon.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+
+import { IconTypes } from '@/types/enums/IconTypes';
 
 export default {
   name: 'LoadingSpinner',
   components: {
-    LoadingIcon,
+    MaterialSymbol,
+  },
+  setup() {
+    return {
+      IconTypes,
+    };
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .loading--wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.loading--wrapper span {
+  margin: auto;
   transform: rotate(-45deg);
   animation: rotate 1.5s ease-in-out infinite;
-}
-
-.loading--wrapper svg {
-  margin: auto;
-  display: block;
 }
 
 @keyframes rotate {

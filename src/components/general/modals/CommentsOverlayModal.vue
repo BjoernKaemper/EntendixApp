@@ -194,10 +194,9 @@ export default {
       const endDate = document.getElementById('end-date') as HTMLInputElement;
       // add a unique id to the comment using hash function
       const id: number = Math.floor(Math.random() * 1000000);
-      const user: string =
-        window.localStorage.getItem(
-          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
-        ) || 'User'; // @TODO get user from backend
+      const user: string = window.localStorage.getItem(
+        'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
+      ) || 'User'; // @TODO get user from backend
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 
       if (!this.validateComment(comment.value, new Date(startDate.value))) {

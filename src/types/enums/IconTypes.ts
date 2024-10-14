@@ -8,4 +8,7 @@ export enum IconTypes {
   INFO_CIRCLE = 'InfoCircleIcon',
   ADD = 'AddIcon',
   CLOSE = 'CloseIcon',
+  COMMENT = 'CommentIcon',
+  SETTINGS = 'SettingsIcon',
+  DELETE = 'DeleteIcon',
 }

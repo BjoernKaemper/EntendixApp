@@ -20,11 +20,7 @@
         <h3 class="status-headline">Gebäude in der Liegenschaft</h3>
         <template v-if="isLoading">
           <div class="status-container--loading">
-            <StatusCard
-              v-for="index in 3"
-              :key="index"
-              :isLoading="true"
-            />
+            <StatusCard v-for="index in 3" :key="index" :isLoading="true" />
           </div>
         </template>
         <StatusCard
@@ -47,16 +43,16 @@
       <div class="performance-header">
         <h3>Performance der Liegenschaft</h3>
         <!-- @TODO: create dropdown component -->
-        <div class="dropdown">
-          Letzte 14 Tage
-        </div>
+        <div class="dropdown">Letzte 14 Tage</div>
       </div>
       <div v-if="kpis.length" class="performance-grid">
         <div v-if="kpiIsLoading" class="performance-grid--loading">
           <ChartContainer
-            v-for="(kpi, index) in (kpis && kpis.length > 0 ? kpis : 3)"
+            v-for="(kpi, index) in kpis && kpis.length > 0 ? kpis : 3"
             :key="index"
             :isLoading="kpiIsLoading"
+            :moduleType="ModuleTypes.SITE"
+            :moduleName="siteName"
           />
         </div>
         <div class="performance-grid" v-else>
@@ -66,6 +62,8 @@
             :kpi="kpi"
             :lastUpdateTimestamp="lastSiteRequestTime"
             :isLoading="isLoading"
+            :moduleType="ModuleTypes.SITE"
+            :moduleName="siteName"
           />
         </div>
       </div>
@@ -87,6 +85,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
+import { ModuleTypes } from '@/types/enums/ModuleTypes';
 
 export default {
   components: {
@@ -99,6 +98,7 @@ export default {
     return {
       ChipStatusTypes,
       ActionTypes,
+      ModuleTypes,
     };
   },
 
@@ -168,7 +168,8 @@ export default {
   grid-template-columns: 1fr 2fr;
   gap: $m;
 
-  &--left, &--right {
+  &--left,
+  &--right {
     display: flex;
     flex-direction: column;
     gap: $s;

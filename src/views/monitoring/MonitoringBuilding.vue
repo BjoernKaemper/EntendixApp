@@ -95,21 +95,16 @@
       </div>
       <div class="performance-grid">
         <!-- @TODO update status with data / remove hard coded value -->
-        <div v-if="kpiIsLoading" class="performance-grid--loading">
+        <div class="performance-grid" :class="{ 'performance-grid--loading': kpiIsLoading }">
           <ChartContainer
-            v-for="(kpi, index) in kpis && kpis.length > 0 ? kpis : 3"
+            v-for="(kpi, index) in kpis ? kpis : 3"
             :key="index"
-            :isLoading="kpiIsLoading"
-          />
-        </div>
-        <div class="performance-grid" v-else>
-          <ChartContainer
-            v-for="(kpi, idx) in kpis"
-            :key="idx"
-            :kpi="kpi"
+            :kpi="typeof kpi === 'number' ? undefined : kpi"
             :lastUpdateTimestamp="lastBuildingRequestTimestamp"
             :isLoading="kpiIsLoading"
             :status="ChipStatusTypes.SUCCESS"
+            :moduleType="ModuleTypes.BUILDING"
+            :moduleName="buildingName"
           />
         </div>
       </div>
@@ -131,6 +126,7 @@ import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 import { SemanticSubmoduleTypes } from '@/types/global/enums/SemanticSubmoduleTypes';
+import { ModuleTypes } from '@/types/enums/ModuleTypes';
 
 // component imports
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
@@ -160,6 +156,7 @@ export default {
       ComponentStatusTypes,
       ActionTypes,
       SubsectionTypes,
+      ModuleTypes,
     };
   },
 

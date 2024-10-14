@@ -51,6 +51,9 @@ export default {
     display: flex;
     flex-direction: column;
     gap: $s;
+    align-self: start;
+    position: sticky;
+    top: 0;
   }
 
   &--right {

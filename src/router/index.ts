@@ -12,6 +12,7 @@ import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/Monito
 import DigitalTwins_Site from '@/views/digitaltwins/DigitalTwinsSite.vue';
 import DigitalTwins_Site_Building from '@/views/digitaltwins/DigitalTwinBuilding.vue';
 import DigitalTwins_Site_Building_Subsection from '@/views/digitaltwins/DigitalTwinSubsection.vue';
+import DigitalTwins_Site_Building_Subsection_Plant from '@/views/digitaltwins/DigitalTwinPlant.vue';
 
 const routes = [
   {
@@ -119,6 +120,66 @@ const routes = [
         generalStore.loadBuildingInformation(params.buildingid);
       }
       generalStore.loadSubsectionInformation(params.subsectionid);
+    },
+  },
+  {
+    path: '/digitaltwins/plant/:plantparams',
+    name: 'DigitalTwins_Site_Building_Subsection_Plant',
+    component: DigitalTwins_Site_Building_Subsection_Plant,
+    meta: {
+      breadcrumb: (route: any) => {
+        const params = JSON.parse(route.params.plantparams);
+        const siteParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+        });
+        const buildingParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+          buildingid: encodeURIComponent(params.buildingid),
+          buildingName: params.buildingName,
+        });
+        const subsectionParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+          buildingid: encodeURIComponent(params.buildingid),
+          buildingName: params.buildingName,
+          subsectionid: encodeURIComponent(params.subsectionid),
+          subsectionName: params.subsectionName,
+        });
+        return [
+          {
+            title: params.siteName,
+            to: `/digitaltwins/site/${siteParams}`,
+          },
+          {
+            title: params.buildingName,
+            to: `/digitaltwins/building/${buildingParams}`,
+          },
+          {
+            title: params.subsectionName,
+            to: `/digitaltwins/subsection/${subsectionParams}`,
+          },
+          {
+            title: params.plantName,
+            to: `/digitaltwins/subsection/${encodeURIComponent(route.params.plantparams)}`,
+          },
+        ];
+      },
+    },
+    beforeEnter: (route: any) => {
+      const generalStore = useGeneralStore();
+      const params = JSON.parse(route.params.plantparams as string);
+      if (generalStore.siteState.site?.id !== params.siteid) {
+        generalStore.loadSiteInformation(params.siteid);
+      }
+      if (generalStore.buildingState.building?.id !== params.buildingid) {
+        generalStore.loadBuildingInformation(params.buildingid);
+      }
+      if (generalStore.subsectionState.subsection?.id !== params.subsectionid) {
+        generalStore.loadSubsectionInformation(params.subsectionid);
+      }
+      generalStore.loadPlantInformation(params.plantid);
     },
   },
 

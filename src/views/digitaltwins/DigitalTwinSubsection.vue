@@ -19,7 +19,7 @@
             :title="plant.data.plantName"
             interactionIcon="chevron_forward"
             subtitle="Erdgeschoss"
-            @click="console.log('clicked on plant', plant)"
+            @click="openPlant(plant.data.plantName, plant.id)"
           />
         </div>
       </div>
@@ -57,6 +57,14 @@ export default {
   computed: {
     ...mapStores(useGeneralStore),
 
+    site() {
+      return this.generalStore.siteState.site;
+    },
+
+    building() {
+      return this.generalStore.buildingState.building;
+    },
+
     subsection() {
       return this.generalStore.subsectionState.subsection;
     },
@@ -64,6 +72,25 @@ export default {
   methods: {
     sortPlants(plants: Plant[]): Plant[] {
       return plants.sort((a, b) => a.data.plantName.localeCompare(b.data.plantName));
+    },
+    openPlant(plantName: string, plantid: string) {
+      if (this.site && this.building && this.subsection) {
+        this.$router.push({
+          name: 'DigitalTwins_Site_Building_Subsection_Plant',
+          params: {
+            plantparams: JSON.stringify({
+              siteid: encodeURIComponent(this.site.id),
+              siteName: this.site.data.siteName,
+              buildingid: encodeURIComponent(this.building.id),
+              buildingName: this.building.data.buildingName,
+              subsectionName: this.subsection.data.tradeName,
+              subsectionid: encodeURIComponent(this.subsection.id),
+              plantName,
+              plantid: encodeURIComponent(plantid),
+            }),
+          },
+        });
+      }
     },
   },
   created() {

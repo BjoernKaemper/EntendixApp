@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="line-chart-container--right">
-          <LineChart :data="chartData" />
+          <LineChart :data="kpi?.timeline || []" />
         </div>
       </div>
     </template>
@@ -152,12 +152,6 @@ export default {
   computed: {
     ...mapStores(useGeneralStore),
 
-    chartData() {
-      // TODO: JUST A SHORT TERM SOLUTION TO SHOW THE CHART A BIT LESS CLUMPED
-      // return chart data from store with every second element removed
-      const { chartData } = this.generalStore;
-      return chartData.filter((_, index) => index % 2 === 0);
-    },
     /**
      * @returns The time since the last update in minutes
      */

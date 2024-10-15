@@ -234,10 +234,15 @@ export const useGeneralStore = defineStore('general', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      return FetchHelper.apiCall(
+      const rawKpiData = FetchHelper.apiCall(
         `/middleware/timelines?${q}`,
         requestOptions,
       );
+
+      return (await rawKpiData).map((data: any) => ({
+        timestamp: DateTime.fromISO(data.timestamp),
+        value: data.value,
+      }));
     },
 
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
@@ -262,8 +267,6 @@ export const useGeneralStore = defineStore('general', {
       });
 
       kpi = await Promise.all(kpiDataWithCharts);
-
-      console.log('KPIs final form', kpi);
 
       return kpi;
     },
@@ -323,7 +326,6 @@ export const useGeneralStore = defineStore('general', {
       this.siteState.isLoading = false;
 
       // Fetching KPI Information
-      console.log('Fetching KPIs for Site', siteId);
       this.siteState.kpiState.kpis = await this.fetchKpiInformation(siteId);
 
       this.siteState.kpiState.requestTimestamp = DateTime.now();
@@ -353,7 +355,6 @@ export const useGeneralStore = defineStore('general', {
       this.buildingState.isLoading = false;
 
       // Fetching KPI Information
-      console.log('Fetching KPIs for Building', buildingId);
       this.buildingState.kpiState.kpis = await this.fetchKpiInformation(buildingId);
 
       this.buildingState.kpiState.requestTimestamp = DateTime.now();

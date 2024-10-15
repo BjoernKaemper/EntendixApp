@@ -96,7 +96,6 @@
       <div class="performance-grid">
         <!-- @TODO update status with data / remove hard coded value -->
         <div class="performance-grid" :class="{ 'performance-grid--loading': kpiIsLoading }">
-          {{ kpis }}
           <ChartContainer
             v-for="(kpi, index) in kpis ? kpis : 3"
             :key="index"

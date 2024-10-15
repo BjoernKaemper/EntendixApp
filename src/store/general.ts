@@ -235,12 +235,17 @@ export const useGeneralStore = defineStore('general', {
         requestOptions,
       );
 
+      console.log('Got timeline data', fetchedTimeline);
+
       this.chartData = fetchedTimeline as any[];
     },
 
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
+        // @TODO: Implement the propper timestamp dates
+        startTimestamp: 1,
+        endTimestamp: 1727067600,
       };
       const q = QueryHelper.queryify(queryCombined);
 

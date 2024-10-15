@@ -4,7 +4,6 @@
       <LoadingSpinner />
     </div>
     <template v-else>
-      {{ kpi }}
       <div class="line-chart-container--header">
         <h3>{{ kpi?.data.name?.de || topic }}</h3>
         <div class="line-chart-container--header--buttons">

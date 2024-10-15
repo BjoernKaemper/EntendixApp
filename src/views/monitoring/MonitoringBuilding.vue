@@ -91,7 +91,7 @@
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
         <!-- @TODO: create dropdown component -->
-        <div class="dropdown">Letzte 14 Tage</div>
+        <TimeRangeDropdown />
       </div>
       <div class="performance-grid">
         <!-- @TODO update status with data / remove hard coded value -->
@@ -134,6 +134,8 @@ import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
+import type { TimelineLookbackOptions } from '@/types/enums/TimelineLookbackOptions';
 
 export default {
   components: {
@@ -141,6 +143,7 @@ export default {
     AutomationKlima,
     StatusCard,
     LoadingSpinner,
+    TimeRangeDropdown,
   },
 
   data() {
@@ -198,6 +201,16 @@ export default {
     kpiAmount(): number {
       return this.kpis.length ? this.kpis.length : 3;
     },
+
+    kpiLookbackStartTimestamp(): keyof typeof TimelineLookbackOptions {
+      return this.generalStore.kpiLookbackStartTimestamp;
+    },
+  },
+
+  watch: {
+    kpiLookbackStartTimestamp() {
+      this.generalStore.refetchKpiChartDataForBuildingKpis();
+    },
   },
 
   methods: {
@@ -232,6 +245,7 @@ export default {
           return ChipStatusTypes.INFO;
       }
     },
+
     openSubsection(subsectionName: string, subsectionid: string) {
       if (this.site && this.building) {
         this.$router.push({
@@ -355,15 +369,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .dropdown {
-    @include content;
-    cursor: pointer;
-    border: 1px solid $light-purple;
-    margin: 0;
-    padding: 0 $xxs;
-    border-radius: $border-radius;
-  }
 }
 
 .performance-grid--loading {

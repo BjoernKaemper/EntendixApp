@@ -1,12 +1,12 @@
 <template>
-  <button type="button" :class="[state, size, onlyIconClass]">
+  <button :type="type" :class="[state, size, onlyIconClass]">
     {{ text }}
     <component v-if="icon" :is="iconName" />
   </button>
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue';
+import type { ButtonHTMLAttributes, PropType } from 'vue';
 import { IconTypes } from '@/types/enums/IconTypes';
 import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
@@ -70,6 +70,13 @@ export default {
     size: {
       type: String as () => 'normal' | 'small',
       default: 'normal',
+    },
+    /**
+     * Button type
+     */
+    type: {
+      type: String as PropType<ButtonHTMLAttributes['type']>,
+      default: 'button',
     },
   },
   computed: {

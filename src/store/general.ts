@@ -219,15 +219,15 @@ export const useGeneralStore = defineStore('general', {
     },
 
     // @TODO: fix any type
-    async fetchKpiChartData(kpi: Kpi): Promise<any> {
+    async fetchKpiChartData(parentId: string, kpi: Kpi): Promise<any> {
       console.log('Fetching KPI Chart Data', kpi);
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
         // @TODO: Implement the propper timestamp dates
         startTimestamp: 1,
         endTimestamp: 1727067600,
-        aasIdentifier: `${kpi.id}.Value.PresentValue`, // @TODO: Check, if this is actually correct
-        sem_id_shorts: 'REPLACE ME',
+        aasIdentifier: parentId,
+        sem_id_shorts: `${kpi.id}.Value.PresentValue`,
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -261,8 +261,10 @@ export const useGeneralStore = defineStore('general', {
         requestOptions,
       )) as Kpi[];
 
+      console.log('Fetched KPI Information', parentId, kpi);
+
       kpi.forEach((kpiData) => {
-        this.fetchKpiChartData(kpiData);
+        this.fetchKpiChartData(parentId, kpiData);
       });
 
       return kpi;

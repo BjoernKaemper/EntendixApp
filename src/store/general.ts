@@ -16,6 +16,7 @@ import type { Alert } from '@/types/Alert';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import type { Plant } from '@/types/global/plant/Plant';
+import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -218,8 +219,7 @@ export const useGeneralStore = defineStore('general', {
       this.baseInfoState.isLoading = false;
     },
 
-    // @TODO: fix any type
-    async fetchKpiChartData(parentId: string, kpi: Kpi): Promise<any> {
+    async fetchKpiChartData(parentId: string, kpi: Kpi): Promise<TimelineDataPoint[]> {
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
         // @TODO: Implement the propper timestamp dates
@@ -234,13 +234,10 @@ export const useGeneralStore = defineStore('general', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      // TODO: Implement correct API call
-      const fetchedTimeline = await FetchHelper.apiCall(
+      return FetchHelper.apiCall(
         `/middleware/timelines?${q}`,
         requestOptions,
       );
-
-      this.chartData = fetchedTimeline as any[];
     },
 
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
@@ -253,14 +250,20 @@ export const useGeneralStore = defineStore('general', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      const kpi = (await FetchHelper.apiCall(
+      let kpi = (await FetchHelper.apiCall(
         `/middleware/kpis/${parentId}?${q}`,
         requestOptions,
       )) as Kpi[];
 
-      kpi.forEach((kpiData) => {
-        this.fetchKpiChartData(parentId, kpiData);
+      const kpiDataWithCharts = kpi.map(async (kpiData) => {
+        const mappedKpi = { ...kpiData };
+        mappedKpi.timeline = await this.fetchKpiChartData(parentId, kpiData);
+        return mappedKpi;
       });
+
+      kpi = await Promise.all(kpiDataWithCharts);
+
+      console.log('KPIs final form', kpi);
 
       return kpi;
     },

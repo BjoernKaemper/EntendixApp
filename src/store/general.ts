@@ -224,6 +224,24 @@ export const useGeneralStore = defineStore('general', {
       this.baseInfoState.isLoading = false;
     },
 
+    async refetchKpiChartDataForSiteKpis(): Promise<void> {
+      const siteId = this.siteState.site?.id;
+
+      if (!siteId) {
+        return;
+      }
+
+      this.siteState.kpiState.isLoading = true;
+
+      // Fetching KPI Information
+      this.siteState.kpiState.kpis = await this.fetchKpiInformation(
+        encodeURIComponent(siteId),
+      );
+
+      this.siteState.kpiState.requestTimestamp = DateTime.now();
+      this.siteState.kpiState.isLoading = false;
+    },
+
     async refetchKpiChartDataForBuildingKpis(): Promise<void> {
       const buildingId = this.buildingState.building?.id;
 
@@ -231,13 +249,15 @@ export const useGeneralStore = defineStore('general', {
         return;
       }
 
-      this.siteState.kpiState.isLoading = true;
+      this.buildingState.kpiState.isLoading = true;
 
       // Fetching KPI Information
-      this.siteState.kpiState.kpis = await this.fetchKpiInformation(encodeURIComponent(buildingId));
+      this.buildingState.kpiState.kpis = await this.fetchKpiInformation(
+        encodeURIComponent(buildingId),
+      );
 
-      this.siteState.kpiState.requestTimestamp = DateTime.now();
-      this.siteState.kpiState.isLoading = false;
+      this.buildingState.kpiState.requestTimestamp = DateTime.now();
+      this.buildingState.kpiState.isLoading = false;
     },
 
     async fetchKpiChartData(parentId: string, kpi: Kpi): Promise<TimelineDataPoint[]> {

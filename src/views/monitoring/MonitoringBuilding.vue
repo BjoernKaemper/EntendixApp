@@ -90,7 +90,6 @@
     <div class="grid-wrapper--right">
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
-        <!-- @TODO: create dropdown component -->
         <TimeRangeDropdown />
       </div>
       <div class="performance-grid">

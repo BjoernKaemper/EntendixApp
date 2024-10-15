@@ -220,7 +220,6 @@ export const useGeneralStore = defineStore('general', {
 
     // @TODO: fix any type
     async fetchKpiChartData(parentId: string, kpi: Kpi): Promise<any> {
-      console.log('Fetching KPI Chart Data', kpi);
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
         // @TODO: Implement the propper timestamp dates
@@ -241,13 +240,10 @@ export const useGeneralStore = defineStore('general', {
         requestOptions,
       );
 
-      console.log('Got timeline data', fetchedTimeline);
-
       this.chartData = fetchedTimeline as any[];
     },
 
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
-      console.log('Fetching KPI Information for parent', parentId);
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
       };
@@ -261,8 +257,6 @@ export const useGeneralStore = defineStore('general', {
         `/middleware/kpis/${parentId}?${q}`,
         requestOptions,
       )) as Kpi[];
-
-      console.log('Fetched KPI Information', parentId, kpi);
 
       kpi.forEach((kpiData) => {
         this.fetchKpiChartData(parentId, kpiData);

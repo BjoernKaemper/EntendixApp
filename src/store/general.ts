@@ -247,6 +247,7 @@ export const useGeneralStore = defineStore('general', {
     },
 
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
+      console.log('Fetching KPI Information for parent', parentId);
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
       };
@@ -325,6 +326,7 @@ export const useGeneralStore = defineStore('general', {
       this.siteState.isLoading = false;
 
       // Fetching KPI Information
+      console.log('Fetching KPIs for Site', siteId);
       this.siteState.kpiState.kpis = await this.fetchKpiInformation(siteId);
 
       this.siteState.kpiState.requestTimestamp = DateTime.now();
@@ -354,6 +356,7 @@ export const useGeneralStore = defineStore('general', {
       this.buildingState.isLoading = false;
 
       // Fetching KPI Information
+      console.log('Fetching KPIs for Building', buildingId);
       this.buildingState.kpiState.kpis = await this.fetchKpiInformation(buildingId);
 
       this.buildingState.kpiState.requestTimestamp = DateTime.now();

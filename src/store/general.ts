@@ -218,10 +218,16 @@ export const useGeneralStore = defineStore('general', {
       this.baseInfoState.isLoading = false;
     },
 
-    // TODO fix any type
-    async fetchKpiChartData() {
+    // @TODO: fix any type
+    async fetchKpiChartData(kpi: Kpi): Promise<any> {
+      console.log('Fetching KPI Chart Data', kpi);
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
+        // @TODO: Implement the propper timestamp dates
+        startTimestamp: 1,
+        endTimestamp: 1727067600,
+        aasIdentifier: `${kpi.id}.Value.PresentValue`, // @TODO: Check, if this is actually correct
+        sem_id_shorts: 'REPLACE ME',
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -243,21 +249,23 @@ export const useGeneralStore = defineStore('general', {
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
-        // @TODO: Implement the propper timestamp dates
-        startTimestamp: 1,
-        endTimestamp: 1727067600,
       };
       const q = QueryHelper.queryify(queryCombined);
 
-      this.fetchKpiChartData();
       const requestOptions = {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      return (await FetchHelper.apiCall(
+      const kpi = (await FetchHelper.apiCall(
         `/middleware/kpis/${parentId}?${q}`,
         requestOptions,
       )) as Kpi[];
+
+      kpi.forEach((kpiData) => {
+        this.fetchKpiChartData(kpiData);
+      });
+
+      return kpi;
     },
 
     async fetchSubsectionInformation(subsectionId: string): Promise<Subsection> {

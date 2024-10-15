@@ -12,6 +12,8 @@
         :disabled="disabled"
         @focus="handleFocus"
         @blur="handleBlur"
+        :value="modelValue"
+        @input="(e) => $emit('update:modelValue', (e.target as HTMLInputElement).value)"
       />
     </div>
     <div v-if="errorMessage" class="form-input__error-message">
@@ -141,6 +143,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: $xxxs;
+  width: 100%;
 
   &__label,
   &__input {
@@ -158,6 +161,7 @@ export default {
     border-radius: $border-radius;
     border: 1px solid $light-purple;
     padding: $xxxs $xxs;
+    width: 100%;
 
     &--icon {
       padding-left: calc(2 * $xxxs + $m);

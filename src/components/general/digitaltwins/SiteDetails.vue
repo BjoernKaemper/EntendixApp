@@ -1,33 +1,45 @@
 <template>
-  <img
-    class="site-detail__image"
-    src="@/assets/placeholder-campus-deutz.png"
-    :alt="`image of ${site.data.siteName}`"
-  />
-  <h3>Informationen über die Liegenschaft</h3>
-  <div class="group">
-    <label for="street-input">Straße</label>
-    <input id="street-input" type="text" placeholder="Straße" v-model="street" />
-  </div>
-  <div class="group">
-    <label for="plz-input">PLZ</label>
-    <input id="plz-input" type="text" placeholder="PLZ" v-model="zipCode" />
-  </div>
-  <div class="group">
-    <label for="city-input">Stadt</label>
-    <input id="city-input" type="text" placeholder="Stadt" v-model="city" />
-  </div>
-  <div class="group">
-    <label for="land-input">Land</label>
-    <input id="land-input" type="text" placeholder="Land" v-model="country" />
+  <div class="site-detail">
+    <img
+      class="site-detail__image"
+      src="@/assets/placeholder-campus-deutz.png"
+      :alt="`image of ${site.data.siteName}`"
+    />
+    <form class="site-detail__info" @submit.prevent="console.log('TODO')" @focusin="formFocused = true" @focusout="formFocused = false">
+      <h3>Informationen über die Liegenschaft</h3>
+      <FormInput id="street-input" label="Straße" placeholder="Straße" v-model="street" />
+      <div class="site-detail__group">
+        <FormInput id="plz-input" label="PLZ" placeholder="PLZ" v-model="zipCode" />
+        <FormInput id="city-input" label="Stadt" placeholder="Stadt" v-model="city" />
+      </div>
+      <FormInput id="land-input" label="Land" placeholder="Land" v-model="country" />
+      <div class="site-detail__form-actions" v-if="formFocused">
+        <ButtonComponent type="reset" text="Abbrechen" state="tertiary" />
+        <ButtonComponent type="submit" text="Speichern" state="primary" :icon="IconTypes.CHECK_MARK" />
+      </div>
+    </form>
   </div>
 </template>
 
 <script lang="ts">
+// TODO: connect to backend
+// TODO: determine what should happen on unsaved changes
+
+// Component imports
+import FormInput from '@/components/general/forms/FormInput.vue';
+import ButtonComponent from '@/components/general/ButtonComponent.vue';
+
+// Type imports
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
 import type { PropType } from 'vue';
+import { IconTypes } from '@/types/enums/IconTypes';
 
 export default {
+  name: 'SiteDetails',
+  components: {
+    FormInput,
+    ButtonComponent,
+  },
   props: {
     site: {
       type: Object as PropType<SiteWithBuildinginformation>,
@@ -36,11 +48,14 @@ export default {
   },
   data() {
     return {
+      IconTypes,
       siteName: '',
       street: '',
       zipCode: '',
       city: '',
       country: '',
+      test: '',
+      formFocused: false,
     };
   },
   watch: {
@@ -61,9 +76,32 @@ export default {
 
 <style scoped lang="scss">
 .site-detail {
+  display: flex;
+  flex-direction: column;
+  gap: $s;
+
   &__image {
     aspect-ratio: 3 / 2;
     border-radius: $border-radius;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $xxs;
+  }
+
+  &__group {
+    width: 100%;
+    display: flex;
+    gap: $xxs;
+  }
+
+  &__form-actions {
+    display: flex;
+    gap: $xxs;
+    justify-content: flex-end;
+    padding-top: calc($xxs + $xs); // Gap + spacer from design
   }
 }
 
@@ -74,26 +112,5 @@ h3 {
 p,
 label {
   @include content;
-}
-
-input {
-  background-color: $lightest;
-  padding: $base-size $xxs;
-  border-radius: $border-radius;
-  border: 1px solid $light-purple;
-
-  &::placeholder {
-    @include content;
-  }
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.group {
-  display: flex;
-  flex-direction: column;
-  gap: $base-size;
 }
 </style>

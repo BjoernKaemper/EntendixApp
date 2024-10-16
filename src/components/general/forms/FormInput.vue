@@ -2,8 +2,25 @@
   <div class="form-input">
     <label v-if="label" :for="id" class="form-input__label">{{ label }}</label>
     <div class="form-input__container">
-      <MaterialSymbol v-if="icon" :symbol="icon" class="form-input__icon" />
+      <MaterialSymbol
+        v-if="icon"
+        :symbol="icon"
+        class="form-input__icon"
+        :class="{ 'form-input__icon--textarea': type === 'textarea' }"
+      />
+      <textarea
+        v-if="type === 'textarea'"
+        class="form-input__input form-input__input--textarea"
+        :class="{ 'form-input__input--icon': icon, 'form-input__input--error': hasError }"
+        :id="id"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        @input="(e) => $emit('update:modelValue', (e.target as HTMLTextAreaElement).value)"
+        :value="modelValue"
+        :required="required"
+      />
       <input
+        v-else
         class="form-input__input"
         :class="{ 'form-input__input--icon': icon, 'form-input__input--error': hasError }"
         :id="id"
@@ -14,6 +31,7 @@
         @blur="handleBlur"
         :value="modelValue"
         @input="(e) => $emit('update:modelValue', (e.target as HTMLInputElement).value)"
+        :required="required"
       />
     </div>
     <div v-if="errorMessage" class="form-input__error-message">
@@ -55,10 +73,17 @@ export default {
       default: undefined,
     },
     /**
+     * Wether or not the input is required.
+     */
+    required: {
+      type: Boolean,
+      default: false,
+    },
+    /**
      * Type of the input.
      */
     type: {
-      type: String as PropType<InputHTMLAttributes['type']>,
+      type: String as PropType<InputHTMLAttributes['type'] | 'textarea'>,
       default: 'text',
     },
     /**
@@ -163,6 +188,11 @@ export default {
     padding: $xxxs $xxs;
     width: 100%;
 
+    &--textarea {
+      resize: vertical;
+      min-height: calc(2 * $xxxs + ($content-size * $content-line-height * 2));
+    }
+
     &--icon {
       padding-left: calc(2 * $xxxs + $m);
     }
@@ -191,6 +221,11 @@ export default {
     position: absolute;
     font-size: $m;
     left: calc($xxxs + 1px); // 1px to align with input border
+
+    &--textarea {
+      align-self: flex-start;
+      top: calc($xxxs + 1px); // 1px to align with input border;
+    }
   }
 
   &__error-message {

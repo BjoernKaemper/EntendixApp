@@ -2,7 +2,7 @@
   <div class="cards-wrapper" :class="{ 'use-opacity': useOpacity }">
     <div
       class="card"
-      :class="{ cardClass: true, 'grow-cards': growCards }"
+      :class="{ [cardClass]: true, 'grow-cards': growCards }"
       v-for="i in cardCount"
       :key="i"
     >

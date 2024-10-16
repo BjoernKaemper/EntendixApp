@@ -3,15 +3,11 @@
 </template>
 
 <script lang="ts" setup>
+import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
 import * as d3 from 'd3';
 import {
   ref, onMounted, watch, type PropType,
 } from 'vue';
-
-interface UnparsedDataPoint {
-  timestamp: string;
-  value: number;
-}
 
 interface DataPoint {
   timestamp: Date;
@@ -21,7 +17,7 @@ interface DataPoint {
 const props = defineProps(
   {
     data: {
-      type: Array as PropType<UnparsedDataPoint[]>,
+      type: Array as PropType<TimelineDataPoint[]>,
       required: true,
     },
     width: {
@@ -44,12 +40,9 @@ const props = defineProps(
 // Define ref for chart container
 const chart = ref<HTMLDivElement | null>(null);
 
-// Parse the date using d3
-const parseDate = d3.timeParse('%Y-%m-%dT%H:%M:%S.%L%Z');
-
 // Map the data to convert timestamp to Date object
 const parsedData = ref<DataPoint[]>(props.data.map((d) => ({
-  timestamp: parseDate(d.timestamp) as Date,
+  timestamp: d.timestamp.toJSDate(),
   value: d.value,
 })));
 
@@ -138,7 +131,7 @@ const drawChart = () => {
 // Watch for data changes and redraw the chart
 watch(() => props.data, () => {
   parsedData.value = props.data.map((d) => ({
-    timestamp: parseDate(d.timestamp) as Date,
+    timestamp: d.timestamp.toJSDate(),
     value: d.value,
   }));
   drawChart();

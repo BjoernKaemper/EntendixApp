@@ -35,8 +35,7 @@
     <div class="grid-wrapper--right">
       <div class="performance-header">
         <h3>Performance der Liegenschaft</h3>
-        <!-- @TODO: create dropdown component -->
-        <div class="dropdown">Letzte 14 Tage</div>
+        <TimeRangeDropdown />
       </div>
       <LoadingCards v-if="kpiIsLoading" :card-count="3" :grow-cards="true" />
       <div v-else class="performance-grid">
@@ -64,17 +63,20 @@ import type { DateTime } from 'luxon';
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
+import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
+import type { TimelineLookbackOptions } from '@/types/enums/TimelineLookbackOptions';
 
 export default {
   components: {
     StatusCard,
     ChartContainer,
     LoadingCards,
+    TimeRangeDropdown,
   },
 
   setup() {
@@ -120,6 +122,16 @@ export default {
 
     kpiAmount(): number {
       return this.kpis.length ? this.kpis.length : 3;
+    },
+
+    kpiLookbackStartTimestamp(): keyof typeof TimelineLookbackOptions {
+      return this.generalStore.kpiLookbackStartTimestamp;
+    },
+  },
+
+  watch: {
+    kpiLookbackStartTimestamp() {
+      this.generalStore.refetchKpiChartDataForSiteKpis();
     },
   },
 

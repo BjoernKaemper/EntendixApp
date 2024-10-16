@@ -270,7 +270,7 @@ export const useGeneralStore = defineStore('general', {
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
-        startTimestamp: startDate,
+        startTimestamp: startDate.toSeconds(),
         endTimestamp: this.time.toSeconds(),
         aasIdentifier: parentId,
         sem_id_shorts: `${kpi.id}.Value.PresentValue`,

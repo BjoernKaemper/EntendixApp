@@ -5,7 +5,7 @@
       @click="toggleDropdown()"
       @keydown.enter="toggleDropdown()"
     >
-      {{ currentTimeRangeLabel }} xxxxxx
+      {{ currentTimeRangeLabel }} v
     </div>
     <div
       :class="{

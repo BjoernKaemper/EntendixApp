@@ -3,23 +3,14 @@
     <!-- left side of grid -->
     <div class="grid-wrapper--left">
       <h2>{{ buildingName || 'Loading' }}</h2>
-      <template v-if="isLoading">
-        <div class="image-loading">
-          <LoadingSpinner />
-        </div>
-      </template>
+      <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
       <AutomationKlima v-else />
-      <div v-if="isLoading" class="status-container">
+      <div class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
-        <div class="status-container--loading">
-          <StatusCard v-for="index in statusCardAmount" :key="index" :is-bordered="false" />
-        </div>
-      </div>
-      <div v-else class="status-container">
-        <h3>Funktionserfüllung Anlagentechnik</h3>
+        <LoadingCards v-if="isLoading" :card-count="3" card-class="" />
         <!-- @TODO: Get the rest of the data in the response an map it -->
         <!-- @TODO: remove placeholders -->
-        <div class="status-container--cards">
+        <div v-else class="status-container--cards">
           <StatusCard
             v-for="(subsection, idx) in subsections"
             @click="openSubsection(subsection.data.tradeName, subsection.id)"
@@ -35,12 +26,8 @@
       </div>
       <div class="issues-container">
         <h3>Probleme in den Komponenten</h3>
-        <template v-if="isLoading">
-          <div class="loading">
-            <LoadingSpinner />
-          </div>
-        </template>
-        <div v-if="issues" class="issues">
+        <LoadingCards v-if="isLoading" :card-count="1" card-class="problems-loading" />
+        <div v-else-if="issues" class="issues">
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
           <StatusCard
@@ -93,13 +80,14 @@
         <!-- @TODO: create dropdown component -->
         <div class="dropdown">Letzte 14 Tage</div>
       </div>
-      <div class="performance-grid">
+      <LoadingCards v-if="kpiIsLoading" :card-count="3" :grow-cards="true" />
+      <div v-else class="performance-grid">
         <!-- @TODO update status with data / remove hard coded value -->
-        <div class="performance-grid" :class="{ 'performance-grid--loading': kpiIsLoading }">
+        <div class="performance-grid">
           <ChartContainer
-            v-for="(kpi, index) in kpis ? kpis : 3"
+            v-for="(kpi, index) in kpis"
             :key="index"
-            :kpi="typeof kpi === 'number' ? undefined : kpi"
+            :kpi="kpi"
             :lastUpdateTimestamp="lastBuildingRequestTimestamp"
             :isLoading="kpiIsLoading"
             :status="ChipStatusTypes.SUCCESS"
@@ -133,14 +121,14 @@ import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
-import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import LoadingCards from '@/components/general/LoadingCards.vue';
 
 export default {
   components: {
     ChartContainer,
     AutomationKlima,
     StatusCard,
-    LoadingSpinner,
+    LoadingCards,
   },
 
   data() {
@@ -271,13 +259,8 @@ export default {
   }
 }
 
-.image-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30%;
-  background-color: $lightest;
-  border-radius: $base-size;
+:deep(.image-loading) {
+  height: 300px;
 }
 
 .performance-grid {
@@ -301,19 +284,6 @@ export default {
     @include content-subtitle;
     color: $darkest;
   }
-
-  &--loading {
-    display: grid;
-    gap: $xxs;
-    width: 100%;
-
-    @for $i from 1 through 3 {
-      & > div:nth-child(#{$i}) {
-        // from 99% to 66% to 33% opacity
-        opacity: 1 - (($i - 1) * 0.33);
-      }
-    }
-  }
 }
 
 .issues-container {
@@ -323,10 +293,6 @@ export default {
   display: flex;
   flex-direction: column;
   gap: $xs;
-
-  & .loading > * > * {
-    height: 20px;
-  }
 
   & > h3 {
     @include content-subtitle;
@@ -366,18 +332,6 @@ export default {
   }
 }
 
-.performance-grid--loading {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: $m;
-  @for $i from 1 through 3 {
-    & > div:nth-child(#{$i}) {
-      // from 99% to 66% to 33% opacity
-      opacity: 1 - (($i - 1) * 0.33);
-    }
-  }
-}
-
 h2,
 h3 {
   @include content-headline;
@@ -391,5 +345,8 @@ h4 {
 img {
   width: 100%;
   border-radius: $border-radius;
+}
+:deep(.problems-loading) {
+  background-color: transparent;
 }
 </style>

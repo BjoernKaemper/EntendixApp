@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useGeneralStore } from '@/store/general';
-import HomeGeneral from '@/views/home/Home.vue';
+import HomeGeneral from '@/views/home/HomeView.vue';
 import DemoView from '@/views/demo/DemoView.vue';
 
 // monitoring views

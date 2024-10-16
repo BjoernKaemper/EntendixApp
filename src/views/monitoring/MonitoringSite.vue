@@ -86,7 +86,7 @@ import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
-import type { TimelineLookbackOptions } from '@/types/enums/TimelineLookbackOptions';
+import type { TimelineLookbackOptions } from '@/types/enums/TimeRangeDropdown';
 
 export default {
   components: {
@@ -141,8 +141,8 @@ export default {
       return this.kpis.length ? this.kpis.length : 3;
     },
 
-    kpiLookbackStartTimestamp(): keyof typeof TimelineLookbackOptions {
-      return this.generalStore.kpiLookbackStartTimestamp;
+    kpiLookbackStartTimestamp(): TimelineLookbackOptions {
+      return this.generalStore.kpiLookbackWindow.currentValue;
     },
   },
 

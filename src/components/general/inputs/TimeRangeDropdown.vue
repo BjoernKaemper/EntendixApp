@@ -6,15 +6,15 @@
       id="timerange"
       :value="currentTimeRangeValue"
       @change="changeTimeRange(
-        ($event.target as HTMLSelectElement).value as keyof typeof TimelineLookbackOptions,
+        ($event.target as HTMLSelectElement).value as TimelineLookbackOptions,
       )"
     >
       <option
-        v-for="timerange in timeranges"
-        :key="timerange"
-        :value="timerange"
+        v-for="timerange in timeRangeConfig"
+        :key="timerange.value"
+        :value="timerange.value"
       >
-        {{ TimelineLookbackOptions[timerange as keyof typeof TimelineLookbackOptions] }}
+        {{ timerange.label }}
       </option>
     </select>
   </div>
@@ -24,14 +24,14 @@
 import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
 
-import { TimelineLookbackOptions } from '@/types/enums/TimelineLookbackOptions';
+import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/types/enums/TimeRangeDropdown';
 
 export default {
   name: 'TimeRangeDropdown',
 
   setup() {
     return {
-      timeranges: Object.keys(TimelineLookbackOptions),
+      timeRangeConfig: TimeRangeDropdownConfig,
       TimelineLookbackOptions,
     };
   },
@@ -40,13 +40,13 @@ export default {
     ...mapStores(useGeneralStore),
 
     currentTimeRangeValue(): keyof typeof TimelineLookbackOptions {
-      return this.generalStore.kpiLookbackStartTimestamp;
+      return this.generalStore.kpiLookbackWindow.currentValue;
     },
   },
 
   methods: {
-    changeTimeRange(value: keyof typeof TimelineLookbackOptions): void {
-      this.generalStore.kpiLookbackStartTimestamp = value;
+    changeTimeRange(value: TimelineLookbackOptions): void {
+      this.generalStore.kpiLookbackWindow.currentValue = value;
     },
   },
 };

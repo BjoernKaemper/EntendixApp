@@ -86,7 +86,7 @@ import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
-import type { TimelineLookbackOptions } from '@/types/enums/TimeRangeDropdown';
+import type { TimelineLookbackOptions } from '@/configs/timeRangeDropdown';
 
 export default {
   components: {

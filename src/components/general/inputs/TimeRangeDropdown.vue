@@ -24,7 +24,7 @@
 import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
 
-import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/types/enums/TimeRangeDropdown';
+import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
 
 export default {
   name: 'TimeRangeDropdown',

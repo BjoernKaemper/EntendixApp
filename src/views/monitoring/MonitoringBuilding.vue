@@ -126,7 +126,7 @@ import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 import { SemanticSubmoduleTypes } from '@/types/global/enums/SemanticSubmoduleTypes';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
-import type { TimelineLookbackOptions } from '@/types/enums/TimeRangeDropdown';
+import type { TimelineLookbackOptions } from '@/configs/timeRangeDropdown';
 
 // component imports
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';

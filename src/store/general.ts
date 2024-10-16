@@ -11,13 +11,13 @@ import type { Building } from '@/types/global/building/Building';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 import type { Subsection } from '@/types/global/subsections/Subsection';
 import type { Alert } from '@/types/Alert';
-import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/types/enums/TimeRangeDropdown';
 
 // Helper Imports
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import type { Plant } from '@/types/global/plant/Plant';
 import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
+import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
 
 // Authenticator definition
 const auth = useAuthenticator();

@@ -27,22 +27,6 @@
         </p>
       </div>
     </div>
-    <!-- <select
-      name="timerange"
-      id="timerange"
-      :value="currentTimeRangeValue"
-      @change="changeTimeRange(
-        ($event.target as HTMLSelectElement).value as TimelineLookbackOptions,
-      )"
-    >
-      <option
-        v-for="timerange in timeRangeConfig"
-        :key="timerange.value"
-        :value="timerange.value"
-      >
-        {{ timerange.label }}
-      </option>
-    </select> -->
   </div>
 </template>
 

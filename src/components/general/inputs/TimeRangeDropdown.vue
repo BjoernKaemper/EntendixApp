@@ -1,5 +1,6 @@
 <template>
   <div class="dropdown">
+    <!-- @TODO: Implement propper styling -->
     <select
       name="timerange"
       id="timerange"
@@ -27,10 +28,6 @@ import { TimelineLookbackOptions } from '@/types/enums/TimelineLookbackOptions';
 
 export default {
   name: 'TimeRangeDropdown',
-
-  components: {
-
-  },
 
   setup() {
     return {

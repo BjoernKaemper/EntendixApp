@@ -5,23 +5,21 @@
       @click="toggleDropdown()"
       @keydown.enter="toggleDropdown()"
     >
-      {{ currentTimeRangeLabel }} x {{ isActive }}
+      {{ currentTimeRangeLabel }} xxxxxx
     </div>
     <div
       :class="{
-        'dropdown-input-list': true,
+        'dropdown-input-list-wrapper': true,
         'is-active': isActive,
       }">
-      <ul>
-        <li
-          v-for="timerange in timeRangeConfig"
-          :key="timerange.value"
-          @click="changeTimeRange(timerange.value)"
-          @keydown.enter="changeTimeRange(timerange.value)"
-        >
-          {{ timerange.label }}
-        </li>
-      </ul>
+      <p
+        v-for="timerange in timeRangeConfig"
+        :key="timerange.value"
+        @click="changeTimeRange(timerange.value)"
+        @keydown.enter="changeTimeRange(timerange.value)"
+      >
+        {{ timerange.label }}
+      </p>
     </div>
     <!-- <select
       name="timerange"
@@ -91,24 +89,35 @@ export default {
 
 <style lang="scss" scoped>
 
+.dropdown {
+  position: relative;
+}
+
 .dropdown-input-toggle {
   @include content;
   cursor: pointer;
-  border: 1px solid $light-purple;
   margin: 0;
-  padding: 0 $xxs;
+  padding: $xxxxs $xxs;
+  border: 1px solid $light-purple;
   border-radius: $border-radius;
 }
 
-.dropdown-input-list {
+.dropdown-input-list-wrapper {
+  @include content;
   display: none;
   position: absolute;
-  z-index: 1;
-  border: 1px solid $light-purple;
-  border-top: none;
-  border-radius: 0 0 $border-radius $border-radius;
   width: 100%;
+  z-index: 1;
+  margin-top: $xxxs;
+  padding: $xxxxs $xxs;
+  border: 1px solid $light-purple;
+  border-radius: $border-radius;
   background: white;
+
+  & > p {
+    cursor: pointer;
+    margin: $xxs 0;
+  }
 
   &.is-active {
     display: block;

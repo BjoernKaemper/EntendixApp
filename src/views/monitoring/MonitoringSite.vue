@@ -199,15 +199,6 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .dropdown {
-    @include content;
-    cursor: pointer;
-    border: 1px solid $light-purple;
-    margin: 0;
-    padding: 0 $xxs;
-    border-radius: $border-radius;
-  }
 }
 
 :deep(.image-loading) {

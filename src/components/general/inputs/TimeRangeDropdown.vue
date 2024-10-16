@@ -1,7 +1,29 @@
 <template>
   <div class="dropdown">
-    <!-- @TODO: Implement propper styling -->
-    <select
+    <div
+      class="dropdown-input-toggle"
+      @click="toggleDropdown()"
+      @keydown.enter="toggleDropdown()"
+    >
+      {{ currentTimeRangeLabel }} x {{ isActive }}
+    </div>
+    <div
+      :class="{
+        'dropdown-input-list': true,
+        'is-active': isActive,
+      }">
+      <ul>
+        <li
+          v-for="timerange in timeRangeConfig"
+          :key="timerange.value"
+          @click="changeTimeRange(timerange.value)"
+          @keydown.enter="changeTimeRange(timerange.value)"
+        >
+          {{ timerange.label }}
+        </li>
+      </ul>
+    </div>
+    <!-- <select
       name="timerange"
       id="timerange"
       :value="currentTimeRangeValue"
@@ -16,7 +38,7 @@
       >
         {{ timerange.label }}
       </option>
-    </select>
+    </select> -->
   </div>
 </template>
 
@@ -36,17 +58,32 @@ export default {
     };
   },
 
+  data() {
+    return {
+      isActive: false,
+    };
+  },
+
   computed: {
     ...mapStores(useGeneralStore),
 
-    currentTimeRangeValue(): keyof typeof TimelineLookbackOptions {
+    currentTimeRangeValue(): TimelineLookbackOptions {
       return this.generalStore.kpiLookbackWindow.currentValue;
+    },
+
+    currentTimeRangeLabel(): string {
+      return this.timeRangeConfig[this.currentTimeRangeValue].label;
     },
   },
 
   methods: {
     changeTimeRange(value: TimelineLookbackOptions): void {
       this.generalStore.kpiLookbackWindow.currentValue = value;
+      this.isActive = false;
+    },
+
+    toggleDropdown(): void {
+      this.isActive = !this.isActive;
     },
   },
 };
@@ -54,13 +91,28 @@ export default {
 
 <style lang="scss" scoped>
 
-.dropdown {
+.dropdown-input-toggle {
   @include content;
   cursor: pointer;
   border: 1px solid $light-purple;
   margin: 0;
   padding: 0 $xxs;
   border-radius: $border-radius;
+}
+
+.dropdown-input-list {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  border: 1px solid $light-purple;
+  border-top: none;
+  border-radius: 0 0 $border-radius $border-radius;
+  width: 100%;
+  background: white;
+
+  &.is-active {
+    display: block;
+  }
 }
 
 </style>

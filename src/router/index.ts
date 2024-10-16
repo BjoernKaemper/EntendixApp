@@ -232,11 +232,13 @@ const routes = [
         ];
       },
     },
-    beforeEnter: (route: any) => {
+    beforeEnter: async (route: any) => {
       const generalStore = useGeneralStore();
       const params = JSON.parse(route.params.buildingparams as string);
       if (generalStore.siteState.site?.id !== params.siteid) {
-        generalStore.loadSiteInformation(params.siteid);
+        // TODO: reconsider awaiting here as it blocks showing of loading state,
+        // but seems to be necessary to not break timelines
+        await generalStore.loadSiteInformation(params.siteid);
       }
       generalStore.loadBuildingInformation(params.buildingid);
     },
@@ -274,14 +276,14 @@ const routes = [
         ];
       },
     },
-    beforeEnter: (route: any) => {
+    beforeEnter: async (route: any) => {
       const generalStore = useGeneralStore();
       const params = JSON.parse(route.params.subsectionparams as string);
       if (generalStore.siteState.site?.id !== params.siteid) {
-        generalStore.loadSiteInformation(params.siteid);
+        await generalStore.loadSiteInformation(params.siteid);
       }
       if (generalStore.buildingState.building?.id !== params.buildingid) {
-        generalStore.loadBuildingInformation(params.buildingid);
+        await generalStore.loadBuildingInformation(params.buildingid);
       }
       generalStore.loadSubsectionInformation(params.subsectionid);
     },

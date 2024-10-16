@@ -12,14 +12,20 @@
         'dropdown-input-list-wrapper': true,
         'is-active': isActive,
       }">
-      <p
-        v-for="timerange in timeRangeConfig"
-        :key="timerange.value"
-        @click="changeTimeRange(timerange.value)"
-        @keydown.enter="changeTimeRange(timerange.value)"
+      <div
+        class="dropdown-input-list-group"
+        v-for="(group, index) in timeRangeDropdownGrouping"
+        :key="index"
       >
-        {{ timerange.label }}
-      </p>
+        <p
+          v-for="timerange in group"
+          :key="timerange"
+          @click="changeTimeRange(timerange)"
+          @keydown.enter="changeTimeRange(timerange)"
+        >
+          {{ timeRangeConfig[timerange].label }}
+        </p>
+      </div>
     </div>
     <!-- <select
       name="timerange"
@@ -53,6 +59,13 @@ export default {
     return {
       timeRangeConfig: TimeRangeDropdownConfig,
       TimelineLookbackOptions,
+      timeRangeDropdownGrouping: [
+        [TimelineLookbackOptions.TWENTYFOUR_HOURS],
+        [TimelineLookbackOptions.CURRENT_WEEK, TimelineLookbackOptions.SEVEN_DAYS],
+        [TimelineLookbackOptions.CURRENT_MONTH, TimelineLookbackOptions.THIRTY_DAYS],
+        [TimelineLookbackOptions.CURRENT_QUARTER, TimelineLookbackOptions.CURRENT_YEAR],
+        [TimelineLookbackOptions.ALL],
+      ],
     };
   },
 
@@ -108,15 +121,22 @@ export default {
   position: absolute;
   width: 100%;
   z-index: 1;
-  margin-top: $xxxs;
-  padding: $xxxxs $xxs;
   border: 1px solid $light-purple;
   border-radius: $border-radius;
   background: white;
+  margin-top: $xxxs;
 
-  & > p {
-    cursor: pointer;
-    margin: $xxs 0;
+  .dropdown-input-list-group {
+    padding: $xxxxs $xxs;
+
+    &:not(:first-child) {
+      border-top: 1px solid $light-purple;
+    }
+
+    & > p {
+      cursor: pointer;
+      margin: $xxs 0;
+    }
   }
 
   &.is-active {

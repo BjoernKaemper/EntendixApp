@@ -126,6 +126,8 @@ const routes = [
       const generalStore = useGeneralStore();
       const params = JSON.parse(route.params.buildingparams as string);
       if (generalStore.siteState.site?.id !== params.siteid) {
+        // TODO: reconsider awaiting here as it blocks showing of loading state,
+        // but seems to be necessary to not break timelines
         await generalStore.loadSiteInformation(params.siteid);
       }
       generalStore.loadBuildingInformation(params.buildingid);

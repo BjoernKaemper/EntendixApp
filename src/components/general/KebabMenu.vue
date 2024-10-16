@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-wrapper">
+  <div class="menu-wrapper" @focusout="toggleMenu">
     <button class="menu-activator" type="button" @click="toggleMenu">
       <KebabMenuIcon />
     </button>
@@ -31,11 +31,12 @@ import CommentIcon from '@/components/icons/CommentIcon.vue';
 import SettingsIcon from '@/components/icons/SettingsIcon.vue';
 import DeleteIcon from '@/components/icons/DeleteIcon.vue';
 
-type Option = {
+export type Option = {
   icon: IconTypes;
   text: string;
   emits: string;
 };
+
 export default {
   components: {
     KebabMenuIcon,
@@ -87,7 +88,7 @@ export default {
   }
 
   & .menu-options {
-    min-width: fit-content;
+    width: max-content;
     position: absolute;
     top: -50%;
     right: 0;
@@ -104,6 +105,7 @@ export default {
         display: flex;
         gap: $xxxxs;
         align-items: center;
+        cursor: pointer;
       }
     }
   }

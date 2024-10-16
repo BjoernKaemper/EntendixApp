@@ -4,11 +4,7 @@
       <h2>
         {{ siteName }}
       </h2>
-      <template v-if="isLoading">
-        <div class="image-loading">
-          <LoadingSpinner />
-        </div>
-      </template>
+      <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
       <img
         v-else
         :alt="site?.data.siteName || 'Site Name'"
@@ -18,12 +14,9 @@
 
       <div class="status-container">
         <h3 class="status-headline">Gebäude in der Liegenschaft</h3>
-        <template v-if="isLoading">
-          <div class="status-container--loading">
-            <StatusCard v-for="index in 3" :key="index" :isLoading="true" />
-          </div>
-        </template>
+        <LoadingCards v-if="isLoading" :card-count="3" />
         <StatusCard
+          v-else
           v-for="(building, idx) in site?.data.buildings"
           @click="
             if (site) {
@@ -44,27 +37,17 @@
         <h3>Performance der Liegenschaft</h3>
         <TimeRangeDropdown />
       </div>
-      <div v-if="kpis.length" class="performance-grid">
-        <div v-if="kpiIsLoading" class="performance-grid--loading">
-          <ChartContainer
-            v-for="(kpi, index) in kpis && kpis.length > 0 ? kpis : 3"
-            :key="index"
-            :isLoading="kpiIsLoading"
-            :moduleType="ModuleTypes.SITE"
-            :moduleName="siteName"
-          />
-        </div>
-        <div class="performance-grid" v-else>
-          <ChartContainer
-            v-for="(kpi, idx) in kpis"
-            :key="idx"
-            :kpi="kpi"
-            :lastUpdateTimestamp="lastSiteRequestTime"
-            :isLoading="isLoading"
-            :moduleType="ModuleTypes.SITE"
-            :moduleName="siteName"
-          />
-        </div>
+      <LoadingCards v-if="kpiIsLoading" :card-count="3" :grow-cards="true" />
+      <div v-else class="performance-grid">
+        <ChartContainer
+          v-for="(kpi, idx) in kpis"
+          :key="idx"
+          :kpi="kpi"
+          :lastUpdateTimestamp="lastSiteRequestTime"
+          :isLoading="isLoading"
+          :moduleType="ModuleTypes.SITE"
+          :moduleName="siteName"
+        />
       </div>
     </div>
   </div>
@@ -79,7 +62,7 @@ import type { DateTime } from 'luxon';
 // Components
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
-import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 
 // Types
@@ -92,7 +75,7 @@ export default {
   components: {
     StatusCard,
     ChartContainer,
-    LoadingSpinner,
+    LoadingCards,
     TimeRangeDropdown,
   },
 
@@ -188,15 +171,6 @@ export default {
   }
 }
 
-.image-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 300px;
-  background-color: $lightest;
-  border-radius: $base-size;
-}
-
 .site-image {
   width: 100%;
   height: auto;
@@ -213,18 +187,6 @@ export default {
   & > h3 {
     @include content-subtitle;
     color: $darkest;
-  }
-
-  &--loading {
-    display: grid;
-    gap: $xxs;
-
-    @for $i from 1 through 3 {
-      & > div:nth-child(#{$i}) {
-        // from 99% to 66% to 33% opacity
-        opacity: 1 - (($i - 1) * 0.33);
-      }
-    }
   }
 }
 
@@ -248,15 +210,7 @@ h3 {
   }
 }
 
-.performance-grid--loading {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: $m;
-  @for $i from 1 through 3 {
-    & > div:nth-child(#{$i}) {
-      // from 99% to 66% to 33% opacity
-      opacity: 1 - (($i - 1) * 0.33);
-    }
-  }
+:deep(.image-loading) {
+  height: 300px;
 }
 </style>

@@ -1,4 +1,4 @@
-import type { DateTime } from 'luxon';
+import { DateTime } from 'luxon';
 
 export enum TimelineLookbackOptions {
   TWENTYFOUR_HOURS = 'TWENTYFOUR_HOURS',
@@ -66,6 +66,6 @@ export const TimeRangeDropdownConfig: TimeRangeDropdownConfigType = {
   [TimelineLookbackOptions.ALL]: {
     value: TimelineLookbackOptions.ALL,
     label: 'Alle Daten',
-    dateTransformer: (date: DateTime) => date.minus({ years: 100 }),
+    dateTransformer: () => DateTime.fromMillis(1000), // Returns Epoch for Unix Timestamp
   },
 };

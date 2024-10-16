@@ -64,6 +64,7 @@ export default {
         [TimelineLookbackOptions.CURRENT_WEEK, TimelineLookbackOptions.SEVEN_DAYS],
         [TimelineLookbackOptions.CURRENT_MONTH, TimelineLookbackOptions.THIRTY_DAYS],
         [TimelineLookbackOptions.CURRENT_QUARTER, TimelineLookbackOptions.CURRENT_YEAR],
+        [TimelineLookbackOptions.FOURTEEN_DAYS],
         [TimelineLookbackOptions.ALL],
       ],
     };

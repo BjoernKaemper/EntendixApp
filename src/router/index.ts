@@ -1,14 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
+// Stores
 import { useGeneralStore } from '@/store/general';
+import { useBuildingStore } from '@/store/building';
+import { useSiteStore } from '@/store/site';
+import { useSubsectionStore } from '@/store/subsection';
+import { usePlantStore } from '@/store/plant';
+// Views
 import HomeGeneral from '@/views/home/HomeView.vue';
 import DemoView from '@/views/demo/DemoView.vue';
-
-// monitoring views
 import Monitoring_Site from '@/views/monitoring/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue';
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
 import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/MonitoringPlant.vue';
-// digital twins views
 import DigitalTwinsSite from '@/views/digitaltwins/DigitalTwinsSite.vue';
 
 const routes = [
@@ -95,8 +99,11 @@ const routes = [
       ],
     },
     beforeEnter: (route: any) => {
-      const generalStore = useGeneralStore();
-      generalStore.loadSiteInformation(JSON.parse(route.params.siteparams as string).siteid);
+      const siteStore = useSiteStore();
+      const siteId = JSON.parse(route.params.siteparams as string).siteid;
+      if (siteStore.site?.id !== decodeURIComponent(siteId)) {
+        siteStore.loadSiteInformation(siteId);
+      }
     },
   },
   {
@@ -123,14 +130,16 @@ const routes = [
       },
     },
     beforeEnter: async (route: any) => {
-      const generalStore = useGeneralStore();
+      const siteStore = useSiteStore();
+      const buildingStore = useBuildingStore();
       const params = JSON.parse(route.params.buildingparams as string);
-      if (generalStore.siteState.site?.id !== params.siteid) {
-        // TODO: reconsider awaiting here as it blocks showing of loading state,
-        // but seems to be necessary to not break timelines
-        await generalStore.loadSiteInformation(params.siteid);
+      if (siteStore.site?.id !== decodeURIComponent(params.siteid)) {
+        // TODO: Do we need the data?
+        siteStore.loadSiteInformation(params.siteid);
       }
-      generalStore.loadBuildingInformation(params.buildingid);
+      if (buildingStore.building?.id !== decodeURIComponent(params.buildingid)) {
+        buildingStore.loadBuildingInformation(params.buildingid);
+      }
     },
   },
   {
@@ -167,15 +176,21 @@ const routes = [
       },
     },
     beforeEnter: async (route: any) => {
-      const generalStore = useGeneralStore();
+      const siteStore = useSiteStore();
+      const buildingStore = useBuildingStore();
+      const subsectionStore = useSubsectionStore();
       const params = JSON.parse(route.params.subsectionparams as string);
-      if (generalStore.siteState.site?.id !== params.siteid) {
-        await generalStore.loadSiteInformation(params.siteid);
+      if (siteStore.site?.id !== decodeURIComponent(params.siteid)) {
+        // TODO: Do we need the data?
+        siteStore.loadSiteInformation(params.siteid);
       }
-      if (generalStore.buildingState.building?.id !== params.buildingid) {
-        await generalStore.loadBuildingInformation(params.buildingid);
+      if (buildingStore.building?.id !== decodeURIComponent(params.buildingid)) {
+        // TODO: Do we need the data?
+        buildingStore.loadBuildingInformation(params.buildingid);
       }
-      generalStore.loadSubsectionInformation(params.subsectionid);
+      if (subsectionStore.subsection?.id !== decodeURIComponent(params.subsectionid)) {
+        subsectionStore.loadSubsectionInformation(params.subsectionid);
+      }
     },
   },
   {
@@ -224,18 +239,26 @@ const routes = [
       },
     },
     beforeEnter: (route: any) => {
-      const generalStore = useGeneralStore();
+      const siteStore = useSiteStore();
+      const buildingStore = useBuildingStore();
+      const subsectionStore = useSubsectionStore();
+      const plantStore = usePlantStore();
       const params = JSON.parse(route.params.plantparams as string);
-      if (generalStore.siteState.site?.id !== params.siteid) {
-        generalStore.loadSiteInformation(params.siteid);
+      if (siteStore.site?.id !== decodeURIComponent(params.siteid)) {
+        // TODO: Do we need the data?
+        siteStore.loadSiteInformation(params.siteid);
       }
-      if (generalStore.buildingState.building?.id !== params.buildingid) {
-        generalStore.loadBuildingInformation(params.buildingid);
+      if (buildingStore.building?.id !== decodeURIComponent(params.buildingid)) {
+        // TODO: Do we need the data?
+        buildingStore.loadBuildingInformation(params.buildingid);
       }
-      if (generalStore.subsectionState.subsection?.id !== params.subsectionid) {
-        generalStore.loadSubsectionInformation(params.subsectionid);
+      if (subsectionStore.subsection?.id !== decodeURIComponent(params.subsectionid)) {
+        // TODO: Do we need the data?
+        subsectionStore.loadSubsectionInformation(params.subsectionid);
       }
-      generalStore.loadPlantInformation(params.plantid);
+      if (plantStore.plant?.id !== decodeURIComponent(params.plantid)) {
+        plantStore.loadPlantInformation(params.plantid);
+      }
     },
   },
 ];

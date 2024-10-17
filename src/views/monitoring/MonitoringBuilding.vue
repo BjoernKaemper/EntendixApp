@@ -2,7 +2,7 @@
   <div class="grid-wrapper">
     <!-- left side of grid -->
     <div class="grid-wrapper--left">
-      <h2>{{ buildingName || 'Loading' }}</h2>
+      <h2>{{ building?.data.buildingName || buildingName }}</h2>
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
       <AutomationKlima v-else />
       <div class="status-container">
@@ -10,7 +10,7 @@
         <LoadingCards v-if="isLoading" :card-count="3" card-class="" />
         <!-- @TODO: Get the rest of the data in the response an map it -->
         <!-- @TODO: remove placeholders -->
-        <div v-else class="status-container--cards">
+        <div v-else-if="!functionLoadingError" class="status-container--cards">
           <StatusCard
             v-for="(subsection, idx) in subsections"
             @click="openSubsection(subsection.data.tradeName, subsection.id)"
@@ -23,10 +23,16 @@
             :isLoading="isLoading"
           />
         </div>
+        <AlertElement v-else :alert="AlertMessages.CANNOT_LOAD" :is-toast="false" />
       </div>
       <div class="issues-container">
         <h3>Probleme in den Komponenten</h3>
         <LoadingCards v-if="isLoading" :card-count="1" card-class="problems-loading" />
+        <AlertElement
+          v-else-if="issueLoadingError"
+          :alert="AlertMessages.CANNOT_LOAD"
+          :is-toast="false"
+        />
         <div v-else-if="issues" class="issues">
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
@@ -80,6 +86,11 @@
         <TimeRangeDropdown />
       </div>
       <LoadingCards v-if="kpiIsLoading" :card-count="3" :grow-cards="true" />
+      <AlertElement
+        v-else-if="kpiLoadingError"
+        :alert="AlertMessages.CANNOT_LOAD"
+        :is-toast="false"
+      />
       <div v-else class="performance-grid">
         <!-- @TODO update status with data / remove hard coded value -->
         <div class="performance-grid">
@@ -106,6 +117,8 @@ import { mapStores } from 'pinia';
 
 // Store imports
 import { useGeneralStore } from '@/store/general';
+import { useBuildingStore } from '@/store/building';
+import { useSiteStore } from '@/store/site';
 
 // Type Imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -123,6 +136,9 @@ import StatusCard from '@/components/general/StatusCard.vue';
 import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
+import AlertElement from '@/components/general/AlertElement.vue';
+
+import { AlertMessages } from '@/assets/json/AlertMessages';
 
 export default {
   components: {
@@ -131,12 +147,14 @@ export default {
     StatusCard,
     LoadingCards,
     TimeRangeDropdown,
+    AlertElement,
   },
 
   data() {
     return {
       issues: true,
       buildingName: '',
+      buildingId: '',
     };
   },
 
@@ -147,30 +165,31 @@ export default {
       ActionTypes,
       SubsectionTypes,
       ModuleTypes,
+      AlertMessages,
     };
   },
 
   computed: {
-    ...mapStores(useGeneralStore),
+    ...mapStores(useGeneralStore, useBuildingStore, useSiteStore),
 
     building() {
-      return this.generalStore.buildingState.building;
+      return this.buildingStore.building;
     },
 
     site() {
-      return this.generalStore.siteState.site;
+      return this.siteStore.site;
     },
 
     subsections(): any {
-      return this.generalStore.buildingState.subsectionState.subsections;
+      return this.buildingStore.subsectionState.subsections;
     },
 
     kpis() {
-      return this.generalStore.buildingState.kpiState.kpis;
+      return this.buildingStore.kpiState.kpis;
     },
 
-    lastBuildingRequestTimestamp(): DateTime | null {
-      return this.generalStore.buildingState.requestTimestamp;
+    lastBuildingRequestTimestamp(): DateTime | undefined | null {
+      return this.buildingStore.requestTimestamp;
     },
 
     statusCardAmount(): number {
@@ -178,25 +197,42 @@ export default {
     },
 
     isLoading(): boolean {
-      return this.generalStore.buildingState.isLoading;
+      return this.buildingStore.isLoading === undefined ? true : this.buildingStore.isLoading;
     },
 
     kpiIsLoading(): boolean {
-      return this.generalStore.buildingState.kpiState.isLoading;
+      return this.buildingStore.kpiState.isLoading === undefined
+        ? true
+        : this.buildingStore.isLoading;
     },
 
     kpiAmount(): number {
-      return this.kpis.length ? this.kpis.length : 3;
+      return this.kpis?.length || 0;
     },
 
     kpiLookbackStartTimestamp(): keyof typeof TimelineLookbackOptions {
       return this.generalStore.kpiLookbackStartTimestamp;
     },
+
+    functionLoadingError(): boolean {
+      return this.buildingStore.error === null && this.buildingStore.subsectionState.error === null
+        ? false
+        : this.buildingStore.error || this.buildingStore.subsectionState.error;
+    },
+
+    kpiLoadingError(): boolean {
+      return this.buildingStore.kpiState.error;
+    },
+
+    issueLoadingError(): boolean {
+      // TODO: OR Issue Loading Error
+      return this.buildingStore.error === null ? false : this.buildingStore.error;
+    },
   },
 
   watch: {
     kpiLookbackStartTimestamp() {
-      this.generalStore.refetchKpiChartDataForBuildingKpis();
+      this.buildingStore.fetchKpiChartData();
     },
   },
 
@@ -239,7 +275,9 @@ export default {
           name: 'Monitoring_Site_Building_Subsection',
           params: {
             subsectionparams: JSON.stringify({
+              // TODO: Should this come from the params? Then we dont need to load them
               siteid: encodeURIComponent(this.site!.id),
+              // TODO: Should this come from the params? Then we dont need to load them
               siteName: this.site!.data.siteName,
               buildingid: encodeURIComponent(this.building!.id),
               buildingName: this.building!.data.buildingName,
@@ -254,6 +292,9 @@ export default {
 
   async created() {
     this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;
+    this.buildingId = decodeURIComponent(
+      JSON.parse(this.$route.params.buildingparams as string).buildingid,
+    );
   },
 };
 </script>

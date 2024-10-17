@@ -15,6 +15,11 @@
       <div class="status-container">
         <h3 class="status-headline">Gebäude in der Liegenschaft</h3>
         <LoadingCards v-if="isLoading" :card-count="3" />
+        <AlertElement
+          v-else-if="buildingLoadingError"
+          :alert="AlertMessages.CANNOT_LOAD"
+          :is-toast="false"
+        />
         <StatusCard
           v-else
           v-for="(building, idx) in site?.data.buildings"
@@ -38,6 +43,11 @@
         <TimeRangeDropdown />
       </div>
       <LoadingCards v-if="kpiIsLoading" :card-count="3" :grow-cards="true" />
+      <AlertElement
+        v-else-if="kpiLoadingError"
+        :alert="AlertMessages.CANNOT_LOAD"
+        :is-toast="false"
+      />
       <div v-else class="performance-grid">
         <ChartContainer
           v-for="(kpi, idx) in kpis"
@@ -56,6 +66,7 @@
 // Libraries
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { useGeneralStore } from '@/store/general';
+import { useSiteStore } from '@/store/site';
 import { mapStores } from 'pinia';
 import type { DateTime } from 'luxon';
 
@@ -64,12 +75,14 @@ import StatusCard from '@/components/general/StatusCard.vue';
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
+import AlertElement from '@/components/general/AlertElement.vue';
 
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
 import type { TimelineLookbackOptions } from '@/types/enums/TimelineLookbackOptions';
+import { AlertMessages } from '@/assets/json/AlertMessages';
 
 export default {
   components: {
@@ -77,6 +90,7 @@ export default {
     ChartContainer,
     LoadingCards,
     TimeRangeDropdown,
+    AlertElement,
   },
 
   setup() {
@@ -84,28 +98,30 @@ export default {
       ChipStatusTypes,
       ActionTypes,
       ModuleTypes,
+      AlertMessages,
     };
   },
 
   data() {
     return {
       siteName: '',
+      siteId: '',
     };
   },
 
   computed: {
-    ...mapStores(useGeneralStore),
+    ...mapStores(useGeneralStore, useSiteStore),
 
     site(): SiteWithBuildinginformation | null {
-      return this.generalStore.siteState.site;
+      return this.siteStore.site;
     },
 
     kpis() {
-      return this.generalStore.siteState.kpiState.kpis;
+      return this.siteStore.kpiState.kpis;
     },
 
     lastSiteRequestTime(): DateTime | null {
-      return this.generalStore.siteState.requestTimestamp;
+      return this.siteStore.requestTimestamp;
     },
 
     statusCardAmount(): number {
@@ -113,11 +129,11 @@ export default {
     },
 
     isLoading(): boolean {
-      return this.generalStore.siteState.isLoading;
+      return this.siteStore.isLoading;
     },
 
     kpiIsLoading(): boolean {
-      return this.generalStore.siteState.kpiState.isLoading;
+      return this.siteStore.kpiState.isLoading;
     },
 
     kpiAmount(): number {
@@ -127,16 +143,25 @@ export default {
     kpiLookbackStartTimestamp(): keyof typeof TimelineLookbackOptions {
       return this.generalStore.kpiLookbackStartTimestamp;
     },
+
+    buildingLoadingError(): boolean {
+      return this.siteStore.error;
+    },
+
+    kpiLoadingError(): boolean {
+      return this.siteStore.kpiState.error;
+    },
   },
 
   watch: {
     kpiLookbackStartTimestamp() {
-      this.generalStore.refetchKpiChartDataForSiteKpis();
+      this.siteStore.fetchKpiChartData();
     },
   },
 
   created() {
     this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;
+    this.siteId = decodeURIComponent(JSON.parse(this.$route.params.siteparams as string).siteid);
   },
 
   methods: {

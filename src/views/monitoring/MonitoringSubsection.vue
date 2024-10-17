@@ -16,7 +16,7 @@
         </div>
         <div class="grid-wrapper--right--content">
           <LoadingCards v-if="isLoading" :card-count="3" />
-          <div v-else v-for="plantType in subsection!.data.plantsByType" :key="plantType.type">
+          <div v-else v-for="plantType in subsection?.data.plantsByType" :key="plantType.type">
             <h3>{{ plantType.name }}</h3>
             <div>
               <StatusCard
@@ -45,6 +45,9 @@ import { mapStores } from 'pinia';
 
 // Store imports
 import { useGeneralStore } from '@/store/general';
+import { useSiteStore } from '@/store/site';
+import { useBuildingStore } from '@/store/building';
+import { useSubsectionStore } from '@/store/subsection';
 
 // component imports
 import AutomationHZG from '@/assets/AutomationHZG.vue';
@@ -74,18 +77,18 @@ export default {
     LoadingCards,
   },
   computed: {
-    ...mapStores(useGeneralStore),
+    ...mapStores(useGeneralStore, useSiteStore, useBuildingStore, useSubsectionStore),
     site() {
-      return this.generalStore.siteState.site;
+      return this.siteStore.site;
     },
     building() {
-      return this.generalStore.buildingState.building;
+      return this.buildingStore.building;
     },
     subsection() {
-      return this.generalStore.subsectionState.subsection;
+      return this.subsectionStore.subsection;
     },
     isLoading(): boolean {
-      return this.generalStore.subsectionState.isLoading;
+      return this.subsectionStore.isLoading;
     },
   },
   methods: {
@@ -122,10 +125,19 @@ export default {
           name: 'Monitoring_Site_Building_Subsection_Plant',
           params: {
             plantparams: JSON.stringify({
+              // TODO: Should this come from the params? Then we dont need to load them
               siteid: encodeURIComponent(this.site.id),
+
+              // TODO: Should this come from the params? Then we dont need to load them
               siteName: this.site.data.siteName,
+
+              // TODO: Should this come from the params? Then we dont need to load them
               buildingid: encodeURIComponent(this.building.id),
+
+              // TODO: Should this come from the params? Then we dont need to load them
               buildingName: this.building.data.buildingName,
+
+              // TODO: Should this come from the params? Then we dont need to load them
               subsectionName: this.subsection.data.tradeName,
               subsectionid: encodeURIComponent(this.subsection.id),
               plantName,

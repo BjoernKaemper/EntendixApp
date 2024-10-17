@@ -25,6 +25,7 @@
 </template>
 
 <script lang="ts">
+// TODO: add drag and drop functionality?
 // Component imports
 import FileEntry from '@/components/general/FileEntry.vue';
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';

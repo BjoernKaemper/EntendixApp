@@ -11,20 +11,24 @@ import type { Building } from '@/types/global/building/Building';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 import type { Subsection } from '@/types/global/subsections/Subsection';
 import type { Alert } from '@/types/Alert';
-import { TimelineLookbackOptions } from '@/types/enums/TimelineLookbackOptions';
 
 // Helper Imports
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import type { Plant } from '@/types/global/plant/Plant';
 import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
+import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
 
 // Authenticator definition
 const auth = useAuthenticator();
 
 interface GeneralStoreState {
   time: DateTime;
-  kpiLookbackStartTimestamp: keyof typeof TimelineLookbackOptions,
+  kpiLookbackWindow: {
+    currentValue: TimelineLookbackOptions;
+    customStartDate?: DateTime;
+    customEndDate?: DateTime;
+  };
   windowDimensions: {
     width: number | null;
     height: number | null;
@@ -129,9 +133,9 @@ const defaultBuildingState = {
 export const useGeneralStore = defineStore('general', {
   state: (): GeneralStoreState => ({
     time: DateTime.local(),
-    kpiLookbackStartTimestamp: Object.keys(TimelineLookbackOptions)[
-      Object.values(TimelineLookbackOptions).indexOf(TimelineLookbackOptions.CURRENT_YEAR)
-    ] as keyof typeof TimelineLookbackOptions,
+    kpiLookbackWindow: {
+      currentValue: TimelineLookbackOptions.FOURTEEN_DAYS,
+    },
     windowDimensions: defaultWindowDimensionsState,
     baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
@@ -261,57 +265,12 @@ export const useGeneralStore = defineStore('general', {
     },
 
     async fetchKpiChartData(parentId: string, kpi: Kpi): Promise<TimelineDataPoint[]> {
-      let startDate = null;
-
-      switch (this.kpiLookbackStartTimestamp) {
-        case Object.keys(TimelineLookbackOptions)[
-          Object.values(TimelineLookbackOptions).indexOf(TimelineLookbackOptions.TWENTYFOUR_HOURS)
-        ]:
-          startDate = this.time.minus({ hours: 24 }).toSeconds();
-          break;
-        case Object.keys(TimelineLookbackOptions)[
-          Object.values(TimelineLookbackOptions).indexOf(TimelineLookbackOptions.CURRENT_WEEK)
-        ]:
-          startDate = this.time.startOf('week').toSeconds();
-          break;
-        case Object.keys(TimelineLookbackOptions)[
-          Object.values(TimelineLookbackOptions).indexOf(TimelineLookbackOptions.SEVEN_DAYS)
-        ]:
-          startDate = this.time.minus({ days: 7 }).toSeconds();
-          break;
-        case Object.keys(TimelineLookbackOptions)[
-          Object.values(TimelineLookbackOptions).indexOf(TimelineLookbackOptions.CURRENT_MONTH)
-        ]:
-          startDate = this.time.startOf('month').toSeconds();
-          break;
-        case Object.keys(TimelineLookbackOptions)[
-          Object.values(TimelineLookbackOptions).indexOf(TimelineLookbackOptions.THIRTY_DAYS)
-        ]:
-          startDate = this.time.minus({ days: 30 }).toSeconds();
-          break;
-        case Object.keys(TimelineLookbackOptions)[
-          Object.values(TimelineLookbackOptions).indexOf(TimelineLookbackOptions.CURRENT_QUARTER)
-        ]:
-          startDate = this.time.startOf('quarter').toSeconds();
-          break;
-        case Object.keys(TimelineLookbackOptions)[
-          Object.values(TimelineLookbackOptions).indexOf(TimelineLookbackOptions.CURRENT_YEAR)
-        ]:
-          startDate = this.time.startOf('year').toSeconds();
-          break;
-        case Object.keys(TimelineLookbackOptions)[
-          Object.values(TimelineLookbackOptions).indexOf(TimelineLookbackOptions.ALL)
-        ]:
-          startDate = 1;
-          break;
-        default:
-          startDate = this.time.minus({ days: 14 }).toSeconds();
-          break;
-      }
+      const startDate = TimeRangeDropdownConfig[this.kpiLookbackWindow.currentValue]
+        .dateTransformer(this.time);
 
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
-        startTimestamp: startDate,
+        startTimestamp: startDate.toSeconds(),
         endTimestamp: this.time.toSeconds(),
         aasIdentifier: parentId,
         sem_id_shorts: `${kpi.id}.Value.PresentValue`,

@@ -1,19 +1,22 @@
 <template>
-  <a :href="url" class="file">
-    <MaterialSymbol symbol="description" />
+  <div class="file">
+    <MaterialSymbol symbol="description" class="file__icon" />
     <p class="file__name">{{ fileName }}</p>
-    <button class="file__options" @click.prevent="console.log('TODO')" type="button">
-      <MaterialSymbol symbol="more_vert" />
-    </button>
-  </a>
+    <!-- TODO: add download functionality -->
+    <KebabMenu :options="kebabOptions" @delete="$emit('delete')" vertical />
+  </div>
 </template>
 
 <script lang="ts">
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import KebabMenu, { type Option } from '@/components/general/KebabMenu.vue';
+import { IconTypes } from '@/types/enums/IconTypes';
 
 export default {
+  name: 'FileEntry',
   components: {
     MaterialSymbol,
+    KebabMenu,
   },
   props: {
     /**
@@ -30,9 +33,31 @@ export default {
      */
     url: {
       type: String,
-      required: true,
+      default: undefined,
     },
   },
+  computed: {
+    kebabOptions(): Option[] {
+      const options: Option[] = [{
+        icon: IconTypes.DELETE,
+        text: 'Datei Löschen',
+        emits: 'delete',
+        iconColor: 'red',
+      }];
+
+      if (this.url) {
+        options.push({
+          icon: 'download',
+          text: 'Datei herunterladen',
+          emits: 'download',
+          iconColor: 'purple',
+        });
+      }
+
+      return options;
+    },
+  },
+  emits: ['delete', 'download'],
 };
 </script>
 
@@ -45,8 +70,9 @@ export default {
   background-color: $lightest;
   align-items: center;
   justify-content: space-between;
-  text-decoration: none;
   color: $darkest;
+  border: 1px solid $light;
+  border-radius: $border-radius;
 
   @include content;
 
@@ -58,6 +84,10 @@ export default {
     display: flex;
     align-items: center;
     cursor: pointer;
+  }
+
+  &__icon {
+    color: $dark-green;
   }
 }
 </style>

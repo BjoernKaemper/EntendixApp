@@ -34,6 +34,7 @@
         :required="required"
       />
     </div>
+    <div v-if="description" class="form-input__description">{{ description }}</div>
     <div v-if="errorMessage" class="form-input__error-message">
       <MaterialSymbol symbol="warning" class="form-input__error-icon" />
       <span>{{ errorMessage }}</span>
@@ -125,6 +126,13 @@ export default {
      * Custom icon to show on the input.
      */
     icon: {
+      type: String,
+      default: undefined,
+    },
+    /**
+     * Additional description for the input.
+     */
+    description: {
       type: String,
       default: undefined,
     },
@@ -239,6 +247,10 @@ export default {
 
   &__error-icon {
     font-size: $s;
+  }
+
+  &__description {
+    @include meta-information;
   }
 }
 </style>

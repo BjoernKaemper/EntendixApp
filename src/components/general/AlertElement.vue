@@ -1,21 +1,21 @@
 <template>
   <div
     class="alert-tiles--wrapper"
-    :class="alert.type"
+    :class="{ [alert.type]: true, 'is-toast': isToast }"
     ref="alert"
   >
-    <component :is="icon" />
+    <MaterialSymbol :symbol="icon" />
     <div class="alert-tiles--wrapper--inner">
       <h4>{{ alert.title }}</h4>
       <p>
         {{ alert.description }}
       </p>
-      <small>
+      <small v-if="alert.time">
         <time>{{ alert.time }} Uhr</time>
       </small>
     </div>
-    <button type="button" @click="closeAlert(alert.id)">
-      <CloseIcon />
+    <button v-if="isToast" type="button" @click="closeAlert(alert.id)">
+      <MaterialSymbol :symbol="IconTypes.CLOSE" />
     </button>
   </div>
 </template>
@@ -31,27 +31,21 @@
  */
 
 // component imports
-import WarningIcon from '@/components/icons/WarningIcon.vue';
-import CloseIcon from '@/components/icons/CloseIcon.vue';
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
-import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+
+// library imports
+import { useGeneralStore } from '@/store/general';
+import { mapStores } from 'pinia';
 
 // type imports
 import { IconTypes } from '@/types/enums/IconTypes';
 import { AlertTypes } from '@/types/enums/AlertTypes';
-import { useGeneralStore } from '@/store/general';
-import { mapStores } from 'pinia';
 import type { Alert } from '@/types/Alert';
 
 export default {
   name: 'AlertElement',
   components: {
-    WarningIcon,
-    CloseIcon,
-    CheckMarkCircleIcon,
-    InfoCircleIcon,
-    ExclamationMarkIcon,
+    MaterialSymbol,
   },
   props: {
     /**
@@ -61,6 +55,15 @@ export default {
     alert: {
       type: Object as () => Alert,
       required: true,
+    },
+    /**
+     * Whether the alert is a toast or not.
+     * @type {boolean}
+     * @default true
+     */
+    isToast: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
@@ -89,6 +92,11 @@ export default {
       this.generalStore.removeAlert(alertId);
     },
   },
+  setup() {
+    return {
+      IconTypes,
+    };
+  },
 };
 </script>
 
@@ -105,37 +113,39 @@ export default {
 
   border-left: $xxs solid $lightest;
   border-radius: $base-size;
-  box-shadow: 0px $base-size $base-size 0px $shadow;
+  &.is-toast {
+    box-shadow: 0px $base-size $base-size 0px $shadow;
+  }
 
   &.success {
     border-left-color: $light-green;
-    & > svg {
+    & > span {
       color: $light-green;
     }
   }
 
   &.warning {
     border-left-color: $yellow;
-    & > svg {
+    & > span {
       color: $yellow;
     }
   }
 
   &.error {
     border-left-color: $orange;
-    & > svg {
+    & > span {
       color: $orange;
     }
   }
 
   &.info {
     border-left-color: $light-purple;
-    & > svg {
+    & > span {
       color: $light-purple;
     }
   }
 
-  & > svg {
+  & > span {
     flex-shrink: 0;
   }
 
@@ -144,16 +154,14 @@ export default {
     cursor: pointer;
     padding: 0;
     flex-shrink: 0;
-
-    > svg {
-      color: $lightest;
-    }
+    color: $lightest;
   }
 
   &--inner {
     display: flex;
     flex-direction: column;
     gap: $xxs;
+    flex-grow: 1;
 
     h4 {
       margin-top: 2.5px;

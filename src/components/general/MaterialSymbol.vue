@@ -3,6 +3,10 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue';
+import type { MaterialIconNames } from '@/types/MaterialIconNames';
+import type { IconTypes } from '@/types/enums/IconTypes';
+
 export default {
   name: 'MaterialSymbol',
   props: {
@@ -12,7 +16,7 @@ export default {
      * @required
      */
     symbol: {
-      type: String,
+      type: String as PropType<MaterialIconNames | IconTypes>,
       required: true,
     },
     size: {

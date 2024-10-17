@@ -34,7 +34,7 @@ export default {
     MaterialSymbol,
   },
   computed: {
-    icon(): string {
+    icon(): IconTypes {
       switch (this.status) {
         case ChipStatusTypes.SUCCESS:
           return IconTypes.CHECK_MARK_CIRCLE;

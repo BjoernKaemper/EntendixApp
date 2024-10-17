@@ -25,10 +25,10 @@
 </template>
 
 <script lang="ts">
-import EntendixLogo from '@/components/icons/EntendixLogo.vue';
-import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 import { IconTypes } from '@/types/enums/IconTypes';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import EntendixLogo from '@/components/icons/EntendixLogo.vue';
 
 export default {
   components: {

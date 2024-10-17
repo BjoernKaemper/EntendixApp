@@ -1,14 +1,13 @@
 <template>
   <button type="button" :class="[colorClass, size, onlyIconClass]">
     {{ text }}
-    <MaterialSymbol :symbol="iconClass" />
+    <MaterialSymbol v-if="icon" :symbol="icon" />
   </button>
 </template>
 
 <script lang="ts">
 import { IconTypes } from '@/types/enums/IconTypes';
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
-import iconExists from '@/helpers/IconExists';
 
 export default {
   name: 'ButtonComponent',
@@ -31,8 +30,8 @@ export default {
      * @default ''
      */
     icon: {
-      type: [String as () => IconTypes, Boolean],
-      default: false,
+      type: [String as () => IconTypes],
+      default: '',
     },
     /**
      * The primary state of the button.
@@ -59,9 +58,6 @@ export default {
     },
     onlyIconClass(): string {
       return this.text === '' ? 'only-icon' : '';
-    },
-    iconClass(): string {
-      return typeof this.icon !== 'boolean' ? iconExists(this.icon) : '';
     },
   },
 };

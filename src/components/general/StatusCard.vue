@@ -172,7 +172,7 @@ export default {
       return formatter.format(date).replace(/,/g, '').replace(/\//g, '.');
     },
 
-    kpiIcon(): string | undefined {
+    kpiIcon(): IconTypes | undefined {
       switch (this.kpiType) {
         case SubsectionTypes.MEDIA:
           return IconTypes.MEDIA;
@@ -191,7 +191,7 @@ export default {
       }
     },
 
-    actionIcon(): string | undefined {
+    actionIcon(): IconTypes | undefined {
       switch (this.actionType) {
         case ActionTypes.INFO:
           return IconTypes.INFO_CIRCLE;

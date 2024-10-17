@@ -1,38 +1,18 @@
 <template>
   <button type="button" :class="[colorClass, size, onlyIconClass]">
     {{ text }}
-    <component v-if="icon" :is="iconName" />
+    <MaterialSymbol v-if="icon" :symbol="icon" />
   </button>
 </template>
 
 <script lang="ts">
 import { IconTypes } from '@/types/enums/IconTypes';
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
-import CloseIcon from '@/components/icons/CloseIcon.vue';
-import CheckIcon from '@/components/icons/CheckIcon.vue';
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
-import WarningIcon from '@/components/icons/WarningIcon.vue';
-import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
-import ArrowIcon from '@/components/icons/ArrowIcon.vue';
-import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
-import AddIcon from '@/components/icons/AddIcon.vue';
-import CommentIcon from '@/components/icons/CommentIcon.vue';
-import SettingsIcon from '@/components/icons/SettingsIcon.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 export default {
   name: 'ButtonComponent',
   components: {
-    CheckMarkCircleIcon,
-    CheckIcon,
-    ExclamationMarkIcon,
-    WarningIcon,
-    QuestionMarkIcon,
-    ArrowIcon,
-    InfoCircleIcon,
-    AddIcon,
-    CloseIcon,
-    CommentIcon,
-    SettingsIcon,
+    MaterialSymbol,
   },
   props: {
     /**
@@ -50,8 +30,8 @@ export default {
      * @default ''
      */
     icon: {
-      type: [String as () => IconTypes, Boolean],
-      default: false,
+      type: [String as () => IconTypes],
+      default: '',
     },
     /**
      * The primary state of the button.
@@ -79,34 +59,6 @@ export default {
     onlyIconClass(): string {
       return this.text === '' ? 'only-icon' : '';
     },
-    iconName(): IconTypes {
-      switch (this.icon) {
-        case IconTypes.ARROW:
-          return IconTypes.ARROW;
-        case IconTypes.CHECK_MARK_CIRCLE:
-          return IconTypes.CHECK_MARK_CIRCLE;
-        case IconTypes.CHECK_MARK:
-          return IconTypes.CHECK_MARK;
-        case IconTypes.EXCLAMATION_MARK:
-          return IconTypes.EXCLAMATION_MARK;
-        case IconTypes.WARNING:
-          return IconTypes.WARNING;
-        case IconTypes.QUESTION_MARK:
-          return IconTypes.QUESTION_MARK;
-        case IconTypes.INFO_CIRCLE:
-          return IconTypes.INFO_CIRCLE;
-        case IconTypes.ADD:
-          return IconTypes.ADD;
-        case IconTypes.CLOSE:
-          return IconTypes.CLOSE;
-        case IconTypes.COMMENT:
-          return IconTypes.COMMENT;
-        case IconTypes.SETTINGS:
-          return IconTypes.SETTINGS;
-        default:
-          return IconTypes.QUESTION_MARK;
-      }
-    },
   },
 };
 </script>
@@ -124,7 +76,7 @@ button {
   &.small {
     padding: $xxxs;
     @include meta-information;
-    > svg {
+    > span {
       width: $xs;
       height: $xs;
     }

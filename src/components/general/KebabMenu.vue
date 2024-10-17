@@ -18,9 +18,10 @@
 import { IconTypes } from '@/types/enums/IconTypes';
 
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import type { MaterialIconNames } from '@/types/MaterialIconNames';
 
 export type Option = {
-  icon: IconTypes;
+  icon: IconTypes | MaterialIconNames;
   text: string;
   emits: string;
   iconColor?: 'red' | 'purple'
@@ -91,6 +92,8 @@ export default {
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0;
+    display: inline-flex;
   }
 
   & .menu-options {

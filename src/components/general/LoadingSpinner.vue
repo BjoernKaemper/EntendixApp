@@ -29,7 +29,7 @@ export default {
   width: $m;
   height: $m;
   border: 2px solid $dark-purple;
-  border-bottom-color: transparent;
+  border-right-color: transparent;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
@@ -41,16 +41,16 @@ export default {
   0% {
     transform: rotate(-45deg);
     border-color: $dark-purple;
-    border-bottom-color: transparent;
+    border-right-color: transparent;
   }
   50% {
     border-color: $light-purple;
-    border-bottom-color: transparent;
+    border-right-color: transparent;
   }
   100% {
     transform: rotate(315deg);
     border-color: $dark-purple;
-    border-bottom-color: transparent;
+    border-right-color: transparent;
   }
 }
 </style>

@@ -1,16 +1,20 @@
 <template>
-  <div class="alert-tiles--wrapper" :class="alert.type" ref="alert">
+  <div
+    class="alert-tiles--wrapper"
+    :class="{ [alert.type]: true, 'is-toast': isToast }"
+    ref="alert"
+  >
     <MaterialSymbol :symbol="icon" />
     <div class="alert-tiles--wrapper--inner">
       <h4>{{ alert.title }}</h4>
       <p>
         {{ alert.description }}
       </p>
-      <small>
+      <small v-if="alert.time">
         <time>{{ alert.time }} Uhr</time>
       </small>
     </div>
-    <button type="button" @click="closeAlert(alert.id)">
+    <button v-if="isToast" type="button" @click="closeAlert(alert.id)">
       <MaterialSymbol :symbol="IconTypes.CLOSE" />
     </button>
   </div>
@@ -51,6 +55,15 @@ export default {
     alert: {
       type: Object as () => Alert,
       required: true,
+    },
+    /**
+     * Whether the alert is a toast or not.
+     * @type {boolean}
+     * @default true
+     */
+    isToast: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
@@ -100,7 +113,9 @@ export default {
 
   border-left: $xxs solid $lightest;
   border-radius: $base-size;
-  box-shadow: 0px $base-size $base-size 0px $shadow;
+  &.is-toast {
+    box-shadow: 0px $base-size $base-size 0px $shadow;
+  }
 
   &.success {
     border-left-color: $light-green;
@@ -146,6 +161,7 @@ export default {
     display: flex;
     flex-direction: column;
     gap: $xxs;
+    flex-grow: 1;
 
     h4 {
       margin-top: 2.5px;

@@ -16,7 +16,7 @@
         </div>
         <div class="grid-wrapper--right--content">
           <LoadingCards v-if="isLoading" :card-count="3" />
-          <div v-else v-for="plantType in subsection!.data.plantsByType" :key="plantType.type">
+          <div v-else v-for="plantType in subsection?.data.plantsByType" :key="plantType.type">
             <h3>{{ plantType.name }}</h3>
             <div>
               <StatusCard
@@ -46,6 +46,7 @@ import { mapStores } from 'pinia';
 
 // Store imports
 import { useGeneralStore } from '@/store/general';
+import { useSubsectionStore } from '@/store/subsection';
 
 // component imports
 import AutomationHZG from '@/assets/AutomationHZG.vue';
@@ -65,6 +66,11 @@ export default {
     return {
       isSidebarOpen: false,
       subsectionName: '',
+      subsectionId: '',
+      siteName: '',
+      siteId: '',
+      buildingName: '',
+      buildingId: '',
     };
   },
 
@@ -76,18 +82,12 @@ export default {
     LoadingCards,
   },
   computed: {
-    ...mapStores(useGeneralStore),
-    site() {
-      return this.generalStore.siteState.site;
-    },
-    building() {
-      return this.generalStore.buildingState.building;
-    },
+    ...mapStores(useGeneralStore, useSubsectionStore),
     subsection() {
-      return this.generalStore.subsectionState.subsection;
+      return this.subsectionStore.subsection;
     },
     isLoading(): boolean {
-      return this.generalStore.subsectionState.isLoading;
+      return this.subsectionStore.isLoading;
     },
   },
 
@@ -120,15 +120,15 @@ export default {
       }
     },
     openPlant(plantName: string, plantid: string) {
-      if (this.site && this.building && this.subsection) {
+      if (this.subsection) {
         this.$router.push({
           name: 'Monitoring_Site_Building_Subsection_Plant',
           params: {
             plantparams: JSON.stringify({
-              siteid: encodeURIComponent(this.site.id),
-              siteName: this.site.data.siteName,
-              buildingid: encodeURIComponent(this.building.id),
-              buildingName: this.building.data.buildingName,
+              siteid: encodeURIComponent(this.siteId),
+              siteName: this.siteName,
+              buildingid: encodeURIComponent(this.buildingId),
+              buildingName: this.buildingName,
               subsectionName: this.subsection.data.tradeName,
               subsectionid: encodeURIComponent(this.subsection.id),
               plantName,
@@ -148,7 +148,13 @@ export default {
     };
   },
   async created() {
-    this.subsectionName = JSON.parse(this.$route.params.subsectionparams as string).subsectionName;
+    const params = JSON.parse(this.$route.params.subsectionparams as string);
+    this.subsectionName = params.subsectionName;
+    this.subsectionId = decodeURIComponent(params.subsectionid);
+    this.siteName = params.siteName;
+    this.siteId = decodeURIComponent(params.siteid);
+    this.buildingName = params.buildingName;
+    this.buildingId = decodeURIComponent(params.buildingid);
   },
 };
 </script>

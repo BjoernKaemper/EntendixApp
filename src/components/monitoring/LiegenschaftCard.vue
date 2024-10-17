@@ -24,7 +24,7 @@
             <MaterialSymbol :symbol="IconTypes.HOME" />
             Digitaler Zwilling
           </span>
-          <ArrowIcon />
+          <MaterialSymbol :symbol="IconTypes.ARROW" />
         </button>
         <button type="button" @click="$emit('monitoringClicked')" @keydown.enter="$emit('clicked')">
           <span>
@@ -182,6 +182,7 @@ export default {
       align-items: center;
       justify-content: space-between;
       gap: $xxs;
+      padding: $xs $xxs;
 
       & > span {
         display: flex;

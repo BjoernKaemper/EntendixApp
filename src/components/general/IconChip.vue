@@ -110,34 +110,22 @@ export default {
 
   &.success-component {
     background-color: $darkest;
-
-    span > * > * {
-      fill: $light-green;
-    }
+    color: $light-green;
   }
 
   &.none {
     background-color: $darken;
-
-    span > * > * {
-      fill: $light-purple;
-    }
+    color: $light-purple;
   }
 
   &.error-component {
     background-color: $darkest;
-
-    span > * > * {
-      fill: $orange;
-    }
+    color: $orange;
   }
 
   &.warning-component {
     background-color: $darkest;
-
-    span > * > * {
-      fill: $yellow;
-    }
+    color: $yellow;
   }
 }
 </style>

@@ -9,16 +9,16 @@
 import { mapStores } from 'pinia';
 
 // Store imports
-import { useGeneralStore } from '@/store/general';
+import { usePlantStore } from '@/store/plant';
 
 export default {
   data() {
     return {};
   },
   computed: {
-    ...mapStores(useGeneralStore),
+    ...mapStores(usePlantStore),
     plant() {
-      return this.generalStore.plantState.plant;
+      return this.plantStore.plant;
     },
   },
 };

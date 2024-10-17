@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { MaterialIconNames } from '@/types/MaterialIconNames';
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 export default {
@@ -26,11 +27,11 @@ export default {
     },
     /**
      * The icon of the button.
-     * @type {IconTypes}
+     * @type {IconTypes | MaterialIconNames}
      * @default ''
      */
     icon: {
-      type: [String as () => IconTypes],
+      type: [String as () => IconTypes | MaterialIconNames],
       default: '',
     },
     /**

@@ -8,8 +8,59 @@
         Geben Sie die Informationen einer neuen Liegenschaft ein, um sie innerhalb von ENTENDIX zu
         verwalten.
       </p>
-      <h4>Informationen pflegen</h4>
-      @TODO: add Form
+      <form action="">
+        <h4>Informationen pflegen</h4>
+        <FormInput
+          id="name"
+          label="Name"
+          placeholder=""
+          :required="true"
+          type="text"
+          model-value=""
+        />
+        <FormInput
+          id="street"
+          label="Straße"
+          placeholder=""
+          :required="true"
+          type="text"
+          model-value=""
+        />
+        <div class="form-grid">
+          <FormInput
+            id="zip"
+            label="PLZ"
+            placeholder=""
+            :required="true"
+            type="text"
+            model-value=""
+          />
+          <FormInput
+            id="city"
+            label="Stadt"
+            placeholder=""
+            :required="true"
+            type="text"
+            model-value=""
+          />
+        </div>
+        <FormInput
+          id="country"
+          label="Land"
+          placeholder=""
+          :required="true"
+          type="text"
+          model-value=""
+        />
+        <FormInput
+          id="image"
+          label="Bild der Liegenschaft"
+          placeholder=""
+          :required="true"
+          type="file"
+          model-value=""
+        />
+      </form>
     </template>
     <template #footer>
       <ButtonComponent @click="close" text="Abbrechen" />
@@ -26,6 +77,7 @@
 <script lang="ts">
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
+import FormInput from '@/components/general/forms/FormInput.vue';
 
 import { IconTypes } from '@/types/enums/IconTypes';
 
@@ -33,6 +85,7 @@ export default {
   components: {
     ModalOverlay,
     ButtonComponent,
+    FormInput,
   },
   props: {
     /**
@@ -57,7 +110,8 @@ export default {
       this.$emit('close');
     },
     addSite() {
-      // TODO
+      // TODO handle check if all fields are filled
+      // TODO handle the adding
     },
   },
 };
@@ -70,5 +124,16 @@ h3 {
 }
 h4 {
   @include section-headline;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: $xxs;
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $xxs;
+  }
 }
 </style>

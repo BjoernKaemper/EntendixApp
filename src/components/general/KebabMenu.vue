@@ -1,7 +1,7 @@
 <template>
-  <div class="menu-wrapper" @focusout="toggleMenu">
+  <div class="menu-wrapper" ref="menuWrapper">
     <button class="menu-activator" type="button" @click="toggleMenu">
-      <MaterialSymbol :symbol="IconTypes.KEBAB_MENU" />
+      <MaterialSymbol :symbol="vertical ? 'more_vert' : IconTypes.KEBAB_MENU" />
     </button>
     <ul v-if="isOpen" class="menu-options">
       <li v-for="(option, idx) in options" :key="idx">
@@ -34,6 +34,13 @@ export default {
       type: Array<Option>,
       default: () => [],
     },
+    /**
+     * Wether or not the more icon is displayed vertically.
+     */
+    vertical: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -48,6 +55,23 @@ export default {
       this.$emit(emits);
       this.isOpen = false;
     },
+    handleOutsideClick(event: MouseEvent) {
+      if (!(this.$refs.menuWrapper as HTMLElement).contains(event.target as Node)) {
+        this.isOpen = false;
+      }
+    },
+  },
+  watch: {
+    isOpen(value) {
+      if (value) {
+        document.addEventListener('click', this.handleOutsideClick);
+      } else {
+        document.removeEventListener('click', this.handleOutsideClick);
+      }
+    },
+  },
+  unmounted() {
+    document.removeEventListener('click', this.handleOutsideClick);
   },
   setup() {
     return {

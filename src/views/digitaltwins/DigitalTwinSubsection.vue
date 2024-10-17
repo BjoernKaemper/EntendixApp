@@ -32,7 +32,7 @@
 import { mapStores } from 'pinia';
 
 // Store imports
-import { useGeneralStore } from '@/store/general';
+import { useSubsectionStore } from '@/store/subsection';
 
 // Component imports
 import DigitalTwinLayout from '@/components/general/digitaltwins/DigitalTwinLayout.vue';
@@ -52,21 +52,18 @@ export default {
   data() {
     return {
       subsectionName: '',
+      subsectionId: '',
+      siteName: '',
+      siteId: '',
+      buildingName: '',
+      buildingId: '',
     };
   },
   computed: {
-    ...mapStores(useGeneralStore),
-
-    site() {
-      return this.generalStore.siteState.site;
-    },
-
-    building() {
-      return this.generalStore.buildingState.building;
-    },
+    ...mapStores(useSubsectionStore),
 
     subsection() {
-      return this.generalStore.subsectionState.subsection;
+      return this.subsectionStore.subsection;
     },
   },
   methods: {
@@ -74,15 +71,15 @@ export default {
       return plants.sort((a, b) => a.data.plantName.localeCompare(b.data.plantName));
     },
     openPlant(plantName: string, plantid: string) {
-      if (this.site && this.building && this.subsection) {
+      if (this.subsection) {
         this.$router.push({
           name: 'DigitalTwins_Site_Building_Subsection_Plant',
           params: {
             plantparams: JSON.stringify({
-              siteid: encodeURIComponent(this.site.id),
-              siteName: this.site.data.siteName,
-              buildingid: encodeURIComponent(this.building.id),
-              buildingName: this.building.data.buildingName,
+              siteid: encodeURIComponent(this.siteId),
+              siteName: this.siteName,
+              buildingid: encodeURIComponent(this.buildingId),
+              buildingName: this.buildingName,
               subsectionName: this.subsection.data.tradeName,
               subsectionid: encodeURIComponent(this.subsection.id),
               plantName,
@@ -94,7 +91,13 @@ export default {
     },
   },
   created() {
-    this.subsectionName = JSON.parse(this.$route.params.subsectionparams as string).subsectionName;
+    const params = JSON.parse(this.$route.params.subsectionparams as string);
+    this.subsectionName = params.subsectionName;
+    this.subsectionId = decodeURIComponent(params.subsectionid);
+    this.siteName = params.siteName;
+    this.siteId = decodeURIComponent(params.siteid);
+    this.buildingName = params.buildingName;
+    this.buildingId = decodeURIComponent(params.buildingid);
   },
 };
 </script>

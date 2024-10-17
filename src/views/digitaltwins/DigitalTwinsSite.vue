@@ -22,14 +22,18 @@
 </template>
 
 <script lang="ts">
+// Store imports
+import { useSiteStore } from '@/store/site';
+import { mapStores } from 'pinia';
+
+// Component imports
 import DigitalTwinLayout from '@/components/general/digitaltwins/DigitalTwinLayout.vue';
 import BuildingCard from '@/components/general/digitaltwins/BuildingCard.vue';
 import BuildingCardLoading from '@/components/general/digitaltwins/BuildingCardLoading.vue';
 import SiteDetails from '@/components/general/digitaltwins/SiteDetails.vue';
 
-import { useGeneralStore } from '@/store/general';
+// Type imports
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
-import { mapStores } from 'pinia';
 
 export default {
   components: {
@@ -51,14 +55,14 @@ export default {
     this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;
   },
   computed: {
-    ...mapStores(useGeneralStore),
+    ...mapStores(useSiteStore),
 
     site(): SiteWithBuildinginformation | null {
-      return this.generalStore.siteState.site;
+      return this.siteStore.site;
     },
 
     isLoading(): boolean {
-      return this.generalStore.siteState.isLoading;
+      return this.siteStore.isLoading;
     },
   },
   methods: {

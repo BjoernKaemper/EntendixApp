@@ -6,7 +6,7 @@
     <ul v-if="isOpen" class="menu-options">
       <li v-for="(option, idx) in options" :key="idx">
         <button type="button" @click="optionSelected(option.emits)">
-          <MaterialSymbol :symbol="option.icon" />
+          <MaterialSymbol :symbol="option.icon" :class="{ [`menu-icon--${option.iconColor}`]: option.iconColor }" />
           {{ option.text }}
         </button>
       </li>
@@ -23,6 +23,7 @@ export type Option = {
   icon: IconTypes;
   text: string;
   emits: string;
+  iconColor?: 'red' | 'purple'
 };
 
 export default {
@@ -112,6 +113,16 @@ export default {
         align-items: center;
         cursor: pointer;
       }
+    }
+  }
+
+  & .menu-icon {
+    &--red {
+      color: $orange;
+    }
+
+    &--purple {
+      color: $dark-purple;
     }
   }
 }

@@ -27,6 +27,7 @@ import { mapStores } from 'pinia';
 
 // Store imports
 import { useGeneralStore } from '@/store/general';
+import { useBuildingStore } from '@/store/building';
 
 // Component imports
 import DigitalTwinLayout from '@/components/general/digitaltwins/DigitalTwinLayout.vue';
@@ -45,29 +46,27 @@ export default {
   data() {
     return {
       buildingName: '',
+      siteName: '',
+      siteId: '',
     };
   },
   computed: {
-    ...mapStores(useGeneralStore),
-
-    site() {
-      return this.generalStore.siteState.site;
-    },
+    ...mapStores(useGeneralStore, useBuildingStore),
 
     building() {
-      return this.generalStore.buildingState.building;
+      return this.buildingStore.building;
     },
 
     subSections() {
-      return this.generalStore.buildingState.subsectionState.subsections;
+      return this.buildingStore.subsectionState.subsections;
     },
 
     subSectionsLoading() {
       // Check for building and subsection loading state, as subsections are
       // loaded after the building
       return (
-        this.generalStore.buildingState.isLoading
-        || this.generalStore.buildingState.subsectionState.isLoading
+        this.buildingStore.isLoading
+        || this.buildingStore.subsectionState.isLoading
       );
     },
 
@@ -107,13 +106,13 @@ export default {
   },
   methods: {
     openSubsection(subsectionName: string, subsectionid: string) {
-      if (this.site && this.building) {
+      if (this.building) {
         this.$router.push({
           name: 'DigitalTwins_Site_Building_Subsection',
           params: {
             subsectionparams: JSON.stringify({
-              siteid: encodeURIComponent(this.site!.id),
-              siteName: this.site!.data.siteName,
+              siteid: encodeURIComponent(this.siteId),
+              siteName: this.siteName,
               buildingid: encodeURIComponent(this.building!.id),
               buildingName: this.building!.data.buildingName,
               subsectionName,
@@ -125,7 +124,10 @@ export default {
     },
   },
   created() {
-    this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;
+    const params = JSON.parse(this.$route.params.buildingparams as string);
+    this.buildingName = params.buildingName;
+    this.siteName = params.siteName;
+    this.siteId = decodeURIComponent(params.siteid);
   },
 };
 </script>

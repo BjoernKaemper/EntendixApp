@@ -1,9 +1,25 @@
 <template>
-  <h1>Digital twin plant view</h1>
+  <div>
+    <pre>{{ plant }}</pre>
+  </div>
 </template>
 
 <script lang="ts">
+// Library imports
+import { mapStores } from 'pinia';
+
+// Store imports
+import { usePlantStore } from '@/store/plant';
+
 export default {
-  name: 'DigitalTwinPlant',
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapStores(usePlantStore),
+    plant() {
+      return this.plantStore.plant;
+    },
+  },
 };
 </script>

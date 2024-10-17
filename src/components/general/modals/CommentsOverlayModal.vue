@@ -19,7 +19,14 @@
               <span>{{ prettierDate(comment.referringTimestamp) }}</span>
             </p>
             <KebabMenu
-              :options="[{ icon: IconTypes.DELETE, text: 'Kommentar löschen', emits: 'delete' }]"
+              :options="[
+                {
+                  icon: IconTypes.DELETE,
+                  text: 'Kommentar löschen',
+                  emits: 'delete',
+                  iconColor: 'red',
+                },
+              ]"
               @delete="deleteComment('TODO - Add Identifier')"
               class="comment__header__kebab-menu"
             />

@@ -127,7 +127,7 @@ import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 import { SemanticSubmoduleTypes } from '@/types/global/enums/SemanticSubmoduleTypes';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
-import type { TimelineLookbackOptions } from '@/types/enums/TimelineLookbackOptions';
+import type { TimelineLookbackOptions } from '@/configs/timeRangeDropdown';
 
 // component imports
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
@@ -210,8 +210,8 @@ export default {
       return this.kpis?.length || 0;
     },
 
-    kpiLookbackStartTimestamp(): keyof typeof TimelineLookbackOptions {
-      return this.generalStore.kpiLookbackStartTimestamp;
+    kpiLookbackStartTimestamp(): TimelineLookbackOptions {
+      return this.generalStore.kpiLookbackWindow.currentValue;
     },
 
     functionLoadingError(): boolean {

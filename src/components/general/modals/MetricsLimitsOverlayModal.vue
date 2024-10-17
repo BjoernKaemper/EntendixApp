@@ -12,17 +12,17 @@
         <div class="group">
           <input type="radio" id="InputA" name="values" />
           <label for="InputA">Norm für Bürogebäude</label>
-          <InfoCircleIcon @click="showOptions = !showOptions" />
+          <MaterialSymbol :symbol="IconTypes.INFO_CIRCLE" @click="showOptions = !showOptions" />
         </div>
         <div class="group">
           <input type="radio" id="InputB" name="values" />
           <label for="InputB">Norm XYZ korrigiert nach Historie</label>
-          <InfoCircleIcon @click="showOptions = !showOptions" />
+          <MaterialSymbol :symbol="IconTypes.INFO_CIRCLE" @click="showOptions = !showOptions" />
         </div>
         <div class="group">
           <input type="radio" id="InputC" name="values" />
           <label for="InputC">Eigene Werte</label>
-          <InfoCircleIcon @click="showOptions = !showOptions" />
+          <MaterialSymbol :symbol="IconTypes.INFO_CIRCLE" @click="showOptions = !showOptions" />
         </div>
 
         <div v-if="showOptions" class="options">
@@ -51,15 +51,17 @@
 </template>
 
 <script lang="ts">
-import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
-import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
-import IconChip from '@/components/general/IconChip.vue';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import { IconTypes } from '@/types/enums/IconTypes';
+
+import IconChip from '@/components/general/IconChip.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
 
 export default {
   components: {
     ModalOverlay,
-    InfoCircleIcon,
+    MaterialSymbol,
     IconChip,
   },
   props: {
@@ -101,6 +103,7 @@ export default {
   setup() {
     return {
       ChipStatusTypes,
+      IconTypes,
     };
   },
   methods: {
@@ -123,7 +126,7 @@ form {
     gap: $xxs;
     align-items: center;
 
-    > svg {
+    > span {
       cursor: pointer;
 
       > * > * {

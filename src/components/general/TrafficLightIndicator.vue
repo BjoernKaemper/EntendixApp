@@ -1,13 +1,13 @@
 <template>
   <div class="traffic-light-container">
     <div class="light red-light" :class="{ active: trafficLightIsRed }">
-      <WarningIcon v-if="trafficLightIsRed" />
+      <MaterialSymbol v-if="trafficLightIsRed" :symbol="IconTypes.WARNING" />
     </div>
     <div class="light yellow-light" :class="{ active: trafficLightIsYellow }">
-      <ExclamationMarkIcon v-if="trafficLightIsYellow" />
+      <MaterialSymbol v-if="trafficLightIsYellow" :symbol="IconTypes.EXCLAMATION_MARK" />
     </div>
     <div class="light green-light" :class="{ active: trafficLightIsGreen }">
-      <CheckMarkCircleIcon v-if="trafficLightIsGreen" />
+      <MaterialSymbol v-if="trafficLightIsGreen" :symbol="IconTypes.CHECK_MARK_CIRCLE" />
     </div>
   </div>
 </template>
@@ -19,17 +19,15 @@
  * @module components/general/TrafficLightIndicator
  * @displayName TrafficLightIndicator
  */
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+
 import { TrafficLightTypes } from '@/types/enums/TrafficLightTypes';
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
-import WarningIcon from '@/components/icons/WarningIcon.vue';
+import { IconTypes } from '@/types/enums/IconTypes';
 import { type PropType } from 'vue';
 
 export default {
   components: {
-    CheckMarkCircleIcon,
-    ExclamationMarkIcon,
-    WarningIcon,
+    MaterialSymbol,
   },
   props: {
     /**
@@ -61,6 +59,11 @@ export default {
       return this.light === TrafficLightTypes.GREEN;
     },
   },
+  setup() {
+    return {
+      IconTypes,
+    };
+  },
 };
 </script>
 
@@ -84,7 +87,7 @@ export default {
   align-items: center;
   justify-content: center;
 
-  & > svg {
+  & > span {
     height: $xs;
   }
 }

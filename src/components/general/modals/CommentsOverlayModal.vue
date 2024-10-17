@@ -35,12 +35,12 @@
         <form action="submit">
           <h3 id="comments-modal-overlay__body__form__headline">Neuer Kommentar</h3>
           <div class="group">
-            <NotesIcon />
+            <MaterialSymbol :symbol="IconTypes.NOTE" />
             <textarea id="comment" placeholder="Kommentar zum Datenpunkt" />
           </div>
           <div class="date-inputs">
             <div class="group">
-              <CalendarIcon />
+              <MaterialSymbol :symbol="IconTypes.CALENDAR" />
               <input
                 type="text"
                 onfocus="(this.type='date')"
@@ -52,7 +52,7 @@
               <p>bis</p>
             </div>
             <div class="group">
-              <CalendarIcon />
+              <MaterialSymbol :symbol="IconTypes.CALENDAR" />
               <input
                 type="text"
                 onfocus="(this.type='date')"
@@ -77,11 +77,11 @@
 </template>
 
 <script lang="ts">
-import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
-import NotesIcon from '@/components/icons/NotesIcon.vue';
-import CalendarIcon from '@/components/icons/CalendarIcon.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import KebabMenu from '@/components/general/KebabMenu.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
+
 import { IconTypes } from '@/types/enums/IconTypes';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
 import type { Annotation } from '@/types/global/kpi/Kpi';
@@ -90,10 +90,9 @@ import { DateTime } from 'luxon';
 export default {
   components: {
     ModalOverlay,
-    NotesIcon,
-    CalendarIcon,
     ButtonComponent,
     KebabMenu,
+    MaterialSymbol,
   },
   props: {
     /**
@@ -323,7 +322,7 @@ export default {
           position: relative;
           width: 100%;
 
-          svg {
+          span {
             position: absolute;
             left: $base-size;
             top: $base-size;

@@ -1,7 +1,7 @@
 <template>
   <div
     class="alert-tiles--wrapper"
-    :class="alert.type"
+    :class="{ [alert.type]: true, 'is-toast': isToast }"
     ref="alert"
   >
     <component :is="icon" />
@@ -10,11 +10,11 @@
       <p>
         {{ alert.description }}
       </p>
-      <small>
+      <small v-if="alert.time">
         <time>{{ alert.time }} Uhr</time>
       </small>
     </div>
-    <button type="button" @click="closeAlert(alert.id)">
+    <button v-if="isToast" type="button" @click="closeAlert(alert.id)">
       <CloseIcon />
     </button>
   </div>
@@ -62,6 +62,15 @@ export default {
       type: Object as () => Alert,
       required: true,
     },
+    /**
+     * Whether the alert is a toast or not.
+     * @type {boolean}
+     * @default true
+     */
+    isToast: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     ...mapStores(useGeneralStore),
@@ -105,7 +114,9 @@ export default {
 
   border-left: $xxs solid $lightest;
   border-radius: $base-size;
-  box-shadow: 0px $base-size $base-size 0px $shadow;
+  &.is-toast {
+    box-shadow: 0px $base-size $base-size 0px $shadow;
+  }
 
   &.success {
     border-left-color: $light-green;
@@ -154,6 +165,7 @@ export default {
     display: flex;
     flex-direction: column;
     gap: $xxs;
+    flex-grow: 1;
 
     h4 {
       margin-top: 2.5px;

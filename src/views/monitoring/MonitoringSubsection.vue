@@ -3,7 +3,8 @@
     <div :class="['grid-wrapper', { 'grid-wrapper--sidebar-open': isSidebarOpen }]">
       <div class="grid-wrapper--left">
         <h2>{{ subsectionName }}</h2>
-        <AutomationHZG />
+        <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
+        <AutomationHZG v-else />
       </div>
       <div class="grid-wrapper--right">
         <div class="grid-wrapper--right--header">
@@ -14,11 +15,7 @@
           />
         </div>
         <div class="grid-wrapper--right--content">
-          <template v-if="isLoading">
-            <div class="status-container--loading">
-              <StatusCard v-for="index in 3" :key="index" :isLoading="true" :isBordered="false" />
-            </div>
-          </template>
+          <LoadingCards v-if="isLoading" :card-count="3" />
           <div v-else v-for="plantType in subsection!.data.plantsByType" :key="plantType.type">
             <h3>{{ plantType.name }}</h3>
             <div>
@@ -54,6 +51,7 @@ import AutomationHZG from '@/assets/AutomationHZG.vue';
 import SideBar from '@/components/general/SideBar.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
+import LoadingCards from '@/components/general/LoadingCards.vue';
 
 // type imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -73,6 +71,7 @@ export default {
     SideBar,
     StatusCard,
     ChipComponent,
+    LoadingCards,
   },
   computed: {
     ...mapStores(useGeneralStore),
@@ -205,5 +204,9 @@ h3 {
 }
 h4 {
   @include content;
+}
+
+:deep(.image-loading) {
+  height: 300px;
 }
 </style>

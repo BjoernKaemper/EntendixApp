@@ -1,12 +1,12 @@
 <template>
   <div class="menu-wrapper" @focusout="toggleMenu">
     <button class="menu-activator" type="button" @click="toggleMenu">
-      <KebabMenuIcon />
+      <MaterialSymbol :symbol="IconTypes.KEBAB_MENU" />
     </button>
     <ul v-if="isOpen" class="menu-options">
       <li v-for="(option, idx) in options" :key="idx">
         <button type="button" @click="optionSelected(option.emits)">
-          <component :is="option.icon" />
+          <MaterialSymbol :symbol="option.icon" />
           {{ option.text }}
         </button>
       </li>
@@ -17,19 +17,7 @@
 <script lang="ts">
 import { IconTypes } from '@/types/enums/IconTypes';
 
-import KebabMenuIcon from '@/components/icons/KebabMenuIcon.vue';
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
-import CloseIcon from '@/components/icons/CloseIcon.vue';
-import CheckIcon from '@/components/icons/CheckIcon.vue';
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
-import WarningIcon from '@/components/icons/WarningIcon.vue';
-import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
-import ArrowIcon from '@/components/icons/ArrowIcon.vue';
-import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
-import AddIcon from '@/components/icons/AddIcon.vue';
-import CommentIcon from '@/components/icons/CommentIcon.vue';
-import SettingsIcon from '@/components/icons/SettingsIcon.vue';
-import DeleteIcon from '@/components/icons/DeleteIcon.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 export type Option = {
   icon: IconTypes;
@@ -39,19 +27,7 @@ export type Option = {
 
 export default {
   components: {
-    KebabMenuIcon,
-    CheckMarkCircleIcon,
-    CheckIcon,
-    ExclamationMarkIcon,
-    WarningIcon,
-    QuestionMarkIcon,
-    ArrowIcon,
-    InfoCircleIcon,
-    AddIcon,
-    CloseIcon,
-    CommentIcon,
-    SettingsIcon,
-    DeleteIcon,
+    MaterialSymbol,
   },
   props: {
     options: {
@@ -72,6 +48,11 @@ export default {
       this.$emit(emits);
       this.isOpen = false;
     },
+  },
+  setup() {
+    return {
+      IconTypes,
+    };
   },
 };
 </script>

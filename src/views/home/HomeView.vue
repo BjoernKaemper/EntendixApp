@@ -5,15 +5,7 @@
       <div class="site-header">
         <h2>Meine Liegenschaften</h2>
       </div>
-      <template v-if="sitesAreLoading">
-        <div class="loading">
-          <LiegenschaftCard
-            v-for="(site, index) in (sites && sites.length > 0 ? sites : 3)"
-            :key="index"
-            :isLoading="true"
-          />
-        </div>
-      </template>
+      <LoadingCards v-if="sitesAreLoading" :card-count="3" :grow-cards="false" />
       <template v-else>
         <LiegenschaftCard
           v-for="site in sites"
@@ -39,12 +31,14 @@ import GoogleMaps from '@/components/general/GoogleMaps.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import type { Site } from '@/types/global/site/Site';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import LoadingCards from '@/components/general/LoadingCards.vue';
 // import { load } from 'webfontloader';
 
 export default {
   components: {
     GoogleMaps,
     LiegenschaftCard,
+    LoadingCards,
   },
 
   computed: {
@@ -106,17 +100,7 @@ export default {
   grid-template-columns: 1fr 1fr;
   gap: $m;
 }
-
-.loading {
-  @for $i from 1 through 3 {
-    & > div:nth-child(#{$i}) {
-      // from 99% to 66% to 33% opacity
-      opacity: 1 - (($i - 1) * 0.33);
-    }
-  }
-}
-
-  .site-header {
+.site-header {
   margin-bottom: $xl;
   > h2 {
     @include content-headline;

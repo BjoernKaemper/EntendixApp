@@ -1,11 +1,16 @@
 <template>
   <div v-if="isOpen" class="modal-overlay">
-    <button type="button" class="modal-overlay__background" @click="close" aria-label="Close modal" />
+    <button
+      type="button"
+      class="modal-overlay__background"
+      @click="close"
+      aria-label="Close modal"
+    />
     <slot>
       <div class="modal-overlay__content">
         <div class="modal-overlay__content__header">
           <slot name="header" />
-          <CloseIcon @click="close" />
+          <MaterialSymbol :symbol="IconTypes.CLOSE" @click="close" />
         </div>
         <div class="modal-overlay__content__body">
           <slot name="body" />
@@ -15,12 +20,14 @@
             v-if="!hasFooterSlot"
             @click="close"
             text="Abbrechen"
-            :icon="IconTypes.CLOSE" />
+            :icon="IconTypes.CLOSE"
+          />
           <ButtonComponent
             v-if="!hasFooterSlot"
             state="primary"
             text="Akzeptieren"
-            :icon="IconTypes.CHECK_MARK" />
+            :icon="IconTypes.CHECK_MARK"
+          />
           <slot name="footer" />
         </div>
       </div>
@@ -29,13 +36,13 @@
 </template>
 
 <script lang="ts">
-import CloseIcon from '@/components/icons/CloseIcon.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import { IconTypes } from '@/types/enums/IconTypes';
 
 export default {
   components: {
-    CloseIcon,
+    MaterialSymbol,
     ButtonComponent,
   },
   setup() {
@@ -101,85 +108,83 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  .modal-overlay {
-    position: fixed;
+  &__background {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: $darken;
+    cursor: auto;
+  }
 
-    &__background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: $darken;
-      cursor: auto;
+  &__content {
+    background-color: $lightest;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 $s;
+    padding: $m;
+    z-index: 1001;
+
+    &__header {
+      margin-bottom: $s;
+      @include content-subtitle;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+
+      & > span {
+        cursor: pointer;
+      }
     }
 
-    &__content {
-      background-color: $lightest;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 500px;
-      margin: 0 $s;
-      padding: $m;
-      z-index: 1001;
+    &__body {
+      display: flex;
+      flex-direction: column;
+      gap: $m;
+      margin-bottom: $s;
+      @include content;
+    }
 
-      &__header {
-        margin-bottom: $s;
-        @include content-subtitle;
+    &__footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: $xxs;
+      @include content;
+
+      & > button {
+        border: 1px solid $darken;
+        border-radius: $border-radius;
+        padding: $base-size 0 $base-size $xxs;
+        cursor: pointer;
         display: flex;
-        justify-content: space-between;
-        align-items: start;
+        justify-content: center;
+        align-items: center;
+        gap: $base-size;
 
-        & > svg {
-          cursor: pointer;
+        &.primary {
+          background-color: $light-purple;
+          border-color: $light-purple;
         }
-      }
 
-      &__body {
-        display: flex;
-        flex-direction: column;
-        gap: $m;
-        margin-bottom: $s;
-        @include content;
-      }
-
-      &__footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: $xxs;
-        @include content;
-
-        & > button {
-          border: 1px solid $darken;
-          border-radius: $border-radius;
-          padding: $base-size 0 $base-size $xxs;
-          cursor: pointer;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: $base-size;
-
-          &.primary {
-            background-color: $light-purple;
-            border-color: $light-purple;
-          }
-
-          & > * {
-            margin-right: $base-size;
-          }
+        & > * {
+          margin-right: $base-size;
         }
       }
     }
   }
-
+}
 </style>

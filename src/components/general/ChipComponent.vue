@@ -147,8 +147,7 @@ export default {
       padding: 0;
 
       & > * {
-        width: 70%;
-        height: 70%;
+        font-size: 16px;
       }
     }
   }

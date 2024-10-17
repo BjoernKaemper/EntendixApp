@@ -1,7 +1,9 @@
+import type { MaterialIconNames } from '@/types/MaterialIconNames';
+
 interface TradesConfigEntry {
   id: string;
   title: string;
-  icon: string;
+  icon: MaterialIconNames;
 }
 
 /**
@@ -11,7 +13,7 @@ export const tradesConfig: TradesConfigEntry[] = [
   {
     // TODO: get proper id
     id: 'unknown',
-    title: 'Türen, Tore, Fenster, Sonnenschutz  (TTF)',
+    title: 'Türen, Tore, Fenster, Sonnenschutz (TTF)',
     icon: 'encrypted',
   },
   {

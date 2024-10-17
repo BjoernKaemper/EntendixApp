@@ -14,7 +14,14 @@
 </template>
 
 <script lang="ts">
+// Library imports
+import type { PropType } from 'vue';
+
+// Component imports
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+
+// Type imports
+import type { MaterialIconNames } from '@/types/MaterialIconNames';
 
 export default {
   name: 'ListElement',
@@ -26,7 +33,7 @@ export default {
      * Icon to visually communication the what this element represents.
      */
     representationIcon: {
-      type: String,
+      type: String as PropType<MaterialIconNames>,
       default: undefined,
     },
     /**
@@ -34,7 +41,7 @@ export default {
      * element.
      */
     interactionIcon: {
-      type: String,
+      type: String as PropType<MaterialIconNames>,
       default: undefined,
     },
     /**

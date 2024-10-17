@@ -26,6 +26,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 // Type imports
 import type { PropType } from 'vue';
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { MaterialIconNames } from '@/types/MaterialIconNames';
 
 export default {
   components: {
@@ -45,7 +46,7 @@ export default {
      * Icon to show in the header
      */
     icon: {
-      type: String,
+      type: String as PropType<MaterialIconNames>,
       required: true,
     },
     /*

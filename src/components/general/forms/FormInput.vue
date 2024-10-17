@@ -43,8 +43,14 @@
 </template>
 
 <script lang="ts">
+// Library imports
 import type { InputHTMLAttributes, PropType } from 'vue';
+
+// Component imports
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+
+// Type imports
+import type { MaterialIconNames } from '@/types/MaterialIconNames';
 
 export default {
   name: 'FormInput',
@@ -126,7 +132,7 @@ export default {
      * Custom icon to show on the input.
      */
     icon: {
-      type: String,
+      type: String as PropType<MaterialIconNames>,
       default: undefined,
     },
     /**

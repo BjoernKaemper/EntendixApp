@@ -3,19 +3,20 @@
     <EntendixLogo />
     <nav>
       <ul>
-        <li v-for="(navItem, idx) in navItems" :key="idx">
-          <router-link :to="navItem.href" :class="{ active: isActive(navItem.href) }">
+        <!-- eslint-disable-next-line vue/no-use-v-if-with-v-for -->
+        <li v-if="!isHomePage" v-for="(navItem, idx) in navItems" :key="idx">
+          <router-link
+            :to="createNavHref(navItem.href)"
+            :class="{ active: isActive(navItem.href), isHomePage }"
+          >
+            <MaterialSymbol :symbol="navItem.icon" />
             {{ navItem.name }}
           </router-link>
         </li>
         <li>
           <!-- TODO: click logs out, propably a dropdown opens in the future -->
-          <button
-            type="button"
-            @click="auth.signOut"
-            @keydown.enter="auth.signOut"
-          >
-            <ProfileIcon />
+          <button type="button" @click="auth.signOut" @keydown.enter="auth.signOut">
+            <MaterialSymbol :symbol="IconTypes.PROFILE" />
           </button>
         </li>
       </ul>
@@ -24,25 +25,41 @@
 </template>
 
 <script lang="ts">
-import ProfileIcon from '@/components/icons/ProfileIcon.vue';
-import EntendixLogo from '@/components/icons/EntendixLogo.vue';
-
+import { IconTypes } from '@/types/enums/IconTypes';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import EntendixLogo from '@/components/icons/EntendixLogo.vue';
 
 export default {
   components: {
-    ProfileIcon,
     EntendixLogo,
+    MaterialSymbol,
   },
-  props: {
-    navItems: {
-      type: Array<{ href: string; name: string }>,
-      default: () => [],
-    },
+  data() {
+    return {
+      navItems: [
+        { icon: IconTypes.HOME, name: 'Digitale Zwillinge', href: '/digitaltwins' },
+        { icon: IconTypes.MONITORING, name: 'Monitoring', href: '/monitoring' },
+      ],
+    };
   },
   methods: {
     isActive(route: string): boolean {
       return this.$route.path.includes(route);
+    },
+    createNavHref(href: string): string {
+      const route = this.$route.path;
+      if (route.includes(href)) {
+        // Link will linking to the current page
+        return route;
+      }
+      // Link will link to the other page type, so we replace the type-part of the route
+      return route.replace(this.navItems.find((item) => item.href !== href)!.href, href);
+    },
+  },
+  computed: {
+    isHomePage(): boolean {
+      return this.$route.path === '/';
     },
   },
   setup() {
@@ -50,6 +67,7 @@ export default {
 
     return {
       auth,
+      IconTypes,
     };
   },
 };
@@ -68,7 +86,7 @@ export default {
     color: white;
   }
 
-  > nav> ul {
+  > nav > ul {
     list-style: none;
     display: flex;
     align-items: center;
@@ -78,12 +96,20 @@ export default {
       color: white;
       display: flex;
 
+      > .isHomePage {
+        // disable and hide the links
+        pointer-events: none;
+        opacity: 0;
+      }
+
       > a {
         @include subtitle;
         color: white;
         text-decoration: none;
         padding: $xxs;
         border-radius: $border-radius;
+        display: flex;
+        gap: $xxs;
 
         &.active {
           color: $dark-green;
@@ -95,9 +121,10 @@ export default {
       &:last-child {
         margin-left: $base-size;
 
-        > button > svg {
-          width: $xxl;
-          height: $xxl;
+        > button > span {
+          font-size: $xxl;
+          color: $lightest;
+          display: flex;
         }
       }
     }

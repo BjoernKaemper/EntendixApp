@@ -1,7 +1,7 @@
 <template>
   <div
     class="status-card"
-    :class="[{ isBordered }, status]"
+    :class="[{ isBordered }, status, { hasSubtitle: subtitle }, isFullWidthClass]"
     @click="$emit('clicked')"
     @keydown.enter="$emit('clicked')"
     tabindex="0"
@@ -15,8 +15,8 @@
       <div class="icon-section">
         <IconChip :status="status" />
       </div>
-      <div class="kpi-icon">
-        <component :is="kpiIcon" />
+      <div class="kpi-icon" v-if="kpiIcon">
+        <MaterialSymbol :symbol="kpiIcon" />
       </div>
       <div class="text-section" :class="isFullWidthClass">
         <span class="title">
@@ -30,7 +30,7 @@
         <span v-if="timestamp">seit {{ timestampFormatted }}</span>
       </div>
       <div class="action-section" v-if="actionIcon">
-        <component :is="actionIcon" />
+        <MaterialSymbol :symbol="actionIcon" />
       </div>
     </template>
   </div>
@@ -54,33 +54,16 @@ import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
-
-// icon imports
-import ArrowIcon from '@/components/icons/ArrowIcon.vue';
-import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
-import AirIcon from '@/components/icons/AirIcon.vue';
-import MediaIcon from '@/components/icons/MediaIcon.vue';
-import HeatIcon from '@/components/icons/HeatIcon.vue';
-import ColdIcon from '@/components/icons/ColdIcon.vue';
-import SecurityIcon from '@/components/icons/SecurityIcon.vue';
-import ElectricityIcon from '@/components/icons/ElectricityIcon.vue';
-import OpenInBrowserIcon from '@/components/icons/OpenInBrowserIcon.vue';
+import { IconTypes } from '@/types/enums/IconTypes';
 
 // component imports
 import IconChip from '@/components/general/IconChip.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 export default {
   components: {
-    ArrowIcon,
-    InfoCircleIcon,
-    AirIcon,
-    MediaIcon,
-    HeatIcon,
-    ColdIcon,
-    ElectricityIcon,
-    SecurityIcon,
-    OpenInBrowserIcon,
+    MaterialSymbol,
     IconChip,
     LoadingSpinner,
   },
@@ -189,33 +172,33 @@ export default {
       return formatter.format(date).replace(/,/g, '').replace(/\//g, '.');
     },
 
-    kpiIcon(): string | undefined {
+    kpiIcon(): IconTypes | undefined {
       switch (this.kpiType) {
         case SubsectionTypes.MEDIA:
-          return 'MediaIcon';
+          return IconTypes.MEDIA;
         case SubsectionTypes.HEAT:
-          return 'HeatIcon';
+          return IconTypes.HEAT;
         case SubsectionTypes.COLD:
-          return 'ColdIcon';
+          return IconTypes.COLD;
         case SubsectionTypes.AIR:
-          return 'AirIcon';
+          return IconTypes.AIR;
         case SubsectionTypes.ELECTRICITY:
-          return 'ElectricityIcon';
+          return IconTypes.ELECTRICITY;
         case SubsectionTypes.SECURITY:
-          return 'SecurityIcon';
+          return IconTypes.SECURITY;
         default:
           return undefined;
       }
     },
 
-    actionIcon(): string | undefined {
+    actionIcon(): IconTypes | undefined {
       switch (this.actionType) {
         case ActionTypes.INFO:
-          return 'InfoCircleIcon';
+          return IconTypes.INFO_CIRCLE;
         case ActionTypes.ARROW:
-          return 'ArrowIcon';
+          return IconTypes.ARROW;
         case ActionTypes.OPEN:
-          return 'OpenInBrowserIcon';
+          return IconTypes.OPEN_IN;
         default:
           return undefined;
       }
@@ -254,8 +237,6 @@ export default {
   display: flex;
   align-items: center;
   gap: $xxs;
-  margin-bottom: $xxs;
-  padding-right: $xxs;
   cursor: pointer;
 
   & .loading {
@@ -264,10 +245,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    &--wrapper > * {
-      width: 50%;
-    }
   }
 
   &.none {
@@ -326,10 +303,16 @@ export default {
     display: flex;
     align-items: center;
     & > div {
-      padding: $s $xxs;
       border-radius: $border-radius 0 0 $border-radius;
     }
   }
+  .action-section {
+    padding-right: $xxs;
+  }
+}
+
+.hasSubtitle:not(.full-width) > .icon-section > div {
+  padding: $s $xxxs;
 }
 
 .title {
@@ -344,5 +327,4 @@ export default {
 .timestamp {
   @include meta-information;
 }
-
 </style>

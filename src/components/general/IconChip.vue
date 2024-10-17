@@ -1,20 +1,21 @@
 <template>
   <div class="icon-chip" :class="colorClass">
-    <component :is="icon" />
+    <MaterialSymbol :symbol="icon" />
   </div>
 </template>
 <script lang="ts">
+/**
+ * A chip component that displays an icon.
+ * The chip can be styled with a status color (success, warning, error, info).
+ * @module components/general/IconChip
+ * @displayName IconChip
+ */
 import type { PropType } from 'vue';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { IconTypes } from '@/types/enums/IconTypes';
 
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
-import WarningIcon from '@/components/icons/WarningIcon.vue';
-import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
-import ArrowIcon from '@/components/icons/ArrowIcon.vue';
-import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 export default {
   name: 'IconChip',
@@ -30,15 +31,10 @@ export default {
     },
   },
   components: {
-    CheckMarkCircleIcon,
-    ExclamationMarkIcon,
-    WarningIcon,
-    QuestionMarkIcon,
-    ArrowIcon,
-    InfoCircleIcon,
+    MaterialSymbol,
   },
   computed: {
-    icon(): string {
+    icon(): IconTypes {
       switch (this.status) {
         case ChipStatusTypes.SUCCESS:
           return IconTypes.CHECK_MARK_CIRCLE;
@@ -87,13 +83,14 @@ export default {
 </script>
 
 <style lang="scss">
-
 .icon-chip {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: $base-size;
   border-radius: $border-radius;
+  height: 100%;
+  padding: $xxs $xxxs;
 
   &.success {
     background-color: $light-green;
@@ -114,7 +111,7 @@ export default {
   &.success-component {
     background-color: $darkest;
 
-    svg > * > * {
+    span > * > * {
       fill: $light-green;
     }
   }
@@ -122,7 +119,7 @@ export default {
   &.none {
     background-color: $darken;
 
-    svg > * > * {
+    span > * > * {
       fill: $light-purple;
     }
   }
@@ -130,7 +127,7 @@ export default {
   &.error-component {
     background-color: $darkest;
 
-    svg > * > * {
+    span > * > * {
       fill: $orange;
     }
   }
@@ -138,10 +135,9 @@ export default {
   &.warning-component {
     background-color: $darkest;
 
-    svg > * > * {
+    span > * > * {
       fill: $yellow;
     }
   }
 }
-
 </style>

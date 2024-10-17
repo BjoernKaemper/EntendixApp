@@ -1,34 +1,18 @@
 <template>
-  <button type="button" :class="colorClass">
+  <button type="button" :class="[colorClass, size, onlyIconClass]">
     {{ text }}
-    <component :is="iconClass" />
+    <MaterialSymbol v-if="icon" :symbol="icon" />
   </button>
 </template>
 
 <script lang="ts">
 import { IconTypes } from '@/types/enums/IconTypes';
-import CheckMarkCircleIcon from '@/components/icons/CheckMarkCircleIcon.vue';
-import CloseIcon from '@/components/icons/CloseIcon.vue';
-import CheckIcon from '@/components/icons/CheckIcon.vue';
-import ExclamationMarkIcon from '@/components/icons/ExclamationMarkIcon.vue';
-import WarningIcon from '@/components/icons/WarningIcon.vue';
-import QuestionMarkIcon from '@/components/icons/QuestionMarkIcon.vue';
-import ArrowIcon from '@/components/icons/ArrowIcon.vue';
-import InfoCircleIcon from '@/components/icons/InfoCircleIcon.vue';
-import AddIcon from '@/components/icons/AddIcon.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 export default {
   name: 'ButtonComponent',
   components: {
-    CheckMarkCircleIcon,
-    CheckIcon,
-    ExclamationMarkIcon,
-    WarningIcon,
-    QuestionMarkIcon,
-    ArrowIcon,
-    InfoCircleIcon,
-    AddIcon,
-    CloseIcon,
+    MaterialSymbol,
   },
   props: {
     /**
@@ -38,7 +22,7 @@ export default {
      */
     text: {
       type: String,
-      default: '-',
+      default: '',
     },
     /**
      * The icon of the button.
@@ -46,7 +30,7 @@ export default {
      * @default ''
      */
     icon: {
-      type: String as () => IconTypes,
+      type: [String as () => IconTypes],
       default: '',
     },
     /**
@@ -58,61 +42,55 @@ export default {
       type: Boolean,
       default: false,
     },
+    /**
+     * The size of the button.
+     * @type {'normal' | 'small' }
+     * @default 'normal'
+     */
+    size: {
+      type: String as () => 'normal' | 'small',
+      default: 'normal',
+    },
   },
   computed: {
     colorClass(): string {
       return this.primary ? 'primary' : '';
     },
-    iconClass(): IconTypes {
-      switch (this.icon) {
-        case IconTypes.NONE:
-          return IconTypes.NONE;
-        case IconTypes.ARROW:
-          return IconTypes.ARROW;
-        case IconTypes.CHECK_MARK_CIRCLE:
-          return IconTypes.CHECK_MARK_CIRCLE;
-        case IconTypes.CHECK_MARK:
-          return IconTypes.CHECK_MARK;
-        case IconTypes.EXCLAMATION_MARK:
-          return IconTypes.EXCLAMATION_MARK;
-        case IconTypes.WARNING:
-          return IconTypes.WARNING;
-        case IconTypes.QUESTION_MARK:
-          return IconTypes.QUESTION_MARK;
-        case IconTypes.INFO_CIRCLE:
-          return IconTypes.INFO_CIRCLE;
-        case IconTypes.ADD:
-          return IconTypes.ADD;
-        case IconTypes.CLOSE:
-          return IconTypes.CLOSE;
-        default:
-          return IconTypes.NONE;
-      }
+    onlyIconClass(): string {
+      return this.text === '' ? 'only-icon' : '';
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-
 button {
   border: 1px solid $darken;
   border-radius: $border-radius;
-  padding: $base-size 0 $base-size $xxs;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: $base-size;
+  gap: $xxxs;
   width: fit-content;
   cursor: pointer;
-
+  &.small {
+    padding: $xxxs;
+    @include meta-information;
+    > span {
+      width: $xs;
+      height: $xs;
+    }
+  }
+  &.normal {
+    &.only-icon {
+      padding: $xxxs;
+    }
+    padding: $xxxs $xxs $xxxs $xxs;
+    @include content;
+  }
   &.primary {
     background-color: $light-purple;
     border-color: $light-purple;
-  }
-
-  & > * {
-    margin-right: $base-size;
   }
 }
 </style>

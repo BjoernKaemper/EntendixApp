@@ -1,6 +1,6 @@
 <template>
   <div class="chip--wrapper" :class="[statusData.class, isMini ? 'mini' : '']">
-    <span>
+    <span class="chip--body">
       {{ statusData.label }}
     </span>
     <IconChip class="chip--icon" :status="currentStatus" />
@@ -147,8 +147,7 @@ export default {
       padding: 0;
 
       & > * {
-        width: 70%;
-        height: 70%;
+        font-size: 16px;
       }
     }
   }
@@ -189,6 +188,10 @@ export default {
     padding: 0 $xs;
     border-radius: $border-radius 0 0 $border-radius;
   }
+}
+
+.chip--body {
+  @include content;
 }
 
 .chip--icon {

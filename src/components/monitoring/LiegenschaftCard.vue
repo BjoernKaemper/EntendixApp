@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="card"
-    tabindex="0"
-    :class="status ? status : 'no-status'"
-  >
+  <div class="card" tabindex="0" :class="status ? status : 'no-status'">
     <template v-if="isLoading">
       <div class="loading">
         <LoadingSpinner />
@@ -12,44 +8,34 @@
     <template v-else>
       <img :src="imgsrc" alt="Gebäudebild" />
       <div class="info">
-        <ChipComponent
-          v-if="status"
-          :status="status"
-          :isMini="true"
-        />
+        <ChipComponent v-if="status" :status="status" :isMini="true" />
         <div class="info--text">
           <span class="title">{{ name }}</span>
           <span class="subtitle">{{ location }}</span>
         </div>
       </div>
-      <div
-        class="action"
-        v-if="status"
-      >
-        <button type="button">
+      <div class="action" v-if="status">
+        <button
+          type="button"
+          @click="$emit('digitalTwinClicked')"
+          @keydown.enter="$emit('clicked')"
+        >
           <span>
-            <HouseIcon />
+            <MaterialSymbol :symbol="IconTypes.HOME" />
             Digitaler Zwilling
           </span>
           <ArrowIcon />
         </button>
-        <button
-          type="button"
-          @click="$emit('clicked')"
-          @keydown.enter="$emit('clicked')"
-        >
+        <button type="button" @click="$emit('monitoringClicked')" @keydown.enter="$emit('clicked')">
           <span>
-            <MonitoringIcon />
+            <MaterialSymbol :symbol="IconTypes.MONITORING" />
             Monitoring
           </span>
-          <ArrowIcon />
+          <MaterialSymbol :symbol="IconTypes.ARROW" />
         </button>
       </div>
-      <div
-        class="no-action"
-        v-else
-      >
-        <LockIcon />
+      <div class="no-action" v-else>
+        <MaterialSymbol :symbol="IconTypes.LOCK" />
       </div>
     </template>
   </div>
@@ -66,16 +52,12 @@
 // component imports
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
-
-// icon imports
-import ArrowIcon from '@/components/icons/ArrowIcon.vue';
-import HouseIcon from '@/components/icons/HouseIcon.vue';
-import MonitoringIcon from '@/components/icons/MonitoringIcon.vue';
-import LockIcon from '@/components/icons/LockIcon.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 // type imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { type PropType } from 'vue';
+import { IconTypes } from '@/types/enums/IconTypes';
 
 export default {
   props: {
@@ -132,10 +114,12 @@ export default {
   components: {
     LoadingSpinner,
     ChipComponent,
-    ArrowIcon,
-    HouseIcon,
-    MonitoringIcon,
-    LockIcon,
+    MaterialSymbol,
+  },
+  setup() {
+    return {
+      IconTypes,
+    };
   },
 };
 </script>
@@ -149,6 +133,10 @@ export default {
   align-items: center;
   height: 100px;
   overflow: hidden;
+
+  & > .loading {
+    margin: 0 auto;
+  }
 
   &.no-status {
     opacity: 0.6;
@@ -203,10 +191,16 @@ export default {
     }
 
     & > button:first-child {
-      background-color: $light-green-20;
+      background-color: $dark-green-15;
+      & > span > span {
+        color: $dark-green;
+      }
     }
     & > button:last-child {
-      background-color: $light-purple-20;
+      background-color: $dark-purple-15;
+      & > span > span {
+        color: $dark-purple;
+      }
     }
   }
 

@@ -14,13 +14,13 @@
     </Authenticator>
     <template v-if="auth.authStatus === 'authenticated'">
       <header ref="header">
-        <NavBar :navItems="navItems" />
+        <NavBar />
         <Breadcrumbs />
       </header>
       <main :style="mainHeight">
         <router-view />
-        <Alerts />
       </main>
+      <Alerts />
     </template>
   </div>
 </template>
@@ -52,6 +52,7 @@ I18n.putVocabularies({
     'Your passwords must match': 'Die Passwörter müssen übereinstimmen',
   },
 });
+
 const auth = useAuthenticator();
 const generalStore = useGeneralStore();
 
@@ -60,11 +61,6 @@ window.addEventListener('resize', () => generalStore.setWindowDimensions());
 
 // Starting the global clock
 generalStore.updateGlobalTime();
-
-const navItems = [
-  { icon: '', name: 'Digitale Zwillinge', href: '/digitaltwins' },
-  { icon: '', name: 'Monitoring', href: '/monitoring' },
-];
 
 const header = ref<HTMLElement | null>(null);
 
@@ -102,6 +98,7 @@ main {
   background-color: $background;
   width: 100vw;
   overflow-y: scroll;
+  overflow-x: hidden;
   padding: $xxl $m; // TODO: used $xxl instead of 45px
 }
 </style>

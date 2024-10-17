@@ -1,66 +1,52 @@
 <template>
   <div class="grid-wrapper">
-    <div>
+    <div class="grid-wrapper--left">
       <h2>
         {{ siteName }}
       </h2>
-      <template v-if="isLoading">
-        <div class="image-loading">
-          <LoadingSpinner />
-        </div>
-      </template>
+      <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
       <img
         v-else
         :alt="site?.data.siteName || 'Site Name'"
-        src="@/assets/gebäude_deutz.png"
+        src="@/assets/3_campus_deutz_iwz_sharon_nathan_th_koeln.png"
         class="site-image"
       />
 
       <div class="status-container">
         <h3 class="status-headline">Gebäude in der Liegenschaft</h3>
-        <template v-if="isLoading">
-          <div class="status-container--loading">
-            <StatusCard
-              v-for="index in 3"
-              :key="index"
-              :isLoading="true"
-            />
-          </div>
-        </template>
-        <div v-else class="status-container-wrapper">
-          <StatusCard
-            v-for="(building, idx) in site?.data.buildings"
-            @click="
-              if (site) {
-                openBuilding(site.id, site.data.siteName, building.id, building.data.buildingName);
-              }
-            "
-            :key="idx"
-            :title="building.data.buildingName"
-            subtitle="@TODO: Get subtitle"
-            :status="ChipStatusTypes.SUCCESS"
-            :isBordered="false"
-            :actionType="ActionTypes.ARROW"
-            :isLoading="isLoading"
-          />
-        </div>
+        <LoadingCards v-if="isLoading" :card-count="3" />
+        <StatusCard
+          v-else
+          v-for="(building, idx) in site?.data.buildings"
+          @click="
+            if (site) {
+              openBuilding(site.id, site.data.siteName, building.id, building.data.buildingName);
+            }
+          "
+          :key="idx"
+          :title="building.data.buildingName"
+          :status="ChipStatusTypes.SUCCESS"
+          :isBordered="false"
+          :actionType="ActionTypes.ARROW"
+          :isLoading="isLoading"
+        />
       </div>
     </div>
-    <div>
+    <div class="grid-wrapper--right">
       <div class="performance-header">
         <h3>Performance der Liegenschaft</h3>
-        <!-- @TODO: create dropdown component -->
-        <div class="dropdown">
-          Letzte 14 Tage
-        </div>
+        <TimeRangeDropdown />
       </div>
-      <div class="performance-grid">
+      <LoadingCards v-if="kpiIsLoading" :card-count="3" :grow-cards="true" />
+      <div v-else class="performance-grid">
         <ChartContainer
           v-for="(kpi, idx) in kpis"
           :key="idx"
           :kpi="kpi"
           :lastUpdateTimestamp="lastSiteRequestTime"
           :isLoading="isLoading"
+          :moduleType="ModuleTypes.SITE"
+          :moduleName="siteName"
         />
       </div>
     </div>
@@ -76,23 +62,28 @@ import type { DateTime } from 'luxon';
 // Components
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
-import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import LoadingCards from '@/components/general/LoadingCards.vue';
+import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
+import { ModuleTypes } from '@/types/enums/ModuleTypes';
+import type { TimelineLookbackOptions } from '@/configs/timeRangeDropdown';
 
 export default {
   components: {
     StatusCard,
     ChartContainer,
-    LoadingSpinner,
+    LoadingCards,
+    TimeRangeDropdown,
   },
 
   setup() {
     return {
       ChipStatusTypes,
       ActionTypes,
+      ModuleTypes,
     };
   },
 
@@ -132,6 +123,16 @@ export default {
     kpiAmount(): number {
       return this.kpis.length ? this.kpis.length : 3;
     },
+
+    kpiLookbackStartTimestamp(): TimelineLookbackOptions {
+      return this.generalStore.kpiLookbackWindow.currentValue;
+    },
+  },
+
+  watch: {
+    kpiLookbackStartTimestamp() {
+      this.generalStore.refetchKpiChartDataForSiteKpis();
+    },
   },
 
   created() {
@@ -161,15 +162,13 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: $m;
-}
 
-.image-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50%;
-  background-color: $lightest;
-  border-radius: $base-size;
+  &--left,
+  &--right {
+    display: flex;
+    flex-direction: column;
+    gap: $s;
+  }
 }
 
 .site-image {
@@ -181,29 +180,19 @@ export default {
 }
 
 .status-container {
-  margin-top: $s;
+  display: flex;
+  flex-direction: column;
+  gap: $xxs;
 
   & > h3 {
     @include content-subtitle;
     color: $darkest;
-  }
-
-  &--loading {
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    @for $i from 1 through 3 {
-      & > div:nth-child(#{$i}) {
-        // from 99% to 66% to 33% opacity
-        opacity: 1 - (($i - 1) * 0.33);
-      }
-    }
   }
 }
 
 h2,
 h3 {
   @include content-headline;
-  margin-bottom: $s;
 }
 
 .performance-header {
@@ -215,20 +204,13 @@ h3 {
     @include content;
     cursor: pointer;
     border: 1px solid $light-purple;
-    padding: $base-size;
+    margin: 0;
+    padding: 0 $xxs;
     border-radius: $border-radius;
   }
 }
 
-.performance-grid--loading {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: $m;
-  @for $i from 1 through 3 {
-    & > div:nth-child(#{$i}) {
-      // from 99% to 66% to 33% opacity
-      opacity: 1 - (($i - 1) * 0.33);
-    }
-  }
+:deep(.image-loading) {
+  height: 300px;
 }
 </style>

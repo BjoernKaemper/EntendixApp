@@ -1,49 +1,36 @@
 <template>
   <div class="grid-wrapper">
+    <!-- left side of grid -->
     <div class="grid-wrapper--left">
       <h2>{{ buildingName || 'Loading' }}</h2>
-      <template v-if="isLoading">
-        <div class="image-loading">
-          <LoadingSpinner />
-        </div>
-      </template>
+      <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
       <AutomationKlima v-else />
-      <div v-if="isLoading" class="status-container">
+      <div class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
-        <div class="status-container--loading">
-          <StatusCard v-for="index in statusCardAmount" :key="index" />
-        </div>
-      </div>
-      <div v-else class="status-container">
-        <h3>Funktionserfüllung Anlagentechnik</h3>
+        <LoadingCards v-if="isLoading" :card-count="3" card-class="" />
         <!-- @TODO: Get the rest of the data in the response an map it -->
         <!-- @TODO: remove placeholders -->
-        <StatusCard
-          v-for="(subsection, idx) in subsections"
-          :key="idx"
-          :title="subsection.tradeName"
-          :isBordered="false"
-          :status="getSubsectionChipStatusByCondition(subsection.condition)"
-          :kpiType="getSubsectionTypeIcon(subsection.tradeType)"
-          :actionType="ActionTypes.ARROW"
-          :isLoading="isLoading"
-        />
+        <div v-else class="status-container--cards">
+          <StatusCard
+            v-for="(subsection, idx) in subsections"
+            @click="openSubsection(subsection.data.tradeName, subsection.id)"
+            :key="idx"
+            :title="subsection.data.tradeName"
+            :isBordered="false"
+            :status="getSubsectionChipStatusByCondition(subsection.data.condition)"
+            :kpiType="getSubsectionTypeIcon(subsection.data.tradeType)"
+            :actionType="ActionTypes.ARROW"
+            :isLoading="isLoading"
+          />
+        </div>
       </div>
-      <div v-if="isLoading" class="issues-container">
-        <h3>@TODO: Probleme in den Komponenten</h3>
-        <template v-if="isLoading">
-          <div class="loading">
-            <LoadingSpinner />
-          </div>
-        </template>
-      </div>
-      <div v-else class="issues-container">
-        <h3>@TODO: Probleme in den Komponenten</h3>
-        <div v-if="issues" class="issues">
+      <div class="issues-container">
+        <h3>Probleme in den Komponenten</h3>
+        <LoadingCards v-if="isLoading" :card-count="1" card-class="problems-loading" />
+        <div v-else-if="issues" class="issues">
           <!-- @TODO: remove placeholders after data is in place -->
           <p>Wäremversorgung</p>
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Wärmeerzeuger 1"
             subtitle="Ursache: Unter Sollwert"
             :isBordered="false"
@@ -52,7 +39,6 @@
             :isLoading="isLoading"
           />
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Heizkreis 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -62,7 +48,6 @@
           />
           <p>Stromversorgung</p>
           <StatusCard
-            @click="openSubsectionDemoPage()"
             title="Stromkreislauf 1"
             subtitle="Ursache: Über Sollwert"
             :isBordered="false"
@@ -87,20 +72,28 @@
         </div>
       </div>
     </div>
+
+    <!-- right side of grid -->
     <div class="grid-wrapper--right">
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
-        <!-- @TODO: create dropdown component -->
-        <div class="dropdown">Letzte 14 Tage</div>
+        <TimeRangeDropdown />
       </div>
-      <div class="performance-grid">
-        <ChartContainer
-          v-for="(kpi, idx) in kpis"
-          :key="idx"
-          :kpi="kpi"
-          :lastUpdateTimestamp="lastBuildingRequestTimestamp"
-          :isLoading="kpiIsLoading"
-        />
+      <LoadingCards v-if="kpiIsLoading" :card-count="3" :grow-cards="true" />
+      <div v-else class="performance-grid">
+        <!-- @TODO update status with data / remove hard coded value -->
+        <div class="performance-grid">
+          <ChartContainer
+            v-for="(kpi, index) in kpis"
+            :key="index"
+            :kpi="kpi"
+            :lastUpdateTimestamp="lastBuildingRequestTimestamp"
+            :isLoading="kpiIsLoading"
+            :status="ChipStatusTypes.SUCCESS"
+            :moduleType="ModuleTypes.BUILDING"
+            :moduleName="buildingName"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -120,20 +113,24 @@ import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { SubsectionTypes } from '@/types/enums/SubsectionTypes';
 import { SemanticSubmoduleTypes } from '@/types/global/enums/SemanticSubmoduleTypes';
+import { ModuleTypes } from '@/types/enums/ModuleTypes';
+import type { TimelineLookbackOptions } from '@/configs/timeRangeDropdown';
 
 // component imports
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
-import { SubsectionConditionTypes } from '@/types/enums/SubsectionConditionTypes';
-import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
+import LoadingCards from '@/components/general/LoadingCards.vue';
+import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 
 export default {
   components: {
     ChartContainer,
     AutomationKlima,
     StatusCard,
-    LoadingSpinner,
+    LoadingCards,
+    TimeRangeDropdown,
   },
 
   data() {
@@ -149,6 +146,7 @@ export default {
       ComponentStatusTypes,
       ActionTypes,
       SubsectionTypes,
+      ModuleTypes,
     };
   },
 
@@ -157,6 +155,10 @@ export default {
 
     building() {
       return this.generalStore.buildingState.building;
+    },
+
+    site() {
+      return this.generalStore.siteState.site;
     },
 
     subsections(): any {
@@ -186,6 +188,16 @@ export default {
     kpiAmount(): number {
       return this.kpis.length ? this.kpis.length : 3;
     },
+
+    kpiLookbackStartTimestamp(): TimelineLookbackOptions {
+      return this.generalStore.kpiLookbackWindow.currentValue;
+    },
+  },
+
+  watch: {
+    kpiLookbackStartTimestamp() {
+      this.generalStore.refetchKpiChartDataForBuildingKpis();
+    },
   },
 
   methods: {
@@ -208,22 +220,35 @@ export default {
       }
     },
 
-    getSubsectionChipStatusByCondition(condition: string): ChipStatusTypes {
+    getSubsectionChipStatusByCondition(condition: ConditionTypes): ChipStatusTypes {
       switch (condition) {
-        case SubsectionConditionTypes.HEALTHY:
+        case ConditionTypes.HEALTHY:
           return ChipStatusTypes.SUCCESS;
-        case SubsectionConditionTypes.WARNING:
+        case ConditionTypes.WARNING:
           return ChipStatusTypes.WARNING;
-        case SubsectionConditionTypes.ALERT:
+        case ConditionTypes.ALERT:
           return ChipStatusTypes.ERROR;
         default:
           return ChipStatusTypes.INFO;
       }
     },
-    openSubsectionDemoPage() {
-      this.$router.push({
-        name: 'Monitoring_Site_Building_Subsection_Demo',
-      });
+
+    openSubsection(subsectionName: string, subsectionid: string) {
+      if (this.site && this.building) {
+        this.$router.push({
+          name: 'Monitoring_Site_Building_Subsection',
+          params: {
+            subsectionparams: JSON.stringify({
+              siteid: encodeURIComponent(this.site!.id),
+              siteName: this.site!.data.siteName,
+              buildingid: encodeURIComponent(this.building!.id),
+              buildingName: this.building!.data.buildingName,
+              subsectionName,
+              subsectionid: encodeURIComponent(subsectionid),
+            }),
+          },
+        });
+      }
     },
   },
 
@@ -238,15 +263,17 @@ export default {
   display: grid;
   grid-template-columns: 1fr 2fr auto;
   grid-gap: $m;
+
+  &--left,
+  &--right {
+    display: flex;
+    flex-direction: column;
+    gap: $s;
+  }
 }
 
-.image-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30%;
-  background-color: $lightest;
-  border-radius: $base-size;
+:deep(.image-loading) {
+  height: 300px;
 }
 
 .performance-grid {
@@ -256,35 +283,33 @@ export default {
 }
 
 .status-container {
-  margin-top: $s;
+  display: flex;
+  flex-direction: column;
+  gap: $xxs;
+
+  &--cards {
+    display: flex;
+    flex-direction: column;
+    gap: $xxs;
+  }
 
   & > h3 {
     @include content-subtitle;
     color: $darkest;
-  }
-
-  &--loading {
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    @for $i from 1 through 3 {
-      & > div:nth-child(#{$i}) {
-        // from 99% to 66% to 33% opacity
-        opacity: 1 - (($i - 1) * 0.33);
-      }
-    }
   }
 }
 
 .issues-container {
-  margin-top: $s;
   background-color: $light-purple-40;
   padding: $xxs;
   border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  gap: $xs;
 
   & > h3 {
     @include content-subtitle;
     color: $darkest;
-    margin-bottom: $xs;
   }
 
   .no-issues {
@@ -295,10 +320,12 @@ export default {
   }
 
   .issues {
+    display: flex;
+    flex-direction: column;
+    gap: $xxs;
     & > p {
       @include content;
       color: $darkest;
-      margin-bottom: $xxs;
     }
   }
 }
@@ -307,42 +334,23 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .dropdown {
-    @include content;
-    cursor: pointer;
-    border: 1px solid $light-purple;
-    padding: $base-size;
-    border-radius: $border-radius;
-  }
-}
-
-.performance-grid--loading {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: $m;
-  @for $i from 1 through 3 {
-    & > div:nth-child(#{$i}) {
-      // from 99% to 66% to 33% opacity
-      opacity: 1 - (($i - 1) * 0.33);
-    }
-  }
 }
 
 h2,
 h3 {
-  @include title;
+  @include content-headline;
   color: $dark-green;
-  margin-bottom: $s;
 }
 
 h4 {
   @include content-subtitle;
-  margin-bottom: $xxs;
 }
 
 img {
   width: 100%;
   border-radius: $border-radius;
+}
+:deep(.problems-loading) {
+  background-color: transparent;
 }
 </style>

@@ -2,7 +2,7 @@
   <ul class="breadcrumb">
     <li>
       <router-link to="/" title="Home">
-        <HomeIcon class="home-icon" />
+        <MaterialSymbol :symbol="IconTypes.HOME" />
       </router-link>
     </li>
     <li v-for="(item, idx) in breadcrumbs" :key="idx">
@@ -12,11 +12,21 @@
 </template>
 
 <script lang="ts">
-import HomeIcon from '@/components/icons/HomeIcon.vue';
+/**
+ * @name BreadCrumbs
+ * @description
+ * This component is used to display the breadcrumbs.
+ */
+
+// component imports
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+
+// type imports
+import { IconTypes } from '@/types/enums/IconTypes';
 
 export default {
   components: {
-    HomeIcon,
+    MaterialSymbol,
   },
   computed: {
     breadcrumbs(): Array<{ to: string; title: string }> {
@@ -30,13 +40,18 @@ export default {
       return [];
     },
   },
+  setup() {
+    return {
+      IconTypes,
+    };
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .breadcrumb {
-  background-color: $dark-green-20;
-  padding: $xxs $m; // TODO: used $s instead of 8px
+  background-color: $dark-green-15;
+  padding: $xxs $m; // TODO: used $xxs instead of 8px
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -74,11 +89,10 @@ export default {
       padding: 0;
 
       > a {
-        color: $light-green;
+        color: $lightest;
 
-        > svg {
-          width: $m;
-          height: $m;
+        > span {
+          display: block;
           margin-bottom: 1px;
         }
       }

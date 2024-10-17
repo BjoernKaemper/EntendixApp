@@ -1,5 +1,6 @@
 <template>
   <aside
+    v-if="wissenssammlung && knowledgeItem"
     ref="sidebar"
     class="sidebar"
     :class="{ 'sidebar--open': isOpen }"
@@ -12,20 +13,17 @@
       @click.stop="toggleSidebar(false)"
       @keydown.enter.stop="toggleSidebar(false)"
     >
-      Schließen <CloseIcon />
+      Schließen <MaterialSymbol :symbol="IconTypes.CLOSE" />
     </button>
     <div class="sidebar--header">
-      <QuickRefIcon />
+      <MaterialSymbol :symbol="IconTypes.KNOWLEDGE" />
       <h2 class="sidebar--header-headline">Wissens-Sammlung</h2>
       <h2 class="sidebar--header-headline-topic">
-        Wissen über <br /><strong>{{ wissenssammlung[0]?.title }}</strong>
+        Wissen über <br /><strong>{{ knowledgeItem.title }}</strong>
       </h2>
     </div>
-    <p
-      class="sidebar--description"
-      v-if="wissenssammlung"
-    >
-      {{ wissenssammlung[0]?.description[0].de }}
+    <p class="sidebar--description" v-if="wissenssammlung">
+      {{ knowledgeItem.description[0].de }}
     </p>
   </aside>
 </template>
@@ -35,20 +33,20 @@
 import type { PropType } from 'vue';
 
 // Component imports
-import QuickRefIcon from '@/components/icons/QuickRefIcon.vue';
-import wissenssammlungData from '@/assets/json/wissenssammlung.json';
-import CloseIcon from '@/components/icons/CloseIcon.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 // Interface imports
 import type { Wissenssammlung, WissenssammlungItem } from '@/types/Knowledge';
+import { IconTypes } from '@/types/enums/IconTypes';
 
 // Data imports
+import wissenssammlungData from '@/assets/json/wissenssammlung.json';
+
 const wissenssammlungTyped = wissenssammlungData as Wissenssammlung;
 
 export default {
   components: {
-    QuickRefIcon,
-    CloseIcon,
+    MaterialSymbol,
   },
   props: {
     /**
@@ -67,6 +65,11 @@ export default {
       wissenssammlung: [] as WissenssammlungItem[],
     };
   },
+  computed: {
+    knowledgeItem() {
+      return this.wissenssammlung.find((item) => item.title === this.topic);
+    },
+  },
   mounted() {
     this.wissenssammlung = wissenssammlungTyped.wissenssammlung;
   },
@@ -75,6 +78,11 @@ export default {
       this.isOpen = state;
       this.$emit('toggle-sidebar', state);
     },
+  },
+  setup() {
+    return {
+      IconTypes,
+    };
   },
 };
 </script>
@@ -89,7 +97,6 @@ export default {
   cursor: pointer;
   position: sticky;
   margin: -#{$xxl} 0 -#{$xxl} #{$m};
-  height: calc(100vh - 111px);
 
   display: flex;
   flex-direction: column;

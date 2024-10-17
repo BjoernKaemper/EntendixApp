@@ -2,133 +2,69 @@
   <div>
     <div :class="['grid-wrapper', { 'grid-wrapper--sidebar-open': isSidebarOpen }]">
       <div class="grid-wrapper--left">
-        <h2> {{ subsectionName }}</h2>
-        <AutomationHZG />
+        <h2>{{ subsectionName }}</h2>
+        <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
+        <AutomationHZG v-else />
       </div>
       <div class="grid-wrapper--right">
         <div class="grid-wrapper--right--header">
           <h2>Performance in den Funktionsbereichen</h2>
-          <ChipComponent :status="ChipStatusTypes.ERROR" />
+          <ChipComponent
+            v-if="subsection"
+            :status="getChipStatusByCondition(subsection.data.condition)"
+          />
         </div>
         <div class="grid-wrapper--right--content">
-          <div>
-            <h3>Wärmeerzeugung</h3>
+          <LoadingCards v-if="isLoading" :card-count="3" />
+          <div v-else v-for="plantType in subsection!.data.plantsByType" :key="plantType.type">
+            <h3>{{ plantType.name }}</h3>
             <div>
               <StatusCard
-                @click="openSystemDemoPage()"
+                v-for="plant in plantType.plants"
+                @click="openPlant(plant.data.plantName, plant.id)"
+                :key="plant.id"
                 :isLoading="false"
-                title="Wärmeerzeuger 1"
-                subtitle="Ursache: Unter Sollwert"
+                :title="plant.data.plantName"
+                subtitle=""
                 :isBordered="false"
-                :status="ComponentStatusTypes.ERROR_COMPONENT"
-                :actionType="ActionTypes.ARROW"
-                timestamp="2024-08-14T18:27:00"
-              />
-              <StatusCard
-                @click="openSystemDemoPage()"
-                :isLoading="false"
-                title="Wärmeerzeuger 2"
-                subtitle="Ursache: Unter Sollwert"
-                :isBordered="false"
-                :status="ComponentStatusTypes.WARNING_COMPONENT"
+                :status="getModuleChipStatusByCondition(plant.data.condition)"
                 :actionType="ActionTypes.ARROW"
                 timestamp="2024-08-14T18:27:00"
               />
             </div>
-          </div>
-          <div>
-            <h3>Wäremverteilung</h3>
-            <div>
-              <h4>Erdgeschoss</h4>
-              <StatusCard
-                @click="openSystemDemoPage()"
-                :isLoading="false"
-                title="Heizkreis 1"
-                subtitle="Ursache: Unter Sollwert"
-                :isBordered="false"
-                :status="ComponentStatusTypes.ERROR_COMPONENT"
-                :actionType="ActionTypes.ARROW"
-                timestamp="2024-08-14T18:27:00"
-              />
-              <StatusCard
-                @click="openSystemDemoPage()"
-                :isLoading="false"
-                title="Heizkreis 2"
-                subtitle="Ursache: Unter Sollwert"
-                :isBordered="false"
-                :status="ComponentStatusTypes.WARNING_COMPONENT"
-                :actionType="ActionTypes.ARROW"
-                timestamp="2024-08-14T18:27:00"
-              />
-            </div>
-            <div>
-              <h4>Erste Etage</h4>
-              <StatusCard
-                @click="openSystemDemoPage()"
-                :isLoading="false"
-                title="Heizkreis 3"
-                subtitle="Ursache: Fehlender Datenpunkt"
-                :isBordered="false"
-                :status="ComponentStatusTypes.NONE"
-                :actionType="ActionTypes.OPEN"
-              />
-              <StatusCard
-                @click="openSystemDemoPage()"
-                :isLoading="false"
-                title="Heizkreis 4"
-                subtitle="Ursache: Fehlender Datenpunkt"
-                :isBordered="false"
-                :status="ComponentStatusTypes.NONE"
-                :actionType="ActionTypes.OPEN"
-              />
-            </div>
-          </div>
-          <div>
-            <h3>Wäremspeicher</h3>
-            <StatusCard
-              @click="openSystemDemoPage()"
-              :isLoading="false"
-              title="Speicher 1"
-              :isBordered="false"
-              :status="ComponentStatusTypes.SUCCESS_COMPONENT"
-              :actionType="ActionTypes.ARROW"
-            />
           </div>
         </div>
       </div>
-      <SideBar @toggle-sidebar="toggleSidebar" />
+      <SideBar @toggle-sidebar="toggleSidebar" :topic="subsection?.data.tradeType" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-// type imports
-import type { PropType } from 'vue';
-import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
-import { ActionTypes } from '@/types/enums/ActionTypes';
-import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
+// Library imports
+import { mapStores } from 'pinia';
+
+// Store imports
+import { useGeneralStore } from '@/store/general';
 
 // component imports
 import AutomationHZG from '@/assets/AutomationHZG.vue';
 import SideBar from '@/components/general/SideBar.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
+import LoadingCards from '@/components/general/LoadingCards.vue';
+
+// type imports
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import { ActionTypes } from '@/types/enums/ActionTypes';
+import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
+import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
 
 export default {
-  props: {
-    /**
-     * The name of the subsection.
-     * @default 'Wärmeversorgung'
-     */
-    subsectionName: {
-      type: String as PropType<string>,
-      default: 'Wärmeversorgung',
-    },
-  },
-
   data() {
     return {
       isSidebarOpen: false,
+      subsectionName: '',
     };
   },
 
@@ -137,16 +73,70 @@ export default {
     SideBar,
     StatusCard,
     ChipComponent,
+    LoadingCards,
+  },
+  computed: {
+    ...mapStores(useGeneralStore),
+    site() {
+      return this.generalStore.siteState.site;
+    },
+    building() {
+      return this.generalStore.buildingState.building;
+    },
+    subsection() {
+      return this.generalStore.subsectionState.subsection;
+    },
+    isLoading(): boolean {
+      return this.generalStore.subsectionState.isLoading;
+    },
   },
 
   methods: {
     toggleSidebar(state: boolean) {
       this.isSidebarOpen = state;
     },
-    openSystemDemoPage() {
-      this.$router.push({
-        name: 'Monitoring_Site_Building_Subsection_System_Demo',
-      });
+    getChipStatusByCondition(condition: ConditionTypes): ChipStatusTypes {
+      switch (condition) {
+        case ConditionTypes.HEALTHY:
+          return ChipStatusTypes.SUCCESS;
+        case ConditionTypes.WARNING:
+          return ChipStatusTypes.WARNING;
+        case ConditionTypes.ALERT:
+          return ChipStatusTypes.ERROR;
+        default:
+          return ChipStatusTypes.INFO;
+      }
+    },
+    getModuleChipStatusByCondition(condition: ConditionTypes | undefined): ComponentStatusTypes {
+      switch (condition) {
+        case ConditionTypes.HEALTHY:
+          return ComponentStatusTypes.SUCCESS_COMPONENT;
+        case ConditionTypes.WARNING:
+          return ComponentStatusTypes.WARNING_COMPONENT;
+        case ConditionTypes.ALERT:
+          return ComponentStatusTypes.ERROR_COMPONENT;
+        default:
+          return ComponentStatusTypes.INFO_COMPONENT;
+      }
+    },
+    openPlant(plantName: string, plantid: string) {
+      if (this.site && this.building && this.subsection) {
+        this.$router.push({
+          name: 'Monitoring_Site_Building_Subsection_Plant',
+          params: {
+            plantparams: JSON.stringify({
+              siteid: encodeURIComponent(this.site.id),
+              siteName: this.site.data.siteName,
+              buildingid: encodeURIComponent(this.building.id),
+              buildingName: this.building.data.buildingName,
+              subsectionName: this.subsection.data.tradeName,
+              subsectionid: encodeURIComponent(this.subsection.id),
+              plantName,
+              plantid: encodeURIComponent(plantid),
+            }),
+          },
+        });
+      }
     },
   },
 
@@ -156,6 +146,9 @@ export default {
       ComponentStatusTypes,
       ActionTypes,
     };
+  },
+  async created() {
+    this.subsectionName = JSON.parse(this.$route.params.subsectionparams as string).subsectionName;
   },
 };
 </script>
@@ -176,12 +169,12 @@ export default {
   &--right {
     display: flex;
     flex-direction: column;
+    gap: $m;
 
     &--header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: $l;
     }
 
     &--content {
@@ -193,8 +186,10 @@ export default {
         display: flex;
         flex-direction: column;
         gap: $xxs;
-        & > div > div {
-          margin-bottom: $xxs;
+        & > div {
+          display: flex;
+          flex-direction: column;
+          gap: $xxs;
         }
       }
     }
@@ -205,14 +200,17 @@ export default {
   }
 }
 
-  h2 {
-    @include content-headline;
-  }
-  h3 {
-    @include content-subtitle;
-  }
-  h4 {
-    @include content;
-    margin-bottom: $xxs;
-  }
+h2 {
+  @include content-headline;
+}
+h3 {
+  @include content-subtitle;
+}
+h4 {
+  @include content;
+}
+
+:deep(.image-loading) {
+  height: 300px;
+}
 </style>

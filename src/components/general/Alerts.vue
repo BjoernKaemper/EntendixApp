@@ -31,10 +31,6 @@ export default {
       return this.generalStore.alerts;
     },
   },
-
-  mounted() {
-    this.generalStore.loadAlerts();
-  },
 };
 </script>
 

@@ -13,20 +13,27 @@ import type { Subsection } from '@/types/global/subsections/Subsection';
 import type { Alert } from '@/types/Alert';
 
 // Helper Imports
-import { AlertTypes } from '@/types/enums/AlertTypes';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
+import type { Plant } from '@/types/global/plant/Plant';
+import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
+import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
 
 // Authenticator definition
 const auth = useAuthenticator();
 
 interface GeneralStoreState {
   time: DateTime;
+  kpiLookbackWindow: {
+    currentValue: TimelineLookbackOptions;
+    customStartDate?: DateTime;
+    customEndDate?: DateTime;
+  };
   windowDimensions: {
     width: number | null;
     height: number | null;
-  },
-  alerts: Alert[],
+  };
+  alerts: Alert[];
   baseInfoState: {
     companies: Company[];
     sites: Site[];
@@ -58,6 +65,16 @@ interface GeneralStoreState {
     requestTimestamp: DateTime | null;
     isLoading: boolean;
   };
+  subsectionState: {
+    subsection: Subsection | null;
+    requestTimestamp: DateTime | null;
+    isLoading: boolean;
+  };
+  plantState: {
+    plant: Plant | null;
+    requestTimestamp: DateTime | null;
+    isLoading: boolean;
+  };
   chartData: any[];
 }
 
@@ -80,8 +97,20 @@ const defaultKPIState = {
   isLoading: false,
 };
 
-const defaultSubsectionState = {
+const defaultPlantState = {
+  plant: null,
+  requestTimestamp: null,
+  isLoading: false,
+};
+
+const defaultSubsectionsState = {
   subsections: [],
+  requestTimestamp: null,
+  isLoading: false,
+};
+
+const defaultSubsectionState = {
+  subsection: null,
   requestTimestamp: null,
   isLoading: false,
 };
@@ -98,18 +127,23 @@ const defaultBuildingState = {
   kpiState: defaultKPIState,
   requestTimestamp: null,
   isLoading: false,
-  subsectionState: defaultSubsectionState,
+  subsectionState: defaultSubsectionsState,
 };
 
 export const useGeneralStore = defineStore('general', {
   state: (): GeneralStoreState => ({
     time: DateTime.local(),
+    kpiLookbackWindow: {
+      currentValue: TimelineLookbackOptions.FOURTEEN_DAYS,
+    },
     windowDimensions: defaultWindowDimensionsState,
     baseInfoState: defaultbaseInfoState,
     siteState: defaultSiteState,
     buildingState: defaultBuildingState,
     chartData: [],
     alerts: [],
+    subsectionState: defaultSubsectionState,
+    plantState: defaultPlantState,
   }),
   actions: {
     /**
@@ -137,34 +171,18 @@ export const useGeneralStore = defineStore('general', {
     },
 
     /**
-     * Load alerts for the application
-     * @returns {Promise<void>}
+     * Add a new alert to the alert list
+     * @param {Alert} alert
+     * @returns {string} The id of the alert
      */
-    async loadAlerts(): Promise<void> {
-      // @TODO Implement loading of alerts
-      this.alerts = [
-        {
-          id: uuidv4(),
-          title: 'Notification Title 1',
-          type: AlertTypes.ERROR,
-          description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
-          time: DateTime.now().toFormat('HH:mm'),
-        },
-        {
-          id: uuidv4(),
-          title: 'Notification Title 2',
-          type: AlertTypes.SUCCESS,
-          description: 'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ',
-          time: DateTime.now().toFormat('HH:mm'),
-        },
-        {
-          id: uuidv4(),
-          title: 'Notification Title 3',
-          type: AlertTypes.SUCCESS,
-          description: 'Lorem ipsum dolor sit amet.',
-          time: DateTime.now().toFormat('HH:mm'),
-        },
-      ];
+    addAlert(alert: Alert): string {
+      const alertId = uuidv4();
+      this.alerts.push({
+        ...alert,
+        id: alertId,
+        time: DateTime.now().toFormat('HH:mm'),
+      });
+      return alertId;
     },
 
     /**
@@ -172,7 +190,7 @@ export const useGeneralStore = defineStore('general', {
      * @param {Alert} alert
      * @returns {void}
      */
-    removeAlerts(alertId: string): void {
+    removeAlert(alertId: string): void {
       this.alerts = this.alerts.filter((alert) => alert.id !== alertId);
     },
 
@@ -210,10 +228,52 @@ export const useGeneralStore = defineStore('general', {
       this.baseInfoState.isLoading = false;
     },
 
-    // TODO fix any type
-    async fetchKpiChartData() {
+    async refetchKpiChartDataForSiteKpis(): Promise<void> {
+      const siteId = this.siteState.site?.id;
+
+      if (!siteId) {
+        return;
+      }
+
+      this.siteState.kpiState.isLoading = true;
+
+      // Fetching KPI Information
+      this.siteState.kpiState.kpis = await this.fetchKpiInformation(
+        encodeURIComponent(siteId),
+      );
+
+      this.siteState.kpiState.requestTimestamp = DateTime.now();
+      this.siteState.kpiState.isLoading = false;
+    },
+
+    async refetchKpiChartDataForBuildingKpis(): Promise<void> {
+      const buildingId = this.buildingState.building?.id;
+
+      if (!buildingId) {
+        return;
+      }
+
+      this.buildingState.kpiState.isLoading = true;
+
+      // Fetching KPI Information
+      this.buildingState.kpiState.kpis = await this.fetchKpiInformation(
+        encodeURIComponent(buildingId),
+      );
+
+      this.buildingState.kpiState.requestTimestamp = DateTime.now();
+      this.buildingState.kpiState.isLoading = false;
+    },
+
+    async fetchKpiChartData(parentId: string, kpi: Kpi): Promise<TimelineDataPoint[]> {
+      const startDate = TimeRangeDropdownConfig[this.kpiLookbackWindow.currentValue]
+        .dateTransformer(this.time);
+
       const queryCombined = {
         userId: auth.user.signInUserSession.idToken.payload.sub,
+        startTimestamp: startDate.toSeconds(),
+        endTimestamp: this.time.toSeconds(),
+        aasIdentifier: parentId,
+        sem_id_shorts: `${kpi.id}.Value.PresentValue`,
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -221,13 +281,15 @@ export const useGeneralStore = defineStore('general', {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      // TODO: Implement correct API call
-      const fetchedTimeline = await FetchHelper.apiCall(
+      const rawKpiData = FetchHelper.apiCall(
         `/middleware/timelines?${q}`,
         requestOptions,
       );
 
-      this.chartData = fetchedTimeline as any[];
+      return (await rawKpiData).map((data: any) => ({
+        timestamp: DateTime.fromISO(data.timestamp),
+        value: data.value,
+      }));
     },
 
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
@@ -236,15 +298,24 @@ export const useGeneralStore = defineStore('general', {
       };
       const q = QueryHelper.queryify(queryCombined);
 
-      this.fetchKpiChartData();
       const requestOptions = {
         // @TODO: Implement authentication
       } as RequestInit;
 
-      return (await FetchHelper.apiCall(
+      let kpi = (await FetchHelper.apiCall(
         `/middleware/kpis/${parentId}?${q}`,
         requestOptions,
       )) as Kpi[];
+
+      const kpiDataWithCharts = kpi.map(async (kpiData) => {
+        const mappedKpi = { ...kpiData };
+        mappedKpi.timeline = await this.fetchKpiChartData(parentId, kpiData);
+        return mappedKpi;
+      });
+
+      kpi = await Promise.all(kpiDataWithCharts);
+
+      return kpi;
     },
 
     async fetchSubsectionInformation(subsectionId: string): Promise<Subsection> {
@@ -261,6 +332,22 @@ export const useGeneralStore = defineStore('general', {
         `/middleware/subsections/${encodeURIComponent(subsectionId)}?${q}`,
         requestOptions,
       )) as Subsection;
+    },
+
+    async fetchPlantInformation(plantId: string): Promise<any> {
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+
+      return (await FetchHelper.apiCall(
+        `/middleware/plants/${encodeURIComponent(plantId)}/modules?${q}`,
+        requestOptions,
+      )) as any; //  as Plant;
     },
 
     async loadSiteInformation(siteId: string): Promise<void> {
@@ -332,6 +419,46 @@ export const useGeneralStore = defineStore('general', {
 
       this.buildingState.subsectionState.requestTimestamp = DateTime.now();
       this.buildingState.subsectionState.isLoading = false;
+    },
+
+    async loadSubsectionInformation(subsectionId: string): Promise<void> {
+      this.subsectionState.isLoading = true;
+
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+      this.subsectionState.subsection = (await FetchHelper.apiCall(
+        `/middleware/subsections/${subsectionId}/plants?${q}`,
+        requestOptions,
+      )) as Subsection;
+
+      this.subsectionState.requestTimestamp = DateTime.now();
+
+      this.subsectionState.isLoading = false;
+    },
+
+    async loadPlantInformation(plantid: string): Promise<void> {
+      this.plantState.isLoading = true;
+
+      const queryCombined = {
+        userId: auth.user.signInUserSession.idToken.payload.sub,
+      };
+      const q = QueryHelper.queryify(queryCombined);
+      const requestOptions = {
+        // @TODO: Implement authentication
+      } as RequestInit;
+      this.plantState.plant = (await FetchHelper.apiCall(
+        `/middleware/plants/${plantid}/modules?${q}`,
+        requestOptions,
+      )) as Plant;
+
+      this.plantState.requestTimestamp = DateTime.now();
+
+      this.plantState.isLoading = false;
     },
   },
 });

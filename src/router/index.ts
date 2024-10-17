@@ -1,12 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useGeneralStore } from '@/store/general';
-import HomeGeneral from '@/views/home/home_general.vue';
+import HomeGeneral from '@/views/home/HomeView.vue';
 import DemoView from '@/views/demo/DemoView.vue';
-import Monitoring from '@/views/monitoring/MonitoringDefault.vue';
+
+// monitoring views
 import Monitoring_Site from '@/views/monitoring/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue';
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
-import Monitoring_Site_Building_System_Subsection from '@/views/monitoring/MonitoringSystem.vue';
+
+import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/MonitoringSystem.vue';
+// digital twins views
+import DigitalTwinsSite from '@/views/digitaltwins/DigitalTwinsSite.vue';
 
 const routes = [
   {
@@ -16,22 +20,28 @@ const routes = [
     meta: {
       breadcrumb: () => [{ title: 'Home', to: '/' }],
     },
+    beforeEnter: () => {
+      const generalStore = useGeneralStore();
+      generalStore.loadBaseInformations();
+    },
   },
-  // {
-  //   path: '/digitaltwins',
-  //   name: 'DigitalTwins',
-  //   component: DigitalTwins, // TODO: Doesn't exist right now
-  //   meta: {
-  //     breadcrumb: () => [{ title: 'Digital Twins', to: '/digitaltwins' }],
-  //   },
-  // },
+  {
+    path: '/digitaltwins',
+    name: 'DigitalTwins',
+    component: DigitalTwinsSite, // TODO: Doesn't exist right now
+    meta: {
+      breadcrumb: () => [
+        { title: 'TH Köln, Campus Deutz', to: '/digitaltwins/campus-deutz' },
+        { title: 'IWZ', to: '/digitaltwins/campus-deutz' },
+      ],
+    },
+  },
   // {
   //   path: '/digitaltwins/site/:siteparams',
   //   name: 'DigitalTwins_Site',
   //   component: DigitalTwins_Site, // TODO: Doesn't exist right now
   //   meta: {
   //     breadcrumb: (route: any) => [
-  //       { title: 'Digital Twins', to: '/digitaltwins' },
   //       {
   //         title: `${JSON.parse(route.params.siteparams).siteName}`,
   //         to: `/digitaltwins/site/${encodeURIComponent(route.params.siteparams)}`,
@@ -51,7 +61,6 @@ const routes = [
   //         siteName: params.siteName,
   //       });
   //       return [
-  //         { title: 'Digital Twins', to: '/digitaltwins' },
   //         {
   //           title: params.siteName,
   //           to: `/digitaltwins/site/${siteParams}`,
@@ -75,24 +84,11 @@ const routes = [
     },
   },
   {
-    path: '/monitoring',
-    name: 'Monitoring',
-    component: Monitoring,
-    meta: {
-      breadcrumb: () => [{ title: 'Monitoring', to: '/monitoring' }],
-    },
-    beforeEnter: () => {
-      const generalStore = useGeneralStore();
-      generalStore.loadBaseInformations();
-    },
-  },
-  {
     path: '/monitoring/site/:siteparams',
     name: 'Monitoring_Site',
     component: Monitoring_Site,
     meta: {
       breadcrumb: (route: any) => [
-        { title: 'Monitoring', to: '/monitoring' },
         {
           title: `${JSON.parse(route.params.siteparams).siteName}`,
           to: `/monitoring/site/${encodeURIComponent(route.params.siteparams)}`,
@@ -116,7 +112,6 @@ const routes = [
           siteName: params.siteName,
         });
         return [
-          { title: 'Monitoring', to: '/monitoring' },
           {
             title: params.siteName,
             to: `/monitoring/site/${siteParams}`,
@@ -128,29 +123,126 @@ const routes = [
         ];
       },
     },
-    beforeEnter: (route: any) => {
+    beforeEnter: async (route: any) => {
       const generalStore = useGeneralStore();
-      generalStore.loadBuildingInformation(
-        JSON.parse(route.params.buildingparams as string).buildingid,
-      );
+      const params = JSON.parse(route.params.buildingparams as string);
+      if (generalStore.siteState.site?.id !== params.siteid) {
+        // TODO: reconsider awaiting here as it blocks showing of loading state,
+        // but seems to be necessary to not break timelines
+        await generalStore.loadSiteInformation(params.siteid);
+      }
+      generalStore.loadBuildingInformation(params.buildingid);
     },
   },
   {
-    path: '/monitoring/building/subsection/demo',
-    name: 'Monitoring_Site_Building_Subsection_Demo',
+    path: '/monitoring/subsection/:subsectionparams',
+    name: 'Monitoring_Site_Building_Subsection',
     component: Monitoring_Site_Building_Subsection,
     meta: {
-      // @TODO add dynamic breadcrumb when data is available
-      breadcrumb: () => [
-        { title: 'Monitoring', to: '/monitoring' },
-        { title: 'Building Demo', to: '/monitoring/building/subsection/demo' },
-      ],
+      breadcrumb: (route: any) => {
+        const params = JSON.parse(route.params.subsectionparams);
+        const siteParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+        });
+        const buildingParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+          buildingid: encodeURIComponent(params.buildingid),
+          buildingName: params.buildingName,
+        });
+        return [
+          {
+            title: params.siteName,
+            to: `/monitoring/site/${siteParams}`,
+          },
+          {
+            title: params.buildingName,
+            to: `/monitoring/building/${buildingParams}`,
+          },
+          {
+            title: params.subsectionName,
+            to: `/monitoring/subsection/${encodeURIComponent(route.params.subsectionparams)}`,
+          },
+        ];
+      },
+    },
+    beforeEnter: async (route: any) => {
+      const generalStore = useGeneralStore();
+      const params = JSON.parse(route.params.subsectionparams as string);
+      if (generalStore.siteState.site?.id !== params.siteid) {
+        await generalStore.loadSiteInformation(params.siteid);
+      }
+      if (generalStore.buildingState.building?.id !== params.buildingid) {
+        await generalStore.loadBuildingInformation(params.buildingid);
+      }
+      generalStore.loadSubsectionInformation(params.subsectionid);
+    },
+  },
+  {
+    path: '/monitoring/plant/:plantparams',
+    name: 'Monitoring_Site_Building_Subsection_Plant',
+    component: Monitoring_Site_Building_Subsection_Plant,
+    meta: {
+      breadcrumb: (route: any) => {
+        const params = JSON.parse(route.params.plantparams);
+        const siteParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+        });
+        const buildingParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+          buildingid: encodeURIComponent(params.buildingid),
+          buildingName: params.buildingName,
+        });
+        const subsectionParams = JSON.stringify({
+          siteid: encodeURIComponent(params.siteid),
+          siteName: params.siteName,
+          buildingid: encodeURIComponent(params.buildingid),
+          buildingName: params.buildingName,
+          subsectionid: encodeURIComponent(params.subsectionid),
+          subsectionName: params.subsectionName,
+        });
+        return [
+          {
+            title: params.siteName,
+            to: `/monitoring/site/${siteParams}`,
+          },
+          {
+            title: params.buildingName,
+            to: `/monitoring/building/${buildingParams}`,
+          },
+          {
+            title: params.subsectionName,
+            to: `/monitoring/subsection/${subsectionParams}`,
+          },
+          {
+            title: params.plantName,
+            to: `/monitoring/subsection/${encodeURIComponent(route.params.plantparams)}`,
+          },
+        ];
+      },
+    },
+    beforeEnter: (route: any) => {
+      const generalStore = useGeneralStore();
+      const params = JSON.parse(route.params.plantparams as string);
+      if (generalStore.siteState.site?.id !== params.siteid) {
+        generalStore.loadSiteInformation(params.siteid);
+      }
+      if (generalStore.buildingState.building?.id !== params.buildingid) {
+        generalStore.loadBuildingInformation(params.buildingid);
+      }
+      if (generalStore.subsectionState.subsection?.id !== params.subsectionid) {
+        generalStore.loadSubsectionInformation(params.subsectionid);
+      }
+      generalStore.loadPlantInformation(params.plantid);
     },
   },
   {
     path: '/monitoring/building/subsection/system/demo',
     name: 'Monitoring_Site_Building_Subsection_System_Demo',
-    component: Monitoring_Site_Building_System_Subsection,
+    component: Monitoring_Site_Building_Subsection_Plant,
     meta: {
       // @TODO add dynamic breadcrumb when data is available
       breadcrumb: () => [

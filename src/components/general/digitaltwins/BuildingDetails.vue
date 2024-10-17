@@ -52,7 +52,7 @@ import type { PropType } from 'vue';
 // Component imports
 import BuildingCardPreview from '@/assets/BuildingCardPreview.svg';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
-import FileEntry from '@/components/general/digitaltwins/FileEntry.vue';
+import FileEntry from '@/components/general/FileEntry.vue';
 
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';

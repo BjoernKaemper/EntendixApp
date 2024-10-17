@@ -26,7 +26,7 @@
 
 <script lang="ts">
 // Component imports
-import FileEntry from '@/components/general/digitaltwins/FileEntry.vue';
+import FileEntry from '@/components/general/FileEntry.vue';
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 export default {

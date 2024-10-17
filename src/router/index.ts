@@ -130,13 +130,8 @@ const routes = [
       },
     },
     beforeEnter: async (route: any) => {
-      const siteStore = useSiteStore();
       const buildingStore = useBuildingStore();
       const params = JSON.parse(route.params.buildingparams as string);
-      if (siteStore.site?.id !== decodeURIComponent(params.siteid)) {
-        // TODO: Do we need the data?
-        siteStore.loadSiteInformation(params.siteid);
-      }
       if (buildingStore.building?.id !== decodeURIComponent(params.buildingid)) {
         buildingStore.loadBuildingInformation(params.buildingid);
       }
@@ -176,18 +171,8 @@ const routes = [
       },
     },
     beforeEnter: async (route: any) => {
-      const siteStore = useSiteStore();
-      const buildingStore = useBuildingStore();
       const subsectionStore = useSubsectionStore();
       const params = JSON.parse(route.params.subsectionparams as string);
-      if (siteStore.site?.id !== decodeURIComponent(params.siteid)) {
-        // TODO: Do we need the data?
-        siteStore.loadSiteInformation(params.siteid);
-      }
-      if (buildingStore.building?.id !== decodeURIComponent(params.buildingid)) {
-        // TODO: Do we need the data?
-        buildingStore.loadBuildingInformation(params.buildingid);
-      }
       if (subsectionStore.subsection?.id !== decodeURIComponent(params.subsectionid)) {
         subsectionStore.loadSubsectionInformation(params.subsectionid);
       }
@@ -239,23 +224,8 @@ const routes = [
       },
     },
     beforeEnter: (route: any) => {
-      const siteStore = useSiteStore();
-      const buildingStore = useBuildingStore();
-      const subsectionStore = useSubsectionStore();
       const plantStore = usePlantStore();
       const params = JSON.parse(route.params.plantparams as string);
-      if (siteStore.site?.id !== decodeURIComponent(params.siteid)) {
-        // TODO: Do we need the data?
-        siteStore.loadSiteInformation(params.siteid);
-      }
-      if (buildingStore.building?.id !== decodeURIComponent(params.buildingid)) {
-        // TODO: Do we need the data?
-        buildingStore.loadBuildingInformation(params.buildingid);
-      }
-      if (subsectionStore.subsection?.id !== decodeURIComponent(params.subsectionid)) {
-        // TODO: Do we need the data?
-        subsectionStore.loadSubsectionInformation(params.subsectionid);
-      }
       if (plantStore.plant?.id !== decodeURIComponent(params.plantid)) {
         plantStore.loadPlantInformation(params.plantid);
       }

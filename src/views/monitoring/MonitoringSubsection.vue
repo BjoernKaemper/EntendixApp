@@ -45,8 +45,6 @@ import { mapStores } from 'pinia';
 
 // Store imports
 import { useGeneralStore } from '@/store/general';
-import { useSiteStore } from '@/store/site';
-import { useBuildingStore } from '@/store/building';
 import { useSubsectionStore } from '@/store/subsection';
 
 // component imports
@@ -67,6 +65,11 @@ export default {
     return {
       isSidebarOpen: false,
       subsectionName: '',
+      subsectionId: '',
+      siteName: '',
+      siteId: '',
+      buildingName: '',
+      buildingId: '',
     };
   },
   components: {
@@ -77,13 +80,7 @@ export default {
     LoadingCards,
   },
   computed: {
-    ...mapStores(useGeneralStore, useSiteStore, useBuildingStore, useSubsectionStore),
-    site() {
-      return this.siteStore.site;
-    },
-    building() {
-      return this.buildingStore.building;
-    },
+    ...mapStores(useGeneralStore, useSubsectionStore),
     subsection() {
       return this.subsectionStore.subsection;
     },
@@ -120,24 +117,15 @@ export default {
       }
     },
     openPlant(plantName: string, plantid: string) {
-      if (this.site && this.building && this.subsection) {
+      if (this.subsection) {
         this.$router.push({
           name: 'Monitoring_Site_Building_Subsection_Plant',
           params: {
             plantparams: JSON.stringify({
-              // TODO: Should this come from the params? Then we dont need to load them
-              siteid: encodeURIComponent(this.site.id),
-
-              // TODO: Should this come from the params? Then we dont need to load them
-              siteName: this.site.data.siteName,
-
-              // TODO: Should this come from the params? Then we dont need to load them
-              buildingid: encodeURIComponent(this.building.id),
-
-              // TODO: Should this come from the params? Then we dont need to load them
-              buildingName: this.building.data.buildingName,
-
-              // TODO: Should this come from the params? Then we dont need to load them
+              siteid: encodeURIComponent(this.siteId),
+              siteName: this.siteName,
+              buildingid: encodeURIComponent(this.buildingId),
+              buildingName: this.buildingName,
               subsectionName: this.subsection.data.tradeName,
               subsectionid: encodeURIComponent(this.subsection.id),
               plantName,
@@ -156,7 +144,13 @@ export default {
     };
   },
   async created() {
-    this.subsectionName = JSON.parse(this.$route.params.subsectionparams as string).subsectionName;
+    const params = JSON.parse(this.$route.params.subsectionparams as string);
+    this.subsectionName = params.subsectionName;
+    this.subsectionId = decodeURIComponent(params.subsectionid);
+    this.siteName = params.siteName;
+    this.siteId = decodeURIComponent(params.siteid);
+    this.buildingName = params.buildingName;
+    this.buildingId = decodeURIComponent(params.buildingid);
   },
 };
 </script>

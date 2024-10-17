@@ -118,7 +118,6 @@ import { mapStores } from 'pinia';
 // Store imports
 import { useGeneralStore } from '@/store/general';
 import { useBuildingStore } from '@/store/building';
-import { useSiteStore } from '@/store/site';
 
 // Type Imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -155,6 +154,8 @@ export default {
       issues: true,
       buildingName: '',
       buildingId: '',
+      siteName: '',
+      siteId: '',
     };
   },
 
@@ -170,14 +171,10 @@ export default {
   },
 
   computed: {
-    ...mapStores(useGeneralStore, useBuildingStore, useSiteStore),
+    ...mapStores(useGeneralStore, useBuildingStore),
 
     building() {
       return this.buildingStore.building;
-    },
-
-    site() {
-      return this.siteStore.site;
     },
 
     subsections(): any {
@@ -270,15 +267,13 @@ export default {
     },
 
     openSubsection(subsectionName: string, subsectionid: string) {
-      if (this.site && this.building) {
+      if (this.building) {
         this.$router.push({
           name: 'Monitoring_Site_Building_Subsection',
           params: {
             subsectionparams: JSON.stringify({
-              // TODO: Should this come from the params? Then we dont need to load them
-              siteid: encodeURIComponent(this.site!.id),
-              // TODO: Should this come from the params? Then we dont need to load them
-              siteName: this.site!.data.siteName,
+              siteid: encodeURIComponent(this.siteId),
+              siteName: this.siteName,
               buildingid: encodeURIComponent(this.building!.id),
               buildingName: this.building!.data.buildingName,
               subsectionName,
@@ -291,10 +286,13 @@ export default {
   },
 
   async created() {
-    this.buildingName = JSON.parse(this.$route.params.buildingparams as string).buildingName;
+    const params = JSON.parse(this.$route.params.buildingparams as string);
+    this.buildingName = params.buildingName;
     this.buildingId = decodeURIComponent(
-      JSON.parse(this.$route.params.buildingparams as string).buildingid,
+      params.buildingid,
     );
+    this.siteName = params.siteName;
+    this.siteId = decodeURIComponent(params.siteid);
   },
 };
 </script>

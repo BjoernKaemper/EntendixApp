@@ -45,10 +45,13 @@ export default {
       TimelineLookbackOptions,
       timeRangeDropdownGrouping: [
         [TimelineLookbackOptions.TWENTYFOUR_HOURS],
-        [TimelineLookbackOptions.CURRENT_WEEK, TimelineLookbackOptions.SEVEN_DAYS],
+        [
+          TimelineLookbackOptions.CURRENT_WEEK,
+          TimelineLookbackOptions.SEVEN_DAYS,
+          TimelineLookbackOptions.FOURTEEN_DAYS,
+        ],
         [TimelineLookbackOptions.CURRENT_MONTH, TimelineLookbackOptions.THIRTY_DAYS],
         [TimelineLookbackOptions.CURRENT_QUARTER, TimelineLookbackOptions.CURRENT_YEAR],
-        [TimelineLookbackOptions.FOURTEEN_DAYS],
         [TimelineLookbackOptions.ALL],
       ],
     };

@@ -8,18 +8,26 @@
     <ButtonComponent
       text="Zur Verwaltung"
       state="primary"
+      :icon="IconTypes.ARROW"
       @click="openBuilding()"
     />
   </div>
 </template>
 
 <script lang="ts">
+// Component imports
 import BuildingCardPreview from '@/assets/BuildingCardPreview.svg';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 
+// Type imports
 import type { PropType } from 'vue';
+import { IconTypes } from '@/types/enums/IconTypes';
 
 export default {
+  name: 'BuildingCard',
+  components: {
+    ButtonComponent,
+  },
   props: {
     /**
      * The name of the building
@@ -34,12 +42,10 @@ export default {
       required: true,
     },
   },
-  components: {
-    ButtonComponent,
-  },
   data() {
     return {
       BuildingCardPreview,
+      IconTypes,
     };
   },
 };

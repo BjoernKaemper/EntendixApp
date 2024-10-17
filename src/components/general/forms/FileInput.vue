@@ -75,7 +75,6 @@ export default {
   emits: ['update:fileList'],
   data: () => ({
     fileList: [] as File[],
-    testFileList: [] as File[],
   }),
   methods: {
     onFileChange(event: Event) {

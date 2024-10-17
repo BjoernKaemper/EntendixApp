@@ -1,12 +1,12 @@
 <template>
-  <div class="menu-wrapper">
+  <div class="menu-wrapper" ref="menuWrapper">
     <button class="menu-activator" type="button" @click="toggleMenu">
-      <MaterialSymbol :symbol="IconTypes.KEBAB_MENU" />
+      <MaterialSymbol :symbol="vertical ? 'more_vert' : IconTypes.KEBAB_MENU" />
     </button>
     <ul v-if="isOpen" class="menu-options">
       <li v-for="(option, idx) in options" :key="idx">
         <button type="button" @click="optionSelected(option.emits)">
-          <MaterialSymbol :symbol="option.icon" />
+          <MaterialSymbol :symbol="option.icon" :class="{ [`menu-icon--${option.iconColor}`]: option.iconColor }" />
           {{ option.text }}
         </button>
       </li>
@@ -19,11 +19,13 @@ import { IconTypes } from '@/types/enums/IconTypes';
 
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
-type Option = {
+export type Option = {
   icon: IconTypes;
   text: string;
   emits: string;
+  iconColor?: 'red' | 'purple'
 };
+
 export default {
   components: {
     MaterialSymbol,
@@ -32,6 +34,13 @@ export default {
     options: {
       type: Array<Option>,
       default: () => [],
+    },
+    /**
+     * Wether or not the more icon is displayed vertically.
+     */
+    vertical: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -47,6 +56,23 @@ export default {
       this.$emit(emits);
       this.isOpen = false;
     },
+    handleOutsideClick(event: MouseEvent) {
+      if (!(this.$refs.menuWrapper as HTMLElement).contains(event.target as Node)) {
+        this.isOpen = false;
+      }
+    },
+  },
+  watch: {
+    isOpen(value) {
+      if (value) {
+        document.addEventListener('click', this.handleOutsideClick);
+      } else {
+        document.removeEventListener('click', this.handleOutsideClick);
+      }
+    },
+  },
+  unmounted() {
+    document.removeEventListener('click', this.handleOutsideClick);
   },
   setup() {
     return {
@@ -68,7 +94,7 @@ export default {
   }
 
   & .menu-options {
-    min-width: fit-content;
+    width: max-content;
     position: absolute;
     top: -50%;
     right: 0;
@@ -85,7 +111,18 @@ export default {
         display: flex;
         gap: $xxxxs;
         align-items: center;
+        cursor: pointer;
       }
+    }
+  }
+
+  & .menu-icon {
+    &--red {
+      color: $orange;
+    }
+
+    &--purple {
+      color: $dark-purple;
     }
   }
 }

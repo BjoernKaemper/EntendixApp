@@ -69,18 +69,27 @@ import type { DropdownOptionElement, DropdownOptions } from '@/types/local/Dropd
 export default {
   name: 'DropdownComponent',
 
+  /**
+   * Setup
+   */
   setup() {
     return {
       IconTypes,
     };
   },
 
+  /**
+   * Data
+   */
   data() {
     return {
       isActive: false,
     };
   },
 
+  /**
+   * Components
+   */
   components: {
     MaterialSymbol,
   },
@@ -107,6 +116,9 @@ export default {
     },
   },
 
+  /**
+   * Methods
+   */
   methods: {
     toggleDropdown() {
       this.isActive = !this.isActive;

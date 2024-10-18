@@ -183,7 +183,6 @@ export default {
     margin: $xxs 0;
     white-space: nowrap;
     padding-right: calc($xxxs + $m);
-    background: magenta;
 
     &.selected {
       font-weight: bold;

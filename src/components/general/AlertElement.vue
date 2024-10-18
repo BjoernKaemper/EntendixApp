@@ -40,7 +40,7 @@ import { mapStores } from 'pinia';
 // type imports
 import { IconTypes } from '@/types/enums/IconTypes';
 import { AlertTypes } from '@/types/enums/AlertTypes';
-import type { Alert } from '@/types/Alert';
+import type { Alert } from '@/types/local/Alert';
 
 export default {
   name: 'AlertElement',

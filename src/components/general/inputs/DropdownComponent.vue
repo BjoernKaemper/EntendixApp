@@ -64,7 +64,7 @@ import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 // Type Imports
 import { IconTypes } from '@/types/enums/IconTypes';
-import type { DropdownOptionElement, DropdownOptions } from '@/types/DropdownOptions';
+import type { DropdownOptionElement, DropdownOptions } from '@/types/local/DropdownOptions';
 
 export default {
   name: 'DropdownComponent',

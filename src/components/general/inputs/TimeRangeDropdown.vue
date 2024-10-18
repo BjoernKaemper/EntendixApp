@@ -15,7 +15,7 @@ import { mapStores } from 'pinia';
 
 // Type Imports
 import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
-import type { DropdownOptionElement, DropdownOptions } from '@/types/DropdownOptions';
+import type { DropdownOptionElement, DropdownOptions } from '@/types/local/DropdownOptions';
 
 // Component Imports
 import DropdownComponent from './DropdownComponent.vue';

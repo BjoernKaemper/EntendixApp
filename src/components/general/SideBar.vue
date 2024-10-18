@@ -36,7 +36,7 @@ import type { PropType } from 'vue';
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 // Interface imports
-import type { Wissenssammlung, WissenssammlungItem } from '@/types/Knowledge';
+import type { Wissenssammlung, WissenssammlungItem } from '@/types/local/Knowledge';
 import { IconTypes } from '@/types/enums/IconTypes';
 
 // Data imports

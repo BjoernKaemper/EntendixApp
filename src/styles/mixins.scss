@@ -1,0 +1,49 @@
+@mixin title {
+  font-size: $title-size;
+  font-weight: $title-weight;
+  line-height: $title-line-height;
+}
+
+@mixin subtitle {
+  font-size: $subtitle-size;
+  font-weight: $subtitle-weight;
+  line-height: $subtitle-line-height;
+}
+
+@mixin content-headline {
+  font-size: $content-headline-size;
+  font-weight: $content-headline-weight;
+  line-height: $content-headline-line-height;
+  color: $dark-green;
+}
+
+@mixin content-subtitle {
+  font-size: $content-subtitle-size;
+  font-weight: $content-subtitle-weight;
+  line-height: $content-subtitle-line-height;
+}
+
+@mixin section-headline {
+  font-size: $section-headline-size;
+  font-weight: $section-headline-weight;
+  line-height: $section-headline-line-height;
+}
+
+@mixin content {
+  font-size: $content-size;
+  font-weight: $content-weight;
+  line-height: $content-line-height;
+}
+
+@mixin meta-information {
+  font-size: $meta-information-size;
+  font-weight: $meta-information-weight;
+  line-height: $meta-information-line-height;
+  color: $meta-color;
+}
+
+@mixin big-number {
+  font-size: $big-number-size;
+  font-weight: $big-number-weight;
+  line-height: $big-number-line-height;
+}

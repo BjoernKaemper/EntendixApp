@@ -1,163 +1,133 @@
 <template>
-    <div>
-        <v-app-bar
-            id="top-header"
-            color="monitoring"
-            elevation="1"
-            >
-            
-            <!--v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>-->
-            <!-- <v-btn id="home-icon" icon @click="$router.push('/home')"></v-btn> -->
-            <v-toolbar-title
-                id="navbar-title" 
-                >
-                <v-btn plain @click="() => {}" to="/">
-                  <v-icon class="custom-svg-icon"></v-icon>
-                </v-btn>
-                </v-toolbar-title>           
-            <v-spacer></v-spacer>
-            <div v-for="solution in solutions" :key="solution.title">
-              <v-btn plain @click="() => {}" :to="solution.link" class="mr-2" exact>
-                {{ solution.title }}
-              </v-btn>
-            </div>
-            <!--
-            <v-btn @click="auth.signOut">
-                Sign out
-            </v-btn>
-          -->
-          <v-tooltip text="Sign out">
-            <template v-slot:activator="{ props }">
-              <v-btn 
-                v-bind="props"
-                  plain
-                  icon="mdi-logout"
-                  @click="auth.signOut">
-              </v-btn>
-            </template>
-          </v-tooltip>
-
-            <!-- <v-menu left bottom>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs" v-on="on">
-                        <v-icon
-                        >mdi-account</v-icon>
-                    </v-btn>
-                </template>
-                <v-list>
-             
-                    <v-list-item v-if= "userIsAuthenticated" @click="onLogout" to="/signin">Logout</v-list-item>
-                    <v-list-item v-else  to="/signin">Sign In</v-list-item>
-                </v-list>
-            </v-menu> -->
-            </v-app-bar>
-            <!--
-            <v-navigation-drawer
-              v-model="drawer"
-              absolute
-              temporary
-            >
-              <v-list
-                nav
-                dense
-              >
-                <v-list-item-group
-                  v-model="group"
-                  class="text-left"
-                  active-class="deep-purple--text text--accent-4"
-                >
-                <div v-for="item in appBarItems" :key="item.title">
-                  <v-list-item :to="item.link">
-                    <v-list-item-icon>
-                      <v-icon>mdi-home</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item>
-                </div>
-                </v-list-item-group>
-              </v-list>
-            </v-navigation-drawer>
-          -->
-    </div>
+  <div class="header-bar">
+    <EntendixLogo />
+    <nav>
+      <ul>
+        <!-- eslint-disable-next-line vue/no-use-v-if-with-v-for -->
+        <li v-if="!isHomePage" v-for="(navItem, idx) in navItems" :key="idx">
+          <router-link
+            :to="createNavHref(navItem.href)"
+            :class="{ active: isActive(navItem.href), isHomePage }"
+          >
+            <MaterialSymbol :symbol="navItem.icon" />
+            {{ navItem.name }}
+          </router-link>
+        </li>
+        <li>
+          <!-- TODO: click logs out, propably a dropdown opens in the future -->
+          <button type="button" @click="auth.signOut" @keydown.enter="auth.signOut">
+            <MaterialSymbol :symbol="IconTypes.PROFILE" />
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </template>
 
-<script>
-import { useAuthenticator } from '@aws-amplify/ui-vue'
+<script lang="ts">
+import { IconTypes } from '@/types/enums/IconTypes';
+import { useAuthenticator } from '@aws-amplify/ui-vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import EntendixLogo from '@/components/icons/EntendixLogo.vue';
 
 export default {
-  data: () => ({
-    home: '/',
-    drawer: false,
-    group: null
-  }),
+  components: {
+    EntendixLogo,
+    MaterialSymbol,
+  },
+  data() {
+    return {
+      navItems: [
+        { icon: IconTypes.HOME, name: 'Digitale Zwillinge', href: '/digitaltwins' },
+        { icon: IconTypes.MONITORING, name: 'Monitoring', href: '/monitoring' },
+      ],
+    };
+  },
   methods: {
-    onLogout () {
-      console.log('test')
-      this.$store.dispatch('logout')
-    }
+    isActive(route: string): boolean {
+      return this.$route.path.includes(route);
+    },
+    createNavHref(href: string): string {
+      const route = this.$route.path;
+      if (route.includes(href)) {
+        // Link will linking to the current page
+        return route;
+      }
+      // Link will link to the other page type, so we replace the type-part of the route
+      return route.replace(this.navItems.find((item) => item.href !== href)!.href, href);
+    },
   },
   computed: {
-    auth () {
-      const auth = useAuthenticator()
-      return auth
+    isHomePage(): boolean {
+      return this.$route.path === '/';
     },
-    solutions () {
-      const solutions = [
-        //{ icon: '', title: 'Home', link: '/' },
-        //{ icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
-        { icon: '', title: 'Digital Twins', link: '/digitaltwins' },
-        { icon: '', title: 'Monitoring', link: '/monitoring' }, //vorher link:buildingperformance
-      ]
-      return solutions
-    },
-    appBarItems () {
-      const appBar = [
-        { icon: '', title: 'Home', link: '/home' },
-        { icon: '', title: 'Digitale Zwillinge', link: '/digitaltwins' },
-        { icon: '', title: 'Monitoring', link: '/monitoring' }, //vorher link:buildingperformance
-        { icon: '', title: 'Hinzufügen Standorte & Gebäude', link: '/register' }
-      ]
-      return appBar
-    },
-    // menuItems () {
-    //   let menuItems = [
-    //     { icon: '', title: 'Home', link: '/' },
-    //     { icon: '', title: 'Solutions', link: '/' }
-    //   ]
-    //   if (this.userIsAuthenticated) {
-    //     menuItems = [
-    //       { icon: '', title: 'Home', link: '/home' },
-    //       { icon: '', title: 'Allgemeine Infos', link: '/generalstart' },
-    //       // { icon: '', title: 'Performance Monitoring', link: '/performance' },
-    //       { icon: '', title: 'Energiemanagement', link: '/emsstart' },
-    //       { icon: '', title: 'Energiemonitoring', link: '/buildingperformance' },
-    //       { icon: '', title: 'Digital Twins', link: '/digitaltwins' }
-    //       // { icon: '', title: 'CaBo', link: '/cabo' }
-    //     ]
-    //   }
-    //   return menuItems
-    // },
-    // userIsAuthenticated () {
-    //   return this.$store.getters.user !== null && this.$store.getters.user !== undefined
-    // }
-  }
-}
+  },
+  setup() {
+    const auth = useAuthenticator();
+
+    return {
+      auth,
+      IconTypes,
+    };
+  },
+};
 </script>
 
-<style scoped>
-#navbar-title {
-  color: white;
-  font-weight: 500;
-}
-#home-icon {
-  margin-left: 20px;
-}
+<style scoped lang="scss">
+.header-bar {
+  background-color: $dark-green;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $xxs $m;
 
-.custom-svg-icon {
-  background: url('@/assets/plyteq_schriftzug_weiß.svg') no-repeat center center;
-  background-size: contain;
-  display: inline-block;
-  width: 78px; /* Adjust the width as needed */
-  height: 40px; /* Adjust the height as needed */
+  > h1 {
+    @include title;
+    color: white;
+  }
+
+  > nav > ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: $xs;
+
+    > li {
+      color: white;
+      display: flex;
+
+      > .isHomePage {
+        // disable and hide the links
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      > a {
+        @include subtitle;
+        color: white;
+        text-decoration: none;
+        padding: $xxs;
+        border-radius: $border-radius;
+        display: flex;
+        gap: $xxs;
+
+        &.active {
+          color: $dark-green;
+          font-weight: 700;
+          background-color: $lightest;
+        }
+      }
+
+      &:last-child {
+        margin-left: $base-size;
+
+        > button > span {
+          font-size: $xxl;
+          color: $lightest;
+          display: flex;
+        }
+      }
+    }
+  }
 }
 </style>

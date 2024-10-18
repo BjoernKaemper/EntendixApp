@@ -5,7 +5,11 @@
       @click="toggleDropdown()"
       @keydown.enter="toggleDropdown()"
     >
-      {{ currentValue }} v
+      {{ currentValue }}
+      <MaterialSymbol
+        class="dropdown-input-toggle--icon"
+        :symbol="IconTypes.ARROW_DROP_DOWN"
+      />
     </div>
     <div
       :class="{
@@ -28,6 +32,7 @@
               :key="index"
               @click="$emit('changed', option)"
               @keydown.enter="$emit('changed', option)"
+              :class="{ selected: option === currentValue }"
             >
               {{ option }}
             </p>
@@ -40,6 +45,7 @@
             :key="index"
             @click="$emit('changed', optionGroup)"
             @keydown.enter="$emit('changed', optionGroup)"
+            :class="{ selected: optionGroup === currentValue }"
           >
             {{ optionGroup }}
           </p>
@@ -52,8 +58,20 @@
 <script lang="ts">
 import type { PropType } from 'vue';
 
+// Component Imports
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+
+// Type Imports
+import { IconTypes } from '@/types/enums/IconTypes';
+
 export default {
   name: 'DropdownComponent',
+
+  setup() {
+    return {
+      IconTypes,
+    };
+  },
 
   data() {
     return {
@@ -61,15 +79,19 @@ export default {
     };
   },
 
+  components: {
+    MaterialSymbol,
+  },
+
   props: {
     /**
      * Possible Options for the dropdown component
      * Values can be given plain or grouped into arrays
      * Grouped arrays will be displayed as separate groups
-     * @type {string[] | string[][]}
+     * @type {Array<string | string[]>}
      */
     options: {
-      type: Array as PropType<string[]> || Array as PropType<string[][]>,
+      type: Array as PropType<Array<string | string[]>>,
       required: true,
     },
 
@@ -102,13 +124,19 @@ export default {
   cursor: pointer;
   margin: 0;
   padding: $xxxxs $xxs;
+  padding-right: $xxxs;
   border: 1px solid $light-purple;
   border-radius: $border-radius;
+
+  &--icon {
+    vertical-align: middle;
+    margin-left: $xxxs;
+  }
 }
 
 .dropdown-input-list-wrapper {
   @include content;
-  display: none;
+  visibility: hidden;
   position: absolute;
   width: 100%;
   z-index: 1;
@@ -124,6 +152,10 @@ export default {
   p {
     cursor: pointer;
     margin: $xxs 0;
+
+    &.selected {
+      font-weight: bold;
+    }
   }
 
   .dropdown-input-list-group {
@@ -133,7 +165,7 @@ export default {
   }
 
   &.is-active {
-    display: block;
+    visibility: visible;
   }
 }
 

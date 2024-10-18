@@ -27,4 +27,5 @@ export enum IconTypes {
   DELETE = 'delete',
   COMMENT = 'chat',
   SETTINGS = 'manufacturing',
+  ARROW_DROP_DOWN = 'arrow_drop_down',
 }

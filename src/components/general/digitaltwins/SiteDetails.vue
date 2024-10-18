@@ -6,10 +6,12 @@
       :alt="`image of ${site.data.siteName}`"
     />
     <form
+      ref="form"
       class="site-detail__info"
       @submit.prevent="console.log('TODO')"
       @focusin="formFocused = true"
-      @focusout="formFocused = false"
+      @focusout="handleFocusOut"
+      @reset="closeAndResetForm"
     >
       <h3>Informationen über die Liegenschaft</h3>
       <FormInput
@@ -57,19 +59,26 @@
       </div>
     </form>
   </div>
+  <InterceptionModal
+    :isOpen="leaveFormInterception.isOpen.value"
+    @cancel="leaveFormInterception.abortAction"
+    @confirm="leaveFormInterception.confirmAction"
+  />
 </template>
 
 <script lang="ts">
 // TODO: connect to backend
-// TODO: determine what should happen on unsaved changes
+// TODO: handle page leave for unsaved changes
 
 // Hook import
 import { useInput } from '@/hooks/useInput';
 import { useFormManager } from '@/hooks/useFormManager';
+import { useModalInterception } from '@/hooks/useModalInterception';
 
 // Component imports
 import FormInput from '@/components/general/forms/FormInput.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
 
 // Helper imports
 import { requiredValidator } from '@/helpers/FormValidators';
@@ -84,6 +93,7 @@ export default {
   components: {
     FormInput,
     ButtonComponent,
+    InterceptionModal,
   },
   props: {
     site: {
@@ -102,12 +112,15 @@ export default {
 
     const formState = useFormManager([streetInput, zipCodeInput, cityInput, countryInput]);
 
+    const leaveFormInterception = useModalInterception();
+
     return {
       streetInput,
       zipCodeInput,
       cityInput,
       countryInput,
       formState,
+      leaveFormInterception,
     };
   },
   data() {
@@ -135,6 +148,20 @@ export default {
         }
       },
       immediate: true,
+    },
+  },
+  methods: {
+    closeAndResetForm() {
+      this.formState.reset();
+      this.formFocused = false;
+    },
+    handleFocusOut() {
+      if (this.formState.isChanged.value) {
+        this.leaveFormInterception.interceptAction(this.closeAndResetForm, () => {});
+        return;
+      }
+
+      this.formFocused = false;
     },
   },
 };

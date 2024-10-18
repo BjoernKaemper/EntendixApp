@@ -30,7 +30,7 @@ export default {
   },
   props: {
     /**
-     * Icon to visually communication the what this element represents.
+     * Icon to visually communication what this element represents.
      */
     representationIcon: {
       type: String as PropType<MaterialIconNames>,

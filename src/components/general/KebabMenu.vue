@@ -18,7 +18,7 @@
 import { IconTypes } from '@/types/enums/IconTypes';
 
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
-import type { MaterialIconNames } from '@/types/MaterialIconNames';
+import type { MaterialIconNames } from '@/types/local/MaterialIconNames';
 
 export type Option = {
   icon: IconTypes | MaterialIconNames;

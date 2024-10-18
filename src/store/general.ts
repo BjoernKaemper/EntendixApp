@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Types
 import type Company from '@/types/global/company/Company';
 import type { Site } from '@/types/global/site/Site';
-import type { Alert } from '@/types/Alert';
+import type { Alert } from '@/types/local/Alert';
 import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';

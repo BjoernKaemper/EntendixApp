@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import type { PropType } from 'vue';
-import type { MaterialIconNames } from '@/types/MaterialIconNames';
+import type { MaterialIconNames } from '@/types/local/MaterialIconNames';
 import type { IconTypes } from '@/types/enums/IconTypes';
 
 export default {

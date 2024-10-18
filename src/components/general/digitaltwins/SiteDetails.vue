@@ -19,7 +19,7 @@
         label="Straße"
         placeholder="Straße"
         v-model="streetInput.value.value"
-        :hasError="!streetInput.isValid"
+        :hasError="!streetInput.isValid.value"
         :errorMessage="streetInput.errorMessage.value"
       />
       <div class="site-detail__group">
@@ -28,7 +28,7 @@
           label="PLZ"
           placeholder="PLZ"
           v-model="zipCodeInput.value.value"
-          :hasError="!zipCodeInput.isValid"
+          :hasError="!zipCodeInput.isValid.value"
           :errorMessage="zipCodeInput.errorMessage.value"
         />
         <FormInput
@@ -36,7 +36,7 @@
           label="Stadt"
           placeholder="Stadt"
           v-model="cityInput.value.value"
-          :hasError="!cityInput.isValid"
+          :hasError="!cityInput.isValid.value"
           :errorMessage="cityInput.errorMessage.value"
         />
       </div>
@@ -45,7 +45,7 @@
         label="Land"
         placeholder="Land"
         v-model="countryInput.value.value"
-        :hasError="!countryInput.isValid"
+        :hasError="!countryInput.isValid.value"
         :errorMessage="countryInput.errorMessage.value"
       />
       <div class="site-detail__form-actions" v-if="formFocused">

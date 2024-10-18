@@ -40,7 +40,7 @@ export default {
      * @type {string}
      */
     state: {
-      type: String as PropType<'primary' | 'tertiary'>,
+      type: String as PropType<'primary' | 'tertiary' | 'error'>,
       default: '',
     },
     /**
@@ -104,6 +104,11 @@ button {
   &.tertiary {
     background-color: $lightest;
     border: 1px solid $light-purple;
+  }
+
+  &.error {
+    background-color: $orange;
+    border-color: $orange;
   }
 }
 </style>

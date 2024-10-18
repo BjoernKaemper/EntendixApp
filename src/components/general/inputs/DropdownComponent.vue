@@ -12,7 +12,7 @@
         :symbol="IconTypes.ARROW_DROP_DOWN"
       />
     </div>
-    <div class="dropdown-sythetic-wrapper">
+    <div class="dropdown-synthetic-wrapper">
       <div
         :class="{
           'dropdown-input-list-wrapper': true,

@@ -64,6 +64,7 @@ import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 // Type Imports
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { DropdownOptionElement, DropdownOptions } from '@/types/DropdownOptions';
 
 export default {
   name: 'DropdownComponent',
@@ -89,22 +90,19 @@ export default {
      * Possible Options for the dropdown component
      * Values can be given plain or grouped into arrays
      * Grouped arrays will be displayed as separate groups
-     * @type {{ label: string, value: string } | Array<{ label: string, value: string }}
+     * @type {DropdownOptions}
      */
     options: {
-      type: Array as PropType<Array<
-      { label: string, value: string }
-      | Array<{ label: string, value: string }>
-      >>,
+      type: Array as PropType<DropdownOptions>,
       required: true,
     },
 
     /**
      * The current value of the dropdown
-     * @type {string}
+     * @type {DropdownOptionElement}
      */
     currentOption: {
-      type: Object as PropType<{ label: string, value: string }>,
+      type: Object as PropType<DropdownOptionElement>,
       required: true,
     },
   },
@@ -168,6 +166,10 @@ export default {
   }
 
   .dropdown-input-list-group {
+    &:first-of-type {
+      border-top: 1px solid $light-purple;
+    }
+
     &:not(:last-child) {
       border-bottom: 1px solid $light-purple;
     }

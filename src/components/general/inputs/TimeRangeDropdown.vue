@@ -9,10 +9,15 @@
 </template>
 
 <script lang="ts">
+// Store Imports
 import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
 
+// Type Imports
 import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
+import type { DropdownOptionElement, DropdownOptions } from '@/types/DropdownOptions';
+
+// Component Imports
 import DropdownComponent from './DropdownComponent.vue';
 
 export default {
@@ -75,10 +80,7 @@ export default {
           value: TimelineLookbackOptions.ALL,
           label: TimeRangeDropdownConfig[TimelineLookbackOptions.ALL].label,
         },
-      ] as Array<
-      { value: TimelineLookbackOptions; label: string } |
-      Array<{ value: TimelineLookbackOptions; label: string }>
-      >,
+      ] as DropdownOptions,
     };
   },
 
@@ -88,7 +90,7 @@ export default {
   computed: {
     ...mapStores(useGeneralStore),
 
-    currentTimeRangeOption(): { label: string; value: string } {
+    currentTimeRangeOption(): DropdownOptionElement {
       return {
         label: this.timeRangeConfig[this.generalStore.kpiLookbackWindow.currentValue].label,
         value: this.generalStore.kpiLookbackWindow.currentValue,

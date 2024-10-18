@@ -12,46 +12,50 @@
         :symbol="IconTypes.ARROW_DROP_DOWN"
       />
     </div>
-    <div
-      :class="{
-        'dropdown-input-list-wrapper': true,
-        'is-active': isActive,
-      }">
+    <div class="dropdown-sythetic-wrapper">
+      <div
+        :class="{
+          'dropdown-input-list-wrapper': true,
+          'is-active': isActive,
+        }">
 
-      <!-- Grouped option values -->
-      <template
-        v-for="(optionGroup, index) in options"
-        :key="index"
-      >
-        <template v-if="Array.isArray(optionGroup)">
-          <div
-            class="dropdown-input-list-group"
-            :key="index"
-          >
-            <p
-              v-for="(option, index) in optionGroup"
+        <!-- Grouped option values -->
+        <template
+          v-for="(optionGroup, index) in options"
+          :key="index"
+        >
+          <template v-if="Array.isArray(optionGroup)">
+            <div
+              class="dropdown-input-list-group"
               :key="index"
-              @click="handleOptionClick(option.value)"
-              @keydown.enter="handleOptionClick(option.value)"
-              :class="{ selected: option.value === currentOption.value }"
             >
-              {{ option.label }}
-            </p>
-          </div>
-        </template>
+              <p
+                v-for="(option, index) in optionGroup"
+                :key="index"
+                @click="handleOptionClick(option.value)"
+                @keydown.enter="handleOptionClick(option.value)"
+                class="dropdown-input-option"
+                :class="{ selected: option.value === currentOption.value }"
+              >
+                {{ option.label }}
+              </p>
+            </div>
+          </template>
 
-        <!-- Single option Values -->
-        <template v-else>
-          <p
-            :key="index"
-            @click="handleOptionClick(optionGroup.value)"
-            @keydown.enter="handleOptionClick(optionGroup.value)"
-            :class="{ selected: optionGroup.value === currentOption.value }"
-          >
-            {{ optionGroup.label }}
-          </p>
+          <!-- Single option Values -->
+          <template v-else>
+            <p
+              :key="index"
+              @click="handleOptionClick(optionGroup.value)"
+              @keydown.enter="handleOptionClick(optionGroup.value)"
+              class="dropdown-input-option"
+              :class="{ selected: optionGroup.value === currentOption.value }"
+            >
+              {{ optionGroup.label }}
+            </p>
+          </template>
         </template>
-      </template>
+      </div>
     </div>
   </div>
 </template>
@@ -146,6 +150,8 @@ export default {
   padding-right: $xxxs;
   border: 1px solid $light-purple;
   border-radius: $border-radius;
+  display: flex;
+  justify-content: space-between;
 
   &--icon {
     vertical-align: middle;
@@ -153,24 +159,31 @@ export default {
   }
 }
 
+.dropdown-sythetic-wrapper {
+  height: 0;
+}
+
 .dropdown-input-list-wrapper {
   @include content;
   visibility: hidden;
-  position: absolute;
   width: 100%;
   z-index: 1;
   border: 1px solid $light-purple;
   border-radius: $border-radius;
   background: white;
   margin-top: $xxxs;
+  min-width: fit-content;
 
   & > * {
     padding: $xxxxs $xxs;
   }
 
-  p {
+  .dropdown-input-option {
     cursor: pointer;
     margin: $xxs 0;
+    white-space: nowrap;
+    padding-right: calc($xxxs + $m);
+    background: magenta;
 
     &.selected {
       font-weight: bold;

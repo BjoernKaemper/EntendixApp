@@ -84,14 +84,6 @@
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
         <TimeRangeDropdown />
-        <DropdownComponent
-          :options="[['Option 1', 'Option 2'], 'Option 3']"
-          currentValue="Option 1"
-        />
-        <DropdownComponent
-          :options="['Option 1', 'Option 2', 'Option 3']"
-          currentValue="Option 1"
-        />
       </div>
       <LoadingCards v-if="kpiIsLoading" :card-count="3" :grow-cards="true" />
       <AlertElement
@@ -144,7 +136,6 @@ import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
-import DropdownComponent from '@/components/general/inputs/DropdownComponent.vue';
 
 import { AlertMessages } from '@/assets/json/AlertMessages';
 
@@ -156,7 +147,6 @@ export default {
     LoadingCards,
     TimeRangeDropdown,
     AlertElement,
-    DropdownComponent,
   },
 
   data() {

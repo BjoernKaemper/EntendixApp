@@ -1,32 +1,10 @@
 <template>
-  <div class="dropdown">
-    <div
-      class="dropdown-input-toggle"
-      @click="toggleDropdown()"
-      @keydown.enter="toggleDropdown()"
-    >
-      {{ currentTimeRangeLabel }} v
-    </div>
-    <div
-      :class="{
-        'dropdown-input-list-wrapper': true,
-        'is-active': isActive,
-      }">
-      <div
-        class="dropdown-input-list-group"
-        v-for="(group, index) in timeRangeDropdownGrouping"
-        :key="index"
-      >
-        <p
-          v-for="timerange in group"
-          :key="timerange"
-          @click="changeTimeRange(timerange)"
-          @keydown.enter="changeTimeRange(timerange)"
-        >
-          {{ timeRangeConfig[timerange].label }}
-        </p>
-      </div>
-    </div>
+  <div class="timeRangeDropdown">
+    <DropdownComponent
+      :options="timeRangeDropdownGrouping"
+      :currentOption="currentTimeRangeOption"
+      @changed="changeTimeRange($event)"
+    />
   </div>
 </template>
 
@@ -35,101 +13,96 @@ import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
 
 import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
+import DropdownComponent from './DropdownComponent.vue';
 
 export default {
   name: 'TimeRangeDropdown',
 
+  /**
+   * Components
+   */
+  components: {
+    DropdownComponent,
+  },
+
+  /**
+   * Setup
+   */
   setup() {
     return {
       timeRangeConfig: TimeRangeDropdownConfig,
       TimelineLookbackOptions,
       timeRangeDropdownGrouping: [
-        [TimelineLookbackOptions.TWENTYFOUR_HOURS],
+        {
+          value: TimelineLookbackOptions.TWENTYFOUR_HOURS,
+          label: TimeRangeDropdownConfig[TimelineLookbackOptions.TWENTYFOUR_HOURS].label,
+        },
         [
-          TimelineLookbackOptions.CURRENT_WEEK,
-          TimelineLookbackOptions.SEVEN_DAYS,
-          TimelineLookbackOptions.FOURTEEN_DAYS,
+          {
+            value: TimelineLookbackOptions.CURRENT_WEEK,
+            label: TimeRangeDropdownConfig[TimelineLookbackOptions.CURRENT_WEEK].label,
+          },
+          {
+            value: TimelineLookbackOptions.SEVEN_DAYS,
+            label: TimeRangeDropdownConfig[TimelineLookbackOptions.SEVEN_DAYS].label,
+          },
+          {
+            value: TimelineLookbackOptions.FOURTEEN_DAYS,
+            label: TimeRangeDropdownConfig[TimelineLookbackOptions.FOURTEEN_DAYS].label,
+          },
         ],
-        [TimelineLookbackOptions.CURRENT_MONTH, TimelineLookbackOptions.THIRTY_DAYS],
-        [TimelineLookbackOptions.CURRENT_QUARTER, TimelineLookbackOptions.CURRENT_YEAR],
-        [TimelineLookbackOptions.ALL],
-      ],
+        [
+          {
+            value: TimelineLookbackOptions.CURRENT_MONTH,
+            label: TimeRangeDropdownConfig[TimelineLookbackOptions.CURRENT_MONTH].label,
+          },
+          {
+            value: TimelineLookbackOptions.THIRTY_DAYS,
+            label: TimeRangeDropdownConfig[TimelineLookbackOptions.THIRTY_DAYS].label,
+          },
+        ],
+        [
+          {
+            value: TimelineLookbackOptions.CURRENT_QUARTER,
+            label: TimeRangeDropdownConfig[TimelineLookbackOptions.CURRENT_QUARTER].label,
+          },
+          {
+            value: TimelineLookbackOptions.CURRENT_YEAR,
+            label: TimeRangeDropdownConfig[TimelineLookbackOptions.CURRENT_YEAR].label,
+          },
+        ],
+        {
+          value: TimelineLookbackOptions.ALL,
+          label: TimeRangeDropdownConfig[TimelineLookbackOptions.ALL].label,
+        },
+      ] as Array<
+      { value: TimelineLookbackOptions; label: string } |
+      Array<{ value: TimelineLookbackOptions; label: string }>
+      >,
     };
   },
 
-  data() {
-    return {
-      isActive: false,
-    };
-  },
-
+  /**
+   * Computed
+   */
   computed: {
     ...mapStores(useGeneralStore),
 
-    currentTimeRangeValue(): TimelineLookbackOptions {
-      return this.generalStore.kpiLookbackWindow.currentValue;
-    },
-
-    currentTimeRangeLabel(): string {
-      return this.timeRangeConfig[this.currentTimeRangeValue].label;
+    currentTimeRangeOption(): { label: string; value: string } {
+      return {
+        label: this.timeRangeConfig[this.generalStore.kpiLookbackWindow.currentValue].label,
+        value: this.generalStore.kpiLookbackWindow.currentValue,
+      };
     },
   },
 
+  /**
+   * Methods
+   */
   methods: {
     changeTimeRange(value: TimelineLookbackOptions): void {
       this.generalStore.kpiLookbackWindow.currentValue = value;
-      this.isActive = false;
-    },
-
-    toggleDropdown(): void {
-      this.isActive = !this.isActive;
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-
-.dropdown {
-  position: relative;
-}
-
-.dropdown-input-toggle {
-  @include content;
-  cursor: pointer;
-  margin: 0;
-  padding: $xxxxs $xxs;
-  border: 1px solid $light-purple;
-  border-radius: $border-radius;
-}
-
-.dropdown-input-list-wrapper {
-  @include content;
-  display: none;
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-  border: 1px solid $light-purple;
-  border-radius: $border-radius;
-  background: white;
-  margin-top: $xxxs;
-
-  .dropdown-input-list-group {
-    padding: $xxxxs $xxs;
-
-    &:not(:first-child) {
-      border-top: 1px solid $light-purple;
-    }
-
-    & > p {
-      cursor: pointer;
-      margin: $xxs 0;
-    }
-  }
-
-  &.is-active {
-    display: block;
-  }
-}
-
-</style>

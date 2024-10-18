@@ -1,11 +1,12 @@
 <template>
   <div class="dropdown">
+    <!-- Dropdown selector element -->
     <div
       class="dropdown-input-toggle"
       @click="toggleDropdown()"
       @keydown.enter="toggleDropdown()"
     >
-      {{ currentValue }}
+      {{ currentOption.label }}
       <MaterialSymbol
         class="dropdown-input-toggle--icon"
         :symbol="IconTypes.ARROW_DROP_DOWN"
@@ -30,11 +31,11 @@
             <p
               v-for="(option, index) in optionGroup"
               :key="index"
-              @click="$emit('changed', option)"
-              @keydown.enter="$emit('changed', option)"
-              :class="{ selected: option === currentValue }"
+              @click="handleOptionClick(option.value)"
+              @keydown.enter="handleOptionClick(option.value)"
+              :class="{ selected: option.value === currentOption.value }"
             >
-              {{ option }}
+              {{ option.label }}
             </p>
           </div>
         </template>
@@ -43,11 +44,11 @@
         <template v-else>
           <p
             :key="index"
-            @click="$emit('changed', optionGroup)"
-            @keydown.enter="$emit('changed', optionGroup)"
-            :class="{ selected: optionGroup === currentValue }"
+            @click="handleOptionClick(optionGroup.value)"
+            @keydown.enter="handleOptionClick(optionGroup.value)"
+            :class="{ selected: optionGroup.value === currentOption.value }"
           >
-            {{ optionGroup }}
+            {{ optionGroup.label }}
           </p>
         </template>
       </template>
@@ -88,10 +89,13 @@ export default {
      * Possible Options for the dropdown component
      * Values can be given plain or grouped into arrays
      * Grouped arrays will be displayed as separate groups
-     * @type {Array<string | string[]>}
+     * @type {{ label: string, value: string } | Array<{ label: string, value: string }}
      */
     options: {
-      type: Array as PropType<Array<string | string[]>>,
+      type: Array as PropType<Array<
+      { label: string, value: string }
+      | Array<{ label: string, value: string }>
+      >>,
       required: true,
     },
 
@@ -99,8 +103,8 @@ export default {
      * The current value of the dropdown
      * @type {string}
      */
-    currentValue: {
-      type: String as PropType<string>,
+    currentOption: {
+      type: Object as PropType<{ label: string, value: string }>,
       required: true,
     },
   },
@@ -108,6 +112,11 @@ export default {
   methods: {
     toggleDropdown() {
       this.isActive = !this.isActive;
+    },
+
+    handleOptionClick(option: string) {
+      this.$emit('changed', option);
+      this.isActive = false;
     },
   },
 };

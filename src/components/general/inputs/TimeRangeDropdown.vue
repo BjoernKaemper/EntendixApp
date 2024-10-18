@@ -2,8 +2,8 @@
   <div class="timeRangeDropdown">
     <DropdownComponent
       :options="timeRangeDropdownGrouping"
-      :currentOption="currentTimeRangeOption"
-      @changed="changeTimeRange($event)"
+      :currentValue="currentValue"
+      @changed="changeTimeRange($event as TimelineLookbackOptions)"
     />
   </div>
 </template>
@@ -15,7 +15,7 @@ import { mapStores } from 'pinia';
 
 // Type Imports
 import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
-import type { DropdownOptionElement, DropdownOptions } from '@/types/local/DropdownOptions';
+import type { DropdownOptions } from '@/types/local/DropdownOptions';
 
 // Component Imports
 import DropdownComponent from './DropdownComponent.vue';
@@ -90,11 +90,8 @@ export default {
   computed: {
     ...mapStores(useGeneralStore),
 
-    currentTimeRangeOption(): DropdownOptionElement {
-      return {
-        label: this.timeRangeConfig[this.generalStore.kpiLookbackWindow.currentValue].label,
-        value: this.generalStore.kpiLookbackWindow.currentValue,
-      };
+    currentValue(): TimelineLookbackOptions {
+      return this.generalStore.kpiLookbackWindow.currentValue;
     },
   },
 

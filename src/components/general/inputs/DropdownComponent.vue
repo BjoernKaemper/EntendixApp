@@ -6,7 +6,7 @@
       @click="toggleDropdown()"
       @keydown.enter="toggleDropdown()"
     >
-      {{ currentOption.label }}
+      {{ currentOptionLabelName }}
       <MaterialSymbol
         class="dropdown-input-toggle--icon"
         :symbol="IconTypes.ARROW_DROP_DOWN"
@@ -35,7 +35,7 @@
                 @click="handleOptionClick(option.value)"
                 @keydown.enter="handleOptionClick(option.value)"
                 class="dropdown-input-option"
-                :class="{ selected: option.value === currentOption.value }"
+                :class="{ selected: option.value === currentValue }"
               >
                 {{ option.label }}
               </p>
@@ -49,7 +49,7 @@
               @click="handleOptionClick(optionGroup.value)"
               @keydown.enter="handleOptionClick(optionGroup.value)"
               class="dropdown-input-option"
-              :class="{ selected: optionGroup.value === currentOption.value }"
+              :class="{ selected: optionGroup.value === currentValue }"
             >
               {{ optionGroup.label }}
             </p>
@@ -68,7 +68,7 @@ import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 // Type Imports
 import { IconTypes } from '@/types/enums/IconTypes';
-import type { DropdownOptionElement, DropdownOptions } from '@/types/local/DropdownOptions';
+import type { DropdownOptions } from '@/types/local/DropdownOptions';
 
 export default {
   name: 'DropdownComponent',
@@ -112,11 +112,24 @@ export default {
 
     /**
      * The current value of the dropdown
-     * @type {DropdownOptionElement}
+     * @type {string}
      */
-    currentOption: {
-      type: Object as PropType<DropdownOptionElement>,
+    currentValue: {
+      type: String as PropType<string>,
       required: true,
+    },
+  },
+
+  computed: {
+    /**
+     * The current label of the selected option
+     * @returns {string}
+     */
+    currentOptionLabelName(): string {
+      const currentOption = this.options.flat().find(
+        (option) => option.value === this.currentValue,
+      );
+      return currentOption ? currentOption.label : '';
     },
   },
 
@@ -138,6 +151,13 @@ export default {
         this.isActive = false;
       }
     },
+  },
+
+  /**
+   * Emits
+   */
+  emits: {
+    changed: (() => true) as (option: string) => void,
   },
 
   /**

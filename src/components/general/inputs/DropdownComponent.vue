@@ -185,7 +185,7 @@ export default {
   }
 }
 
-.dropdown-sythetic-wrapper {
+.dropdown-synthetic-wrapper {
   height: 0;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown" ref="dropdown">
     <!-- Dropdown selector element -->
     <div
       class="dropdown-input-toggle"
@@ -132,6 +132,32 @@ export default {
       this.$emit('changed', option);
       this.isActive = false;
     },
+
+    handleOutsideClick(event: MouseEvent) {
+      if (!(this.$refs.dropdown as HTMLElement).contains(event.target as Node)) {
+        this.isActive = false;
+      }
+    },
+  },
+
+  /**
+   * Watchers
+   */
+  watch: {
+    isActive(value) {
+      if (value) {
+        document.addEventListener('click', this.handleOutsideClick);
+      } else {
+        document.removeEventListener('click', this.handleOutsideClick);
+      }
+    },
+  },
+
+  /**
+   * Lifecycle
+   */
+  unmounted() {
+    document.removeEventListener('click', this.handleOutsideClick);
   },
 };
 </script>

@@ -1,5 +1,5 @@
 import { ref, watch, type Ref } from 'vue';
-import type { EntendixInput, FormValidator } from '@/types/Inputs';
+import type { EntendixInput, FormValidator } from '@/types/local/Inputs';
 
 export const useInput = <T = string | number>(
   validators: FormValidator<T>[],

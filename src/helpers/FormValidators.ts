@@ -1,4 +1,4 @@
-import type { FormValidator } from '@/types/Inputs';
+import type { FormValidator } from '@/types/local/Inputs';
 
 /**
  * A validator that makes sure given value is not empty and thus makes it

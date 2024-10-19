@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue';
-import type { EntendixInput } from '@/types/Inputs';
+import type { EntendixInput } from '@/types/local/Inputs';
 
 export const useFormManager = (inputs: EntendixInput<unknown>[]) => {
   const isValid = ref(false);

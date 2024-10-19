@@ -10,7 +10,7 @@
       class="site-detail__info"
       @submit.prevent="console.log('TODO')"
       @focusin="formFocused = true"
-      @focusout="handleFocusOut"
+      @focusout="formFocused = false"
       @reset="closeAndResetForm"
     >
       <h3>Informationen über die Liegenschaft</h3>
@@ -48,7 +48,7 @@
         :hasError="!countryInput.isValid.value"
         :errorMessage="countryInput.errorMessage.value"
       />
-      <div class="site-detail__form-actions" v-if="formFocused">
+      <div class="site-detail__form-actions" v-if="formFocused || formState.isChanged.value">
         <ButtonComponent type="reset" text="Abbrechen" state="tertiary" />
         <ButtonComponent
           type="submit"
@@ -74,6 +74,7 @@
 import { useInput } from '@/hooks/useInput';
 import { useFormManager } from '@/hooks/useFormManager';
 import { useModalInterception } from '@/hooks/useModalInterception';
+import { usePageLeaveInterception } from '@/hooks/usePageLeaveInteception';
 
 // Component imports
 import FormInput from '@/components/general/forms/FormInput.vue';
@@ -114,6 +115,8 @@ export default {
 
     const leaveFormInterception = useModalInterception();
 
+    usePageLeaveInterception(formState.isChanged, leaveFormInterception.interceptAction);
+
     return {
       streetInput,
       zipCodeInput,
@@ -126,41 +129,14 @@ export default {
   data() {
     return {
       IconTypes,
-      siteName: '',
-      street: '',
-      zipCode: '',
-      city: '',
-      country: '',
-      test: '',
       // TODO: handle focus properly, when one looses focus and another one gets
       // it, the state flaps
       formFocused: false,
     };
   },
-  watch: {
-    site: {
-      handler() {
-        if (this.site?.data.address) {
-          this.street = this.site.data.address.street;
-          this.zipCode = this.site.data.address.zipcode;
-          this.city = this.site.data.address.cityTown;
-          this.country = this.site.data.address.nationalCode;
-        }
-      },
-      immediate: true,
-    },
-  },
   methods: {
     closeAndResetForm() {
       this.formState.reset();
-      this.formFocused = false;
-    },
-    handleFocusOut() {
-      if (this.formState.isChanged.value) {
-        this.leaveFormInterception.interceptAction(this.closeAndResetForm, () => {});
-        return;
-      }
-
       this.formFocused = false;
     },
   },

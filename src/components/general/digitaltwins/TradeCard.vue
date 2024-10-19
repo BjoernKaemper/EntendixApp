@@ -26,7 +26,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 // Type imports
 import type { PropType } from 'vue';
 import { IconTypes } from '@/types/enums/IconTypes';
-import type { MaterialIconNames } from '@/types/MaterialIconNames';
+import type { MaterialIconNames } from '@/types/local/MaterialIconNames';
 
 export default {
   components: {

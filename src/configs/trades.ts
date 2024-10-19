@@ -1,4 +1,4 @@
-import type { MaterialIconNames } from '@/types/MaterialIconNames';
+import type { MaterialIconNames } from '@/types/local/MaterialIconNames';
 
 interface TradesConfigEntry {
   id: string;

@@ -21,7 +21,7 @@ import type { PropType } from 'vue';
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 // Type imports
-import type { MaterialIconNames } from '@/types/MaterialIconNames';
+import type { MaterialIconNames } from '@/types/local/MaterialIconNames';
 
 export default {
   name: 'ListElement',

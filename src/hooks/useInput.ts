@@ -1,6 +1,12 @@
 import { ref, watch, type Ref } from 'vue';
 import type { EntendixInput, FormValidator } from '@/types/local/Inputs';
 
+/**
+ * Hook to provide all necessary states and methods to manage an input\
+ * Returned `value` prop is supposed to be bound to the input element (ideally via v-model)
+ * @param validators - Array of validators to run against the input
+ * @param initialValue - Initial value of the input
+ */
 export const useInput = <T = string | number>(
   validators: FormValidator<T>[],
   initialValue: T,
@@ -41,6 +47,9 @@ export const useInput = <T = string | number>(
     { immediate: true },
   );
 
+  /**
+   * Reset the input to its initial value
+   */
   const reset = () => {
     value.value = initialValue;
   };

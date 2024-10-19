@@ -1,6 +1,10 @@
 import { ref, watch } from 'vue';
 import type { EntendixInput } from '@/types/local/Inputs';
 
+/**
+ * Hook to generalize basic actions and states on custom inputs
+ * @param inputs - Array of EntendixInputs to manage
+ */
 export const useFormManager = (inputs: EntendixInput<unknown>[]) => {
   const isValid = ref(false);
   const isChanged = ref(false);
@@ -14,8 +18,11 @@ export const useFormManager = (inputs: EntendixInput<unknown>[]) => {
 
   watch(changedRefs, () => {
     isChanged.value = changedRefs.some((changed) => changed.value);
-  });
+  }, { immediate: true });
 
+  /**
+   * Reset all inputs to their initial values
+   */
   const reset = () => {
     inputs.forEach((input) => input.reset());
   };

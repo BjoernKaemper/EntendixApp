@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h2>{{ buildingName }}</h2>
+    <h3>{{ buildingName }}</h3>
     <img :src="BuildingCardPreview" :alt="`Schema des Gebäudes ${buildingName}`" />
     <ButtonComponent
       text="Zur Verwaltung"
@@ -66,8 +66,7 @@ export default {
   }
 }
 
-h2 {
+h3 {
   @include section-headline;
-  color: $dark-green;
 }
 </style>

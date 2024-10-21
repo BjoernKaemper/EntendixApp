@@ -121,10 +121,14 @@ export default {
       &:last-child {
         margin-left: $base-size;
 
-        > button > span {
-          font-size: $xxl;
-          color: $lightest;
-          display: flex;
+        > button {
+          padding: 0;
+
+          > span {
+            font-size: $xxl;
+            color: $lightest;
+            display: flex;
+          }
         }
       }
     }

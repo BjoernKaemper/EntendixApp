@@ -28,39 +28,63 @@
             placeholder="Allgemein Nutzungszeit"
             description="Geplante Nutzung des Gebäudes nach Uhrzeit, Wochentag und Saison"
           />
-          <FileInput id="building-planning-data" label="Planungsdaten" accepts="image/*" multiple selectPrompt="Dateien auswählen" @update:fileList="(e) => files = e" />
+          <FileInput
+            id="building-planning-data"
+            label="Planungsdaten"
+            accepts="image/*"
+            multiple
+            selectPrompt="Dateien auswählen"
+            @update:fileList="(e) => (files = e)"
+          />
         </div>
         <div class="add-building__form-group">
           <h3>Physische Komponente verknüpfen</h3>
-          <!-- TODO: use dropdown component, when available -->
-          <label for="device">ENTENDIX Edge Device</label>
-          <select id="device">
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-          </select>
+          <div class="add-building__dropdown">
+            <label for="edge-device">ENTENDIX Edge Device (optional)</label>
+            <DropdownComponent
+              :options="dummyOptions"
+              :currentValue="edgeDevice.value.value"
+              @changed="(value) => (edgeDevice.value.value = value)"
+            />
+          </div>
         </div>
       </form>
     </template>
     <template #footer>
+      <ButtonComponent text="Abbrechen" @click="handleClose" state="tertiary" />
       <ButtonComponent
-        text="Abbrechen"
-        @click="handleClose"
-        state="tertiary"
+        type="submit"
+        text="Gebäude anlegen"
+        state="primary"
+        :icon="IconTypes.CHECK_MARK"
+        @click="submitForm"
       />
-      <ButtonComponent type="submit" text="Gebäude anlegen" state="primary" :icon="IconTypes.CHECK_MARK" @click="submitForm" />
     </template>
   </ModalOverlay>
 </template>
 
 <script lang="ts">
+// Hook imports
+import { useInput } from '@/hooks/useInput';
+
+// Type imports
+import { IconTypes } from '@/types/enums/IconTypes';
+
 // Component imports
 import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
 import FormInput from '@/components/general/forms/FormInput.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import FileInput from '@/components/general/forms/FileInput.vue';
+import DropdownComponent from '@/components/general/inputs/DropdownComponent.vue';
+import type { DropdownOptions } from '@/types/local/DropdownOptions';
 
-// Type imports
-import { IconTypes } from '@/types/enums/IconTypes';
+// TODO: get proper edge device options from middleware/backend
+const dummyOptions: DropdownOptions = [
+  { value: '', label: 'Bitte wählen...' },
+  { value: '123', label: 'Edge Device 1' },
+  { value: '456', label: 'Edge Device 2' },
+  { value: '789', label: 'Edge Device 3' },
+];
 
 export default {
   name: 'AddBuildingModal',
@@ -69,6 +93,7 @@ export default {
     FormInput,
     ButtonComponent,
     FileInput,
+    DropdownComponent,
   },
   data() {
     return {
@@ -77,6 +102,7 @@ export default {
       usage: '',
       files: [] as File[],
       IconTypes,
+      dummyOptions,
     };
   },
   props: {
@@ -89,6 +115,13 @@ export default {
     },
   },
   emits: ['update:modelValue'],
+  setup() {
+    const edgeDevice = useInput<string>([], '');
+
+    return {
+      edgeDevice,
+    };
+  },
   methods: {
     submitForm() {
       if (!this.$refs.form) {
@@ -133,6 +166,12 @@ export default {
     display: flex;
     flex-direction: column;
     gap: $xxs;
+  }
+
+  &__dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: $xxxs;
   }
 }
 

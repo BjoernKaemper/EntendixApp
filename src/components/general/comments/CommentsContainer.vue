@@ -1,20 +1,28 @@
 <template>
-  <div
-    class="subgrid--left--comments"
-    v-if="comments"
-  >
+  <div class="subgrid--left--comments" v-if="comments.length">
     <h4>Kommentare</h4>
-    <CommentsWrapper
-      :comments="comments"
-    />
+    <CommentsWrapper :comments="currentComments" />
     <button
+      v-if="commentCount < comments.length"
+      @click="fetchMoreComments"
       type="button"
       class="subgrid--left--fetchmore"
     >
       weitere laden...
     </button>
   </div>
-  <InputTextarea />
+  <div>
+    <!-- TODO: Styling of Label is off -->
+    <FormInput
+      id="newComment"
+      label="Kommentar hinzufügen"
+      placeholder="Nachricht"
+      :required="true"
+      type="textarea"
+      model-value=""
+      icon="notes"
+    />
+  </div>
   <ButtonComponent
     text="Kommentar hinzufügen"
     :primary="true"
@@ -25,23 +33,44 @@
 
 <script lang="ts">
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { Annotation } from '@/types/global/kpi/Kpi';
 
 import CommentsWrapper from '@/components/general/comments/CommentsWrapper.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
-import InputTextarea from '@/components/general/comments/InputTextarea.vue';
-import type { Comment } from '@/types/Comment';
+import FormInput from '@/components/general/forms/FormInput.vue';
 
 export default {
   components: {
     CommentsWrapper,
-    InputTextarea,
+    FormInput,
     ButtonComponent,
   },
 
   props: {
     comments: {
-      type: Array as () => Comment[], // Add the Comment type to the type annotation
+      type: Array as () => Annotation[], // Add the Comment type to the type annotation
       required: true,
+    },
+  },
+  data() {
+    return {
+      commentCount: 0,
+    };
+  },
+  created() {
+    this.commentCount = this.comments.length >= 2 ? 2 : this.comments.length;
+  },
+  methods: {
+    fetchMoreComments() {
+      this.commentCount =
+        this.commentCount + 2 >= this.comments.length
+          ? this.commentCount + 2
+          : this.comments.length;
+    },
+  },
+  computed: {
+    currentComments() {
+      return this.comments.slice(0, this.commentCount);
     },
   },
   setup() {
@@ -53,9 +82,7 @@ export default {
 </script>
 
 <style lang="scss">
-
 .subgrid {
-
   gap: $m;
 
   &--left {
@@ -92,8 +119,8 @@ h4 {
   @include section-headline;
 }
 
-p, li {
+p,
+li {
   @include content;
 }
-
 </style>

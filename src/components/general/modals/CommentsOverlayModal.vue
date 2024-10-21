@@ -4,7 +4,7 @@
       <div id="comments-modal-overlay__header">
         <h3>Kommentare für "{{ commentName }}"</h3>
         <p>in {{ commentType }} "{{ commentIn }}"</p>
-        <p>vom {{ startDate }} bis {{ endDate }}</p>
+        <p>vom {{ prettierDate(startDate, false) }} bis {{ prettierDate(endDate, false) }}</p>
       </div>
     </template>
     <template #body>
@@ -13,22 +13,7 @@
         einen neuen Kommentar hinzu.
       </p>
       <div v-else id="comments-modal-overlay__body__comments">
-        <div v-for="(comment, idx) in comments" :key="idx" class="comment">
-          <div class="comment__header">
-            <p>
-              <span>{{ prettierDate(comment.referringTimestamp) }}</span>
-            </p>
-            <KebabMenu
-              :options="[{ icon: IconTypes.DELETE, text: 'Kommentar löschen', emits: 'delete' }]"
-              @delete="deleteComment('TODO - Add Identifier')"
-              class="comment__header__kebab-menu"
-            />
-          </div>
-          <p>{{ comment.annotationText }}</p>
-          <span class="comment__timestamp">
-            verfasst von {{ comment.creator }} am {{ prettierDate(comment.timestampOfCreation) }}
-          </span>
-        </div>
+        <CommentsWrapper :comments="comments" :lightBackground="false" />
       </div>
 
       <div id="comments-modal-overlay__body__form">
@@ -77,22 +62,22 @@
 </template>
 
 <script lang="ts">
-import ButtonComponent from '@/components/general/ButtonComponent.vue';
-import KebabMenu from '@/components/general/KebabMenu.vue';
-import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
-import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
-
 import { IconTypes } from '@/types/enums/IconTypes';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
 import type { Annotation } from '@/types/global/kpi/Kpi';
 import { DateTime } from 'luxon';
 
+import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
+import CommentsWrapper from '@/components/general/comments/CommentsWrapper.vue';
+
 export default {
   components: {
     ModalOverlay,
     ButtonComponent,
-    KebabMenu,
     MaterialSymbol,
+    CommentsWrapper,
   },
   props: {
     /**
@@ -194,8 +179,8 @@ export default {
       // add a unique id to the comment using hash function
       const id: number = Math.floor(Math.random() * 1000000);
       const user: string = window.localStorage.getItem(
-        'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
-      ) || 'User'; // @TODO get user from backend
+          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
+        ) || 'User'; // @TODO get user from backend
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 
       if (!this.validateComment(comment.value, new Date(startDate.value))) {
@@ -225,8 +210,10 @@ export default {
       // check local storage for comments
       window.localStorage.setItem('comment', JSON.stringify(comments));
     },
-    prettierDate(date: string): string {
-      return DateTime.fromJSDate(new Date(date)).toFormat('dd.MM.yyyy HH:mm');
+    prettierDate(date: string, withTime: boolean = true): string {
+      return DateTime.fromJSDate(new Date(date)).toFormat(
+        withTime ? 'dd.MM.yyyy HH:mm' : 'dd.MM.yyyy',
+      );
     },
     deleteComment(id: string): void {
       // @TODO handle deletion of comment

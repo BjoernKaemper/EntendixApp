@@ -36,11 +36,11 @@ import { useSiteStore } from '@/store/site';
 import { mapStores } from 'pinia';
 
 // Component imports
-import DigitalTwinLayout from '@/components/general/digitaltwins/DigitalTwinLayout.vue';
-import BuildingCard from '@/components/general/digitaltwins/BuildingCard.vue';
-import SiteDetails from '@/components/general/digitaltwins/SiteDetails.vue';
+import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
+import BuildingCard from '@/components/digitaltwins/BuildingCard.vue';
+import SiteDetails from '@/components/digitaltwins/SiteDetails.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
-import AddBuildingModal from '@/components/general/digitaltwins/AddBuildingModal.vue';
+import AddBuildingModal from '@/components/digitaltwins/AddBuildingModal.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 

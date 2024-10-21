@@ -35,7 +35,7 @@ import { mapStores } from 'pinia';
 import { useSubsectionStore } from '@/store/subsection';
 
 // Component imports
-import DigitalTwinLayout from '@/components/general/digitaltwins/DigitalTwinLayout.vue';
+import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
 import AutomationHZG from '@/assets/AutomationHZG.vue';
 import ListElement from '@/components/general/ListElement.vue';
 

@@ -30,9 +30,9 @@ import { useGeneralStore } from '@/store/general';
 import { useBuildingStore } from '@/store/building';
 
 // Component imports
-import DigitalTwinLayout from '@/components/general/digitaltwins/DigitalTwinLayout.vue';
-import BuildingDetails from '@/components/general/digitaltwins/BuildingDetails.vue';
-import TradeCard from '@/components/general/digitaltwins/TradeCard.vue';
+import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
+import BuildingDetails from '@/components/digitaltwins/BuildingDetails.vue';
+import TradeCard from '@/components/digitaltwins/TradeCard.vue';
 
 // config import
 import { tradesConfig } from '@/configs/trades';

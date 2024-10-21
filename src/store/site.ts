@@ -66,7 +66,7 @@ export const useSiteStore = defineStore('site', {
 
       // Start fetching of the KPIs
       try {
-        this.kpiState.kpis = await generalStore.fetchKpiInformation(Base64Helper.encode(siteId));
+        this.kpiState.kpis = await generalStore.fetchKpiInformation(siteId);
         this.kpiState.requestTimestamp = DateTime.now();
       } catch (error) {
         this.kpiState.error = true;
@@ -110,9 +110,7 @@ export const useSiteStore = defineStore('site', {
       // Fetching KPI Information
       this.kpiState.isLoading = true;
       try {
-        this.kpiState.kpis = await generalStore.fetchKpiInformation(
-          Base64Helper.encode(this.site!.id),
-        );
+        this.kpiState.kpis = await generalStore.fetchKpiInformation(this.site!.id);
         this.kpiState.requestTimestamp = DateTime.now();
       } catch (error) {
         this.kpiState.error = true;

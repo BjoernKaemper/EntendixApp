@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app">
     <!-- @TODO: Move authentication to seperate route and check for auth in router -->
     <Authenticator>
       <template v-slot:header>
@@ -17,7 +17,7 @@
         <NavBar />
         <Breadcrumbs />
       </header>
-      <main :style="mainHeight">
+      <main>
         <router-view />
       </main>
       <Alerts />
@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
 import NavBar from '@/components/general/NavBar.vue';
 import Breadcrumbs from '@/components/general/BreadCrumbs.vue';
 import Alerts from '@/components/general/Alerts.vue';
@@ -61,13 +60,6 @@ window.addEventListener('resize', () => generalStore.setWindowDimensions());
 
 // Starting the global clock
 generalStore.updateGlobalTime();
-
-const header = ref<HTMLElement | null>(null);
-
-const mainHeight = computed(() => {
-  const headerHeight = header.value ? header.value.clientHeight + 1 : 100;
-  return `height: calc(100vh - ${headerHeight}px);`;
-});
 </script>
 
 <style lang="scss">
@@ -100,5 +92,12 @@ main {
   overflow-y: scroll;
   overflow-x: hidden;
   padding: $xxl $m; // TODO: used $xxl instead of 45px
+  flex: 1;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 </style>

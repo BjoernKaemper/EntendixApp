@@ -100,7 +100,7 @@
             :kpi="kpi"
             :lastUpdateTimestamp="lastBuildingRequestTimestamp"
             :isLoading="kpiIsLoading"
-            :status="ChipStatusTypes.SUCCESS"
+            :status="getSubsectionChipStatusByCondition(kpi.data.condition)"
             :moduleType="ModuleTypes.BUILDING"
             :moduleName="buildingName"
           />

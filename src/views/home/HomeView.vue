@@ -66,7 +66,6 @@ export default {
      * @param {Site} site Object of the site to navigate to
      */
     loadTwin(site: Site): void {
-      console.log('loadTwin', site);
       this.$router.push({
         name: 'DigitalTwins',
         params: {
@@ -82,7 +81,6 @@ export default {
      * @param {Site} site Object of the site to navigate to
      */
     loadSite(site: Site): void {
-      console.log('loadSite', site);
       this.$router.push({
         name: 'Monitoring_Site',
         params: {

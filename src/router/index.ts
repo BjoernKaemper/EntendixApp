@@ -135,7 +135,7 @@ const routes = [
     beforeEnter: async (route: any) => {
       const buildingStore = useBuildingStore();
       const buildingid = Base64Helper
-        .decode(JSON.parse(route.params.buildingparams as string).buildingId);
+        .decode(JSON.parse(route.params.buildingparams as string).buildingid);
       if (buildingStore.building?.id !== buildingid) {
         buildingStore.loadBuildingInformation(buildingid);
       }

@@ -197,7 +197,6 @@ export const useGeneralStore = defineStore('general', {
 
       // eslint-disable-next-line no-useless-catch
       try {
-        console.log('KPI fetch for:', parentId);
         let kpi = (await FetchHelper.apiCall(
           `/middleware/kpis/${Base64Helper.encode(parentId)}?${q}`,
           requestOptions,

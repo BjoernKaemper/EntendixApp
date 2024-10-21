@@ -7,7 +7,6 @@ export default {
    * @returns {string} The encoded data.
    */
   encode(data: string): string {
-    console.log('Trying to encode data:', data, Buffer.from(data).toString('base64'));
     return Buffer.from(data).toString('base64');
   },
 

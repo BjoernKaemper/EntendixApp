@@ -169,7 +169,6 @@ export default {
 
   methods: {
     openBuilding(siteid: string, siteName: string, buildingid: string, buildingName: string) {
-      console.log('openBuilding', siteid, siteName, buildingid, buildingName);
       this.$router.push({
         name: 'Monitoring_Site_Building',
         params: {

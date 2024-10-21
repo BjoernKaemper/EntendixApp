@@ -17,13 +17,16 @@
       <div v-if="isLoading" class="digital-twin-site__buildings-loading">
         <LoadingSpinner size="large" />
       </div>
-      <div v-else class="digital-twin-site__buildings">
+      <div v-else-if="site?.data.buildings?.length" class="digital-twin-site__buildings">
         <BuildingCard
           v-for="(building, idx) in site?.data.buildings"
           :key="idx"
           :building-name="building.data.buildingName"
           :open-building="() => openBuilding(building.id, building.data.buildingName)"
         />
+      </div>
+      <div v-else class="digital-twin-site__no-buildings">
+        <NoBuildingsMessage />
       </div>
     </template>
   </DigitalTwinLayout>
@@ -43,6 +46,7 @@ import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import AddBuildingModal from '@/components/digitaltwins/AddBuildingModal.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import NoBuildingsMessage from '@/components/digitaltwins/NoBuildingsMessage.vue';
 
 // Type imports
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
@@ -57,6 +61,7 @@ export default {
     AddBuildingModal,
     LoadingCards,
     LoadingSpinner,
+    NoBuildingsMessage,
   },
   data() {
     return {
@@ -144,6 +149,11 @@ export default {
 
   &__buildings-loading {
     padding: $xxl $m;
+  }
+
+  &__no-buildings {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
   }
 }
 

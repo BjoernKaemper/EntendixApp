@@ -11,7 +11,7 @@
           v-for="site in sites"
           :key="site.id"
           :name="site.data.siteName"
-          imgsrc="/src/assets/placeholder-campus-deutz.png"
+          :imgsrc="placeholderCampusDeutz"
           :status="ChipStatusTypes.SUCCESS"
           :location="site.data.address.cityTown"
           @digitalTwinClicked="loadTwin(site)"
@@ -26,6 +26,7 @@
 <script lang="ts">
 import { mapStores } from 'pinia';
 import { useGeneralStore } from '@/store/general';
+import placeholderCampusDeutz from '@/assets/placeholder-campus-deutz.png';
 
 import GoogleMaps from '@/components/general/GoogleMaps.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
@@ -39,6 +40,12 @@ export default {
     GoogleMaps,
     LiegenschaftCard,
     LoadingCards,
+  },
+
+  data() {
+    return {
+      placeholderCampusDeutz,
+    };
   },
 
   computed: {

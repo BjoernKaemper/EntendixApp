@@ -8,9 +8,16 @@
         >
       </div>
       <KebabMenu
-        :options="[{ icon: 'delete', text: 'Kommentar löschen', emits: 'delete' }]"
+        :options="[
+          {
+            icon: 'delete',
+            text: 'Kommentar löschen',
+            emits: 'delete',
+            iconColor: 'red',
+          },
+        ]"
         @delete="deleteComment('TODO: Add Identifier')"
-        class="comment__header__kebab-menu"
+        class="comment--header--kebab-menu"
       />
     </div>
     <p class="comment--body">{{ comment.annotationText }}</p>
@@ -64,7 +71,7 @@ export default {
     },
     prettierDate(date: string, withTime: boolean = true): string {
       return DateTime.fromJSDate(new Date(date)).toFormat(
-        withTime ? 'dd.MM.yyyy HH:mm' : 'dd.MM.yyyy',
+        withTime ? 'dd.MM.yyyy HH:mm' : 'dd.MM.yyyy'
       );
     },
   },
@@ -84,6 +91,9 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    &--kebab-menu {
+      flex-grow: 1;
+    }
   }
 
   &.isLight {

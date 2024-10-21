@@ -246,51 +246,6 @@ export default {
       margin: 0 auto;
       padding: $m 0;
     }
-
-    &__comments {
-      display: flex;
-      flex-direction: column;
-      gap: $xxs;
-
-      .comment {
-        background-color: $background;
-        display: flex;
-        flex-direction: column;
-        gap: $base-size;
-        padding: $xxs;
-        border-radius: $border-radius;
-
-        &__header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          p {
-            @include content;
-            span {
-              @include meta-information;
-              font-weight: bold;
-            }
-          }
-          &__kebab-menu {
-            flex-grow: 1;
-          }
-        }
-        p {
-          @include content;
-          span {
-            @include meta-information;
-            font-weight: bold;
-          }
-        }
-        &__timestamp {
-          margin-top: $xxs;
-          @include meta-information;
-          text-align: end;
-          font-weight: bold;
-        }
-      }
-    }
-
     // form styles
     &__form {
       &__headline {

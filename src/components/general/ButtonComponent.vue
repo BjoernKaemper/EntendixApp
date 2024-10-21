@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { IconTypes } from '@/types/enums/IconTypes';
-import type { MaterialIconNames } from '@/types/MaterialIconNames';
+import type { MaterialIconNames } from '@/types/local/MaterialIconNames';
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 export default {

@@ -2,18 +2,23 @@
   <DigitalTwinLayout>
     <template #left>
       <h1>{{ siteName || 'Loading' }}</h1>
-      <BuildingCardLoading v-if="isLoading" />
+      <div v-if="isLoading" class="digital-twin-site__site-loading">
+        <LoadingCards :cardCount="1" cardClass="digital-twin-site__image-loading" size="large" />
+        <h3>Informationen über die Liegenschaft</h3>
+        <LoadingSpinner />
+      </div>
       <SiteDetails v-else-if="site" :site="site" />
     </template>
     <template #right>
       <div class="digital-twin-site__head">
-        <h3>Gebäude in der Liegenschaft</h3>
+        <h2>Gebäude in der Liegenschaft</h2>
         <ButtonComponent :icon="IconTypes.ADD" state="tertiary" text="Neues Gebäude" @click="addBuildingModalIsOpen = true" />
       </div>
-      <div class="digital-twin-site__buildings">
-        <BuildingCardLoading v-if="isLoading" />
+      <div v-if="isLoading" class="digital-twin-site__buildings-loading">
+        <LoadingSpinner size="large" />
+      </div>
+      <div v-else class="digital-twin-site__buildings">
         <BuildingCard
-          v-else
           v-for="(building, idx) in site?.data.buildings"
           :key="idx"
           :building-name="building.data.buildingName"
@@ -33,10 +38,11 @@ import { mapStores } from 'pinia';
 // Component imports
 import DigitalTwinLayout from '@/components/general/digitaltwins/DigitalTwinLayout.vue';
 import BuildingCard from '@/components/general/digitaltwins/BuildingCard.vue';
-import BuildingCardLoading from '@/components/general/digitaltwins/BuildingCardLoading.vue';
 import SiteDetails from '@/components/general/digitaltwins/SiteDetails.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import AddBuildingModal from '@/components/general/digitaltwins/AddBuildingModal.vue';
+import LoadingCards from '@/components/general/LoadingCards.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // Type imports
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
@@ -46,10 +52,11 @@ export default {
   components: {
     DigitalTwinLayout,
     BuildingCard,
-    BuildingCardLoading,
     SiteDetails,
     ButtonComponent,
     AddBuildingModal,
+    LoadingCards,
+    LoadingSpinner,
   },
   data() {
     return {
@@ -128,15 +135,34 @@ export default {
     justify-content: space-between;
     align-items: flex-end;
   }
+
+  &__site-loading {
+    display: flex;
+    flex-direction: column;
+    gap: $s;
+  }
+
+  &__buildings-loading {
+    padding: $xxl $m;
+  }
+}
+
+:deep(.digital-twin-site__image-loading) {
+  aspect-ratio: 3 / 2;
+  height: 100%;
 }
 
 h1 {
   @include content-headline;
 }
 
-h2, h3 {
+h2 {
   @include content-headline;
   color: $dark-green;
+}
+
+h3 {
+  @include content-subtitle;
 }
 
 p,

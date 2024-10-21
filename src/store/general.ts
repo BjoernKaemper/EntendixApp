@@ -15,7 +15,7 @@ import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import URIHelper from '@/helpers/URIHelper';
+import Base64Helper from '@/helpers/Base64Helper';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -198,7 +198,7 @@ export const useGeneralStore = defineStore('general', {
       // eslint-disable-next-line no-useless-catch
       try {
         let kpi = (await FetchHelper.apiCall(
-          `/middleware/kpis/${URIHelper.encodeURI(parentId)}?${q}`,
+          `/middleware/kpis/${Base64Helper.encode(parentId)}?${q}`,
           requestOptions,
         )) as Kpi[];
 

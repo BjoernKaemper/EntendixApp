@@ -70,6 +70,9 @@ import { useSiteStore } from '@/store/site';
 import { mapStores } from 'pinia';
 import type { DateTime } from 'luxon';
 
+// Helpers
+import Base64Helper from '@/helpers/Base64Helper';
+
 // Components
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
@@ -161,7 +164,7 @@ export default {
 
   created() {
     this.siteName = JSON.parse(this.$route.params.siteparams as string).siteName;
-    this.siteId = decodeURIComponent(JSON.parse(this.$route.params.siteparams as string).siteid);
+    this.siteId = Base64Helper.decode(JSON.parse(this.$route.params.siteparams as string).siteid);
   },
 
   methods: {
@@ -170,9 +173,9 @@ export default {
         name: 'Monitoring_Site_Building',
         params: {
           buildingparams: JSON.stringify({
-            siteid: encodeURIComponent(siteid),
+            siteid: Base64Helper.encode(siteid),
             siteName,
-            buildingid: encodeURIComponent(buildingid),
+            buildingid: Base64Helper.encode(buildingid),
             buildingName,
           }),
         },

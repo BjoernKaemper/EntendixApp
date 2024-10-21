@@ -33,7 +33,7 @@ import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import type { Site } from '@/types/global/site/Site';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import LoadingCards from '@/components/general/LoadingCards.vue';
-// import { load } from 'webfontloader';
+import Base64Helper from '@/helpers/Base64Helper';
 
 export default {
   components: {
@@ -66,11 +66,12 @@ export default {
      * @param {Site} site Object of the site to navigate to
      */
     loadTwin(site: Site): void {
+      console.log('loadTwin', site);
       this.$router.push({
         name: 'DigitalTwins',
         params: {
           siteparams: JSON.stringify({
-            siteid: encodeURIComponent(site.id),
+            siteid: Base64Helper.encode(site.id),
             siteName: site.data.siteName,
           }),
         },
@@ -81,11 +82,12 @@ export default {
      * @param {Site} site Object of the site to navigate to
      */
     loadSite(site: Site): void {
+      console.log('loadSite', site);
       this.$router.push({
         name: 'Monitoring_Site',
         params: {
           siteparams: JSON.stringify({
-            siteid: encodeURIComponent(site.id),
+            siteid: Base64Helper.encode(site.id),
             siteName: site.data.siteName,
           }),
         },

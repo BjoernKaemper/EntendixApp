@@ -9,7 +9,7 @@ import type { Kpi } from '@/types/global/kpi/Kpi';
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import URIHelper from '@/helpers/URIHelper';
+import Base64Helper from '@/helpers/Base64Helper';
 
 // Stores
 import { useGeneralStore } from './general';
@@ -66,7 +66,7 @@ export const useSiteStore = defineStore('site', {
 
       // Start fetching of the KPIs
       try {
-        this.kpiState.kpis = await generalStore.fetchKpiInformation(encodeURIComponent(siteId));
+        this.kpiState.kpis = await generalStore.fetchKpiInformation(Base64Helper.encode(siteId));
         this.kpiState.requestTimestamp = DateTime.now();
       } catch (error) {
         this.kpiState.error = true;
@@ -95,7 +95,7 @@ export const useSiteStore = defineStore('site', {
 
       // Fetch the site information and return it
       return (await FetchHelper.apiCall(
-        `/middleware/sites/${URIHelper.encodeURI(siteId)}?${q}`,
+        `/middleware/sites/${Base64Helper.encode(siteId)}?${q}`,
         requestOptions,
       )) as SiteWithBuildinginformation;
     },
@@ -111,7 +111,7 @@ export const useSiteStore = defineStore('site', {
       this.kpiState.isLoading = true;
       try {
         this.kpiState.kpis = await generalStore.fetchKpiInformation(
-          encodeURIComponent(this.site!.id),
+          Base64Helper.encode(this.site!.id),
         );
         this.kpiState.requestTimestamp = DateTime.now();
       } catch (error) {

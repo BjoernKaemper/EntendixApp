@@ -10,7 +10,6 @@ import type { Kpi } from '@/types/global/kpi/Kpi';
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import URIHelper from '@/helpers/URIHelper';
 
 // Stores
 import { useGeneralStore } from './general';
@@ -127,7 +126,7 @@ export const useBuildingStore = defineStore('building', {
 
       // Fetch the building information and return it
       return (await FetchHelper.apiCall(
-        `/middleware/buildings/${URIHelper.encodeURI(buildingId)}?${q}`,
+        `/middleware/buildings/${Base64Helper.encode(buildingId)}?${q}`,
         requestOptions,
       )) as Building;
     },

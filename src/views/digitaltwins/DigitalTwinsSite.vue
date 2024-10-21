@@ -14,7 +14,7 @@
         <h2>Gebäude in der Liegenschaft</h2>
         <ButtonComponent
           :icon="IconTypes.ADD"
-          state="tertiary"
+          state="secondary"
           text="Neues Gebäude"
           @click="addBuildingModalIsOpen = true"
         />

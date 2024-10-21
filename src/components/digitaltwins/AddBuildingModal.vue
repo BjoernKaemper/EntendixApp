@@ -62,7 +62,7 @@
       </form>
     </template>
     <template #footer>
-      <ButtonComponent text="Abbrechen" @click="handleClose" state="tertiary" />
+      <ButtonComponent text="Abbrechen" @click="handleClose" state="secondary" />
       <ButtonComponent
         type="submit"
         text="Gebäude anlegen"

@@ -12,7 +12,7 @@
       </slot>
     </template>
     <template #footer>
-      <ButtonComponent :text="cancelText" @click="handleClose" state="tertiary" />
+      <ButtonComponent :text="cancelText" @click="handleClose" state="secondary" />
       <ButtonComponent :text="confirmText" @click="$emit('confirm')" state="error" />
     </template>
   </ModalOverlay>

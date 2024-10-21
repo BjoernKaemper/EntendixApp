@@ -49,7 +49,7 @@
         :errorMessage="countryInput.errorMessage.value"
       />
       <div class="site-detail__form-actions" v-if="formFocused || formState.isChanged.value">
-        <ButtonComponent type="reset" text="Abbrechen" state="tertiary" />
+        <ButtonComponent type="reset" text="Abbrechen" state="secondary" />
         <ButtonComponent
           type="submit"
           text="Speichern"

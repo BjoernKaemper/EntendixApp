@@ -3,13 +3,14 @@
     <template #left>
       <h2>{{ subsectionName }}</h2>
       <div class="twin-subsection__schema-image">
-        <AutomationHZG />
+        <LoadingSpinner class="twin-subsection__schema-loading" v-if="isLoading" size="large" />
+        <AutomationHZG v-else />
       </div>
     </template>
     <template #right>
       <h3>Verwaltung der Anlage</h3>
-      <div class="twin-subsection__plants">
-        <!--TODO loading state with general loading card component-->
+      <LoadingCards v-if="isLoading" />
+      <div v-else class="twin-subsection__plants">
         <div
           v-for="plantType in subsection?.data.plantsByType"
           :key="plantType.type"
@@ -42,6 +43,8 @@ import { useSubsectionStore } from '@/store/subsection';
 import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
 import AutomationHZG from '@/assets/AutomationHZG.vue';
 import ListElement from '@/components/general/ListElement.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import LoadingCards from '@/components/general/LoadingCards.vue';
 
 // Type imports
 import type { Plant } from '@/types/global/plant/Plant';
@@ -52,6 +55,8 @@ export default {
     DigitalTwinLayout,
     AutomationHZG,
     ListElement,
+    LoadingSpinner,
+    LoadingCards,
   },
   data() {
     return {
@@ -68,6 +73,10 @@ export default {
 
     subsection() {
       return this.subsectionStore.subsection;
+    },
+
+    isLoading() {
+      return this.subsectionStore.isLoading;
     },
   },
   methods: {
@@ -128,6 +137,10 @@ export default {
     display: flex;
     flex-direction: column;
     gap: $xxs;
+  }
+
+  &__schema-loading {
+    aspect-ratio: 2 / 3; // aspect ratio to mimic size of later loaded image
   }
 }
 

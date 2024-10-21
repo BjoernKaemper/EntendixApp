@@ -21,7 +21,15 @@ export const useInput = <T = string | number>(
   watch(
     value,
     () => {
-      if ((!initialValue && value.value) || value.value !== initialValue) {
+      if (Array.isArray(initialValue) && Array.isArray(value.value)) {
+        if (initialValue.length !== value.value.length) {
+          isChanged.value = true;
+        } else {
+          isChanged.value = initialValue.some(
+            (val, index) => val !== value.value[index as keyof T],
+          );
+        }
+      } else if ((!initialValue && value.value) || value.value !== initialValue) {
         isChanged.value = true;
       } else {
         isChanged.value = false;

@@ -8,11 +8,7 @@
       />
     </figure>
     <div class="twin-building-details__info">
-      <div class="twin-building-details__info-header">
-        <h4>Informationen über das Gebäude</h4>
-        <!-- TODO: correct icon -->
-        <ButtonComponent text="Bearbeiten" :icon="IconTypes.ADD" state="tertiary" />
-      </div>
+      <h4>Informationen über das Gebäude</h4>
       <div class="twin-building-details__input-group">
         <label for="area" class="twin-building-details__label">Netto-Grundfläche (in m²)</label>
         <input
@@ -37,6 +33,7 @@
       <div class="twin-building-details__input-group">
         <p>Planungsdaten</p>
         <div class="twin-building-details__files">
+          <!-- TODO: get actual files -->
           <FileEntry fileName="gebäude-plan.pdf" url="test" />
           <FileEntry fileName="Energieausweis.pdf" url="test" />
         </div>
@@ -51,7 +48,6 @@ import type { PropType } from 'vue';
 
 // Component imports
 import BuildingCardPreview from '@/assets/BuildingCardPreview.svg';
-import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import FileEntry from '@/components/general/FileEntry.vue';
 
 // Type imports
@@ -60,7 +56,6 @@ import type { Building } from '@/types/global/building/Building';
 
 export default {
   components: {
-    ButtonComponent,
     FileEntry,
   },
   props: {
@@ -107,12 +102,6 @@ export default {
     display: flex;
     flex-flow: column;
     gap: $xxs;
-  }
-
-  &__info-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 
   &__input-group {

@@ -22,6 +22,12 @@
 </template>
 
 <script lang="ts">
+// TODO: loading state
+// TODO: Building settings modal/button
+// TODO: Building details form handling
+// TODO: Edge device currently gathering data view
+// TODO: No Edge device connected to building view
+
 // Library imports
 import { mapStores } from 'pinia';
 

@@ -11,22 +11,33 @@
       <form class="add-building__form" ref="form" @submit.prevent="handleSubmit">
         <div class="add-building__form-group">
           <h3>Informationen pflegen</h3>
-          <FormInput id="building-name" label="Name" placeholder="Name" v-model="name" required />
+          <FormInput
+            id="building-name"
+            label="Name"
+            placeholder="Name"
+            v-model="name.value.value"
+            :hasError="!name.isValid && formState.showErrors.value"
+            :error-message="formState.showErrors.value ? name.errorMessage.value : undefined"
+            required
+          />
           <FormInput
             id="building-space"
             label="Netto-Grundfläche [m²]"
             type="number"
-            v-model="usableSpace"
-            icon="heat"
+            v-model="usableSpace.value.value"
+            :has-error="!usableSpace.isValid && formState.showErrors.value"
+            :error-message="formState.showErrors.value ? usableSpace.errorMessage.value : undefined"
             required
           />
           <FormInput
             id="building-usage"
             label="Allgemeine Nutzungszeit (optional)"
             type="textarea"
-            v-model="usage"
+            v-model="usage.value.value"
             placeholder="Allgemein Nutzungszeit"
             description="Geplante Nutzung des Gebäudes nach Uhrzeit, Wochentag und Saison"
+            :has-error="!usage.isValid && formState.showErrors.value"
+            :error-message="formState.showErrors.value ? usage.errorMessage.value : undefined"
           />
           <FileInput
             id="building-planning-data"
@@ -34,7 +45,7 @@
             accepts="image/*"
             multiple
             selectPrompt="Dateien auswählen"
-            @update:fileList="(e) => (files = e)"
+            @update:fileList="(e) => (files.value.value = e)"
           />
         </div>
         <div class="add-building__form-group">
@@ -69,6 +80,7 @@ import { useInput } from '@/hooks/useInput';
 
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { DropdownOptions } from '@/types/local/DropdownOptions';
 
 // Component imports
 import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
@@ -76,7 +88,10 @@ import FormInput from '@/components/general/forms/FormInput.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import FileInput from '@/components/general/forms/FileInput.vue';
 import DropdownComponent from '@/components/general/inputs/DropdownComponent.vue';
-import type { DropdownOptions } from '@/types/local/DropdownOptions';
+
+// Helper imports
+import { minValidator, requiredValidator } from '@/helpers/FormValidators';
+import { useFormManager } from '@/hooks/useFormManager';
 
 // TODO: get proper edge device options from middleware/backend
 const dummyOptions: DropdownOptions = [
@@ -97,10 +112,6 @@ export default {
   },
   data() {
     return {
-      name: '',
-      usableSpace: '',
-      usage: '',
-      files: [] as File[],
       IconTypes,
       dummyOptions,
     };
@@ -116,10 +127,21 @@ export default {
   },
   emits: ['update:modelValue'],
   setup() {
+    const name = useInput<string>([requiredValidator], '');
+    const usableSpace = useInput<string>([requiredValidator, minValidator(0)], '');
+    const usage = useInput<string>([], '');
+    const files = useInput<File[]>([], []);
     const edgeDevice = useInput<string>([], '');
 
+    const formState = useFormManager([name, usableSpace, edgeDevice, files, usage]);
+
     return {
+      name,
+      usableSpace,
       edgeDevice,
+      files,
+      usage,
+      formState,
     };
   },
   methods: {
@@ -136,14 +158,19 @@ export default {
       this.$emit('update:modelValue', false);
     },
     handleSubmit() {
+      if (!this.formState.isValid.value) {
+        this.formState.showErrors.value = true;
+        return;
+      }
+
       // TODO: submit properly
       const body = new FormData();
-      this.files.forEach((file) => {
+      this.files.value.value.forEach((file) => {
         body.append('files', file);
       });
-      body.append('name', this.name);
-      body.append('usableSpace', this.usableSpace);
-      body.append('usage', this.usage);
+      body.append('name', this.name.value.value);
+      body.append('usableSpace', this.usableSpace.value.value);
+      body.append('usage', this.usage.value.value);
 
       fetch('http://localhost:3000/la/le/lu', {
         method: 'POST',

@@ -20,3 +20,42 @@ export const requiredValidator: FormValidator<unknown> = {
   },
   errorMessage: 'Dieses Feld ist erforderlich',
 };
+
+/**
+ * A validator to ensure that a given input reach a minimum amount/value
+ * @param minValue - Value that the input should be greater to
+ * @param includeValue - If the minValue itself should be included in the check
+ */
+export const minValidator = (
+  minValue: number,
+  includeValue = false,
+): FormValidator<number | string> => ({
+  fn: (value: number | string) => {
+    let parsedValue = value as number;
+
+    if (typeof value === 'string') {
+      parsedValue = parseFloat(value);
+    }
+
+    return includeValue ? parsedValue >= minValue : parsedValue > minValue;
+  },
+  errorMessage: `Der Wert muss ${includeValue ? 'mindestens' : 'größer'} ${minValue} sein`,
+});
+
+/**
+ * A validator to ensure that a given input does not exceed a certain amount/value
+ * @param maxValue - Value that the input should be less to
+ * @param includeValue - If the maxValue itself should be included in the check
+ */
+export const maxValidator = (maxValue: number, includeValue = false): FormValidator<number> => ({
+  fn: (value: number) => {
+    let parsedValue = value as number;
+
+    if (typeof value === 'string') {
+      parsedValue = parseFloat(value);
+    }
+
+    return includeValue ? parsedValue <= maxValue : parsedValue < maxValue;
+  },
+  errorMessage: `Der Wert muss ${includeValue ? 'maximal' : 'kleiner'} ${maxValue} sein`,
+});

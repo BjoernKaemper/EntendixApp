@@ -288,9 +288,7 @@ export default {
   async created() {
     const params = JSON.parse(this.$route.params.buildingparams as string);
     this.buildingName = params.buildingName;
-    this.buildingId = decodeURIComponent(
-      params.buildingid,
-    );
+    this.buildingId = decodeURIComponent(params.buildingid);
     this.siteName = params.siteName;
     this.siteId = decodeURIComponent(params.siteid);
   },

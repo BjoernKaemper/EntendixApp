@@ -64,10 +64,7 @@ export default {
     subSectionsLoading() {
       // Check for building and subsection loading state, as subsections are
       // loaded after the building
-      return (
-        this.buildingStore.isLoading
-        || this.buildingStore.subsectionState.isLoading
-      );
+      return this.buildingStore.isLoading || this.buildingStore.subsectionState.isLoading;
     },
 
     trades() {

@@ -38,12 +38,14 @@ export default {
   },
   computed: {
     kebabOptions(): Option[] {
-      const options: Option[] = [{
-        icon: IconTypes.DELETE,
-        text: 'Datei Löschen',
-        emits: 'delete',
-        iconColor: 'red',
-      }];
+      const options: Option[] = [
+        {
+          icon: IconTypes.DELETE,
+          text: 'Datei Löschen',
+          emits: 'delete',
+          iconColor: 'red',
+        },
+      ];
 
       if (this.url) {
         options.push({

@@ -12,7 +12,12 @@
     <template #right>
       <div class="digital-twin-site__head">
         <h2>Gebäude in der Liegenschaft</h2>
-        <ButtonComponent :icon="IconTypes.ADD" state="tertiary" text="Neues Gebäude" @click="addBuildingModalIsOpen = true" />
+        <ButtonComponent
+          :icon="IconTypes.ADD"
+          state="tertiary"
+          text="Neues Gebäude"
+          @click="addBuildingModalIsOpen = true"
+        />
       </div>
       <div v-if="isLoading" class="digital-twin-site__buildings-loading">
         <LoadingSpinner size="large" />

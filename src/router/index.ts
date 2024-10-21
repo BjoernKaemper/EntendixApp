@@ -51,7 +51,6 @@ const routes = [
         siteStore.loadSiteInformation(siteId);
       }
     },
-
   },
   {
     path: '/digitaltwins/building/:buildingparams',

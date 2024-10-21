@@ -1,10 +1,7 @@
 <template>
   <div class="card">
     <h2>{{ buildingName }}</h2>
-    <img
-      :src="BuildingCardPreview"
-      :alt="`Schema des Gebäudes ${buildingName}`"
-    />
+    <img :src="BuildingCardPreview" :alt="`Schema des Gebäudes ${buildingName}`" />
     <ButtonComponent
       text="Zur Verwaltung"
       state="primary"
@@ -52,25 +49,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: $m;
-    padding: $m;
-    border-radius: $border-radius;
-    background-color: $lightest;
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $m;
+  padding: $m;
+  border-radius: $border-radius;
+  background-color: $lightest;
 
-    & > svg {
-      margin: auto;
-    }
-
-    & > button {
-      margin-left: auto;
-    }
+  & > svg {
+    margin: auto;
   }
 
-  h2 {
-    @include section-headline;
-    color: $dark-green;
+  & > button {
+    margin-left: auto;
   }
+}
+
+h2 {
+  @include section-headline;
+  color: $dark-green;
+}
 </style>

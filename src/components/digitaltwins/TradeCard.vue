@@ -6,13 +6,18 @@
     </header>
     <div class="trade-card__content">
       <LoadingSpinner v-if="isLoading" />
-      <p v-else-if="!plantTypes" class="trade-card__empty-message">Noch keine Komponenten hinterlegt.</p>
-      <p v-else v-for="(count, key) in plantTypes" :key="key">
-        {{ count }}x {{ key }}
+      <p v-else-if="!plantTypes" class="trade-card__empty-message">
+        Noch keine Komponenten hinterlegt.
       </p>
+      <p v-else v-for="(count, key) in plantTypes" :key="key">{{ count }}x {{ key }}</p>
     </div>
     <footer class="trade-card__footer" v-if="plantTypes">
-      <ButtonComponent @click="openTrade()" state="primary" text="Komponenten" :icon="IconTypes.ARROW" />
+      <ButtonComponent
+        @click="openTrade()"
+        state="primary"
+        text="Komponenten"
+        :icon="IconTypes.ARROW"
+      />
     </footer>
   </div>
 </template>
@@ -50,7 +55,7 @@ export default {
       required: true,
     },
     /*
-      * Plant types with their counts
+     * Plant types with their counts
      */
     plantTypes: {
       type: Object as PropType<{ [key: string]: number }>,

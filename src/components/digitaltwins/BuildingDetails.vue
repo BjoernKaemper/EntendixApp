@@ -147,7 +147,6 @@ export default {
 
     &--textarea {
       resize: vertical;
-
     }
   }
 }
@@ -159,5 +158,4 @@ h4 {
 p {
   @include content;
 }
-
 </style>

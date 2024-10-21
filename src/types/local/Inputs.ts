@@ -4,17 +4,17 @@ import type { Ref } from 'vue';
  * Validator with validate function and error message to run against inputs to
  * determine their validity and display error messages if necessary
  * @param T - The type of the value to be validated
-*/
+ */
 export interface FormValidator<T> {
   /**
    * Function that will be run to determine validity of input
    * @param val - The value to be validated
    * @returns - Whether the value is valid or not
-  */
+   */
   fn: (val: T) => boolean;
   /**
-  * Error message to display if the value is not valid
- */
+   * Error message to display if the value is not valid
+   */
   errorMessage: string;
 }
 

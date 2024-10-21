@@ -12,13 +12,21 @@ export const useFormManager = (inputs: EntendixInput<unknown>[]) => {
   const validRefs = inputs.map((input) => input.isValid);
   const changedRefs = inputs.map((input) => input.isChanged);
 
-  watch(validRefs, () => {
-    isValid.value = validRefs.every((valid) => valid.value);
-  }, { immediate: true });
+  watch(
+    validRefs,
+    () => {
+      isValid.value = validRefs.every((valid) => valid.value);
+    },
+    { immediate: true },
+  );
 
-  watch(changedRefs, () => {
-    isChanged.value = changedRefs.some((changed) => changed.value);
-  }, { immediate: true });
+  watch(
+    changedRefs,
+    () => {
+      isChanged.value = changedRefs.some((changed) => changed.value);
+    },
+    { immediate: true },
+  );
 
   /**
    * Reset all inputs to their initial values

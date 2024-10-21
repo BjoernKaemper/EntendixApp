@@ -1,7 +1,10 @@
 <template>
   <div class="no-buildings">
     <MaterialSymbol symbol="add_home_work" size="x-large" />
-    <h4 class="not-buildings__title">Aktuell sind keine Gebäude zugeordnet. Erstellen Sie ein neues, damit wir den Digitalen Zwilling aufbauen können.</h4>
+    <h4 class="not-buildings__title">
+      Aktuell sind keine Gebäude zugeordnet. Erstellen Sie ein neues, damit wir den Digitalen
+      Zwilling aufbauen können.
+    </h4>
   </div>
 </template>
 

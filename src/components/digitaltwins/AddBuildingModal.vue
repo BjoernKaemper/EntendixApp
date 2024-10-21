@@ -72,11 +72,28 @@
       />
     </template>
   </ModalOverlay>
+  <InterceptionModal
+    :isOpen="interceptLeave.isOpen.value"
+    @cancel="interceptLeave.abortAction"
+    @confirm="interceptLeave.confirmAction"
+    title="Änderungen verwerfen?"
+    confirmText="Änderungen verwerfen"
+  >
+    <template #body>
+      <p>
+        Sind Sie sicher, dass Sie den aktuellen Dialog schließen wollen? Die von Ihnen vorgenommenen
+        <strong>Änderungen gehen verloren.</strong>
+      </p>
+    </template>
+  </InterceptionModal>
 </template>
 
 <script lang="ts">
 // Hook imports
 import { useInput } from '@/hooks/useInput';
+import { useFormManager } from '@/hooks/useFormManager';
+import { useModalInterception } from '@/hooks/useModalInterception';
+import { usePageLeaveInterception } from '@/hooks/usePageLeaveInteception';
 
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
@@ -88,10 +105,10 @@ import FormInput from '@/components/general/forms/FormInput.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import FileInput from '@/components/general/forms/FileInput.vue';
 import DropdownComponent from '@/components/general/inputs/DropdownComponent.vue';
+import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
 
 // Helper imports
 import { minValidator, requiredValidator } from '@/helpers/FormValidators';
-import { useFormManager } from '@/hooks/useFormManager';
 
 // TODO: get proper edge device options from middleware/backend
 const dummyOptions: DropdownOptions = [
@@ -109,6 +126,7 @@ export default {
     ButtonComponent,
     FileInput,
     DropdownComponent,
+    InterceptionModal,
   },
   data() {
     return {
@@ -135,6 +153,10 @@ export default {
 
     const formState = useFormManager([name, usableSpace, edgeDevice, files, usage]);
 
+    const interceptLeave = useModalInterception();
+
+    usePageLeaveInterception(formState.isChanged, interceptLeave.interceptAction);
+
     return {
       name,
       usableSpace,
@@ -142,6 +164,7 @@ export default {
       files,
       usage,
       formState,
+      interceptLeave,
     };
   },
   methods: {
@@ -155,7 +178,18 @@ export default {
       form.requestSubmit();
     },
     handleClose() {
-      this.$emit('update:modelValue', false);
+      if (!this.formState.isChanged.value) {
+        this.$emit('update:modelValue', false);
+        return;
+      }
+
+      this.interceptLeave.interceptAction(
+        () => {
+          this.$emit('update:modelValue', false);
+          this.formState.reset();
+        },
+        () => {},
+      );
     },
     handleSubmit() {
       if (!this.formState.isValid.value) {

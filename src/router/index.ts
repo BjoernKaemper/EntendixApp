@@ -232,19 +232,6 @@ const routes = [
       }
     },
   },
-  {
-    path: '/monitoring/building/subsection/system/demo',
-    name: 'Monitoring_Site_Building_Subsection_System_Demo',
-    component: Monitoring_Site_Building_Subsection_Plant,
-    meta: {
-      // @TODO add dynamic breadcrumb when data is available
-      breadcrumb: () => [
-        { title: 'Monitoring', to: '/monitoring' },
-        { title: 'Building Demo', to: '/monitoring/building/subsection/demo' },
-        { title: 'System Demo', to: '/monitoring/building/subsection/system/demo' },
-      ],
-    },
-  },
 ];
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

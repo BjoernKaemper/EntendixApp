@@ -10,7 +10,11 @@
       <h3>Verwaltung der Anlage</h3>
       <div class="twin-subsection__plants">
         <!--TODO loading state with general loading card component-->
-        <div v-for="plantType in subsection?.data.plantsByType" :key="plantType.type" class="twin-subsection__plant-type-group">
+        <div
+          v-for="plantType in subsection?.data.plantsByType"
+          :key="plantType.type"
+          class="twin-subsection__plant-type-group"
+        >
           <h4>{{ plantType.name }}</h4>
           <!--TODO: Get proper data for subtitle/supplying area-->
           <ListElement

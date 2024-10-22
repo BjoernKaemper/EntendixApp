@@ -7,48 +7,63 @@
         :alt="`Schema des Gebäudes ${buildingName}`"
       />
     </figure>
-    <div class="twin-building-details__info">
+    <form class="twin-building-details__info" @submit.prevent="console.log('TODO')">
       <h4>Informationen über das Gebäude</h4>
-      <div class="twin-building-details__input-group">
-        <label for="area" class="twin-building-details__label">Netto-Grundfläche (in m²)</label>
-        <input
-          id="area"
-          class="twin-building-details__input"
-          type="number"
-          placeholder="Netto-Grundfläche"
-          :value="building.data.usableSpace"
-        />
+      <FormInput
+        id="area"
+        type="number"
+        label="Netto-Grundfläche (in m²)"
+        placeholder="Netto-Grundfläche"
+        v-model="usableSpace.value.value"
+      />
+      <!-- TODO: no data for this field yet -->
+      <FormInput
+        id="usageTime"
+        type="textarea"
+        label="Allgemeine Nutzungszeit"
+        placeholder="Allgemeine Nutzungszeit"
+        v-model="usage.value.value"
+      />
+      <div
+        class="twin-building-details__actions"
+        :class="{ 'twin-building-details__actions--hidden': !formState.isChanged.value }"
+      >
+        <ButtonComponent text="Abbrechen" type="reset" state="secondary" />
+        <ButtonComponent text="Speichern" type="submit" state="primary" />
       </div>
-      <div class="twin-building-details__input-group">
-        <label for="usageTime" class="twin-building-details__label">Allgemeine Nutzungszeit</label>
-        <!-- TODO: no data for this field yet -->
-        <textarea
-          class="twin-building-details__input twin-building-details__input--textarea"
-          id="usageTime"
-          placeholder="Allgemeine Nutzungszeit"
-          rows="2"
-        />
-      </div>
-
       <div class="twin-building-details__input-group">
         <p>Planungsdaten</p>
         <div class="twin-building-details__files">
-          <!-- TODO: get actual files -->
-          <FileEntry fileName="gebäude-plan.pdf" url="test" />
-          <FileEntry fileName="Energieausweis.pdf" url="test" />
+          <FileEntry v-for="file in dummyFiles" :key="file.fileName" :file-name="file.fileName" />
+          <FileInput id="files" accepts="image/*" emitOnly @update:fileList="uploadFiles" />
         </div>
       </div>
-    </div>
+    </form>
   </div>
+  <InterceptionModal
+    :isOpen="leavePageInterception.isOpen.value"
+    @cancel="leavePageInterception.abortAction"
+    @confirm="leavePageInterception.confirmAction"
+  />
 </template>
 
 <script lang="ts">
 // Library imports
 import type { PropType } from 'vue';
 
+// Hook imports
+import { useInput } from '@/hooks/useInput';
+import { useFormManager } from '@/hooks/useFormManager';
+import { useModalInterception } from '@/hooks/useModalInterception';
+import { usePageLeaveInterception } from '@/hooks/usePageLeaveInteception';
+
 // Component imports
 import BuildingCardPreview from '@/assets/BuildingCardPreview.svg';
 import FileEntry from '@/components/general/FileEntry.vue';
+import FormInput from '@/components/general/forms/FormInput.vue';
+import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import FileInput from '@/components/general/forms/FileInput.vue';
+import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
 
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
@@ -57,22 +72,78 @@ import type { Building } from '@/types/global/building/Building';
 export default {
   components: {
     FileEntry,
+    FormInput,
+    ButtonComponent,
+    FileInput,
+    InterceptionModal,
   },
   props: {
+    /**
+     * The name of the building.
+     */
     buildingName: {
       type: String as PropType<string>,
       required: true,
     },
+    /**
+     * Detailed data of the building.
+     */
     building: {
       type: Object as PropType<Building>,
       required: true,
     },
   },
+  setup(props) {
+    const usableSpace = useInput<string>([], props.building.data.usableSpace.toString());
+    const usage = useInput<string>([], '');
+
+    const formState = useFormManager([usableSpace, usage]);
+
+    const leavePageInterception = useModalInterception();
+
+    usePageLeaveInterception(formState.isChanged, leavePageInterception.interceptAction);
+
+    return {
+      usableSpace,
+      usage,
+      formState,
+      leavePageInterception,
+    };
+  },
   data() {
     return {
       BuildingCardPreview,
       IconTypes,
+      // TODO: get actual files
+      dummyFiles: [
+        {
+          fileName: 'gebäude-plan.pdf',
+          url: 'test',
+        },
+        {
+          fileName: 'Energieausweis.pdf',
+          url: 'test',
+        },
+      ],
     };
+  },
+  methods: {
+    async uploadFiles(files: File[]) {
+      // TODO: implement actual file upload
+      const uploadResult = await new Promise<{
+        fileName: string;
+        url: string;
+      }>((resolve) => {
+        setTimeout(() => {
+          resolve({
+            fileName: files[0].name,
+            url: 'test',
+          });
+        }, 250);
+      });
+
+      this.dummyFiles.push(uploadResult);
+    },
   },
 };
 </script>
@@ -104,38 +175,20 @@ export default {
     gap: $xxs;
   }
 
-  &__input-group {
-    display: flex;
-    flex-direction: column;
-    gap: $xxxs;
-  }
-
   &__files {
     display: flex;
     flex-direction: column;
     gap: $xxs;
   }
 
-  &__label {
-    @include content;
-  }
+  &__actions {
+    display: flex;
+    gap: $xxs;
+    justify-content: flex-end;
 
-  &__input {
-    background-color: $lightest;
-    padding: $base-size $xxs;
-    border-radius: $border-radius;
-    border: 1px solid $light-purple;
-
-    &::placeholder {
-      @include content;
-    }
-
-    &:focus {
-      outline: none;
-    }
-
-    &--textarea {
-      resize: vertical;
+    &--hidden {
+      opacity: 0;
+      user-select: none;
     }
   }
 }

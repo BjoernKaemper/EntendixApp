@@ -158,7 +158,7 @@ export const useGeneralStore = defineStore('general', {
         userId: auth.user.signInUserSession.idToken.payload.sub,
         startTimestamp: startDate.toSeconds(),
         endTimestamp: this.time.toSeconds(),
-        aasIdentifier: parentId,
+        aasIdentifier: Base64Helper.encode(parentId),
         sem_id_shorts: `${kpi.id}.Value.PresentValue`,
       };
       const q = QueryHelper.queryify(queryCombined);

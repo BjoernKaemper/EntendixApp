@@ -155,7 +155,7 @@ const routes = [
         const buildingParams = JSON.stringify({
           siteid: params.siteid,
           siteName: params.siteName,
-          buildingid: Base64Helper.encode(params.buildingid),
+          buildingid: params.buildingid,
           buildingName: params.buildingName,
         });
         return [

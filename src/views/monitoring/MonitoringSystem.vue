@@ -5,7 +5,11 @@
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
       <div v-else class="image-container">
         <ButtonComponent text="im Digitalen Zwilling bearbeiten" />
-        <Heizkreis />
+        <img
+          :alt="plantName"
+          src="@/assets/AutomationHeizkreis.svg"
+          class="site-image"
+        />
       </div>
     </div>
 
@@ -64,7 +68,6 @@ import type { Alert } from '@/types/local/Alert';
 import { AlertTypes } from '@/types/enums/AlertTypes';
 
 // component imports
-import Heizkreis from '@/assets/AutomationHeizkreis.vue';
 import SideBar from '@/components/general/SideBar.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
@@ -81,7 +84,6 @@ export type Status = {
 
 export default {
   components: {
-    Heizkreis,
     SideBar,
     ButtonComponent,
     ChipComponent,

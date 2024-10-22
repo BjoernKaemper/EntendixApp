@@ -39,7 +39,7 @@ export const minValidator = (
 
     return includeValue ? parsedValue >= minValue : parsedValue > minValue;
   },
-  errorMessage: `Der Wert muss ${includeValue ? 'mindestens' : 'größer'} ${minValue} sein`,
+  errorMessage: `Der Wert muss ${includeValue ? 'mindestens' : 'größer als'} ${minValue} sein`,
 });
 
 /**
@@ -57,5 +57,5 @@ export const maxValidator = (maxValue: number, includeValue = false): FormValida
 
     return includeValue ? parsedValue <= maxValue : parsedValue < maxValue;
   },
-  errorMessage: `Der Wert muss ${includeValue ? 'maximal' : 'kleiner'} ${maxValue} sein`,
+  errorMessage: `Der Wert muss ${includeValue ? 'maximal' : 'kleiner als'} ${maxValue} sein`,
 });

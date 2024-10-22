@@ -4,7 +4,10 @@
       <div id="comments-modal-overlay__header">
         <h3>Kommentare für "{{ commentName }}"</h3>
         <p>in {{ commentType }} "{{ commentIn }}"</p>
-        <p>vom {{ prettierDate(startDate, false) }} bis {{ prettierDate(endDate, false) }}</p>
+        <p>
+          vom {{ DateHelper.prettierDate(startDate, false) }} bis
+          {{ DateHelper.prettierDate(endDate, false) }}
+        </p>
       </div>
     </template>
     <template #body>
@@ -65,7 +68,7 @@
 import { IconTypes } from '@/types/enums/IconTypes';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
 import type { Annotation } from '@/types/global/kpi/Kpi';
-import { DateTime } from 'luxon';
+import DateHelper from '@/helpers/DateHelper';
 
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
@@ -148,6 +151,7 @@ export default {
   setup() {
     return {
       IconTypes,
+      DateHelper,
     };
   },
   computed: {
@@ -178,9 +182,10 @@ export default {
       const endDate = document.getElementById('end-date') as HTMLInputElement;
       // add a unique id to the comment using hash function
       const id: number = Math.floor(Math.random() * 1000000);
-      const user: string = window.localStorage.getItem(
-        'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
-      ) || 'User'; // @TODO get user from backend
+      const user: string =
+        window.localStorage.getItem(
+          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser'
+        ) || 'User'; // @TODO get user from backend
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 
       if (!this.validateComment(comment.value, new Date(startDate.value))) {
@@ -209,11 +214,6 @@ export default {
       // @TODO handle submission to backend in future implementations
       // check local storage for comments
       window.localStorage.setItem('comment', JSON.stringify(comments));
-    },
-    prettierDate(date: string, withTime: boolean = true): string {
-      return DateTime.fromJSDate(new Date(date)).toFormat(
-        withTime ? 'dd.MM.yyyy HH:mm' : 'dd.MM.yyyy',
-      );
     },
     deleteComment(id: string): void {
       // @TODO handle deletion of comment

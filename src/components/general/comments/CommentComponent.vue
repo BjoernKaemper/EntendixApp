@@ -4,7 +4,7 @@
       <div>
         <span class="comment--user">{{ comment.creator }}</span>
         <span v-if="comment.referringTimestamp" class="comment--referring-timestamp">
-          {{ prettierDate(comment.referringTimestamp) }}</span
+          {{ DateHelper.prettierDate(comment.referringTimestamp) }}</span
         >
       </div>
       <KebabMenu
@@ -26,7 +26,7 @@
       class="comment--date"
       :datetime="comment.timestampOfCreation"
     >
-      verfasst am {{ prettierDate(comment.timestampOfCreation) }} Uhr
+      verfasst am {{ DateHelper.prettierDate(comment.timestampOfCreation) }} Uhr
     </time>
   </div>
 </template>
@@ -34,7 +34,7 @@
 <script lang="ts">
 import type { PropType } from 'vue';
 import type { Annotation } from '@/types/global/kpi/Kpi';
-import { DateTime } from 'luxon';
+import DateHelper from '@/helpers/DateHelper';
 
 import KebabMenu from '@/components/general/KebabMenu.vue';
 
@@ -69,10 +69,11 @@ export default {
       // eslint-disable-next-line no-console
       console.log('Delete comment:', id);
     },
-    prettierDate(date: string, withTime: boolean = true): string {
-      const format = withTime ? 'dd.MM.yyyy HH:mm' : 'dd.MM.yyyy';
-      return DateTime.fromJSDate(new Date(date)).toFormat(format);
-    },
+  },
+  setup() {
+    return {
+      DateHelper,
+    };
   },
 };
 </script>

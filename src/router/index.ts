@@ -40,7 +40,7 @@ const routes = [
       breadcrumb: (route: any) => [
         {
           title: `${JSON.parse(route.params.siteparams).siteName}`,
-          to: `/monitoring/site/${encodeURIComponent(route.params.siteparams)}`,
+          to: `/digitaltwins/site/${encodeURIComponent(route.params.siteparams)}`,
         },
       ],
     },

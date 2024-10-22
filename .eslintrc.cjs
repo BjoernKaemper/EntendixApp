@@ -30,6 +30,7 @@ module.exports = {
     curly: ['error', 'all'],
     'brace-style': ['error', '1tbs', { allowSingleLine: false }],
     '@typescript-eslint/no-duplicate-enum-values': 'off',
+    'linebreak-style': ['error', 'unix'],
   },
   ignorePatterns: [
     // Root

@@ -18,7 +18,7 @@
             v-for="site in sites"
             :key="site.id"
             :name="site.data.siteName"
-            imgsrc="/src/assets/placeholder-campus-deutz.png"
+            :imgsrc="placeholderCampusDeutz"
             :status="ChipStatusTypes.SUCCESS"
             :location="site.data.address.cityTown"
             @digitalTwinClicked="loadTwin(site)"
@@ -28,7 +28,7 @@
         </template>
       </div>
     </div>
-    <AddSiteOverlayModal :isAddSiteModalOpen="addSiteModalOpen" />
+    <AddSiteOverlayModal :isAddSiteModalOpen="addSiteModalOpen" @close="toggleAddSiteModal" />
   </div>
 </template>
 
@@ -38,6 +38,7 @@ import { mapStores } from 'pinia';
 
 // Stores
 import { useGeneralStore } from '@/store/general';
+import placeholderCampusDeutz from '@/assets/placeholder-campus-deutz.png';
 
 // Types
 import type { Site } from '@/types/global/site/Site';
@@ -62,8 +63,10 @@ export default {
   data() {
     return {
       addSiteModalOpen: false,
+      placeholderCampusDeutz,
     };
   },
+
   computed: {
     ...mapStores(useGeneralStore),
 

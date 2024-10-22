@@ -13,14 +13,14 @@
     <div v-else class="grid-wrapper--right">
       <ChipComponent v-if="plant" :status="getChipStatusByCondition(plant?.data.condition)" />
       <AlertElement
-        v-for="(alert, idx) in plant.data.alerts"
+        v-for="(alert, idx) in plant?.data.alerts"
         :key="idx"
         :alert="alert"
         :is-toast="false"
       />
       <div class="status-grid">
         <StatusCard
-          v-for="(status, idx) in plant?.data.statuses"
+          v-for="(status, idx) in plant?.data.stati"
           :key="idx"
           :is-bordered="false"
           :is-loading="false"
@@ -58,8 +58,8 @@ import { usePlantStore } from '@/store/plant';
 import { IconTypes } from '@/types/enums/IconTypes';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
-import type { Alert } from '@/types/Alert';
 import type { Kpi } from '@/types/global/kpi/Kpi';
+import type { Alert } from '@/types/local/Alert';
 // Remove after implementing alert fetching:
 import { AlertTypes } from '@/types/enums/AlertTypes';
 

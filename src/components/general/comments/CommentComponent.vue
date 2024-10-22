@@ -70,9 +70,8 @@ export default {
       console.log('Delete comment:', id);
     },
     prettierDate(date: string, withTime: boolean = true): string {
-      return DateTime.fromJSDate(new Date(date)).toFormat(
-        withTime ? 'dd.MM.yyyy HH:mm' : 'dd.MM.yyyy'
-      );
+      const format = withTime ? 'dd.MM.yyyy HH:mm' : 'dd.MM.yyyy';
+      return DateTime.fromJSDate(new Date(date)).toFormat(format);
     },
   },
 };

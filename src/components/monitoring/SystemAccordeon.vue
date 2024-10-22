@@ -92,7 +92,6 @@ export default {
   },
   watch: {
     kpiLookbackStartTimestamp() {
-      console.log('kpiLookbackStartTimestamp changed');
       this.plantStore.fetchKpiChartData();
     },
   },

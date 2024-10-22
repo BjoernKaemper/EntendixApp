@@ -42,6 +42,7 @@ export default {
   grid-template-columns: 1fr 2fr 80px; // Sidebar closed, width 0
   transition: grid-template-columns 0.3s ease; // Smooth transition on layout change
   gap: 2rem;
+  min-height: 100%;
 
   &--sidebar-open {
     grid-template-columns: 1fr 2fr 355px; // Sidebar open, width 355px

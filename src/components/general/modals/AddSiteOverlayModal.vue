@@ -16,7 +16,7 @@
           placeholder=""
           :required="true"
           type="text"
-          model-value=""
+          :model-value="name"
         />
         <FormInput
           id="street"
@@ -24,7 +24,7 @@
           placeholder=""
           :required="true"
           type="text"
-          model-value=""
+          :model-value="street"
         />
         <div class="form-grid">
           <FormInput
@@ -33,7 +33,7 @@
             placeholder=""
             :required="true"
             type="text"
-            model-value=""
+            :model-value="zip"
           />
           <FormInput
             id="city"
@@ -41,7 +41,7 @@
             placeholder=""
             :required="true"
             type="text"
-            model-value=""
+            :model-value="city"
           />
         </div>
         <FormInput
@@ -50,15 +50,13 @@
           placeholder=""
           :required="true"
           type="text"
-          model-value=""
+          :model-value="country"
         />
-        <FormInput
+        <FileInput
           id="image"
           label="Bild der Liegenschaft"
-          placeholder=""
-          :required="true"
-          type="file"
-          model-value=""
+          accepts="*"
+          @update:fileList="setImage"
         />
       </form>
     </template>
@@ -78,6 +76,7 @@
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
 import FormInput from '@/components/general/forms/FormInput.vue';
+import FileInput from '@/components/general/forms/FileInput.vue';
 
 import { IconTypes } from '@/types/enums/IconTypes';
 
@@ -86,6 +85,17 @@ export default {
     ModalOverlay,
     ButtonComponent,
     FormInput,
+    FileInput,
+  },
+  data() {
+    return {
+      image: [] as File[],
+      name: '',
+      street: '',
+      zip: '',
+      city: '',
+      country: '',
+    };
   },
   props: {
     /**
@@ -112,6 +122,9 @@ export default {
     addSite() {
       // TODO handle check if all fields are filled
       // TODO handle the adding
+    },
+    setImage(files: File[]) {
+      this.image = files;
     },
   },
 };

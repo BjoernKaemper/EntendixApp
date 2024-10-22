@@ -66,14 +66,29 @@ export default {
     };
   },
   props: {
+    /**
+     * The title of the accordeon
+     * @type {String}
+     * @required
+     */
     title: {
       type: String,
       required: true,
     },
+    /**
+     * The condition of the accordeon
+     * @type {ChipStatusTypes}
+     * @required
+     */
     condition: {
       type: String as PropType<ChipStatusTypes>,
       required: true,
     },
+    /**
+     * The kpi object which contains the data for the accordeon
+     * @type {Object}
+     * @required
+     */
     kpi: {
       type: Object,
       required: true,

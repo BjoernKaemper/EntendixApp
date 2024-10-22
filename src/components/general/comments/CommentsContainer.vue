@@ -62,10 +62,9 @@ export default {
   },
   methods: {
     fetchMoreComments() {
-      this.commentCount =
-        this.commentCount + 2 >= this.comments.length
-          ? this.commentCount + 2
-          : this.comments.length;
+      this.commentCount = this.commentCount + 2 >= this.comments.length
+        ? this.commentCount + 2
+        : this.comments.length;
     },
   },
   computed: {

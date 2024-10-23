@@ -16,7 +16,6 @@ import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue'
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
 import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/MonitoringPlant.vue';
 import DigitalTwinsSite from '@/views/digitaltwins/DigitalTwinsSite.vue';
-import URIHelper from '@/helpers/URIHelper';
 
 const routes = [
   {
@@ -97,7 +96,7 @@ const routes = [
       breadcrumb: (route: any) => [
         {
           title: `${JSON.parse(route.params.siteparams).siteName}`,
-          to: `/monitoring/site/${URIHelper.encodeURI(route.params.siteparams)}`,
+          to: `/monitoring/site/${route.params.siteparams}`,
         },
       ],
     },
@@ -127,7 +126,7 @@ const routes = [
           },
           {
             title: `${params.buildingName}`,
-            to: `/monitoring/building/${URIHelper.encodeURI(route.params.buildingparams)}`,
+            to: `/monitoring/building/${route.params.buildingparams}`,
           },
         ];
       },
@@ -169,7 +168,7 @@ const routes = [
           },
           {
             title: params.subsectionName,
-            to: `/monitoring/subsection/${URIHelper.encodeURI(route.params.subsectionparams)}`,
+            to: `/monitoring/subsection/${route.params.subsectionparams}`,
           },
         ];
       },
@@ -223,7 +222,7 @@ const routes = [
           },
           {
             title: params.plantName,
-            to: `/monitoring/plant/${URIHelper.encodeURI(route.params.plantparams)}`,
+            to: `/monitoring/plant/${route.params.plantparams}`,
           },
         ];
       },

@@ -95,7 +95,7 @@ export const useSiteStore = defineStore('site', {
 
       // Fetch the site information and return it
       return (await FetchHelper.apiCall(
-        `/middleware/sites/${Base64Helper.encode(siteId)}?${q}`,
+        `/sites/${Base64Helper.encode(siteId)}?${q}`,
         requestOptions,
       )) as SiteWithBuildinginformation;
     },

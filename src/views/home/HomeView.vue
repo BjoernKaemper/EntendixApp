@@ -51,6 +51,7 @@ import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import AddSiteOverlayModal from '@/components/general/modals/AddSiteOverlayModal.vue';
+import Base64Helper from '@/helpers/Base64Helper';
 
 export default {
   components: {
@@ -89,7 +90,7 @@ export default {
         name: 'DigitalTwins',
         params: {
           siteparams: JSON.stringify({
-            siteid: encodeURIComponent(site.id),
+            siteid: Base64Helper.encode(site.id),
             siteName: site.data.siteName,
           }),
         },
@@ -104,7 +105,7 @@ export default {
         name: 'Monitoring_Site',
         params: {
           siteparams: JSON.stringify({
-            siteid: encodeURIComponent(site.id),
+            siteid: Base64Helper.encode(site.id),
             siteName: site.data.siteName,
           }),
         },

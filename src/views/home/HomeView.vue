@@ -11,7 +11,7 @@
           v-for="site in sites"
           :key="site.id"
           :name="site.data.siteName"
-          imgsrc="/src/assets/placeholder-campus-deutz.png"
+          :imgsrc="placeholderCampusDeutz"
           :status="ChipStatusTypes.SUCCESS"
           :location="site.data.address.cityTown"
           @digitalTwinClicked="loadTwin(site)"
@@ -26,19 +26,26 @@
 <script lang="ts">
 import { mapStores } from 'pinia';
 import { useGeneralStore } from '@/store/general';
+import placeholderCampusDeutz from '@/assets/placeholder-campus-deutz.png';
 
 import GoogleMaps from '@/components/general/GoogleMaps.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import type { Site } from '@/types/global/site/Site';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import LoadingCards from '@/components/general/LoadingCards.vue';
-// import { load } from 'webfontloader';
+import Base64Helper from '@/helpers/Base64Helper';
 
 export default {
   components: {
     GoogleMaps,
     LiegenschaftCard,
     LoadingCards,
+  },
+
+  data() {
+    return {
+      placeholderCampusDeutz,
+    };
   },
 
   computed: {
@@ -63,7 +70,7 @@ export default {
         name: 'DigitalTwins_Site',
         params: {
           siteparams: JSON.stringify({
-            siteid: encodeURIComponent(site.id),
+            siteid: Base64Helper.encode(site.id),
             siteName: site.data.siteName,
           }),
         },
@@ -78,7 +85,7 @@ export default {
         name: 'Monitoring_Site',
         params: {
           siteparams: JSON.stringify({
-            siteid: encodeURIComponent(site.id),
+            siteid: Base64Helper.encode(site.id),
             siteName: site.data.siteName,
           }),
         },

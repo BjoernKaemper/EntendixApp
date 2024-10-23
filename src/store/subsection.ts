@@ -8,7 +8,7 @@ import type { Subsection } from '@/types/global/subsections/Subsection';
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import URIHelper from '@/helpers/URIHelper';
+import Base64Helper from '@/helpers/Base64Helper';
 
 // Stores
 import { useGeneralStore } from './general';
@@ -69,7 +69,7 @@ export const useSubsectionStore = defineStore('subsection', {
 
       // Fetch the subsection information and return it
       return (await FetchHelper.apiCall(
-        `/middleware/subsections/${URIHelper.encodeURI(subsectionId)}?${q}`,
+        `/subsections/${Base64Helper.encode(subsectionId)}?${q}`,
         requestOptions,
       )) as Subsection;
     },
@@ -94,7 +94,7 @@ export const useSubsectionStore = defineStore('subsection', {
 
       // Fetch the subsection information and return it
       return (await FetchHelper.apiCall(
-        `/middleware/subsections/${URIHelper.encodeURI(subsectionId)}/plants?${q}`,
+        `/subsections/${Base64Helper.encode(subsectionId)}/plants?${q}`,
         requestOptions,
       )) as Subsection;
     },

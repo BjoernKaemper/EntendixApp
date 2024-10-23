@@ -15,7 +15,7 @@ import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import URIHelper from '@/helpers/URIHelper';
+import Base64Helper from '@/helpers/Base64Helper';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -135,13 +135,13 @@ export const useGeneralStore = defineStore('general', {
       } as RequestInit;
 
       this.baseInfoState.sites = (await FetchHelper.apiCall(
-        `/middleware/sites?${q}`,
+        `/sites?${q}`,
         requestOptions,
       )) as Site[];
 
       // Fetching types Company Information
       this.baseInfoState.companies = (await FetchHelper.apiCall(
-        `/middleware/companies?${q}`,
+        `/companies?${q}`,
         requestOptions,
       )) as Company[];
 
@@ -158,7 +158,7 @@ export const useGeneralStore = defineStore('general', {
         userId: auth.user.signInUserSession.idToken.payload.sub,
         startTimestamp: startDate.toSeconds(),
         endTimestamp: this.time.toSeconds(),
-        aasIdentifier: parentId,
+        aasIdentifier: Base64Helper.encode(parentId),
         sem_id_shorts: `${kpi.id}.Value.PresentValue`,
       };
       const q = QueryHelper.queryify(queryCombined);
@@ -169,7 +169,7 @@ export const useGeneralStore = defineStore('general', {
 
       // eslint-disable-next-line no-useless-catch
       try {
-        const rawKpiData = FetchHelper.apiCall(`/middleware/timelines?${q}`, requestOptions);
+        const rawKpiData = FetchHelper.apiCall(`/timelines?${q}`, requestOptions);
 
         return (await rawKpiData).map((data: any) => ({
           timestamp: DateTime.fromISO(data.timestamp),
@@ -198,7 +198,7 @@ export const useGeneralStore = defineStore('general', {
       // eslint-disable-next-line no-useless-catch
       try {
         let kpi = (await FetchHelper.apiCall(
-          `/middleware/kpis/${URIHelper.encodeURI(parentId)}?${q}`,
+          `/kpis/${Base64Helper.encode(parentId)}?${q}`,
           requestOptions,
         )) as Kpi[];
 

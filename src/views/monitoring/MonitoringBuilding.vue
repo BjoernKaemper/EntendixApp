@@ -115,6 +115,9 @@
 import type { DateTime } from 'luxon';
 import { mapStores } from 'pinia';
 
+// Helpers
+import Base64Helper from '@/helpers/Base64Helper';
+
 // Store imports
 import { useGeneralStore } from '@/store/general';
 import { useBuildingStore } from '@/store/building';
@@ -272,12 +275,12 @@ export default {
           name: 'Monitoring_Site_Building_Subsection',
           params: {
             subsectionparams: JSON.stringify({
-              siteid: encodeURIComponent(this.siteId),
+              siteid: Base64Helper.encode(this.siteId),
               siteName: this.siteName,
-              buildingid: encodeURIComponent(this.building!.id),
+              buildingid: Base64Helper.encode(this.building!.id),
               buildingName: this.building!.data.buildingName,
               subsectionName,
-              subsectionid: encodeURIComponent(subsectionid),
+              subsectionid: Base64Helper.encode(subsectionid),
             }),
           },
         });
@@ -288,9 +291,9 @@ export default {
   async created() {
     const params = JSON.parse(this.$route.params.buildingparams as string);
     this.buildingName = params.buildingName;
-    this.buildingId = decodeURIComponent(params.buildingid);
+    this.buildingId = Base64Helper.decode(params.buildingid);
     this.siteName = params.siteName;
-    this.siteId = decodeURIComponent(params.siteid);
+    this.siteId = Base64Helper.decode(params.siteid);
   },
 };
 </script>

@@ -35,6 +35,7 @@
 <script lang="ts">
 // Library imports
 import { mapStores } from 'pinia';
+import Base64Helper from '@/helpers/Base64Helper';
 
 // Store imports
 import { useSubsectionStore } from '@/store/subsection';
@@ -89,14 +90,14 @@ export default {
           name: 'DigitalTwins_Site_Building_Subsection_Plant',
           params: {
             plantparams: JSON.stringify({
-              siteid: encodeURIComponent(this.siteId),
+              siteid: Base64Helper.encode(this.siteId),
               siteName: this.siteName,
-              buildingid: encodeURIComponent(this.buildingId),
+              buildingid: Base64Helper.encode(this.buildingId),
               buildingName: this.buildingName,
               subsectionName: this.subsection.data.tradeName,
-              subsectionid: encodeURIComponent(this.subsection.id),
+              subsectionid: Base64Helper.encode(this.subsection.id),
               plantName,
-              plantid: encodeURIComponent(plantid),
+              plantid: Base64Helper.encode(plantid),
             }),
           },
         });

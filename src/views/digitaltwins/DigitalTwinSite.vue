@@ -43,6 +43,9 @@
 import { useSiteStore } from '@/store/site';
 import { mapStores } from 'pinia';
 
+// Helper imports
+import Base64Helper from '@/helpers/Base64Helper';
+
 // Component imports
 import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
 import BuildingCard from '@/components/digitaltwins/BuildingCard.vue';
@@ -106,9 +109,9 @@ export default {
         name: 'DigitalTwins_Site_Building',
         params: {
           buildingparams: JSON.stringify({
-            siteid: encodeURIComponent(siteid),
+            siteid: Base64Helper.encode(siteid),
             siteName,
-            buildingid: encodeURIComponent(buildingid),
+            buildingid: Base64Helper.encode(buildingid),
             buildingName,
           }),
         },

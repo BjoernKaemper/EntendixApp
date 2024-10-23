@@ -74,10 +74,6 @@ export default {
   data() {
     return {
       siteName: '',
-      street: '',
-      zipCode: '',
-      city: '',
-      country: '',
       IconTypes,
       addBuildingModalIsOpen: false,
     };
@@ -116,19 +112,6 @@ export default {
           }),
         },
       });
-    },
-  },
-  watch: {
-    site: {
-      handler() {
-        if (this.site?.data.address) {
-          this.street = this.site.data.address.street;
-          this.zipCode = this.site.data.address.zipcode;
-          this.city = this.site.data.address.cityTown;
-          this.country = this.site.data.address.nationalCode;
-        }
-      },
-      immediate: true,
     },
   },
 };

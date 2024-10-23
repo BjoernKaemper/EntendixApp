@@ -7,7 +7,13 @@
         :alt="`Schema des Gebäudes ${buildingName}`"
       />
     </figure>
-    <form class="twin-building-details__info" @submit.prevent="console.log('TODO')">
+    <form
+      class="twin-building-details__info"
+      @submit.prevent="console.log('TODO')"
+      @focusin="formFocused = true"
+      @focusout="formFocused = false"
+      @reset="closeAndResetForm"
+    >
       <h4>Informationen über das Gebäude</h4>
       <FormInput
         id="area"
@@ -26,7 +32,9 @@
       />
       <div
         class="twin-building-details__actions"
-        :class="{ 'twin-building-details__actions--hidden': !formState.isChanged.value }"
+        :class="{
+          'twin-building-details__actions--hidden': !(formState.isChanged.value || formFocused),
+        }"
       >
         <ButtonComponent text="Abbrechen" type="reset" state="secondary" />
         <ButtonComponent text="Speichern" type="submit" state="primary" />
@@ -125,6 +133,9 @@ export default {
           url: 'test',
         },
       ],
+      // TODO: handle focus properly, when one looses focus and another one gets
+      // it, the state flaps
+      formFocused: false,
     };
   },
   methods: {
@@ -143,6 +154,10 @@ export default {
       });
 
       this.dummyFiles.push(uploadResult);
+    },
+    closeAndResetForm() {
+      this.formState.reset();
+      this.formFocused = false;
     },
   },
 };

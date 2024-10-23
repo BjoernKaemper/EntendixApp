@@ -107,7 +107,7 @@ export const usePlantStore = defineStore('plant', {
       } as RequestInit;
 
       return (await FetchHelper.apiCall(
-        `/middleware/plants/${Base64Helper.encode(plantId)}/modules?${q}`,
+        `/plants/${Base64Helper.encode(plantId)}/modules?${q}`,
         requestOptions,
       )) as Plant;
     },

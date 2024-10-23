@@ -1,10 +1,12 @@
 <template>
   <div class="loading--wrapper">
-    <div class="loader" />
+    <div class="loader" :class="{ [`loader--${size}`]: size }" />
   </div>
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue';
+
 /**
  * A general loading spinner component
  * @module components/general/LoadingSpinner
@@ -13,6 +15,15 @@
 
 export default {
   name: 'LoadingSpinner',
+  props: {
+    /**
+     * Size of the spinner
+     */
+    size: {
+      type: String as PropType<'small' | 'normal' | 'large'>,
+      default: 'normal',
+    },
+  },
 };
 </script>
 
@@ -35,6 +46,16 @@ export default {
   box-sizing: border-box;
   animation: rotate 1.5s ease-in-out infinite;
   margin: auto;
+
+  &--small {
+    width: $s;
+    height: $s;
+  }
+
+  &--large {
+    width: $xxl;
+    height: $xxl;
+  }
 }
 
 @keyframes rotate {

@@ -56,7 +56,7 @@
     <template #footer>
       <ButtonComponent
         @click="submitComment"
-        :primary="true"
+        state="primary"
         text="Kommentar hinzufügen"
         :icon="IconTypes.ADD"
       />

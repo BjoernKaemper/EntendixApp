@@ -38,5 +38,6 @@ module.exports = {
     'dist/',
     // Amplify
     'amplify',
+    'aws-exports.js',
   ],
 };

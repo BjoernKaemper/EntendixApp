@@ -16,7 +16,6 @@ import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue'
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
 import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/MonitoringPlant.vue';
 import DigitalTwinsSite from '@/views/digitaltwins/DigitalTwinsSite.vue';
-import URIHelper from '@/helpers/URIHelper';
 
 const routes = [
   {
@@ -50,7 +49,7 @@ const routes = [
   //     breadcrumb: (route: any) => [
   //       {
   //         title: `${JSON.parse(route.params.siteparams).siteName}`,
-  //         to: `/digitaltwins/site/${Base64Helper.encode(route.params.siteparams)}`,
+  //         to: `/digitaltwins/site/${encodeURIComponent(route.params.siteparams)}`,
   //       },
   //     ],
   //   },
@@ -73,7 +72,7 @@ const routes = [
   //         },
   //         {
   //           title: `${params.buildingName}`,
-  //           to: `/digitaltwins/building/${Base64Helper.encode(route.params.buildingparams)}`,
+  //           to: `/digitaltwins/building/${encodeURIComponent(route.params.buildingparams)}`,
   //         },
   //       ];
   //     },
@@ -97,7 +96,7 @@ const routes = [
       breadcrumb: (route: any) => [
         {
           title: `${JSON.parse(route.params.siteparams).siteName}`,
-          to: `/monitoring/site/${URIHelper.encodeURI(route.params.siteparams)}`,
+          to: `/monitoring/site/${encodeURIComponent(route.params.siteparams)}`,
         },
       ],
     },
@@ -123,11 +122,11 @@ const routes = [
         return [
           {
             title: params.siteName,
-            to: `/monitoring/site/${siteParams}`,
+            to: `/monitoring/site/${encodeURIComponent(siteParams)}`,
           },
           {
             title: `${params.buildingName}`,
-            to: `/monitoring/building/${URIHelper.encodeURI(route.params.buildingparams)}`,
+            to: `/monitoring/building/${encodeURIComponent(route.params.buildingparams)}`,
           },
         ];
       },
@@ -161,15 +160,15 @@ const routes = [
         return [
           {
             title: params.siteName,
-            to: `/monitoring/site/${siteParams}`,
+            to: `/monitoring/site/${encodeURIComponent(siteParams)}`,
           },
           {
             title: params.buildingName,
-            to: `/monitoring/building/${buildingParams}`,
+            to: `/monitoring/building/${encodeURIComponent(buildingParams)}`,
           },
           {
             title: params.subsectionName,
-            to: `/monitoring/subsection/${URIHelper.encodeURI(route.params.subsectionparams)}`,
+            to: `/monitoring/subsection/${encodeURIComponent(route.params.subsectionparams)}`,
           },
         ];
       },
@@ -215,15 +214,15 @@ const routes = [
           },
           {
             title: params.buildingName,
-            to: `/monitoring/building/${buildingParams}`,
+            to: `/monitoring/building/${encodeURIComponent(buildingParams)}`,
           },
           {
             title: params.subsectionName,
-            to: `/monitoring/subsection/${subsectionParams}`,
+            to: `/monitoring/subsection/${encodeURIComponent(subsectionParams)}`,
           },
           {
             title: params.plantName,
-            to: `/monitoring/plant/${URIHelper.encodeURI(route.params.plantparams)}`,
+            to: `/monitoring/plant/${encodeURIComponent(route.params.plantparams)}`,
           },
         ];
       },

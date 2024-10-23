@@ -15,12 +15,10 @@ import Monitoring_Site from '@/views/monitoring/MonitoringSite.vue';
 import Monitoring_Site_Building from '@/views/monitoring/MonitoringBuilding.vue';
 import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSubsection.vue';
 import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/MonitoringSystem.vue';
-import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/MonitoringPlant.vue';
 import DigitalTwins_Site from '@/views/digitaltwins/DigitalTwinSite.vue';
 import DigitalTwins_Site_Building from '@/views/digitaltwins/DigitalTwinBuilding.vue';
 import DigitalTwins_Site_Building_Subsection from '@/views/digitaltwins/DigitalTwinSubsection.vue';
 import DigitalTwins_Site_Building_Subsection_Plant from '@/views/digitaltwins/DigitalTwinPlant.vue';
-import URIHelper from '@/helpers/URIHelper';
 
 const routes = [
   {

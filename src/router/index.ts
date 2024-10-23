@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import Base64Helper from '@/helpers/Base64Helper';
+
 // Stores
 import { useGeneralStore } from '@/store/general';
 import { useBuildingStore } from '@/store/building';
@@ -15,6 +17,7 @@ import Monitoring_Site_Building_Subsection from '@/views/monitoring/MonitoringSu
 import Monitoring_Site_Building_Subsection_Plant from '@/views/monitoring/MonitoringSystem.vue';
 // digital twins views
 import DigitalTwinsSite from '@/views/digitaltwins/DigitalTwinsSite.vue';
+import URIHelper from '@/helpers/URIHelper';
 
 const routes = [
   {
@@ -48,7 +51,7 @@ const routes = [
   //     breadcrumb: (route: any) => [
   //       {
   //         title: `${JSON.parse(route.params.siteparams).siteName}`,
-  //         to: `/digitaltwins/site/${encodeURIComponent(route.params.siteparams)}`,
+  //         to: `/digitaltwins/site/${Base64Helper.encode(route.params.siteparams)}`,
   //       },
   //     ],
   //   },
@@ -61,7 +64,7 @@ const routes = [
   //     breadcrumb: (route: any) => {
   //       const params = JSON.parse(route.params.buildingparams);
   //       const siteParams = JSON.stringify({
-  //         siteid: encodeURIComponent(params.siteid),
+  //         siteid: Base64Helper.encode(params.siteid),
   //         siteName: params.siteName,
   //       });
   //       return [
@@ -71,7 +74,7 @@ const routes = [
   //         },
   //         {
   //           title: `${params.buildingName}`,
-  //           to: `/digitaltwins/building/${encodeURIComponent(route.params.buildingparams)}`,
+  //           to: `/digitaltwins/building/${Base64Helper.encode(route.params.buildingparams)}`,
   //         },
   //       ];
   //     },
@@ -95,14 +98,14 @@ const routes = [
       breadcrumb: (route: any) => [
         {
           title: `${JSON.parse(route.params.siteparams).siteName}`,
-          to: `/monitoring/site/${encodeURIComponent(route.params.siteparams)}`,
+          to: `/monitoring/site/${URIHelper.encodeURI(route.params.siteparams)}`,
         },
       ],
     },
     beforeEnter: (route: any) => {
       const siteStore = useSiteStore();
-      const siteId = JSON.parse(route.params.siteparams as string).siteid;
-      if (siteStore.site?.id !== decodeURIComponent(siteId)) {
+      const siteId = Base64Helper.decode(JSON.parse(route.params.siteparams as string).siteid);
+      if (siteStore.site?.id !== siteId) {
         siteStore.loadSiteInformation(siteId);
       }
     },
@@ -115,7 +118,7 @@ const routes = [
       breadcrumb: (route: any) => {
         const params = JSON.parse(route.params.buildingparams);
         const siteParams = JSON.stringify({
-          siteid: encodeURIComponent(params.siteid),
+          siteid: params.siteid,
           siteName: params.siteName,
         });
         return [
@@ -125,16 +128,17 @@ const routes = [
           },
           {
             title: `${params.buildingName}`,
-            to: `/monitoring/building/${encodeURIComponent(route.params.buildingparams)}`,
+            to: `/monitoring/building/${URIHelper.encodeURI(route.params.buildingparams)}`,
           },
         ];
       },
     },
     beforeEnter: async (route: any) => {
       const buildingStore = useBuildingStore();
-      const params = JSON.parse(route.params.buildingparams as string);
-      if (buildingStore.building?.id !== decodeURIComponent(params.buildingid)) {
-        buildingStore.loadBuildingInformation(params.buildingid);
+      const buildingid = Base64Helper
+        .decode(JSON.parse(route.params.buildingparams as string).buildingid);
+      if (buildingStore.building?.id !== buildingid) {
+        buildingStore.loadBuildingInformation(buildingid);
       }
     },
   },
@@ -146,13 +150,13 @@ const routes = [
       breadcrumb: (route: any) => {
         const params = JSON.parse(route.params.subsectionparams);
         const siteParams = JSON.stringify({
-          siteid: encodeURIComponent(params.siteid),
+          siteid: params.siteid,
           siteName: params.siteName,
         });
         const buildingParams = JSON.stringify({
-          siteid: encodeURIComponent(params.siteid),
+          siteid: params.siteid,
           siteName: params.siteName,
-          buildingid: encodeURIComponent(params.buildingid),
+          buildingid: params.buildingid,
           buildingName: params.buildingName,
         });
         return [
@@ -166,16 +170,17 @@ const routes = [
           },
           {
             title: params.subsectionName,
-            to: `/monitoring/subsection/${encodeURIComponent(route.params.subsectionparams)}`,
+            to: `/monitoring/subsection/${URIHelper.encodeURI(route.params.subsectionparams)}`,
           },
         ];
       },
     },
     beforeEnter: async (route: any) => {
       const subsectionStore = useSubsectionStore();
-      const params = JSON.parse(route.params.subsectionparams as string);
-      if (subsectionStore.subsection?.id !== decodeURIComponent(params.subsectionid)) {
-        subsectionStore.loadSubsectionInformation(params.subsectionid);
+      const subsectionid = Base64Helper
+        .decode(JSON.parse(route.params.subsectionparams as string).subsectionid);
+      if (subsectionStore.subsection?.id !== subsectionid) {
+        subsectionStore.loadSubsectionInformation(subsectionid);
       }
     },
   },
@@ -187,21 +192,21 @@ const routes = [
       breadcrumb: (route: any) => {
         const params = JSON.parse(route.params.plantparams);
         const siteParams = JSON.stringify({
-          siteid: encodeURIComponent(params.siteid),
+          siteid: params.siteid,
           siteName: params.siteName,
         });
         const buildingParams = JSON.stringify({
-          siteid: encodeURIComponent(params.siteid),
+          siteid: params.siteid,
           siteName: params.siteName,
-          buildingid: encodeURIComponent(params.buildingid),
+          buildingid: params.buildingid,
           buildingName: params.buildingName,
         });
         const subsectionParams = JSON.stringify({
-          siteid: encodeURIComponent(params.siteid),
+          siteid: params.siteid,
           siteName: params.siteName,
-          buildingid: encodeURIComponent(params.buildingid),
+          buildingid: params.buildingid,
           buildingName: params.buildingName,
-          subsectionid: encodeURIComponent(params.subsectionid),
+          subsectionid: params.subsectionid,
           subsectionName: params.subsectionName,
         });
         return [
@@ -219,16 +224,16 @@ const routes = [
           },
           {
             title: params.plantName,
-            to: `/monitoring/subsection/${encodeURIComponent(route.params.plantparams)}`,
+            to: `/monitoring/plant/${URIHelper.encodeURI(route.params.plantparams)}`,
           },
         ];
       },
     },
     beforeEnter: (route: any) => {
       const plantStore = usePlantStore();
-      const params = JSON.parse(route.params.plantparams as string);
-      if (plantStore.plant?.id !== decodeURIComponent(params.plantid)) {
-        plantStore.loadPlantInformation(params.plantid);
+      const plantId = Base64Helper.decode(JSON.parse(route.params.plantparams as string).plantid);
+      if (plantStore.plant?.id !== plantId) {
+        plantStore.loadPlantInformation(plantId);
       }
     },
   },

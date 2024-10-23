@@ -48,6 +48,9 @@ import { mapStores } from 'pinia';
 import { useGeneralStore } from '@/store/general';
 import { useSubsectionStore } from '@/store/subsection';
 
+// Helper imports
+import Base64Helper from '@/helpers/Base64Helper';
+
 // component imports
 import AutomationHZG from '@/assets/AutomationHZG.vue';
 import SideBar from '@/components/general/SideBar.vue';
@@ -125,14 +128,14 @@ export default {
           name: 'Monitoring_Site_Building_Subsection_Plant',
           params: {
             plantparams: JSON.stringify({
-              siteid: encodeURIComponent(this.siteId),
+              siteid: Base64Helper.encode(this.siteId),
               siteName: this.siteName,
-              buildingid: encodeURIComponent(this.buildingId),
+              buildingid: Base64Helper.encode(this.buildingId),
               buildingName: this.buildingName,
               subsectionName: this.subsection.data.tradeName,
-              subsectionid: encodeURIComponent(this.subsection.id),
+              subsectionid: Base64Helper.encode(this.subsection.id),
               plantName,
-              plantid: encodeURIComponent(plantid),
+              plantid: Base64Helper.encode(plantid),
             }),
           },
         });
@@ -150,11 +153,11 @@ export default {
   async created() {
     const params = JSON.parse(this.$route.params.subsectionparams as string);
     this.subsectionName = params.subsectionName;
-    this.subsectionId = decodeURIComponent(params.subsectionid);
+    this.subsectionId = Base64Helper.decode(params.subsectionid);
     this.siteName = params.siteName;
-    this.siteId = decodeURIComponent(params.siteid);
+    this.siteId = Base64Helper.decode(params.siteid);
     this.buildingName = params.buildingName;
-    this.buildingId = decodeURIComponent(params.buildingid);
+    this.buildingId = Base64Helper.decode(params.buildingid);
   },
 };
 </script>

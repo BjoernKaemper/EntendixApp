@@ -10,7 +10,7 @@ import type { Kpi } from '@/types/global/kpi/Kpi';
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
-import URIHelper from '@/helpers/URIHelper';
+import Base64Helper from '@/helpers/Base64Helper';
 
 // Stores
 import { useGeneralStore } from './general';
@@ -107,7 +107,7 @@ export const usePlantStore = defineStore('plant', {
       } as RequestInit;
 
       return (await FetchHelper.apiCall(
-        `/middleware/plants/${URIHelper.encodeURI(plantId)}?${q}`,
+        `/middleware/plants/${Base64Helper.encode(plantId)}/modules?${q}`,
         requestOptions,
       )) as Plant;
     },

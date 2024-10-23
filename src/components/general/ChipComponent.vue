@@ -3,7 +3,7 @@
     <span class="chip--body">
       {{ statusData.label }}
     </span>
-    <IconChip class="chip--icon" :status="currentStatus" />
+    <IconChip class="chip--icon" :status="status" />
   </div>
 </template>
 
@@ -17,7 +17,6 @@
 import type { PropType } from 'vue';
 import IconChip from '@/components/general/IconChip.vue';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
-import type { Kpi } from '@/types/global/kpi/Kpi';
 
 export default {
   components: {
@@ -35,16 +34,6 @@ export default {
       default: ChipStatusTypes.INFO,
     },
     /**
-     * The primary kpi of the line chart
-     * @type {Kpi}
-     * @default { number: undefined, unit: '-' }
-     */
-    kpi: {
-      type: Object as PropType<Kpi>,
-      required: false,
-      default: () => ({ data: { number: undefined, unit: '-' } }),
-    },
-    /**
      * The flag to determine if the chip is mini.
      * @type {boolean}
      * @default false
@@ -56,47 +45,11 @@ export default {
   },
   computed: {
     /**
-     * Returns the status type based on the kpi data.
-     * @returns The status type.
-     */
-    currentStatus(): ChipStatusTypes {
-      type Limits = string[];
-      const limits: Limits | undefined = this.kpi?.data?.limits;
-
-      if (!limits || limits.length === 0) {
-        return this.status || ChipStatusTypes.INFO;
-      }
-
-      const low = parseInt(limits[0], 10);
-      const mid = parseInt(limits[1], 10);
-      const high = parseInt(limits[2], 10);
-
-      const value = this.kpi?.data?.value?.presentValue;
-
-      if (value < low) {
-        return ChipStatusTypes.ERROR;
-      }
-
-      if (value > high) {
-        return ChipStatusTypes.ERROR;
-      }
-
-      if (value < mid) {
-        return ChipStatusTypes.WARNING;
-      }
-
-      if (value >= mid) {
-        return ChipStatusTypes.SUCCESS;
-      }
-
-      return this.status;
-    },
-    /**
      * Returns the status data based on the status prop.
      * @returns The status data object.
      */
     statusData() {
-      switch (this.currentStatus) {
+      switch (this.status) {
         case ChipStatusTypes.SUCCESS:
           return {
             label: 'In Ordnung',

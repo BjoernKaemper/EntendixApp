@@ -4,6 +4,8 @@ import { DateTime } from 'luxon';
 
 // Types
 import type { Plant } from '@/types/global/plant/Plant';
+import type { Module } from '@/types/global/module/Module';
+import type { Kpi } from '@/types/global/kpi/Kpi';
 
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
@@ -15,13 +17,41 @@ import { useGeneralStore } from './general';
 
 interface PlantStoreState {
   plant: Plant | null;
+  moduleState: {
+    modules: Array<Module>;
+    isLoading: boolean;
+    requestTimestamp: DateTime | null;
+    error: boolean;
+  };
+  kpiState: {
+    kpis: Kpi[];
+    requestTimestamp: DateTime | null;
+    isLoading: boolean;
+    error: boolean;
+  };
   requestTimestamp: DateTime | null;
   isLoading: boolean;
   error: boolean;
 }
 
+const defaultKpiState = {
+  kpis: [],
+  requestTimestamp: null,
+  isLoading: false,
+  error: false,
+};
+
+const defaultModuleState = {
+  modules: [],
+  isLoading: false,
+  requestTimestamp: null,
+  error: false,
+};
+
 const defaultStoreState = {
   plant: null,
+  moduleState: defaultModuleState,
+  kpiState: defaultKpiState,
   requestTimestamp: null,
   isLoading: false,
   error: false,
@@ -36,6 +66,8 @@ export const usePlantStore = defineStore('plant', {
      * @returns {Promise<void>} The promise of the loading process
      */
     async loadPlantInformation(plantId: string): Promise<void> {
+      const generalStore = useGeneralStore();
+
       this.$state = defaultStoreState;
       this.isLoading = true;
 
@@ -45,6 +77,15 @@ export const usePlantStore = defineStore('plant', {
       } catch (error) {
         this.error = true;
       }
+
+      // Fetching KPIs
+      try {
+        this.kpiState.kpis = await generalStore.fetchKpiInformation(plantId);
+        this.kpiState.requestTimestamp = DateTime.now();
+      } catch (error) {
+        this.kpiState.error = true;
+      }
+      this.kpiState.isLoading = false;
 
       this.isLoading = false;
     },
@@ -69,6 +110,26 @@ export const usePlantStore = defineStore('plant', {
         `/plants/${Base64Helper.encode(plantId)}/modules?${q}`,
         requestOptions,
       )) as Plant;
+    },
+
+    /**
+     * Refetch the KPI Chart Data
+     * @returns {Promise<void>} The promise of the refetching process
+     */
+    async fetchKpiChartData(): Promise<void> {
+      const generalStore = useGeneralStore();
+
+      // Fetching KPI Information
+      this.kpiState.isLoading = true;
+      try {
+        this.kpiState.kpis = await generalStore.fetchKpiInformation(
+          encodeURIComponent(this.plant!.id),
+        );
+        this.kpiState.requestTimestamp = DateTime.now();
+      } catch (error) {
+        this.kpiState.error = true;
+      }
+      this.kpiState.isLoading = false;
     },
   },
 });

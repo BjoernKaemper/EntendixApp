@@ -39,8 +39,8 @@
       :comment-name="kpi?.data.name?.de || topic"
       :comment-in="moduleName"
       :comments="kpi?.data.annotations"
-      startDate="@TODO"
-      endDate="@TODO"
+      :startDate="startDateByTimeRange"
+      :endDate="endDateByTimeRange"
     />
     <MetricsLimitsOverlayModal
       :isMetricsModalOpen="settingsOpen"
@@ -58,6 +58,7 @@ import { mapStores } from 'pinia';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { IconTypes } from '@/types/enums/IconTypes';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
+import TimelineHelper from '@/helpers/TimelineHelper';
 
 // component imports
 import BigNumber from '@/components/general/BigNumber.vue';
@@ -201,6 +202,21 @@ export default {
     secondaryKpiValueUnit(): string {
       // @TODO: update logic when data is available
       return '-';
+    },
+    startDateByTimeRange(): string {
+      return (
+        this.generalStore.kpiLookbackWindow.customStartDate?.toISO()
+        || DateTime.now()
+          .minus({
+            days: TimelineHelper.getLookbackInDays(
+              this.generalStore.kpiLookbackWindow.currentValue,
+            ),
+          })
+          .toISO()
+      );
+    },
+    endDateByTimeRange(): string {
+      return this.generalStore.kpiLookbackWindow.customEndDate?.toISO() || DateTime.now().toISO();
     },
   },
   methods: {

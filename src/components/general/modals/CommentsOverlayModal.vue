@@ -4,7 +4,10 @@
       <div id="comments-modal-overlay__header">
         <h3>Kommentare für "{{ commentName }}"</h3>
         <p>in {{ commentType }} "{{ commentIn }}"</p>
-        <p>vom {{ startDate }} bis {{ endDate }}</p>
+        <p>
+          vom {{ DateHelper.prettierDate(startDate, false) }} bis
+          {{ DateHelper.prettierDate(endDate, false) }}
+        </p>
       </div>
     </template>
     <template #body>
@@ -13,29 +16,7 @@
         einen neuen Kommentar hinzu.
       </p>
       <div v-else id="comments-modal-overlay__body__comments">
-        <div v-for="(comment, idx) in comments" :key="idx" class="comment">
-          <div class="comment__header">
-            <p>
-              <span>{{ prettierDate(comment.referringTimestamp) }}</span>
-            </p>
-            <KebabMenu
-              :options="[
-                {
-                  icon: IconTypes.DELETE,
-                  text: 'Kommentar löschen',
-                  emits: 'delete',
-                  iconColor: 'red',
-                },
-              ]"
-              @delete="deleteComment('TODO - Add Identifier')"
-              class="comment__header__kebab-menu"
-            />
-          </div>
-          <p>{{ comment.annotationText }}</p>
-          <span class="comment__timestamp">
-            verfasst von {{ comment.creator }} am {{ prettierDate(comment.timestampOfCreation) }}
-          </span>
-        </div>
+        <CommentsWrapper :comments="comments" :lightBackground="false" />
       </div>
 
       <div id="comments-modal-overlay__body__form">
@@ -84,22 +65,22 @@
 </template>
 
 <script lang="ts">
-import ButtonComponent from '@/components/general/ButtonComponent.vue';
-import KebabMenu from '@/components/general/KebabMenu.vue';
-import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
-import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
-
 import { IconTypes } from '@/types/enums/IconTypes';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
 import type { Annotation } from '@/types/global/kpi/Kpi';
-import { DateTime } from 'luxon';
+import DateHelper from '@/helpers/DateHelper';
+
+import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
+import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
+import CommentsWrapper from '@/components/general/comments/CommentsWrapper.vue';
 
 export default {
   components: {
     ModalOverlay,
     ButtonComponent,
-    KebabMenu,
     MaterialSymbol,
+    CommentsWrapper,
   },
   props: {
     /**
@@ -170,6 +151,7 @@ export default {
   setup() {
     return {
       IconTypes,
+      DateHelper,
     };
   },
   computed: {
@@ -200,9 +182,10 @@ export default {
       const endDate = document.getElementById('end-date') as HTMLInputElement;
       // add a unique id to the comment using hash function
       const id: number = Math.floor(Math.random() * 1000000);
-      const user: string = window.localStorage.getItem(
-        'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
-      ) || 'User'; // @TODO get user from backend
+      const user: string =
+        window.localStorage.getItem(
+          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser'
+        ) || 'User'; // @TODO get user from backend
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 
       if (!this.validateComment(comment.value, new Date(startDate.value))) {
@@ -231,9 +214,6 @@ export default {
       // @TODO handle submission to backend in future implementations
       // check local storage for comments
       window.localStorage.setItem('comment', JSON.stringify(comments));
-    },
-    prettierDate(date: string): string {
-      return DateTime.fromJSDate(new Date(date)).toFormat('dd.MM.yyyy HH:mm');
     },
     deleteComment(id: string): void {
       // @TODO handle deletion of comment
@@ -266,51 +246,6 @@ export default {
       margin: 0 auto;
       padding: $m 0;
     }
-
-    &__comments {
-      display: flex;
-      flex-direction: column;
-      gap: $xxs;
-
-      .comment {
-        background-color: $background;
-        display: flex;
-        flex-direction: column;
-        gap: $base-size;
-        padding: $xxs;
-        border-radius: $border-radius;
-
-        &__header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          p {
-            @include content;
-            span {
-              @include meta-information;
-              font-weight: bold;
-            }
-          }
-          &__kebab-menu {
-            flex-grow: 1;
-          }
-        }
-        p {
-          @include content;
-          span {
-            @include meta-information;
-            font-weight: bold;
-          }
-        }
-        &__timestamp {
-          margin-top: $xxs;
-          @include meta-information;
-          text-align: end;
-          font-weight: bold;
-        }
-      }
-    }
-
     // form styles
     &__form {
       &__headline {

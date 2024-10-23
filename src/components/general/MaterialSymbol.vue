@@ -27,6 +27,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outline';
+  line-height: 100%;
+}
 .normal {
   font-size: $m;
 }

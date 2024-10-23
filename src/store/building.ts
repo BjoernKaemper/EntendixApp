@@ -96,11 +96,14 @@ export const useBuildingStore = defineStore('building', {
       // Fetching Subsection Information
       this.subsectionState.subsections = [];
       try {
-        this.building!.data.subsections?.forEach(async (subsection) => {
-          this.subsectionState.subsections.push(
-            await subsectionStore.fetchSubsectionInformation(subsection.id),
-          );
+        // eslint-disable-next-line arrow-body-style
+        const subsectionPromises = this.building!.data.subsections?.map((subsection) => {
+          return subsectionStore.fetchSubsectionInformation(subsection.id).then((response) => {
+            this.subsectionState.subsections.push(response);
+          });
         });
+
+        await Promise.all(subsectionPromises ?? []);
       } catch (error) {
         this.subsectionState.error = true;
       }

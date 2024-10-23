@@ -6,7 +6,7 @@
       v-for="i in cardCount"
       :key="i"
     >
-      <LoadingSpinner class="spinner" />
+      <LoadingSpinner class="spinner" :size="size" />
     </div>
   </div>
 </template>
@@ -60,6 +60,13 @@ export default {
     growCards: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * Size of the spinner
+     */
+    size: {
+      type: String as PropType<'small' | 'normal' | 'large'>,
+      default: 'normal',
     },
   },
 };

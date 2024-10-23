@@ -20,7 +20,7 @@ export default {
       required: true,
     },
     size: {
-      type: String as () => 'small' | 'normal' | 'large',
+      type: String as () => 'small' | 'normal' | 'large' | 'x-large',
       default: 'normal',
     },
   },
@@ -35,5 +35,8 @@ export default {
 }
 .large {
   font-size: $l;
+}
+.x-large {
+  font-size: $xxl;
 }
 </style>

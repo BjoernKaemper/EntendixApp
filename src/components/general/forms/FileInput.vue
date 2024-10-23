@@ -72,6 +72,13 @@ export default {
       type: String,
       default: undefined,
     },
+    /**
+     * Wether or not the component should keep track of the files.
+     */
+    emitOnly: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:fileList'],
   data: () => ({
@@ -85,6 +92,12 @@ export default {
       }
 
       const files = Array.from(target.files);
+
+      if (this.emitOnly) {
+        this.$emit('update:fileList', files);
+        return;
+      }
+
       this.fileList = this.fileList.concat(files);
       this.$emit('update:fileList', this.fileList);
     },

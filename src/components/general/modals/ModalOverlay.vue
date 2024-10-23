@@ -19,13 +19,12 @@
           <ButtonComponent
             v-if="!hasFooterSlot"
             @click="close"
-            :primary="false"
             text="Abbrechen"
             :icon="IconTypes.CLOSE"
           />
           <ButtonComponent
             v-if="!hasFooterSlot"
-            :primary="true"
+            state="primary"
             text="Akzeptieren"
             :icon="IconTypes.CHECK_MARK"
           />
@@ -126,7 +125,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: $darken;
+    background-color: $modal-background;
     cursor: auto;
   }
 

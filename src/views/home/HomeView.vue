@@ -67,7 +67,7 @@ export default {
      */
     loadTwin(site: Site): void {
       this.$router.push({
-        name: 'DigitalTwins',
+        name: 'DigitalTwins_Site',
         params: {
           siteparams: JSON.stringify({
             siteid: Base64Helper.encode(site.id),

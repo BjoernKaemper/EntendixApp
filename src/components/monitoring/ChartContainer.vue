@@ -8,12 +8,12 @@
         <h3>{{ kpi?.data.name?.de || topic }}</h3>
         <div class="line-chart-container--header--buttons">
           <ButtonComponent :icon="IconTypes.COMMENT" @click="toggleComments" />
-          <ButtonComponent :icon="IconTypes.SETTINGS" :primary="true" @click="toggleSettings" />
+          <ButtonComponent :icon="IconTypes.SETTINGS" state="primary" @click="toggleSettings" />
         </div>
       </div>
       <div class="line-chart-container--content">
-        <div class="line-chart-container--left">
-          <div class="line-chart-container--left--values">
+        <div class="line-chart-container--content--left">
+          <div class="line-chart-container--content--left--values">
             <template v-if="primaryKpiValue">
               <!-- <h4 v-if="hasContext">{{ kpi.data.context.de || topic }}</h4> -->
               <BigNumber :number="primaryKpiValue" :unit="primaryKpiValueUnit" />
@@ -22,7 +22,7 @@
               <BigNumber :number="secondaryKpiValue" :unit="secondaryKpiValueUnit" />
             </template>
           </div>
-          <div class="line-chart-container--left--footer">
+          <div class="line-chart-container--content--left--footer">
             <p>Letztes Update vor {{ lastUpdateTime }} Minuten</p>
             <ChipComponent :status="status" />
           </div>
@@ -30,6 +30,9 @@
         <div class="line-chart-container--right">
           <LineChart :data="kpi?.timeline || []" />
         </div>
+      </div>
+      <div class="line-chart-container--info">
+        <InfoCard v-if="kpi.data.context.de" :info="kpi.data.context.de" :showButton="false" />
       </div>
     </template>
     <CommentsOverlayModal
@@ -68,6 +71,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import CommentsOverlayModal from '@/components/general/modals/CommentsOverlayModal.vue';
 import MetricsLimitsOverlayModal from '@/components/general/modals/MetricsLimitsOverlayModal.vue';
+import InfoCard from '@/components/general/InfoCard.vue';
 
 // vue / library imports
 import { DateTime, Interval } from 'luxon';
@@ -143,6 +147,7 @@ export default {
     ButtonComponent,
     CommentsOverlayModal,
     MetricsLimitsOverlayModal,
+    InfoCard,
   },
   data() {
     return {
@@ -205,8 +210,8 @@ export default {
     },
     startDateByTimeRange(): string {
       return (
-        this.generalStore.kpiLookbackWindow.customStartDate?.toISO()
-        || DateTime.now()
+        this.generalStore.kpiLookbackWindow.customStartDate?.toISO() ||
+        DateTime.now()
           .minus({
             days: TimelineHelper.getLookbackInDays(
               this.generalStore.kpiLookbackWindow.currentValue,
@@ -285,11 +290,12 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-height: 150px;
+        flex-grow: 1;
       }
 
       &--footer {
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
         align-items: flex-end;
 
@@ -298,6 +304,10 @@ export default {
         }
       }
     }
+  }
+
+  &--info {
+    margin-top: $m;
   }
 
   &--right {

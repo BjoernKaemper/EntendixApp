@@ -1,6 +1,6 @@
 <template>
   <div class="big-number">
-    {{ number || '???' }}
+    {{ number === null ? '???' : number }}
     <p class="unit">{{ unit }}</p>
   </div>
 </template>

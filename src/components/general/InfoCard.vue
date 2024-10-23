@@ -10,7 +10,7 @@
       @keydown.enter="$emit('clicked')"
       text="Mehr erfahren"
       icon="open_in_new"
-      :primary="true"
+      state="primary"
     />
   </div>
 </template>

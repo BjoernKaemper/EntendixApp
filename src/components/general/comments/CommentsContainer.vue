@@ -25,7 +25,7 @@
   </div>
   <ButtonComponent
     text="Kommentar hinzufügen"
-    :primary="true"
+    state="primary"
     :icon="IconTypes.ADD"
     class="add-comment-button"
   />

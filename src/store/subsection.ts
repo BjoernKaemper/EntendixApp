@@ -69,7 +69,7 @@ export const useSubsectionStore = defineStore('subsection', {
 
       // Fetch the subsection information and return it
       return (await FetchHelper.apiCall(
-        `/middleware/subsections/${Base64Helper.encode(subsectionId)}?${q}`,
+        `/subsections/${Base64Helper.encode(subsectionId)}?${q}`,
         requestOptions,
       )) as Subsection;
     },
@@ -94,7 +94,7 @@ export const useSubsectionStore = defineStore('subsection', {
 
       // Fetch the subsection information and return it
       return (await FetchHelper.apiCall(
-        `/middleware/subsections/${Base64Helper.encode(subsectionId)}/plants?${q}`,
+        `/subsections/${Base64Helper.encode(subsectionId)}/plants?${q}`,
         requestOptions,
       )) as Subsection;
     },

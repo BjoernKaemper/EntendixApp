@@ -135,13 +135,13 @@ export const useGeneralStore = defineStore('general', {
       } as RequestInit;
 
       this.baseInfoState.sites = (await FetchHelper.apiCall(
-        `/middleware/sites?${q}`,
+        `/sites?${q}`,
         requestOptions,
       )) as Site[];
 
       // Fetching types Company Information
       this.baseInfoState.companies = (await FetchHelper.apiCall(
-        `/middleware/companies?${q}`,
+        `/companies?${q}`,
         requestOptions,
       )) as Company[];
 
@@ -169,7 +169,7 @@ export const useGeneralStore = defineStore('general', {
 
       // eslint-disable-next-line no-useless-catch
       try {
-        const rawKpiData = FetchHelper.apiCall(`/middleware/timelines?${q}`, requestOptions);
+        const rawKpiData = FetchHelper.apiCall(`/timelines?${q}`, requestOptions);
 
         return (await rawKpiData).map((data: any) => ({
           timestamp: DateTime.fromISO(data.timestamp),
@@ -198,7 +198,7 @@ export const useGeneralStore = defineStore('general', {
       // eslint-disable-next-line no-useless-catch
       try {
         let kpi = (await FetchHelper.apiCall(
-          `/middleware/kpis/${Base64Helper.encode(parentId)}?${q}`,
+          `/kpis/${Base64Helper.encode(parentId)}?${q}`,
           requestOptions,
         )) as Kpi[];
 

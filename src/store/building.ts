@@ -127,7 +127,7 @@ export const useBuildingStore = defineStore('building', {
 
       // Fetch the building information and return it
       return (await FetchHelper.apiCall(
-        `/middleware/buildings/${Base64Helper.encode(buildingId)}?${q}`,
+        `/buildings/${Base64Helper.encode(buildingId)}?${q}`,
         requestOptions,
       )) as Building;
     },

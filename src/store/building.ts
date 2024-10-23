@@ -72,6 +72,8 @@ export const useBuildingStore = defineStore('building', {
 
       this.$state = defaultStoreState;
       this.isLoading = true;
+      this.subsectionState.isLoading = true;
+      this.kpiState.isLoading = true;
 
       // Fetch the building information
       try {
@@ -92,7 +94,6 @@ export const useBuildingStore = defineStore('building', {
       this.kpiState.isLoading = false;
 
       // Fetching Subsection Information
-      this.subsectionState.isLoading = true;
       this.subsectionState.subsections = [];
       try {
         this.building!.data.subsections?.forEach(async (subsection) => {
@@ -142,7 +143,7 @@ export const useBuildingStore = defineStore('building', {
       // Fetching KPI Information
       this.kpiState.isLoading = true;
       try {
-        this.kpiState.kpis = await generalStore.fetchKpiInformation((this.building!.id));
+        this.kpiState.kpis = await generalStore.fetchKpiInformation(this.building!.id);
         this.kpiState.requestTimestamp = DateTime.now();
       } catch (error) {
         this.kpiState.error = true;

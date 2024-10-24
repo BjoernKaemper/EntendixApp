@@ -1,13 +1,6 @@
 <template>
-  <div
-    class="alert-wrapper"
-    data-jest="alerts"
-  >
-    <AlertElement
-      v-for="alert in alerts"
-      :key="alert.id"
-      :alert="alert"
-    />
+  <div class="alert-wrapper" data-jest="alerts">
+    <AlertElement v-for="alert in alerts" :key="alert.id" :alert="alert" />
   </div>
 </template>
 

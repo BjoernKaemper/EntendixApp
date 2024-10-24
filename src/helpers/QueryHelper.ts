@@ -8,7 +8,7 @@ export default {
   queryify(obj: Record<string, any>): string {
     return Object.keys(obj)
       .filter((k: string) => obj[k] !== undefined && obj[k] !== null && obj[k] !== '')
-      .map((k: string) => (`${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`))
+      .map((k: string) => `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`)
       .filter(Boolean)
       .join('&');
   },

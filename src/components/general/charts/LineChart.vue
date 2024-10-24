@@ -5,46 +5,47 @@
 <script lang="ts" setup>
 import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
 import * as d3 from 'd3';
-import {
-  ref, onMounted, watch, type PropType,
-} from 'vue';
+import { ref, onMounted, watch, type PropType } from 'vue';
 
 interface DataPoint {
   timestamp: Date;
   value: number;
 }
 
-const props = defineProps(
-  {
-    data: {
-      type: Array as PropType<TimelineDataPoint[]>,
-      required: true,
-    },
-    width: {
-      type: Number as PropType<number>,
-      default: 700,
-    },
-    height: {
-      type: Number as PropType<number>,
-      default: 300,
-    },
-    margin: {
-      type: Object as PropType<{ top: number; right: number; bottom: number; left: number }>,
-      default: () => ({
-        top: 20, right: 50, bottom: 40, left: 20,
-      }),
-    },
+const props = defineProps({
+  data: {
+    type: Array as PropType<TimelineDataPoint[]>,
+    required: true,
   },
-);
+  width: {
+    type: Number as PropType<number>,
+    default: 700,
+  },
+  height: {
+    type: Number as PropType<number>,
+    default: 300,
+  },
+  margin: {
+    type: Object as PropType<{ top: number; right: number; bottom: number; left: number }>,
+    default: () => ({
+      top: 20,
+      right: 50,
+      bottom: 40,
+      left: 20,
+    }),
+  },
+});
 
 // Define ref for chart container
 const chart = ref<HTMLDivElement | null>(null);
 
 // Map the data to convert timestamp to Date object
-const parsedData = ref<DataPoint[]>(props.data.map((d) => ({
-  timestamp: d.timestamp.toJSDate(),
-  value: d.value,
-})));
+const parsedData = ref<DataPoint[]>(
+  props.data.map((d) => ({
+    timestamp: d.timestamp.toJSDate(),
+    value: d.value,
+  })),
+);
 
 // Function to draw the chart
 const drawChart = () => {
@@ -73,7 +74,8 @@ const drawChart = () => {
       .append('g')
       .attr('transform', `translate(0,${svgHeight})`)
       .call(
-        d3.axisBottom(x)
+        d3
+          .axisBottom(x)
           .ticks(8)
           .tickFormat((domainValue) => d3.timeFormat('%d.%m')(domainValue as Date)),
       )
@@ -92,18 +94,15 @@ const drawChart = () => {
     const gridlines = svg
       .append('g')
       .attr('class', 'grid')
-      .call(
-        d3.axisRight(y).ticks(5).tickSize(svgWidth),
-      );
+      .call(d3.axisRight(y).ticks(5).tickSize(svgWidth));
 
-    gridlines.selectAll('line')
-      .style('stroke', '#ccc')
-      .style('stroke-dasharray', '4,4');
+    gridlines.selectAll('line').style('stroke', '#ccc').style('stroke-dasharray', '4,4');
 
     gridlines.select('.domain').remove();
 
     // Define line generator for data points
-    const line = d3.line<DataPoint>()
+    const line = d3
+      .line<DataPoint>()
       .x((d) => x(d.timestamp))
       .y((d) => y(d.value));
 
@@ -117,7 +116,8 @@ const drawChart = () => {
       .attr('d', line);
 
     // Add circles at data points
-    svg.selectAll('circle')
+    svg
+      .selectAll('circle')
       .data(parsedData.value)
       .enter()
       .append('circle')
@@ -129,13 +129,17 @@ const drawChart = () => {
 };
 
 // Watch for data changes and redraw the chart
-watch(() => props.data, () => {
-  parsedData.value = props.data.map((d) => ({
-    timestamp: d.timestamp.toJSDate(),
-    value: d.value,
-  }));
-  drawChart();
-}, { deep: true });
+watch(
+  () => props.data,
+  () => {
+    parsedData.value = props.data.map((d) => ({
+      timestamp: d.timestamp.toJSDate(),
+      value: d.value,
+    }));
+    drawChart();
+  },
+  { deep: true },
+);
 
 // Draw the chart once on mount
 onMounted(() => {

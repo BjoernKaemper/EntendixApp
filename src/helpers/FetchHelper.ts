@@ -22,7 +22,10 @@ export default {
     const CONTENT_TYPE = 'content-type';
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_MIDDLEWARE_URL}${url}`, { ...defaultOptions, ...options });
+      const response = await fetch(`${import.meta.env.VITE_MIDDLEWARE_URL}${url}`, {
+        ...defaultOptions,
+        ...options,
+      });
 
       if (response.headers.get(CONTENT_TYPE)?.includes('application/json')) {
         return await response.json();

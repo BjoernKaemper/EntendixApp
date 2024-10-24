@@ -5,11 +5,7 @@
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
       <div v-else class="image-container">
         <ButtonComponent text="im Digitalen Zwilling bearbeiten" />
-        <img
-          :alt="plantName"
-          src="@/assets/AutomationHeizkreis.svg"
-          class="site-image"
-        />
+        <img :alt="plantName" src="@/assets/AutomationHeizkreis.svg" class="site-image" />
       </div>
     </div>
 

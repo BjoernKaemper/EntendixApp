@@ -150,7 +150,7 @@ export default {
       display: flex;
       flex-direction: column;
       gap: $xxs;
-      &--header{
+      &--header {
         display: flex;
         justify-content: flex-end;
       }

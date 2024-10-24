@@ -3,7 +3,11 @@ require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
   root: true,
-  extends: ['plugin:vue/vue3-essential', '@vue/eslint-config-airbnb-with-typescript'],
+  extends: [
+    'plugin:vue/vue3-essential',
+    '@vue/eslint-config-airbnb-with-typescript',
+    '@vue/eslint-config-prettier',
+  ],
   parserOptions: {
     ecmaVersion: 'latest',
     parser: '@typescript-eslint/parser',
@@ -31,6 +35,7 @@ module.exports = {
     'brace-style': ['error', '1tbs', { allowSingleLine: false }],
     '@typescript-eslint/no-duplicate-enum-values': 'off',
     'linebreak-style': ['error', 'unix'],
+    'prettier/prettier': 'error',
   },
   ignorePatterns: [
     // Root
@@ -39,5 +44,9 @@ module.exports = {
     // Amplify
     'amplify',
     'aws-exports.js',
+    // Ignore assets
+    'src/assets/',
+    // Global types
+    'src/types/global/',
   ],
 };

@@ -184,7 +184,7 @@ export default {
       const id: number = Math.floor(Math.random() * 1000000);
       const user: string =
         window.localStorage.getItem(
-          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser'
+          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
         ) || 'User'; // @TODO get user from backend
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 

@@ -113,7 +113,6 @@ export default {
     this.initMapElement(google);
   },
 };
-
 </script>
 
 <style scoped lang="scss">

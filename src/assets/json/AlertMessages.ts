@@ -11,8 +11,7 @@ export const AlertMessages: { [key: string]: Alert } = {
   },
   [AlertMessageTypes.CANNOT_LOAD]: {
     title: 'Daten konnten nicht geladen werden',
-    description:
-      'Es gab ein Problem mit der Verbindung. Versuchen Sie es später noch einmal.',
+    description: 'Es gab ein Problem mit der Verbindung. Versuchen Sie es später noch einmal.',
     type: AlertTypes.WARNING,
   },
 };

@@ -219,7 +219,6 @@ export default {
       border-color: $orange;
     }
 
-
     &--align {
       text-align: right;
     }

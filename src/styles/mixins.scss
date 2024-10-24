@@ -1,16 +1,19 @@
 @mixin title {
+  font-family: $font-family;
   font-size: $title-size;
   font-weight: $title-weight;
   line-height: $title-line-height;
 }
 
 @mixin subtitle {
+  font-family: $font-family;
   font-size: $subtitle-size;
   font-weight: $subtitle-weight;
   line-height: $subtitle-line-height;
 }
 
 @mixin content-headline {
+  font-family: $font-family-condensed;
   font-size: $content-headline-size;
   font-weight: $content-headline-weight;
   line-height: $content-headline-line-height;
@@ -18,24 +21,28 @@
 }
 
 @mixin content-subtitle {
+  font-family: $font-family-condensed;
   font-size: $content-subtitle-size;
   font-weight: $content-subtitle-weight;
   line-height: $content-subtitle-line-height;
 }
 
 @mixin section-headline {
+  font-family: $font-family-condensed;
   font-size: $section-headline-size;
   font-weight: $section-headline-weight;
   line-height: $section-headline-line-height;
 }
 
 @mixin content {
+  font-family: $font-family-condensed;
   font-size: $content-size;
   font-weight: $content-weight;
   line-height: $content-line-height;
 }
 
 @mixin meta-information {
+  font-family: $font-family-condensed;
   font-size: $meta-information-size;
   font-weight: $meta-information-weight;
   line-height: $meta-information-line-height;
@@ -43,7 +50,15 @@
 }
 
 @mixin big-number {
+  font-family: $font-family;
   font-size: $big-number-size;
   font-weight: $big-number-weight;
   line-height: $big-number-line-height;
+}
+
+@mixin technical-data {
+  font-family: $font-family-mono;
+  font-size: $technical-data-size;
+  font-weight: $technical-data-line-height;
+  line-height: $technical-data-weight;
 }

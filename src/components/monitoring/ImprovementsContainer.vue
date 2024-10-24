@@ -14,12 +14,12 @@
       </div>
       <ButtonComponent
         text="ENTENDIX zur Ausführung berechtigen"
-        :primary="true"
+        state="primary"
         icon="arrow_forward"
       />
       <ButtonComponent
         text="Optimierung durch externe Firma vor Ort"
-        :primary="true"
+        state="primary"
         icon="arrow_forward"
       />
     </div>

@@ -27,6 +27,20 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outline';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
 .normal {
   font-size: $m;
 }

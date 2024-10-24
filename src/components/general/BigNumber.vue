@@ -1,6 +1,7 @@
 <template>
   <div class="big-number">
-    {{ number || '???' }}
+    {{ number === null ? '???' : number }}
+    <!-- TODO: Tooltip with textversion of the unit (e.g. Kilowattstunde pro Quadratmeter) -->
     <p class="unit">{{ unit }}</p>
   </div>
 </template>
@@ -21,19 +22,17 @@ export default {
     /**
      * The unit of the number
      * @type {String}
-     * @default 'tbd.'
+     * @default ''
      */
     unit: {
       type: String as PropType<string>,
-      default: 'tbd.',
+      default: '',
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixins.scss';
-
 .big-number {
   @include big-number;
   width: 100%;

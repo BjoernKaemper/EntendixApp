@@ -22,7 +22,11 @@
       <input
         v-else
         class="form-input__input"
-        :class="{ 'form-input__input--icon': icon, 'form-input__input--error': hasError }"
+        :class="{
+          'form-input__input--icon': icon,
+          'form-input__input--error': hasError,
+          'form-input__input--align': align === 'right',
+        }"
         :id="id"
         :type="internalType"
         :placeholder="placeholder"
@@ -215,8 +219,12 @@ export default {
       border-color: $orange;
     }
 
-    &:focus,
-    &:active {
+    &--align {
+      text-align: right;
+    }
+
+    &:focus:not(:disabled),
+    &:active:not(:disabled) {
       border-color: $dark-purple;
       box-shadow: 0px 0px 0px 2px $dark-purple-15;
       outline: none;
@@ -228,6 +236,7 @@ export default {
 
     &:disabled {
       border-color: $light;
+      cursor: not-allowed;
     }
   }
 

@@ -147,7 +147,8 @@ export default {
         return;
       }
 
-      this.isFullWidthClass = this.$el.getBoundingClientRect().width > this.windowWidth / 2 ? 'full-width' : '';
+      this.isFullWidthClass =
+        this.$el.getBoundingClientRect().width > this.windowWidth / 2 ? 'full-width' : '';
     },
   },
 

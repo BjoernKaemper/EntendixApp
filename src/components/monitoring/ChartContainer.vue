@@ -205,8 +205,8 @@ export default {
     },
     startDateByTimeRange(): string {
       return (
-        this.generalStore.kpiLookbackWindow.customStartDate?.toISO()
-        || DateTime.now()
+        this.generalStore.kpiLookbackWindow.customStartDate?.toISO() ||
+        DateTime.now()
           .minus({
             days: TimelineHelper.getLookbackInDays(
               this.generalStore.kpiLookbackWindow.currentValue,

@@ -1,34 +1,21 @@
 <template>
   <div class="dropdown" ref="dropdown">
     <!-- Dropdown selector element -->
-    <div
-      class="dropdown-input-toggle"
-      @click="toggleDropdown()"
-      @keydown.enter="toggleDropdown()"
-    >
+    <div class="dropdown-input-toggle" @click="toggleDropdown()" @keydown.enter="toggleDropdown()">
       {{ currentOptionLabelName }}
-      <MaterialSymbol
-        class="dropdown-input-toggle--icon"
-        :symbol="IconTypes.ARROW_DROP_DOWN"
-      />
+      <MaterialSymbol class="dropdown-input-toggle--icon" :symbol="IconTypes.ARROW_DROP_DOWN" />
     </div>
     <div class="dropdown-synthetic-wrapper">
       <div
         :class="{
           'dropdown-input-list-wrapper': true,
           'is-active': isActive,
-        }">
-
+        }"
+      >
         <!-- Grouped option values -->
-        <template
-          v-for="(optionGroup, index) in options"
-          :key="index"
-        >
+        <template v-for="(optionGroup, index) in options" :key="index">
           <template v-if="Array.isArray(optionGroup)">
-            <div
-              class="dropdown-input-list-group"
-              :key="index"
-            >
+            <div class="dropdown-input-list-group" :key="index">
               <p
                 v-for="(option, index) in optionGroup"
                 :key="index"
@@ -126,9 +113,9 @@ export default {
      * @returns {string}
      */
     currentOptionLabelName(): string {
-      const currentOption = this.options.flat().find(
-        (option) => option.value === this.currentValue,
-      );
+      const currentOption = this.options
+        .flat()
+        .find((option) => option.value === this.currentValue);
       return currentOption ? currentOption.label : '';
     },
   },
@@ -183,7 +170,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .dropdown {
   position: relative;
 }
@@ -249,5 +235,4 @@ export default {
     visibility: visible;
   }
 }
-
 </style>

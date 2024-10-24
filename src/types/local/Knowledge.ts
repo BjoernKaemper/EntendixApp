@@ -4,7 +4,7 @@
  * @property {string} de - The german description
  * @property {string} en - The english description
  * @see {@link WissenssammlungItem}
-*/
+ */
 interface Description {
   de: string;
   en: string;
@@ -17,7 +17,7 @@ interface Description {
  * @property {string} title - The title of the item
  * @property {Description[]} description - The description of the item
  * @see {@link Description}
-*/
+ */
 export interface WissenssammlungItem {
   id: number;
   title: string;

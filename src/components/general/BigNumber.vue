@@ -29,29 +29,27 @@ export default {
     },
   },
 };
-
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/mixins.scss';
 
-  .big-number {
-    @include big-number;
-    width: 100%;
-    display: flex;
-    align-items: end;
-    justify-content: end;
-    opacity: 50%;
-    transition: opacity 0.2s;
-    padding: $m;
+.big-number {
+  @include big-number;
+  width: 100%;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  opacity: 50%;
+  transition: opacity 0.2s;
+  padding: $m;
 
-    &:hover {
-      opacity: 100%;
-    }
+  &:hover {
+    opacity: 100%;
   }
-  .unit {
-    @include content;
-    margin-left: $m;
-  }
-
+}
+.unit {
+  @include content;
+  margin-left: $m;
+}
 </style>

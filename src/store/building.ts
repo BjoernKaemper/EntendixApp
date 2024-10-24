@@ -72,6 +72,8 @@ export const useBuildingStore = defineStore('building', {
 
       this.$state = defaultStoreState;
       this.isLoading = true;
+      this.subsectionState.isLoading = true;
+      this.kpiState.isLoading = true;
 
       // Fetch the building information
       try {
@@ -92,14 +94,16 @@ export const useBuildingStore = defineStore('building', {
       this.kpiState.isLoading = false;
 
       // Fetching Subsection Information
-      this.subsectionState.isLoading = true;
       this.subsectionState.subsections = [];
       try {
-        this.building!.data.subsections?.forEach(async (subsection) => {
-          this.subsectionState.subsections.push(
-            await subsectionStore.fetchSubsectionInformation(subsection.id),
-          );
+        // eslint-disable-next-line arrow-body-style
+        const subsectionPromises = this.building!.data.subsections?.map((subsection) => {
+          return subsectionStore.fetchSubsectionInformation(subsection.id).then((response) => {
+            this.subsectionState.subsections.push(response);
+          });
         });
+
+        await Promise.all(subsectionPromises ?? []);
       } catch (error) {
         this.subsectionState.error = true;
       }
@@ -127,7 +131,7 @@ export const useBuildingStore = defineStore('building', {
 
       // Fetch the building information and return it
       return (await FetchHelper.apiCall(
-        `/middleware/buildings/${Base64Helper.encode(buildingId)}?${q}`,
+        `/buildings/${Base64Helper.encode(buildingId)}?${q}`,
         requestOptions,
       )) as Building;
     },
@@ -142,7 +146,7 @@ export const useBuildingStore = defineStore('building', {
       // Fetching KPI Information
       this.kpiState.isLoading = true;
       try {
-        this.kpiState.kpis = await generalStore.fetchKpiInformation((this.building!.id));
+        this.kpiState.kpis = await generalStore.fetchKpiInformation(this.building!.id);
         this.kpiState.requestTimestamp = DateTime.now();
       } catch (error) {
         this.kpiState.error = true;

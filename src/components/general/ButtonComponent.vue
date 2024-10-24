@@ -1,11 +1,12 @@
 <template>
-  <button type="button" :class="[colorClass, size, onlyIconClass]">
+  <button :type="type" :class="[state, size, onlyIconClass]">
     {{ text }}
     <MaterialSymbol v-if="icon" :symbol="icon" />
   </button>
 </template>
 
 <script lang="ts">
+import type { ButtonHTMLAttributes, PropType } from 'vue';
 import { IconTypes } from '@/types/enums/IconTypes';
 import type { MaterialIconNames } from '@/types/local/MaterialIconNames';
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
@@ -35,13 +36,12 @@ export default {
       default: '',
     },
     /**
-     * The primary state of the button.
-     * @type {boolean}
-     * @default false
+     * The state of the button.
+     * @type {string}
      */
-    primary: {
-      type: Boolean,
-      default: false,
+    state: {
+      type: String as PropType<'primary' | 'secondary' | 'error'>,
+      default: '',
     },
     /**
      * The size of the button.
@@ -52,11 +52,15 @@ export default {
       type: String as () => 'normal' | 'small',
       default: 'normal',
     },
+    /**
+     * Button type
+     */
+    type: {
+      type: String as PropType<ButtonHTMLAttributes['type']>,
+      default: 'button',
+    },
   },
   computed: {
-    colorClass(): string {
-      return this.primary ? 'primary' : '';
-    },
     onlyIconClass(): string {
       return this.text === '' ? 'only-icon' : '';
     },
@@ -74,6 +78,9 @@ button {
   gap: $xxxs;
   width: fit-content;
   cursor: pointer;
+
+  @include content;
+
   &.small {
     padding: $xxxs;
     @include meta-information;
@@ -91,6 +98,16 @@ button {
   }
   &.primary {
     background-color: $light-purple;
+  }
+
+  &.secondary {
+    background-color: $lightest;
+    border: 1px solid $light-purple;
+  }
+
+  &.error {
+    background-color: $orange;
+    border-color: $orange;
   }
 }
 </style>

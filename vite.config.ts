@@ -38,31 +38,8 @@ export default ({ mode }: any) => {
     server: {
       port: process.env.VITE_PORT as unknown as number,
       proxy: {
-        '/awsBackend': {
-          target: process.env.VITE_AWS_BACKEND_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/awsBackend/, ''),
-        },
-        '/awsNlpEndpoints': {
-          target: process.env.VITE_AWS_NLP_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/awsNlpEndpoints/, ''),
-        },
-        '/nlpEndpoints': {
-          // TH
-          // target: 'http://139.6.140.196:8003/',
-          // Zu Hause
-          target: process.env.VITE_NLP_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/nlpEndpoints/, ''),
-        },
-        '/startNlp': {
-          target: process.env.VITE_START_NLP_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/startNlp/, ''),
-        },
         '/middleware': {
-          target: process.env.VITE_MIDDLEWARE_URL,
+          target: process.env.VITE_MIDDLEWARE_PROXY_TARGET_URL,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/middleware/, ''),
         },

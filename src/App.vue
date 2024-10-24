@@ -4,11 +4,7 @@
     <Authenticator>
       <template v-slot:header>
         <div style="padding: var(--amplify-space-large); text-align: center">
-          <img
-            id="auth-logo"
-            src="@/assets/plyteq_schriftzug.svg"
-            alt="ENTENDIX"
-          />
+          <img id="auth-logo" src="@/assets/plyteq_schriftzug.svg" alt="ENTENDIX" />
         </div>
       </template>
     </Authenticator>

@@ -39,6 +39,7 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 // Library imports
 import { mapStores } from 'pinia';
@@ -75,6 +76,7 @@ export default {
       buildingId: '',
     };
   },
+
   components: {
     AutomationHZG,
     SideBar,
@@ -91,6 +93,7 @@ export default {
       return this.subsectionStore.isLoading;
     },
   },
+
   methods: {
     toggleSidebar(state: boolean) {
       this.isSidebarOpen = state;
@@ -139,6 +142,7 @@ export default {
       }
     },
   },
+
   setup() {
     return {
       ChipStatusTypes,
@@ -161,9 +165,9 @@ export default {
 <style scoped lang="scss">
 .grid-wrapper {
   display: grid;
-  grid-template-columns: 1fr 2fr 80px; // Sidebar closed, width 0
+  grid-template-columns: 1fr 2fr 80px;
   grid-gap: $m;
-  transition: grid-template-columns 0.3s ease; // Smooth transition on layout change
+  transition: grid-template-columns 0.3s ease;
 
   &--left {
     display: flex;

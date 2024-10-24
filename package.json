@@ -15,18 +15,15 @@
   "dependencies": {
     "@aws-amplify/ui-vue": "^3.1.30",
     "@googlemaps/js-api-loader": "^1.15.1",
-    "@mdi/font": "7.0.96",
     "@types/d3": "^7.4.3",
     "aws-amplify": "^5.3.24",
     "core-js": "^3.29.0",
     "d3": "^7.9.0",
     "luxon": "^3.5.0",
     "pinia": "^2.1.7",
-    "roboto-fontface": "*",
     "uuid": "^10.0.0",
     "vue": "^3.2.29",
-    "vue-router": "^4.3.3",
-    "webfontloader": "^1.0.0"
+    "vue-router": "^4.3.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.4",
@@ -35,7 +32,6 @@
     "@types/luxon": "^3.4.2",
     "@types/node": "^20.14.5",
     "@types/uuid": "^10.0.0",
-    "@types/webfontloader": "^1.6.38",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/eslint-config-airbnb-with-typescript": "^8.0.0",
     "@vue/eslint-config-prettier": "^9.0.0",
@@ -44,7 +40,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
     "npm-run-all2": "^6.2.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "sass": "^1.60.0",
     "typescript": "5.5.3",
     "vite": "^5.3.1",

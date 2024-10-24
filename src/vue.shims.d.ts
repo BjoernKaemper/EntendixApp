@@ -1,4 +1,5 @@
-declare module '*.vue' { // NOTE: ts-loader
+declare module '*.vue' {
+  // NOTE: ts-loader
   import { defineComponent } from 'vue';
 
   const component: ReturnType<typeof defineComponent>;

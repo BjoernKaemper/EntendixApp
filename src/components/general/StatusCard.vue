@@ -147,7 +147,8 @@ export default {
         return;
       }
 
-      this.isFullWidthClass = this.$el.getBoundingClientRect().width > this.windowWidth / 2 ? 'full-width' : '';
+      this.isFullWidthClass =
+        this.$el.getBoundingClientRect().width > this.windowWidth / 2 ? 'full-width' : '';
     },
   },
 
@@ -286,6 +287,7 @@ export default {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    padding: $xxs 0;
 
     &.full-width {
       flex-direction: row;
@@ -302,6 +304,7 @@ export default {
   .action-section {
     display: flex;
     align-items: center;
+    height: 100%;
     & > div {
       border-radius: $border-radius 0 0 $border-radius;
     }

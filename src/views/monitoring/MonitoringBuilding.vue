@@ -100,7 +100,7 @@
             :kpi="kpi"
             :lastUpdateTimestamp="lastBuildingRequestTimestamp"
             :isLoading="kpiIsLoading"
-            :status="ChipStatusTypes.SUCCESS"
+            :status="getSubsectionChipStatusByCondition(kpi.data.condition!)"
             :moduleType="ModuleTypes.BUILDING"
             :moduleName="buildingName"
           />
@@ -291,9 +291,7 @@ export default {
   async created() {
     const params = JSON.parse(this.$route.params.buildingparams as string);
     this.buildingName = params.buildingName;
-    this.buildingId = Base64Helper.decode(
-      params.buildingid,
-    );
+    this.buildingId = Base64Helper.decode(params.buildingid);
     this.siteName = params.siteName;
     this.siteId = Base64Helper.decode(params.siteid);
   },

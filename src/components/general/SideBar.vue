@@ -90,7 +90,7 @@ export default {
 <style lang="scss" scoped>
 .sidebar {
   background-color: $dark-purple-20;
-  width: 355px;
+  width: 80px;
   padding: $xxl $m;
   color: $dark-purple;
   transition: transform 0.3s;
@@ -138,6 +138,7 @@ export default {
     flex-direction: column;
     align-items: flex-end;
     cursor: default;
+    width: 355px;
 
     & .sidebar--header {
       display: flex;

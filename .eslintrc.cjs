@@ -46,5 +46,7 @@ module.exports = {
     'aws-exports.js',
     // Ignore assets
     'src/assets/',
+    // Global types
+    'src/types/global/',
   ],
 };

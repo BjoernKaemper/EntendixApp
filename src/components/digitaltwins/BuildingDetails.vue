@@ -21,6 +21,7 @@
         label="Netto-Grundfläche (in m²)"
         placeholder="Netto-Grundfläche"
         v-model="usableSpace.value.value"
+        disabled
       />
       <!-- TODO: no data for this field yet -->
       <FormInput
@@ -29,6 +30,7 @@
         label="Allgemeine Nutzungszeit"
         placeholder="Allgemeine Nutzungszeit"
         v-model="usage.value.value"
+        disabled
       />
       <div
         class="twin-building-details__actions"
@@ -37,16 +39,29 @@
         }"
       >
         <ButtonComponent text="Abbrechen" type="reset" state="secondary" />
-        <ButtonComponent text="Speichern" type="submit" state="primary" />
-      </div>
-      <div class="twin-building-details__input-group">
-        <p>Planungsdaten</p>
-        <div class="twin-building-details__files">
-          <FileEntry v-for="file in dummyFiles" :key="file.fileName" :file-name="file.fileName" />
-          <FileInput id="files" accepts="image/*" emitOnly @update:fileList="uploadFiles" />
-        </div>
+        <ButtonComponent
+          text="Speichern"
+          type="submit"
+          state="primary"
+          disabled
+          title="Coming soon"
+        />
       </div>
     </form>
+    <div class="twin-building-details__input-group">
+      <p>Planungsdaten</p>
+      <div class="twin-building-details__files">
+        <FileEntry v-for="file in dummyFiles" :key="file.fileName" :file-name="file.fileName" />
+        <FileInput
+          id="files"
+          accepts="image/*"
+          emitOnly
+          @update:fileList="uploadFiles"
+          disabled
+          title="Coming soon"
+        />
+      </div>
+    </div>
   </div>
   <InterceptionModal
     :isOpen="leavePageInterception.isOpen.value"

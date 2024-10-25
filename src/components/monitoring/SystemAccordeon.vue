@@ -1,13 +1,10 @@
 <template>
-  <section class="accordeon">
-    <div class="accordeon--activator" @click="toggleOpen" @keydown.enter="toggleOpen">
-      <div class="accordeon--activator--heading">
-        <h4>{{ title }}</h4>
-        <ChipComponent :status="condition" :is-mini="true" />
-      </div>
-      <MaterialSymbol symbol="expand_circle_down" :class="{ rotate: isOpen }" />
-    </div>
-    <div v-if="isOpen" class="accordeon--content">
+  <AccordionBase>
+    <template #heading>
+      <h4>{{ title }}</h4>
+      <ChipComponent :status="condition" :is-mini="true" />
+    </template>
+    <template #content>
       <div class="chart-container">
         <div class="chart-container--header">
           <TimeRangeDropdown />
@@ -29,9 +26,10 @@
         </div>
       </div>
       <slot name="content" />
-    </div>
-  </section>
+    </template>
+  </AccordionBase>
 </template>
+
 <script lang="ts">
 import { type PropType } from 'vue';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -40,7 +38,6 @@ import { useGeneralStore } from '@/store/general';
 import { mapStores } from 'pinia';
 import type { TimelineLookbackOptions } from '@/configs/timeRangeDropdown';
 
-import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 import LineChart from '@/components/general/charts/LineChart.vue';
 import BigNumber from '@/components/general/BigNumber.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
@@ -48,17 +45,18 @@ import ImprovementsContainer from '@/components/monitoring/ImprovementsContainer
 import InfoCard from '@/components/general/InfoCard.vue';
 import CommentsContainer from '@/components/general/comments/CommentsContainer.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
+import AccordionBase from '@/components/general/AccordionBase.vue';
 
 export default {
   components: {
     ChipComponent,
-    MaterialSymbol,
     LineChart,
     BigNumber,
     CommentsContainer,
     ImprovementsContainer,
     InfoCard,
     TimeRangeDropdown,
+    AccordionBase,
   },
   data() {
     return {
@@ -121,44 +119,14 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.accordeon {
-  border-bottom: 1px solid $light-purple;
-  &--activator {
-    width: 100%;
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: $xxs;
+  &--header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    margin-bottom: $xxs;
-    &--heading {
-      display: flex;
-      gap: $xxs;
-      align-items: center;
-
-      > h4 {
-        @include content-subtitle;
-      }
-    }
+    justify-content: flex-end;
   }
-  &--content {
-    padding: $xs 0;
-    display: flex;
-    flex-direction: column;
-    gap: $m;
-
-    .chart-container {
-      display: flex;
-      flex-direction: column;
-      gap: $xxs;
-      &--header {
-        display: flex;
-        justify-content: flex-end;
-      }
-    }
-  }
-}
-.rotate {
-  transform: rotate(180deg);
 }
 
 .subgrid {

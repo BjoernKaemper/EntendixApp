@@ -25,6 +25,8 @@
           text="Einstellung des Gebäudes"
           icon="manufacturing"
           @click="buildingSettingsOpen = true"
+          disabled
+          title="Coming soon"
         />
       </div>
       <LoadingSpinner

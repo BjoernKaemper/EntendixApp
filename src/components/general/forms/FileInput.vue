@@ -18,6 +18,8 @@
           :accept="accepts"
           @change="onFileChange"
           class="file-input__input"
+          :disabled="disabled"
+          :title="title"
         />
       </div>
     </div>
@@ -78,6 +80,20 @@ export default {
     emitOnly: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * Wether or not the upload is disabled.
+     */
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * Title for the input.
+     */
+    title: {
+      type: String,
+      default: '',
     },
   },
   emits: ['update:fileList'],
@@ -140,6 +156,10 @@ export default {
 
     &::-webkit-file-upload-button {
       visibility: hidden;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
     }
   }
 

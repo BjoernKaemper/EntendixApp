@@ -10,6 +10,7 @@
         unseren Support.
       </p>
       <div class="edge-device-modal__contact">
+        <!-- TODO: add correct contact data -->
         <span>support@example.com</span>
         <span>0221/123456780</span>
       </div>

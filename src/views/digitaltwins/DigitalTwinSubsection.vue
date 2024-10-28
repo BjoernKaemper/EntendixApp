@@ -107,11 +107,11 @@ export default {
   created() {
     const params = JSON.parse(this.$route.params.subsectionparams as string);
     this.subsectionName = params.subsectionName;
-    this.subsectionId = decodeURIComponent(params.subsectionid);
+    this.subsectionId = Base64Helper.decode(params.subsectionid);
     this.siteName = params.siteName;
-    this.siteId = decodeURIComponent(params.siteid);
+    this.siteId = Base64Helper.decode(params.siteid);
     this.buildingName = params.buildingName;
-    this.buildingId = decodeURIComponent(params.buildingid);
+    this.buildingId = Base64Helper.decode(params.buildingid);
   },
 };
 </script>

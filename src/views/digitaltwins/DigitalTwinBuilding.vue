@@ -116,7 +116,7 @@ export default {
       buildingSettingsOpen: false,
       dummyEdgeDevices,
       initialEdgeDevice:
-        dummyEdgeDevices[Math.round(Math.random() * dummyEdgeDevices.length - 1)].value,
+        dummyEdgeDevices[Math.round(Math.random() * (dummyEdgeDevices.length - 1))].value,
     };
   },
   computed: {
@@ -200,7 +200,7 @@ export default {
     const params = JSON.parse(this.$route.params.buildingparams as string);
     this.buildingName = params.buildingName;
     this.siteName = params.siteName;
-    this.siteId = decodeURIComponent(params.siteid);
+    this.siteId = Base64Helper.decode(params.siteid);
   },
 };
 </script>

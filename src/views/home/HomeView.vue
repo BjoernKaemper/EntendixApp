@@ -9,6 +9,7 @@
             text="Liegenschaft hinzufügen"
             :icon="IconTypes.ADD"
             class="add-site-button"
+            @close="toggleAddSiteModal"
             @click="toggleAddSiteModal"
           />
         </div>

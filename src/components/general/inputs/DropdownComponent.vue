@@ -1,7 +1,12 @@
 <template>
   <div class="dropdown" ref="dropdown">
     <!-- Dropdown selector element -->
-    <div class="dropdown-input-toggle" @click="toggleDropdown()" @keydown.enter="toggleDropdown()">
+    <div
+      class="dropdown-input-toggle"
+      :class="{ 'dropdown-input-toggle--disabled': disabled }"
+      @click="toggleDropdown()"
+      @keydown.enter="toggleDropdown()"
+    >
       {{ currentOptionLabelName }}
       <MaterialSymbol class="dropdown-input-toggle--icon" :symbol="IconTypes.ARROW_DROP_DOWN" />
     </div>
@@ -105,6 +110,14 @@ export default {
       type: String as PropType<string>,
       required: true,
     },
+
+    /**
+     * Wether the dropdown is disabled or not
+     */
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -125,6 +138,10 @@ export default {
    */
   methods: {
     toggleDropdown() {
+      if (this.disabled) {
+        return;
+      }
+
       this.isActive = !this.isActive;
     },
 
@@ -178,16 +195,22 @@ export default {
   @include content;
   cursor: pointer;
   margin: 0;
-  padding: $xxxxs $xxs;
+  padding: $xxxs $xxs;
   padding-right: $xxxs;
   border: 1px solid $light-purple;
   border-radius: $border-radius;
   display: flex;
   justify-content: space-between;
+  background-color: $lightest;
 
   &--icon {
     vertical-align: middle;
     margin-left: $xxxs;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    color: $dark;
   }
 }
 

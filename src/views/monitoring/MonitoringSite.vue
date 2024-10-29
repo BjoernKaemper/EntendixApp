@@ -5,11 +5,10 @@
         {{ siteName }}
       </h2>
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
-      <!-- TODO: The Image should be user based -->
       <img
         v-else
         :alt="site?.data.siteName || 'Site Name'"
-        :src="SitePreviewImage"
+        :src="site?.data.imagesrc || SymbolImageHelper.getImage('default', 'default')"
         class="site-image"
       />
 
@@ -73,6 +72,7 @@ import type { DateTime } from 'luxon';
 
 // Helpers
 import Base64Helper from '@/helpers/Base64Helper';
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 // Components
 import StatusCard from '@/components/general/StatusCard.vue';
@@ -80,8 +80,6 @@ import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
-
-import SitePreviewImage from '@/assets/3_campus_deutz_iwz_sharon_nathan_th_koeln.png';
 
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
@@ -105,7 +103,7 @@ export default {
       ActionTypes,
       ModuleTypes,
       AlertMessages,
-      SitePreviewImage,
+      SymbolImageHelper,
     };
   },
 

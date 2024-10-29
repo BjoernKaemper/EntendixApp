@@ -11,7 +11,7 @@
           v-for="site in sites"
           :key="site.id"
           :name="site.data.siteName"
-          :imgsrc="placeholderCampusDeutz"
+          :imgsrc="site.data.imagesrc || SymbolImageHelper.getImage('default', 'default')"
           :status="ChipStatusTypes.SUCCESS"
           :location="site.data.address.cityTown"
           @digitalTwinClicked="loadTwin(site)"
@@ -24,16 +24,24 @@
 </template>
 
 <script lang="ts">
+// Library imports
 import { mapStores } from 'pinia';
-import { useGeneralStore } from '@/store/general';
-import placeholderCampusDeutz from '@/assets/placeholder-campus-deutz.png';
 
+// Store imports
+import { useGeneralStore } from '@/store/general';
+
+// Component imports
 import GoogleMaps from '@/components/general/GoogleMaps.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
-import type { Site } from '@/types/global/site/Site';
-import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import LoadingCards from '@/components/general/LoadingCards.vue';
+
+// Type imports
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import type { Site } from '@/types/global/site/Site';
+
+// Helper imports
 import Base64Helper from '@/helpers/Base64Helper';
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 export default {
   components: {
@@ -41,13 +49,6 @@ export default {
     LiegenschaftCard,
     LoadingCards,
   },
-
-  data() {
-    return {
-      placeholderCampusDeutz,
-    };
-  },
-
   computed: {
     ...mapStores(useGeneralStore),
 
@@ -96,6 +97,7 @@ export default {
   setup() {
     return {
       ChipStatusTypes,
+      SymbolImageHelper,
     };
   },
 };

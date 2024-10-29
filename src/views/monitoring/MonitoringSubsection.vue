@@ -6,7 +6,7 @@
         <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
         <SymbolImage
           v-else
-          :src="SubsectionPreviewImage"
+          :src="SymbolImageHelper.getImage(subsection!.data.tradeType)"
           :alt="subsection?.data.tradeName || 'Subsection Name'"
           :use-aspect-ratio="false"
         />
@@ -55,6 +55,7 @@ import { useSubsectionStore } from '@/store/subsection';
 
 // Helper imports
 import Base64Helper from '@/helpers/Base64Helper';
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 // component imports
 import SideBar from '@/components/general/SideBar.vue';
@@ -68,8 +69,6 @@ import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
-
-import SubsectionPreviewImage from '@/assets/AutomationHZG.svg';
 
 export default {
   data() {
@@ -155,7 +154,7 @@ export default {
       ChipStatusTypes,
       ComponentStatusTypes,
       ActionTypes,
-      SubsectionPreviewImage,
+      SymbolImageHelper,
     };
   },
   async created() {

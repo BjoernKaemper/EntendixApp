@@ -1,48 +1,45 @@
 <template>
-  <div>
-    <div :class="['grid-wrapper', { 'grid-wrapper--sidebar-open': isSidebarOpen }]">
-      <div class="grid-wrapper--left">
-        <h2>{{ subsectionName }}</h2>
-        <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
-        <SymbolImage
-          v-else
-          :src="SubsectionPreviewImage"
-          :alt="subsection?.data.tradeName || 'Subsection Name'"
-          :use-aspect-ratio="false"
+  <BaseLayout>
+    <template #left>
+      <h2>{{ subsectionName }}</h2>
+      <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
+      <SymbolImage
+        v-else
+        :src="SubsectionPreviewImage"
+        :alt="subsection?.data.tradeName || 'Subsection Name'"
+        :use-aspect-ratio="false"
+      />
+    </template>
+    <template #right>
+      <div class="grid-wrapper--right--header">
+        <h2>Performance in den Funktionsbereichen</h2>
+        <ChipComponent
+          v-if="subsection"
+          :status="getChipStatusByCondition(subsection.data.condition)"
         />
       </div>
-      <div class="grid-wrapper--right">
-        <div class="grid-wrapper--right--header">
-          <h2>Performance in den Funktionsbereichen</h2>
-          <ChipComponent
-            v-if="subsection"
-            :status="getChipStatusByCondition(subsection.data.condition)"
-          />
-        </div>
-        <div class="grid-wrapper--right--content">
-          <LoadingCards v-if="isLoading" :card-count="3" />
-          <div v-else v-for="plantType in subsection?.data.plantsByType" :key="plantType.type">
-            <h3>{{ plantType.name }}</h3>
-            <div>
-              <StatusCard
-                v-for="plant in plantType.plants"
-                @click="openPlant(plant.data.plantName, plant.id)"
-                :key="plant.id"
-                :isLoading="false"
-                :title="plant.data.plantName"
-                subtitle=""
-                :isBordered="false"
-                :status="getModuleChipStatusByCondition(plant.data.condition)"
-                :actionType="ActionTypes.ARROW"
-                timestamp="2024-08-14T18:27:00"
-              />
-            </div>
+      <div class="grid-wrapper--right--content">
+        <LoadingCards v-if="isLoading" :card-count="3" />
+        <div v-else v-for="plantType in subsection?.data.plantsByType" :key="plantType.type">
+          <h3>{{ plantType.name }}</h3>
+          <div>
+            <StatusCard
+              v-for="plant in plantType.plants"
+              @click="openPlant(plant.data.plantName, plant.id)"
+              :key="plant.id"
+              :isLoading="false"
+              :title="plant.data.plantName"
+              subtitle=""
+              :isBordered="false"
+              :status="getModuleChipStatusByCondition(plant.data.condition)"
+              :actionType="ActionTypes.ARROW"
+              timestamp="2024-08-14T18:27:00"
+            />
           </div>
         </div>
       </div>
-      <SideBar @toggle-sidebar="toggleSidebar" :topic="subsection?.data.tradeType" />
-    </div>
-  </div>
+    </template>
+  </BaseLayout>
 </template>
 
 <script lang="ts">
@@ -57,11 +54,11 @@ import { useSubsectionStore } from '@/store/subsection';
 import Base64Helper from '@/helpers/Base64Helper';
 
 // component imports
-import SideBar from '@/components/general/SideBar.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import SymbolImage from '@/components/general/SymbolImage.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 
 // type imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -85,11 +82,11 @@ export default {
   },
 
   components: {
-    SideBar,
     StatusCard,
     ChipComponent,
     LoadingCards,
     SymbolImage,
+    BaseLayout,
   },
   computed: {
     ...mapStores(useGeneralStore, useSubsectionStore),

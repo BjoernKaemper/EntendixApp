@@ -1,9 +1,8 @@
 <template>
-  <div :class="['grid-wrapper', { 'grid-wrapper--sidebar-open': isSidebarOpen }]">
-    <div class="grid-wrapper--left">
+  <BaseLayout layout="large">
+    <template #left>
       <h1>{{ plantName }}</h1>
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
-
       <div v-else class="image-container">
         <SymbolImage
           :src="SystemPreviewImage"
@@ -12,43 +11,43 @@
         />
         <ButtonComponent text="im Digitalen Zwilling bearbeiten" />
       </div>
-    </div>
-
-    <LoadingCards v-if="isLoading" :card-count="1" card-class="right-side-loading" />
-    <div v-else class="grid-wrapper--right">
-      <ChipComponent v-if="plant" :status="getChipStatusByCondition(plant?.data.condition)" />
-      <AlertElement
-        v-for="(alert, idx) in plant?.data.alerts"
-        :key="idx"
-        :alert="alert"
-        :is-toast="false"
-      />
-      <div class="status-grid">
-        <StatusCard
-          v-for="(status, idx) in plant?.data.stati"
+    </template>
+    <template #right>
+      <LoadingCards v-if="isLoading" :card-count="1" card-class="right-side-loading" />
+      <div class="system-overview" v-else>
+        <ChipComponent v-if="plant" :status="getChipStatusByCondition(plant?.data.condition)" />
+        <AlertElement
+          v-for="(alert, idx) in plant?.data.alerts"
           :key="idx"
-          :is-bordered="false"
-          :is-loading="false"
-          :title="status.name"
-          :subtitle="status.description.de"
-          :status="getChipStatusByCondition(status.condition)"
+          :alert="alert"
+          :is-toast="false"
         />
+        <div v-if="plant?.data.stati?.length" class="system-overview--stati">
+          <StatusCard
+            v-for="(status, idx) in plant?.data.stati"
+            :key="idx"
+            :is-bordered="false"
+            :is-loading="false"
+            :title="status.name"
+            :subtitle="status.description.de"
+            :status="getChipStatusByCondition(status.condition)"
+          />
+        </div>
+        <div v-for="(kpiGroup, idx) in mappedKpis" :key="idx" class="system-overview--modules">
+          <h2>
+            {{ kpiGroup.title }}
+          </h2>
+          <SystemAccordeon
+            v-for="(kpi, kpiIdx) in kpiGroup.kpis"
+            :key="kpiIdx"
+            :title="kpi.data.name.de"
+            :condition="getChipStatusByCondition(kpi.data.condition)"
+            :kpi="kpi"
+          />
+        </div>
       </div>
-      <div v-for="(kpiGroup, idx) in mappedKpis" :key="idx" class="module-area">
-        <h2>
-          {{ kpiGroup.title }}
-        </h2>
-        <SystemAccordeon
-          v-for="(kpi, kpiIdx) in kpiGroup.kpis"
-          :key="kpiIdx"
-          :title="kpi.data.name.de"
-          :condition="getChipStatusByCondition(kpi.data.condition)"
-          :kpi="kpi"
-        />
-      </div>
-    </div>
-    <SideBar @toggle-sidebar="toggleSidebar" />
-  </div>
+    </template>
+  </BaseLayout>
 </template>
 
 <script lang="ts">
@@ -69,7 +68,6 @@ import type { Alert } from '@/types/local/Alert';
 import { AlertTypes } from '@/types/enums/AlertTypes';
 
 // component imports
-import SideBar from '@/components/general/SideBar.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
@@ -77,6 +75,7 @@ import StatusCard from '@/components/general/StatusCard.vue';
 import SystemAccordeon from '@/components/monitoring/SystemAccordeon.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import SymbolImage from '@/components/general/SymbolImage.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 
 import SystemPreviewImage from '@/assets/AutomationHeizkreis.svg';
 
@@ -88,7 +87,6 @@ export type Status = {
 
 export default {
   components: {
-    SideBar,
     ButtonComponent,
     ChipComponent,
     AlertElement,
@@ -96,6 +94,7 @@ export default {
     SystemAccordeon,
     LoadingCards,
     SymbolImage,
+    BaseLayout,
   },
   data() {
     return {
@@ -188,36 +187,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.grid-wrapper {
-  display: grid;
-  grid-gap: $m;
-  grid-template-columns: 1fr 2fr 80px;
-  transition: grid-template-columns 0.3s ease;
+.system-overview {
+  display: flex;
+  flex-direction: column;
+  gap: $m;
 
-  &--sidebar-open {
-    grid-template-columns: 1fr 2fr 355px; // Sidebar open, width 355px
+  > .chip--wrapper {
+    margin-left: auto;
   }
 
-  &--left {
+  &--stati {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: $xxs;
+  }
+
+  &--modules {
     display: flex;
     flex-direction: column;
     gap: $m;
-  }
-
-  &--right {
-    display: flex;
-    flex-direction: column;
-    gap: $m;
-
-    > .chip--wrapper {
-      margin-left: auto;
-    }
-
-    &--header {
-      display: flex;
-      align-items: center;
-      gap: $m;
-    }
   }
 }
 
@@ -257,19 +245,10 @@ h2 {
   color: $darkest;
 }
 
-.status-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: $xxs;
-}
-.module-area {
-  display: flex;
-  flex-direction: column;
-  gap: $m;
-}
 :deep(.image-loading) {
   height: 300px;
 }
+
 :deep(.right-side-loading) {
   height: 100%;
   background-color: transparent;

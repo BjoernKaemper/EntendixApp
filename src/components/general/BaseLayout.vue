@@ -2,7 +2,11 @@
   <div
     :class="[
       'base-layout',
-      { 'base-layout--sidebar-open': isSidebarOpen, [`base-layout--${layout}`]: layout },
+      {
+        [`base-layout--${layout}`]: layout,
+        'base-layout--sidebar-open': isSidebarOpen,
+        'base-layout--no-sidebar': !showSidebar,
+      },
     ]"
   >
     <div class="base-layout--left">
@@ -11,7 +15,7 @@
     <div class="base-layout--right">
       <slot name="right" />
     </div>
-    <SideBar @toggle-sidebar="toggleSidebar" :topic="sideBarTopic" />
+    <SideBar v-if="showSidebar" @toggle-sidebar="toggleSidebar" :topic="sideBarTopic" />
   </div>
 </template>
 
@@ -32,6 +36,10 @@ export default {
       type: String as PropType<'default' | 'large'>,
       default: 'default',
     },
+    showSidebar: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -48,14 +56,23 @@ export default {
 
 <style scoped lang="scss">
 .base-layout {
+  $self: &;
   display: grid;
   grid-template-columns: 1fr 2fr 80px; // Sidebar closed, width 0
   transition: grid-template-columns 0.3s ease; // Smooth transition on layout change
   gap: 2rem;
   min-height: 100%;
 
+  &--no-sidebar {
+    grid-template-columns: 1fr 2fr;
+  }
+
   &--large {
     grid-template-columns: repeat(3, 1fr) repeat(8, 1fr) 80px;
+  }
+
+  &--large &--no-sidebar {
+    grid-template-columns: repeat(3, 1fr) repeat(8, 1fr);
   }
 
   &--large &--left {
@@ -64,6 +81,10 @@ export default {
 
   &--large &--right {
     grid-column: span 8;
+  }
+
+  &--large#{$self}--sidebar-open {
+    grid-template-columns: repeat(3, 1fr) repeat(8, 1fr) 355px;
   }
 
   &--sidebar-open {

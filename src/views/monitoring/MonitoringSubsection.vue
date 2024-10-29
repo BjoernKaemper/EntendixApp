@@ -4,7 +4,12 @@
       <div class="grid-wrapper--left">
         <h2>{{ subsectionName }}</h2>
         <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
-        <AutomationHZG v-else />
+        <SymbolImage
+          v-else
+          :src="SubsectionPreviewImage"
+          :alt="subsection?.data.tradeName || 'Subsection Name'"
+          :use-aspect-ratio="false"
+        />
       </div>
       <div class="grid-wrapper--right">
         <div class="grid-wrapper--right--header">
@@ -52,17 +57,19 @@ import { useSubsectionStore } from '@/store/subsection';
 import Base64Helper from '@/helpers/Base64Helper';
 
 // component imports
-import AutomationHZG from '@/assets/AutomationHZG.vue';
 import SideBar from '@/components/general/SideBar.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
+import SymbolImage from '@/components/general/SymbolImage.vue';
 
 // type imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import { ComponentStatusTypes } from '@/types/enums/ComponentStatusTypes';
 import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
+
+import SubsectionPreviewImage from '@/assets/AutomationHZG.svg';
 
 export default {
   data() {
@@ -78,11 +85,11 @@ export default {
   },
 
   components: {
-    AutomationHZG,
     SideBar,
     StatusCard,
     ChipComponent,
     LoadingCards,
+    SymbolImage,
   },
   computed: {
     ...mapStores(useGeneralStore, useSubsectionStore),
@@ -148,6 +155,7 @@ export default {
       ChipStatusTypes,
       ComponentStatusTypes,
       ActionTypes,
+      SubsectionPreviewImage,
     };
   },
   async created() {

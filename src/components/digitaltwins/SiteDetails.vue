@@ -1,5 +1,6 @@
 <template>
   <div class="site-detail">
+    <!-- TODO: Should be a user Added image -->
     <img
       class="site-detail__image"
       src="@/assets/placeholder-campus-deutz.png"

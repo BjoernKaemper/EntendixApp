@@ -1,5 +1,13 @@
 <template>
-  <div :class="['digital-twin-layout', { 'digital-twin-layout--sidebar-open': isSidebarOpen }]">
+  <div
+    :class="[
+      'digital-twin-layout',
+      {
+        'digital-twin-layout--sidebar-open': isSidebarOpen,
+        [`digital-twin-layout--${layout}`]: layout,
+      },
+    ]"
+  >
     <div class="digital-twin-layout--left">
       <slot name="left" />
     </div>
@@ -12,6 +20,7 @@
 
 <script lang="ts">
 import SideBar from '@/components/general/SideBar.vue';
+import type { PropType } from 'vue';
 
 export default {
   components: {
@@ -21,6 +30,10 @@ export default {
     sideBarTopic: {
       type: String,
       default: 'Wäremversorgung',
+    },
+    layout: {
+      type: String as PropType<'default' | 'large'>,
+      default: 'default',
     },
   },
   data() {
@@ -43,6 +56,18 @@ export default {
   transition: grid-template-columns 0.3s ease; // Smooth transition on layout change
   gap: 2rem;
   min-height: 100%;
+
+  &--large {
+    grid-template-columns: repeat(3, 1fr) repeat(8, 1fr) 80px;
+  }
+
+  &--large &--left {
+    grid-column: span 3;
+  }
+
+  &--large &--right {
+    grid-column: span 8;
+  }
 
   &--sidebar-open {
     grid-template-columns: 1fr 2fr 355px; // Sidebar open, width 355px

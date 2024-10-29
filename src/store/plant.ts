@@ -131,5 +131,35 @@ export const usePlantStore = defineStore('plant', {
       }
       this.kpiState.isLoading = false;
     },
+
+    /**
+     * Fetch detailed module data
+     */
+    async fetchModuleData(): Promise<void> {
+      if (!this.plant) {
+        throw new Error('Plant not loaded');
+      }
+
+      if (!this.plant.data.modules) {
+        throw new Error('No modules found');
+      }
+
+      const generalStore = useGeneralStore();
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const modulePromises = this.plant.data.modules.map((module) => {
+        return FetchHelper.apiCall(`/modules/${Base64Helper.encode(module.id)}/mediums?${q}`, {});
+      });
+
+      await Promise.all(modulePromises).then((modules) => {
+        this.moduleState.modules = modules.sort((a, b) =>
+          a.data.moduleName.localeCompare(b.data.moduleName),
+        ) as Module[];
+        this.moduleState.requestTimestamp = DateTime.now();
+      });
+    },
   },
 });

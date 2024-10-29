@@ -51,6 +51,7 @@ export default {
 
 <style scoped lang="scss">
 .digital-twin-layout {
+  $self: &;
   display: grid;
   grid-template-columns: 1fr 2fr 80px; // Sidebar closed, width 0
   transition: grid-template-columns 0.3s ease; // Smooth transition on layout change
@@ -71,6 +72,10 @@ export default {
 
   &--sidebar-open {
     grid-template-columns: 1fr 2fr 355px; // Sidebar open, width 355px
+  }
+
+  &--large#{$self}--sidebar-open {
+    grid-template-columns: repeat(3, 1fr) repeat(8, 1fr) 355px;
   }
 
   &--left {

@@ -1,7 +1,57 @@
 <template>
-  <div>
-    <pre>{{ plant }}</pre>
-  </div>
+  <DigitalTwinLayout layout="large">
+    <template #left>
+      <h1>{{ plantName }}</h1>
+      <img
+        :alt="plantName"
+        src="@/assets/AutomationHeizkreis.svg"
+        class="digital-twin-plant__image"
+      />
+    </template>
+    <template #right>
+      <div class="digital-twin-plant__head">
+        <ButtonComponent text="load" @click="plantStore.fetchModuleData()" />
+        <ButtonComponent
+          text="Neues Aggregat verknüpfen"
+          icon="add_link"
+          state="secondary"
+          disabled
+          title="Coming soon"
+        />
+      </div>
+      <PlantDetails v-if="plant" :plant="plant" />
+      <div class="digital-twin-plant__modules">
+        <AccordionBase
+          v-for="module in plantStore.moduleState.modules"
+          :key="module.id"
+          :title="module.data.moduleName"
+        >
+          <template #content>
+            <div
+              v-for="medium in module.data.mediums"
+              :key="medium.id"
+              class="digital-twin-plant__medium"
+            >
+              <h4>{{ medium.data.mediumName }}</h4>
+              <ListElement
+                v-for="aggregate in medium.data.aggregates"
+                :key="aggregate.id"
+                representationIcon="account_tree"
+                :title="aggregate.data.aggregateName"
+                interactionIcon="open_in_new"
+                @click="handleAggregateClick(aggregate)"
+              />
+            </div>
+          </template>
+        </AccordionBase>
+      </div>
+    </template>
+  </DigitalTwinLayout>
+  <AggregateModal
+    v-model="aggregateModalOpen"
+    :aggregateId="currentAggregateId"
+    :aggregateName="currenAggregateName"
+  />
 </template>
 
 <script lang="ts">
@@ -11,15 +61,86 @@ import { mapStores } from 'pinia';
 // Store imports
 import { usePlantStore } from '@/store/plant';
 
+// Component imports
+import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
+import ListElement from '@/components/general/ListElement.vue';
+import PlantDetails from '@/components/digitaltwins/PlantDetails.vue';
+import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import AccordionBase from '@/components/general/AccordionBase.vue';
+import AggregateModal from '@/components/digitaltwins/AggregateModal.vue';
+import type { Aggregate } from '@/types/global/aggregate/Aggregate';
+
 export default {
+  components: {
+    DigitalTwinLayout,
+    ListElement,
+    PlantDetails,
+    ButtonComponent,
+    AccordionBase,
+    AggregateModal,
+  },
   data() {
-    return {};
+    return {
+      plantName: '',
+      currentAggregateId: '',
+      currenAggregateName: '',
+      aggregateModalOpen: false,
+    };
   },
   computed: {
     ...mapStores(usePlantStore),
+
     plant() {
       return this.plantStore.plant;
     },
   },
+  methods: {
+    handleAggregateClick(aggregate: Aggregate) {
+      this.currentAggregateId = aggregate.id;
+      this.currenAggregateName = aggregate.data.aggregateName;
+      this.aggregateModalOpen = true;
+    },
+  },
+  created() {
+    const params = JSON.parse(this.$route.params.plantparams as string);
+    this.plantName = params.plantName;
+  },
 };
 </script>
+
+<style scoped lang="scss">
+.digital-twin-plant {
+  &__image {
+    padding: $xxl;
+    border-radius: $border-radius;
+    background-color: $lightest;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  &__modules {
+    display: flex;
+    flex-direction: column;
+    gap: $xl;
+  }
+
+  &__medium {
+    display: flex;
+    flex-direction: column;
+    gap: $xxs;
+  }
+}
+
+h1 {
+  @include content-headline;
+}
+
+h2 {
+  @include content-headline;
+  color: $dark-green;
+}
+</style>

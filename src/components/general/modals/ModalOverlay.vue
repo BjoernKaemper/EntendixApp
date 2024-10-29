@@ -7,7 +7,7 @@
       aria-label="Close modal"
     />
     <slot>
-      <div class="modal-overlay__content">
+      <div class="modal-overlay__content" :class="{ [`modal-overlay__content--${size}`]: size }">
         <div class="modal-overlay__content__header">
           <slot name="header" />
           <MaterialSymbol :symbol="IconTypes.CLOSE" @click="close" />
@@ -39,6 +39,7 @@
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { PropType } from 'vue';
 
 export default {
   components: {
@@ -62,6 +63,13 @@ export default {
       type: Boolean,
       required: true,
       default: false,
+    },
+    /**
+     * Size of the modal
+     */
+    size: {
+      type: String as PropType<'default' | 'large'>,
+      default: 'default',
     },
   },
   watch: {
@@ -127,6 +135,10 @@ export default {
     margin: 0 $s;
     padding: $m;
     z-index: 1001;
+
+    &--large {
+      max-width: 1200px;
+    }
 
     &__header {
       margin-bottom: $s;

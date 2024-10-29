@@ -1,17 +1,14 @@
 <template>
   <div
     :class="[
-      'digital-twin-layout',
-      {
-        'digital-twin-layout--sidebar-open': isSidebarOpen,
-        [`digital-twin-layout--${layout}`]: layout,
-      },
+      'base-layout',
+      { 'base-layout--sidebar-open': isSidebarOpen, [`base-layout--${layout}`]: layout },
     ]"
   >
-    <div class="digital-twin-layout--left">
+    <div class="base-layout--left">
       <slot name="left" />
     </div>
-    <div class="digital-twin-layout--right">
+    <div class="base-layout--right">
       <slot name="right" />
     </div>
     <SideBar @toggle-sidebar="toggleSidebar" :topic="sideBarTopic" />
@@ -29,7 +26,7 @@ export default {
   props: {
     sideBarTopic: {
       type: String,
-      default: 'Wäremversorgung',
+      default: '',
     },
     layout: {
       type: String as PropType<'default' | 'large'>,
@@ -50,7 +47,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.digital-twin-layout {
+.base-layout {
   display: grid;
   grid-template-columns: 1fr 2fr 80px; // Sidebar closed, width 0
   transition: grid-template-columns 0.3s ease; // Smooth transition on layout change

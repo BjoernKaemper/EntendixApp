@@ -1,5 +1,5 @@
 <template>
-  <ModalOverlay :isOpen="isAddSiteModalOpen" @close="resetSite">
+  <ModalOverlay :isOpen="isAddSiteModalOpen" @close="handleClose">
     <template #header>
       <h3>Neue Liegenschaft anlegen</h3>
     </template>
@@ -8,7 +8,7 @@
         Geben Sie die Informationen einer neuen Liegenschaft ein, um sie innerhalb von ENTENDIX zu
         verwalten.
       </p>
-      <form ref="form" @submit.prevent="console.log('TODO')" @reset="closeAndResetForm">
+      <form ref="form" @submit.prevent="handleSubmit">
         <h4>Informationen pflegen</h4>
         <FormInput
           id="name"
@@ -17,8 +17,8 @@
           :required="true"
           type="text"
           v-model="nameInput.value.value"
-          :hasError="!nameInput.isValid.value"
-          :errorMessage="nameInput.errorMessage.value"
+          :hasError="!nameInput.isValid.value && formState.showErrors.value"
+          :errorMessage="formState.showErrors.value ? nameInput.errorMessage.value : undefined"
         />
         <FormInput
           id="street"
@@ -27,8 +27,8 @@
           :required="true"
           type="text"
           v-model="streetInput.value.value"
-          :hasError="!streetInput.isValid.value"
-          :errorMessage="streetInput.errorMessage.value"
+          :hasError="!streetInput.isValid.value && formState.showErrors.value"
+          :errorMessage="formState.showErrors.value ? streetInput.errorMessage.value : undefined"
         />
         <div class="form-grid">
           <FormInput
@@ -38,8 +38,8 @@
             :required="true"
             type="text"
             v-model="zipCodeInput.value.value"
-            :hasError="!zipCodeInput.isValid.value"
-            :errorMessage="zipCodeInput.errorMessage.value"
+            :hasError="!zipCodeInput.isValid.value && formState.showErrors.value"
+            :errorMessage="formState.showErrors.value ? zipCodeInput.errorMessage.value : undefined"
           />
           <FormInput
             id="city"
@@ -48,8 +48,8 @@
             :required="true"
             type="text"
             v-model="cityInput.value.value"
-            :hasError="!cityInput.isValid.value"
-            :errorMessage="cityInput.errorMessage.value"
+            :hasError="!cityInput.isValid.value && formState.showErrors.value"
+            :errorMessage="formState.showErrors.value ? cityInput.errorMessage.value : undefined"
           />
         </div>
         <FormInput
@@ -59,25 +59,26 @@
           :required="true"
           type="text"
           v-model="countryInput.value.value"
-          :hasError="!countryInput.isValid.value"
-          :errorMessage="countryInput.errorMessage.value"
+          :hasError="!countryInput.isValid.value && formState.showErrors.value"
+          :errorMessage="formState.showErrors.value ? countryInput.errorMessage.value : undefined"
         />
         <FileInput
-          id="image"
+          id="site-image"
           label="Bild der Liegenschaft"
-          accepts="*"
-          @update:fileList="setImage"
+          accepts="image/*"
+          selectPrompt="Datei auswählen"
+          @update:fileList="(e) => (files.value.value = e)"
         />
       </form>
     </template>
     <template #footer>
-      <ButtonComponent type="reset" text="Abbrechen" state="secondary" @click="resetSite" />
+      <ButtonComponent type="reset" text="Abbrechen" state="secondary" @click="handleClose" />
       <ButtonComponent
         type="submit"
         text="Liegenschaft anlegen"
         state="primary"
         :icon="IconTypes.CHECK_MARK"
-        @click="addSite"
+        @click="submitForm"
       />
     </template>
   </ModalOverlay>
@@ -85,10 +86,15 @@
     :isOpen="leaveFormInterception.isOpen.value"
     @cancel="leaveFormInterception.abortAction"
     @confirm="leaveFormInterception.confirmAction"
+    title="Änderungen verwerfen?"
+    confirmText="Änderungen verwerfen"
   />
 </template>
 
 <script lang="ts">
+// Library import
+import { mapStores } from 'pinia';
+
 // Hook import
 import { useInput } from '@/hooks/useInput';
 import { useFormManager } from '@/hooks/useFormManager';
@@ -108,6 +114,9 @@ import { requiredValidator } from '@/helpers/FormValidators';
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
 
+// Store import
+import { useSiteStore } from '@/store/site';
+
 export default {
   components: {
     ModalOverlay,
@@ -115,16 +124,6 @@ export default {
     FormInput,
     FileInput,
     InterceptionModal,
-  },
-  data() {
-    return {
-      image: [] as File[],
-      name: '',
-      street: '',
-      zip: '',
-      city: '',
-      country: '',
-    };
   },
   props: {
     /**
@@ -138,15 +137,23 @@ export default {
       required: true,
     },
   },
+  emits: ['close'],
   setup() {
     const nameInput = useInput<string>([requiredValidator], '');
     const streetInput = useInput<string>([requiredValidator], '');
     const zipCodeInput = useInput<string>([requiredValidator], '');
     const cityInput = useInput<string>([requiredValidator], '');
     const countryInput = useInput<string>([requiredValidator], '');
-    // TODO: IMAGEinput
+    const files = useInput<File[]>([], []);
 
-    const formState = useFormManager([streetInput, zipCodeInput, cityInput, countryInput]);
+    const formState = useFormManager([
+      nameInput,
+      streetInput,
+      zipCodeInput,
+      cityInput,
+      countryInput,
+      files,
+    ]);
 
     const leaveFormInterception = useModalInterception();
 
@@ -158,27 +165,59 @@ export default {
       zipCodeInput,
       cityInput,
       countryInput,
+      files,
       formState,
       leaveFormInterception,
       IconTypes,
     };
   },
-  computed: {},
+  computed: {
+    ...mapStores(useSiteStore),
+  },
   methods: {
-    addSite() {
-      // TODO handle check if all fields are filled
-      // TODO handle the adding
-      this.$refs.form.submit();
+    submitForm() {
+      if (!this.$refs.form) {
+        return;
+      }
+
+      const form = this.$refs.form as HTMLFormElement;
+
+      form.requestSubmit();
     },
-    resetSite() {
-      this.$refs.form.reset();
+    handleClose() {
+      if (!this.formState.isChanged.value) {
+        this.$emit('close');
+        return;
+      }
+
+      this.leaveFormInterception.interceptAction(
+        () => {
+          this.$emit('close');
+          this.formState.reset();
+        },
+        () => {},
+      );
     },
-    setImage(files: File[]) {
-      this.image = files;
-    },
-    closeAndResetForm() {
-      this.formState.reset();
-      this.$emit('close');
+    async handleSubmit() {
+      if (!this.formState.isValid.value) {
+        this.formState.showErrors.value = true;
+        return;
+      }
+
+      const body = new FormData();
+      this.files.value.value.forEach((file) => {
+        body.append('files', file);
+      });
+      body.append('name', this.nameInput.value.value);
+      body.append('street', this.streetInput.value.value);
+      body.append('zip', this.zipCodeInput.value.value);
+      body.append('city', this.cityInput.value.value);
+      body.append('country', this.countryInput.value.value);
+      const result = await this.siteStore.addSite(body);
+      if (result) {
+        this.$emit('close');
+        this.formState.reset();
+      }
     },
   },
 };

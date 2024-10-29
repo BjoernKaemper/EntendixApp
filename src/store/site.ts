@@ -117,5 +117,42 @@ export const useSiteStore = defineStore('site', {
       }
       this.kpiState.isLoading = false;
     },
+
+    async addSite(requestBody: FormData): Promise<boolean> {
+      const generalStore = useGeneralStore();
+
+      // Build the query and the request
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        method: 'POST',
+        body: requestBody,
+      } as RequestInit;
+
+      // Try to post the data and add the site
+      try {
+        const postResult = await FetchHelper.apiCall(`/sites?${q}`, requestOptions);
+        if (postResult.ok) {
+          generalStore.addAlert({
+            type: 'success',
+            title: 'Liegenschaft wurde hinzugefügt',
+            description: '',
+          });
+          // TODO: Change the view?
+          return true;
+        }
+        throw new Error('Failed to add site');
+      } catch (error) {
+        generalStore.addAlert({
+          type: 'error',
+          title: 'Hinzufügen der Liegenschaft fehlgeschlagen!',
+          description: 'Bitte versuche es zu einem späteren Zeitpunkt erneut.',
+        });
+        return false;
+      }
+    },
   },
 });

@@ -63,17 +63,6 @@ export default {
       required: true,
       default: false,
     },
-    /**
-     * The state of the metrics modal.
-     * @type {boolean}
-     * @required
-     * @default false
-     */
-    isMetricsModalOpen: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   watch: {
     isOpen: {

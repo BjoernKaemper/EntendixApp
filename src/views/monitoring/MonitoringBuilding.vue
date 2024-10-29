@@ -4,7 +4,12 @@
     <div class="grid-wrapper--left">
       <h2>{{ building?.data.buildingName || buildingName }}</h2>
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
-      <AutomationKlima v-else />
+      <SymbolImage
+        v-else
+        :src="BuildingPreviewImage"
+        :alt="building?.data.buildingName || 'Site Name'"
+        :use-aspect-ratio="false"
+      />
       <div class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <LoadingCards v-if="isLoading" :card-count="3" card-class="" />
@@ -133,23 +138,24 @@ import type { TimelineLookbackOptions } from '@/configs/timeRangeDropdown';
 
 // component imports
 import ChartContainer from '@/components/monitoring/ChartContainer.vue';
-import AutomationKlima from '@/assets/AutomationKlima.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
+import SymbolImage from '@/components/general/SymbolImage.vue';
 
 import { AlertMessages } from '@/assets/json/AlertMessages';
+import BuildingPreviewImage from '@/assets/AutomationKlima.svg';
 
 export default {
   components: {
     ChartContainer,
-    AutomationKlima,
     StatusCard,
     LoadingCards,
     TimeRangeDropdown,
     AlertElement,
+    SymbolImage,
   },
 
   data() {
@@ -170,6 +176,7 @@ export default {
       SubsectionTypes,
       ModuleTypes,
       AlertMessages,
+      BuildingPreviewImage,
     };
   },
 

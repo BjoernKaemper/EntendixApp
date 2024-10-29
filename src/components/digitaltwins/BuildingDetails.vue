@@ -1,10 +1,10 @@
 <template>
   <div class="twin-building-details">
     <figure class="twin-building-details__preview">
-      <img
-        class="twin-building-details__image"
+      <SymbolImage
         :src="BuildingCardPreview"
         :alt="`Schema des Gebäudes ${buildingName}`"
+        :use-aspect-ratio="false"
       />
     </figure>
     <form
@@ -87,6 +87,7 @@ import FormInput from '@/components/general/forms/FormInput.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import FileInput from '@/components/general/forms/FileInput.vue';
 import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
+import SymbolImage from '@/components/general/SymbolImage.vue';
 
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
@@ -99,6 +100,7 @@ export default {
     ButtonComponent,
     FileInput,
     InterceptionModal,
+    SymbolImage,
   },
   props: {
     /**

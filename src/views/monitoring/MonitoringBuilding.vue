@@ -39,43 +39,8 @@
           :is-toast="false"
         />
         <div v-else-if="issues" class="issues">
-          <!-- @TODO: remove placeholders after data is in place -->
-          <p>Wäremversorgung</p>
-          <StatusCard
-            title="Wärmeerzeuger 1"
-            subtitle="Ursache: Unter Sollwert"
-            :isBordered="false"
-            :status="ComponentStatusTypes.ERROR_COMPONENT"
-            :actionType="ActionTypes.ARROW"
-            :isLoading="isLoading"
-          />
-          <StatusCard
-            title="Heizkreis 1"
-            subtitle="Ursache: Über Sollwert"
-            :isBordered="false"
-            :status="ComponentStatusTypes.ERROR_COMPONENT"
-            :actionType="ActionTypes.ARROW"
-            :isLoading="isLoading"
-          />
-          <p>Stromversorgung</p>
-          <StatusCard
-            title="Stromkreislauf 1"
-            subtitle="Ursache: Über Sollwert"
-            :isBordered="false"
-            :status="ComponentStatusTypes.WARNING_COMPONENT"
-            :actionType="ActionTypes.ARROW"
-            :isLoading="isLoading"
-          />
-          <StatusCard
-            v-for="(kpi, idx) in kpis"
-            :key="idx"
-            :title="kpi.data.name.de"
-            :isBordered="false"
-            :status="ComponentStatusTypes.ERROR_COMPONENT"
-            :actionType="ActionTypes.ARROW"
-            :timestamp="kpi.data.annotations[0]?.timestampOfCreation"
-            :isLoading="isLoading"
-          />
+          <!-- TODO: Replace with real issues -->
+          <p>Hier finden Sie in Zukunft die aktuellen Probleme in den Komponenten.</p>
         </div>
         <div v-else class="no-issues">
           <p>Aktuell sind alle Komponenten im Zielbereich.</p>

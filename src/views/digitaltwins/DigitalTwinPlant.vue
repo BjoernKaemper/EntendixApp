@@ -2,15 +2,15 @@
   <DigitalTwinLayout layout="large">
     <template #left>
       <h1>{{ plantName }}</h1>
-      <img
-        :alt="plantName"
-        src="@/assets/AutomationHeizkreis.svg"
+      <SymbolImage
+        :alt="plantName || 'Plant Name'"
+        :src="SystemPreviewImage"
         class="digital-twin-plant__image"
+        :use-aspect-ratio="false"
       />
     </template>
     <template #right>
       <div class="digital-twin-plant__head">
-        <ButtonComponent text="load" @click="plantStore.fetchModuleData()" />
         <ButtonComponent
           text="Neues Aggregat verknüpfen"
           icon="add_link"
@@ -68,7 +68,13 @@ import PlantDetails from '@/components/digitaltwins/PlantDetails.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import AccordionBase from '@/components/general/AccordionBase.vue';
 import AggregateModal from '@/components/digitaltwins/AggregateModal.vue';
+import SymbolImage from '@/components/general/SymbolImage.vue';
+
+// Type imports
 import type { Aggregate } from '@/types/global/aggregate/Aggregate';
+
+// Image imports
+import SystemPreviewImage from '@/assets/AutomationHeizkreis.svg';
 
 export default {
   components: {
@@ -78,6 +84,7 @@ export default {
     ButtonComponent,
     AccordionBase,
     AggregateModal,
+    SymbolImage,
   },
   data() {
     return {
@@ -85,6 +92,7 @@ export default {
       currentAggregateId: '',
       currenAggregateName: '',
       aggregateModalOpen: false,
+      SystemPreviewImage,
     };
   },
   computed: {

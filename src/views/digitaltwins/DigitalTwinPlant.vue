@@ -2,7 +2,13 @@
   <DigitalTwinLayout layout="large">
     <template #left>
       <h1>{{ plantName }}</h1>
+      <LoadingSpinner
+        class="digital-twin-plant__image digital-twin-plant__image--loading"
+        v-if="plantStore.isLoading"
+        size="large"
+      />
       <SymbolImage
+        v-else
         :alt="plantName || 'Plant Name'"
         :src="SystemPreviewImage"
         class="digital-twin-plant__image"
@@ -19,8 +25,12 @@
           title="Coming soon"
         />
       </div>
-      <PlantDetails v-if="plant" :plant="plant" />
-      <div class="digital-twin-plant__modules">
+      <div v-if="plantStore.isLoading" class="digital-twin-plant__loading">
+        <LoadingSpinner size="large" />
+      </div>
+      <PlantDetails v-else-if="plant" :plant="plant" />
+      <LoadingCards v-if="plantStore.isLoading || plantStore.moduleState.isLoading" />
+      <div v-else class="digital-twin-plant__modules">
         <AccordionBase
           v-for="module in plantStore.moduleState.modules"
           :key="module.id"
@@ -69,6 +79,8 @@ import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import AccordionBase from '@/components/general/AccordionBase.vue';
 import AggregateModal from '@/components/digitaltwins/AggregateModal.vue';
 import SymbolImage from '@/components/general/SymbolImage.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import LoadingCards from '@/components/general/LoadingCards.vue';
 
 // Type imports
 import type { Aggregate } from '@/types/global/aggregate/Aggregate';
@@ -85,6 +97,8 @@ export default {
     AccordionBase,
     AggregateModal,
     SymbolImage,
+    LoadingSpinner,
+    LoadingCards,
   },
   data() {
     return {
@@ -122,6 +136,10 @@ export default {
     padding: $xxl;
     border-radius: $border-radius;
     background-color: $lightest;
+
+    &--loading {
+      aspect-ratio: 3 / 2;
+    }
   }
 
   &__head {
@@ -140,6 +158,10 @@ export default {
     display: flex;
     flex-direction: column;
     gap: $xxs;
+  }
+
+  &__loading {
+    padding: $xxl $m;
   }
 }
 

@@ -8,28 +8,30 @@
     @click="toggleSidebar(true)"
     @keydown.enter="toggleSidebar(true)"
   >
-    <button
-      type="button"
-      class="sidebar--button"
-      @click.stop="toggleSidebar(false)"
-      @keydown.enter.stop="toggleSidebar(false)"
-    >
-      Schließen <MaterialSymbol :symbol="IconTypes.CLOSE" />
-    </button>
-    <div class="sidebar--header">
-      <MaterialSymbol :symbol="IconTypes.KNOWLEDGE" size="x-large" />
-      <h2 class="sidebar--header-headline">Wissens-Sammlung</h2>
-      <h2 class="sidebar--header-headline-topic" v-if="knowledgeItem">
-        Wissen über <br /><strong>{{ knowledgeItem.title }}</strong>
-      </h2>
-      <h2 v-else class="sidebar--header-headline-topic">Wissens-Sammlung</h2>
+    <div class="sidebar__wrapper">
+      <button
+        type="button"
+        class="sidebar--button"
+        @click.stop="toggleSidebar(false)"
+        @keydown.enter.stop="toggleSidebar(false)"
+      >
+        Schließen <MaterialSymbol :symbol="IconTypes.CLOSE" />
+      </button>
+      <div class="sidebar--header">
+        <MaterialSymbol :symbol="IconTypes.KNOWLEDGE" size="x-large" />
+        <h2 class="sidebar--header-headline">Wissens-Sammlung</h2>
+        <h2 class="sidebar--header-headline-topic" v-if="knowledgeItem">
+          Wissen über <br /><strong>{{ knowledgeItem.title }}</strong>
+        </h2>
+        <h2 v-else class="sidebar--header-headline-topic">Wissens-Sammlung</h2>
+      </div>
+      <p class="sidebar--description" v-if="knowledgeItem">
+        {{ knowledgeItem.description[0].de }}
+      </p>
+      <p class="sidebar--description" v-else>
+        Hier finden Sie in Zukunft Wissen zu den verschiedenen Themenbereichen.
+      </p>
     </div>
-    <p class="sidebar--description" v-if="knowledgeItem">
-      {{ knowledgeItem.description[0].de }}
-    </p>
-    <p class="sidebar--description" v-else>
-      Hier finden Sie in Zukunft Wissen zu den verschiedenen Themenbereichen.
-    </p>
   </aside>
 </template>
 
@@ -109,6 +111,17 @@ export default {
   flex-direction: column;
   align-items: start;
 
+  &__wrapper {
+    position: fixed;
+    width: 40px;
+    transition: all 0.3s ease;
+  }
+
+  &--open &__wrapper {
+    position: fixed;
+    width: 315px;
+  }
+
   &--button {
     display: none;
   }
@@ -177,6 +190,7 @@ export default {
       right: 0;
       display: flex;
       align-items: center;
+      justify-self: flex-end;
     }
 
     & .sidebar--description {

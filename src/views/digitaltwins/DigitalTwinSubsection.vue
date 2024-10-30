@@ -1,5 +1,5 @@
 <template>
-  <DigitalTwinLayout>
+  <BaseLayout>
     <template #left>
       <h2>{{ subsectionName }}</h2>
       <div class="twin-subsection__schema-image">
@@ -34,7 +34,7 @@
         </div>
       </div>
     </template>
-  </DigitalTwinLayout>
+  </BaseLayout>
 </template>
 
 <script lang="ts">
@@ -49,7 +49,7 @@ import { useSubsectionStore } from '@/store/subsection';
 import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 // Component imports
-import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 import ListElement from '@/components/general/ListElement.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
@@ -61,7 +61,7 @@ import type { Plant } from '@/types/global/plant/Plant';
 export default {
   name: 'DigitalTwinSubsection',
   components: {
-    DigitalTwinLayout,
+    BaseLayout,
     ListElement,
     LoadingSpinner,
     LoadingCards,

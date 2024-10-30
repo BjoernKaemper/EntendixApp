@@ -73,7 +73,7 @@ export default {
     };
   },
   computed: {
-    knowledgeItem() {
+    knowledgeItem(): WissenssammlungItem | undefined {
       // return this.wissenssammlung.find((item) => item.title === this.topic);
       return undefined;
     },

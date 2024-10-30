@@ -13,7 +13,11 @@
       </div>
     </template>
     <template #right>
-      <LoadingCards v-if="isLoading" :card-count="1" card-class="right-side-loading" />
+      <LoadingCards
+        v-if="isLoading || plantStore.kpiState.isLoading"
+        :card-count="1"
+        card-class="right-side-loading"
+      />
       <div class="system-overview" v-else>
         <ChipComponent v-if="plant" :status="getChipStatusByCondition(plant?.data.condition)" />
         <AlertElement

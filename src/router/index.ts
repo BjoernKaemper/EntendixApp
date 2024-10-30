@@ -337,7 +337,9 @@ const routes = [
       const plantStore = usePlantStore();
       const plantId = Base64Helper.decode(JSON.parse(route.params.plantparams as string).plantid);
       if (plantStore.plant?.id !== plantId) {
-        plantStore.loadPlantInformation(plantId);
+        plantStore.loadPlantInformation(plantId).then(() => plantStore.fetchKpiChartData());
+      } else if (!plantStore.kpiState.kpis.length) {
+        plantStore.fetchKpiChartData();
       }
     },
   },

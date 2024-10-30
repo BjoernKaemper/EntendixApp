@@ -4,7 +4,12 @@
       <h2>{{ subsectionName }}</h2>
       <div class="twin-subsection__schema-image">
         <LoadingSpinner class="twin-subsection__schema-loading" v-if="isLoading" size="large" />
-        <AutomationHZG v-else />
+        <SymbolImage
+          v-else
+          :src="SubsectionPreviewImage"
+          :alt="`Schema der Anlage ${subsectionName}`"
+          :use-aspect-ratio="false"
+        />
       </div>
     </template>
     <template #right>
@@ -42,22 +47,24 @@ import { useSubsectionStore } from '@/store/subsection';
 
 // Component imports
 import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
-import AutomationHZG from '@/assets/AutomationHZG.vue';
 import ListElement from '@/components/general/ListElement.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
+import SymbolImage from '@/components/general/SymbolImage.vue';
 
 // Type imports
 import type { Plant } from '@/types/global/plant/Plant';
+
+import SubsectionPreviewImage from '@/assets/AutomationHZG.svg';
 
 export default {
   name: 'DigitalTwinSubsection',
   components: {
     DigitalTwinLayout,
-    AutomationHZG,
     ListElement,
     LoadingSpinner,
     LoadingCards,
+    SymbolImage,
   },
   data() {
     return {
@@ -112,6 +119,11 @@ export default {
     this.siteId = Base64Helper.decode(params.siteid);
     this.buildingName = params.buildingName;
     this.buildingId = Base64Helper.decode(params.buildingid);
+  },
+  setup() {
+    return {
+      SubsectionPreviewImage,
+    };
   },
 };
 </script>

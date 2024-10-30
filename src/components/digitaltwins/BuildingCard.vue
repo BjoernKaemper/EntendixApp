@@ -1,7 +1,11 @@
 <template>
   <div class="card">
     <h3>{{ buildingName }}</h3>
-    <img :src="BuildingCardPreview" :alt="`Schema des Gebäudes ${buildingName}`" />
+    <SymbolImage
+      :src="BuildingCardPreview"
+      :alt="`Schema des Gebäudes ${buildingName}`"
+      :use-aspect-ratio="false"
+    />
     <ButtonComponent
       text="Zur Verwaltung"
       state="primary"
@@ -15,6 +19,7 @@
 // Component imports
 import BuildingCardPreview from '@/assets/BuildingCardPreview.svg';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import SymbolImage from '@/components/general/SymbolImage.vue';
 
 // Type imports
 import type { PropType } from 'vue';
@@ -24,6 +29,7 @@ export default {
   name: 'BuildingCard',
   components: {
     ButtonComponent,
+    SymbolImage,
   },
   props: {
     /**

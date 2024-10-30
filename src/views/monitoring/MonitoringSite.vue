@@ -5,10 +5,11 @@
         {{ siteName }}
       </h2>
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
+      <!-- TODO: The Image should be user based -->
       <img
         v-else
         :alt="site?.data.siteName || 'Site Name'"
-        src="@/assets/3_campus_deutz_iwz_sharon_nathan_th_koeln.png"
+        :src="SitePreviewImage"
         class="site-image"
       />
 
@@ -80,6 +81,8 @@ import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
 
+import SitePreviewImage from '@/assets/3_campus_deutz_iwz_sharon_nathan_th_koeln.png';
+
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
@@ -102,6 +105,7 @@ export default {
       ActionTypes,
       ModuleTypes,
       AlertMessages,
+      SitePreviewImage,
     };
   },
 

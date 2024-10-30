@@ -3,9 +3,14 @@
     <div class="grid-wrapper--left">
       <h1>{{ plantName }}</h1>
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
+
       <div v-else class="image-container">
+        <SymbolImage
+          :src="SystemPreviewImage"
+          :alt="plant?.data.plantName || 'Plant Name'"
+          :use-aspect-ratio="false"
+        />
         <ButtonComponent text="im Digitalen Zwilling bearbeiten" />
-        <img :alt="plantName" src="@/assets/AutomationHeizkreis.svg" class="site-image" />
       </div>
     </div>
 
@@ -71,6 +76,9 @@ import AlertElement from '@/components/general/AlertElement.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import SystemAccordeon from '@/components/monitoring/SystemAccordeon.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
+import SymbolImage from '@/components/general/SymbolImage.vue';
+
+import SystemPreviewImage from '@/assets/AutomationHeizkreis.svg';
 
 export type Status = {
   title: string;
@@ -87,6 +95,7 @@ export default {
     StatusCard,
     SystemAccordeon,
     LoadingCards,
+    SymbolImage,
   },
   data() {
     return {
@@ -161,6 +170,7 @@ export default {
     return {
       IconTypes,
       ChipStatusTypes,
+      SystemPreviewImage,
     };
   },
   created() {

@@ -133,7 +133,7 @@ export const usePlantStore = defineStore('plant', {
     },
 
     /**
-     * Fetch detailed module data
+     * Fetch detailed module data for current plant
      */
     async fetchModuleData(): Promise<void> {
       if (!this.plant) {
@@ -143,6 +143,8 @@ export const usePlantStore = defineStore('plant', {
       if (!this.plant.data.modules) {
         throw new Error('No modules found');
       }
+
+      this.moduleState.isLoading = true;
 
       const generalStore = useGeneralStore();
       const queryCombined = {
@@ -154,12 +156,19 @@ export const usePlantStore = defineStore('plant', {
         return FetchHelper.apiCall(`/modules/${Base64Helper.encode(module.id)}/mediums?${q}`, {});
       });
 
-      await Promise.all(modulePromises).then((modules) => {
-        this.moduleState.modules = modules.sort((a, b) =>
-          a.data.moduleName.localeCompare(b.data.moduleName),
-        ) as Module[];
-        this.moduleState.requestTimestamp = DateTime.now();
-      });
+      await Promise.all(modulePromises)
+        .then((modules) => {
+          this.moduleState.modules = modules.sort((a, b) =>
+            a.data.moduleName.localeCompare(b.data.moduleName),
+          ) as Module[];
+          this.moduleState.requestTimestamp = DateTime.now();
+        })
+        .catch(() => {
+          this.moduleState.error = true;
+        })
+        .finally(() => {
+          this.moduleState.isLoading = false;
+        });
     },
   },
 });

@@ -1,5 +1,5 @@
 <template>
-  <ModalOverlay :isOpen="modelValue" @close="$emit('update:modelValue', false)" size="large">
+  <ModalOverlay :isOpen="modelValue" @close="handleClose" size="large">
     <template #header>
       <h5>Aggregat "{{ aggregateName }}"</h5>
     </template>
@@ -7,55 +7,144 @@
       <div v-if="aggregateLoading">
         <LoadingSpinner />
       </div>
-      <div v-else-if="aggregate">
-        <p>{{ aggregate.data.aggregateName }}</p>
-        <p>{{ aggregate.data.aggregateType }}</p>
-        <h6>Funktionen nach BACnet & BACtwin</h6>
-        <table class="aggregate-modal__table" cellspacing="0">
-          <tr>
-            <td colspan="2">BACnet</td>
-            <td colspan="6">BACtwin</td>
-          </tr>
-          <tr>
-            <th>Name</th>
-            <th>Beschreibung</th>
-            <th>Gewerk</th>
-            <th>Anlage</th>
-            <th>Baugruppe</th>
-            <th>Medium</th>
-            <th>Aggregat</th>
-            <th>Funktion</th>
-          </tr>
-          <tr
-            v-for="dataPoint in aggregate.data.dataPoints"
-            :key="dataPoint.dataPoint?.objectIdentifier"
-          >
-            <td class="aggregate-modal__data-name">{{ dataPoint.dataPoint?.objectName }}</td>
-            <td>{{ dataPoint.dataPoint?.description }}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>{{ dataPoint.description.de }}</td>
-          </tr>
-        </table>
+      <div v-else-if="aggregate" class="aggregate-modal__content">
+        <form class="aggregate-modal__section" ref="form" @submit.prevent="console.log('TODO')">
+          <h6>Informationen anpassen</h6>
+          <FormInput
+            id="aggregate-name"
+            label="Bezeichnung des Aggregats"
+            placeholder="Bezeichnung des Aggregats"
+            v-model="name.value.value"
+            :hasError="!name.isValid && formState.showErrors.value"
+            :error-message="formState.showErrors.value ? name.errorMessage.value : undefined"
+          />
+          <div class="aggregate-modal__input-group">
+            <legend>Versorgender Bereich (optional)</legend>
+            <div class="aggregate-modal__input-label-left">
+              <label for="aggregate-name" class="aggregate-modal__label">Etage</label>
+              <FormInput
+                id="aggregate-floor"
+                placeholder="Etage"
+                v-model="floor.value.value"
+                :hasError="!floor.isValid && formState.showErrors.value"
+                :error-message="formState.showErrors.value ? floor.errorMessage.value : undefined"
+                disabled
+                title="Coming soon"
+              />
+              <label for="aggregate-room" class="aggregate-modal__label">Raum</label>
+              <FormInput
+                id="aggregate-room"
+                placeholder="Raum"
+                v-model="room.value.value"
+                :hasError="!room.isValid && formState.showErrors.value"
+                :error-message="formState.showErrors.value ? room.errorMessage.value : undefined"
+                disabled
+                title="Coming soon"
+              />
+            </div>
+          </div>
+
+          <FileInput
+            id="file-upload"
+            label="Technische Datenblätter (optional)"
+            select-prompt="Schemata oder Grundrisse auswählen..."
+            disabled
+            title="Coming soon"
+            accepts="image/*,.pdf"
+          />
+        </form>
+        <section class="aggregate-modal__section">
+          <h6>Funktionen nach BACnet & BACtwin</h6>
+          <table class="aggregate-modal__table" cellspacing="0">
+            <tr>
+              <td colspan="2" class="aggregate-modal__table-sub-heading">BACnet</td>
+              <td colspan="6" class="aggregate-modal__table-sub-heading">BACtwin</td>
+            </tr>
+            <tr>
+              <th>Name</th>
+              <th>Beschreibung</th>
+              <th>Gewerk</th>
+              <th>Anlage</th>
+              <th>Baugruppe</th>
+              <th>Medium</th>
+              <th>Aggregat</th>
+              <th>Funktion</th>
+            </tr>
+            <tr
+              v-for="dataPoint in aggregate.data.dataPoints"
+              :key="dataPoint.dataPoint?.objectIdentifier"
+            >
+              <td class="aggregate-modal__data-name">{{ dataPoint.dataPoint?.objectName }}</td>
+              <td>{{ dataPoint.dataPoint?.description }}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{ dataPoint.description.de }}</td>
+            </tr>
+          </table>
+        </section>
       </div>
     </template>
+    <template #footer>
+      <ButtonComponent text="Abbrechen" @click="handleClose" state="secondary" />
+      <ButtonComponent
+        type="submit"
+        text="Bestätigen"
+        state="primary"
+        icon="check"
+        @click="submitForm"
+      />
+    </template>
   </ModalOverlay>
+  <InterceptionModal
+    :isOpen="interceptLeave.isOpen.value"
+    @cancel="interceptLeave.abortAction"
+    @confirm="interceptLeave.confirmAction"
+    title="Änderungen verwerfen?"
+    confirmText="Änderungen verwerfen"
+  >
+    <template #body>
+      <p>
+        Sind Sie sicher, dass Sie den aktuellen Dialog schließen wollen? Die von Ihnen vorgenommenen
+        <strong>Änderungen gehen verloren.</strong>
+      </p>
+    </template>
+  </InterceptionModal>
 </template>
 
 <script lang="ts">
-import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
+// Store imports
 import { useAggregateStore } from '@/store/aggregate';
+
+// Hook imports
+import { useInput } from '@/hooks/useInput';
+import { useFormManager } from '@/hooks/useFormManager';
+import { useModalInterception } from '@/hooks/useModalInterception';
+import { usePageLeaveInterception } from '@/hooks/usePageLeaveInteception';
+
+// Component imports
+import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
 import type { Aggregate } from '@/types/global/aggregate/Aggregate';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
+import FileInput from '@/components/general/forms/FileInput.vue';
+import FormInput from '@/components/general/forms/FormInput.vue';
+import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import { requiredValidator } from '@/helpers/FormValidators';
+import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
+
+// Helpers
 
 export default {
   name: 'AggregateModal',
   components: {
     ModalOverlay,
     LoadingSpinner,
+    FileInput,
+    FormInput,
+    ButtonComponent,
+    InterceptionModal,
   },
   props: {
     /**
@@ -83,11 +172,26 @@ export default {
   emits: {
     'update:modelValue': (() => true) as (value: boolean) => void,
   },
-  setup() {
+  setup(props) {
     const aggregateStore = useAggregateStore();
 
+    const name = useInput([requiredValidator], props.aggregateName);
+    const floor = useInput([], '');
+    const room = useInput([], '');
+
+    const formState = useFormManager([name, floor, room]);
+
+    const interceptLeave = useModalInterception();
+
+    usePageLeaveInterception(formState.isChanged, interceptLeave.interceptAction);
+
     return {
+      name,
+      floor,
+      room,
+      formState,
       aggregateStore,
+      interceptLeave,
     };
   },
   data() {
@@ -97,16 +201,47 @@ export default {
     };
   },
   watch: {
-    aggregateId() {
-      this.aggregateLoading = true;
-      this.aggregateStore
-        .getAggregate(this.aggregateId)
-        .then((aggregate) => {
-          this.aggregate = aggregate;
-        })
-        .finally(() => {
-          this.aggregateLoading = false;
-        });
+    aggregateId: {
+      handler() {
+        this.aggregateLoading = true;
+        this.aggregateStore
+          .getAggregate(this.aggregateId)
+          .then((aggregate) => {
+            this.aggregate = aggregate;
+          })
+          .finally(() => {
+            this.aggregateLoading = false;
+          });
+      },
+      immediate: true,
+    },
+    aggregateName() {
+      this.name.value.value = this.aggregateName;
+    },
+  },
+  methods: {
+    submitForm() {
+      if (!this.$refs.form) {
+        return;
+      }
+
+      const form = this.$refs.form as HTMLFormElement;
+
+      form.requestSubmit();
+    },
+    handleClose() {
+      if (!this.formState.isChanged.value) {
+        this.$emit('update:modelValue', false);
+        return;
+      }
+
+      this.interceptLeave.interceptAction(
+        () => {
+          this.$emit('update:modelValue', false);
+          this.formState.reset();
+        },
+        () => {},
+      );
     },
   },
 };
@@ -114,6 +249,12 @@ export default {
 
 <style lang="scss" scoped>
 .aggregate-modal {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $m;
+  }
+
   &__table {
     width: 100%;
     table-layout: fixed;
@@ -124,7 +265,7 @@ export default {
       padding: $xxxs $xxs $xxxs 0;
     }
 
-    & td {
+    & td:not(&-sub-heading) {
       word-break: break-word;
       border-bottom: 1px solid $light-purple-20;
       padding: $xxxs $xxs $xxxs 0;
@@ -134,5 +275,41 @@ export default {
   &__data-name {
     font-family: $font-family-mono;
   }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: $xxs;
+  }
+
+  &__input-group {
+    border: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $xxxs;
+  }
+
+  &__input-label-left {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: $xxxs $xxs;
+  }
+
+  &__label {
+    @include content;
+    min-width: 50px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+h5 {
+  @include content-subtitle;
+  color: $dark-purple;
+}
+
+h6 {
+  @include section-headline;
 }
 </style>

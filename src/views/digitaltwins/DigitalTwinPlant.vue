@@ -61,6 +61,7 @@
     v-model="aggregateModalOpen"
     :aggregateId="currentAggregateId"
     :aggregateName="currenAggregateName"
+    :key="currentAggregateId"
   />
 </template>
 

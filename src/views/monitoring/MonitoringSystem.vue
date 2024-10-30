@@ -5,7 +5,7 @@
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
       <div v-else class="image-container">
         <SymbolImage
-          :src="SystemPreviewImage"
+          :src="SymbolImageHelper.getImage(plant!.data.parentType, plant!.data.plantType)"
           :alt="plant?.data.plantName || 'Plant Name'"
           :use-aspect-ratio="false"
         />
@@ -77,7 +77,7 @@ import LoadingCards from '@/components/general/LoadingCards.vue';
 import SymbolImage from '@/components/general/SymbolImage.vue';
 import BaseLayout from '@/components/general/BaseLayout.vue';
 
-import SystemPreviewImage from '@/assets/AutomationHeizkreis.svg';
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 export type Status = {
   title: string;
@@ -165,7 +165,7 @@ export default {
     return {
       IconTypes,
       ChipStatusTypes,
-      SystemPreviewImage,
+      SymbolImageHelper,
     };
   },
   created() {

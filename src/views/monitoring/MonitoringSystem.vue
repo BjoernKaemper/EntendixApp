@@ -14,7 +14,11 @@
       </div>
     </div>
 
-    <LoadingCards v-if="isLoading" :card-count="1" card-class="right-side-loading" />
+    <LoadingCards
+      v-if="isLoading || plantStore.kpiState.isLoading"
+      :card-count="1"
+      card-class="right-side-loading"
+    />
     <div v-else class="grid-wrapper--right">
       <ChipComponent v-if="plant" :status="getChipStatusByCondition(plant?.data.condition)" />
       <AlertElement

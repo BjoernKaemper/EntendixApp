@@ -1,7 +1,6 @@
 <template>
-  <div class="grid-wrapper">
-    <!-- left side of grid -->
-    <div class="grid-wrapper--left">
+  <BaseLayout :show-sidebar="false">
+    <template #left>
       <h2>{{ building?.data.buildingName || buildingName }}</h2>
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
       <SymbolImage
@@ -39,53 +38,16 @@
           :is-toast="false"
         />
         <div v-else-if="issues" class="issues">
-          <!-- @TODO: remove placeholders after data is in place -->
-          <p>Wäremversorgung</p>
-          <StatusCard
-            title="Wärmeerzeuger 1"
-            subtitle="Ursache: Unter Sollwert"
-            :isBordered="false"
-            :status="ComponentStatusTypes.ERROR_COMPONENT"
-            :actionType="ActionTypes.ARROW"
-            :isLoading="isLoading"
-          />
-          <StatusCard
-            title="Heizkreis 1"
-            subtitle="Ursache: Über Sollwert"
-            :isBordered="false"
-            :status="ComponentStatusTypes.ERROR_COMPONENT"
-            :actionType="ActionTypes.ARROW"
-            :isLoading="isLoading"
-          />
-          <p>Stromversorgung</p>
-          <StatusCard
-            title="Stromkreislauf 1"
-            subtitle="Ursache: Über Sollwert"
-            :isBordered="false"
-            :status="ComponentStatusTypes.WARNING_COMPONENT"
-            :actionType="ActionTypes.ARROW"
-            :isLoading="isLoading"
-          />
-          <StatusCard
-            v-for="(kpi, idx) in kpis"
-            :key="idx"
-            :title="kpi.data.name.de"
-            :isBordered="false"
-            :status="ComponentStatusTypes.ERROR_COMPONENT"
-            :actionType="ActionTypes.ARROW"
-            :timestamp="kpi.data.annotations[0]?.timestampOfCreation"
-            :isLoading="isLoading"
-          />
+          <!-- TODO: Replace with real issues -->
+          <p>Hier finden Sie in Zukunft die aktuellen Probleme in den Komponenten.</p>
         </div>
         <div v-else class="no-issues">
           <p>Aktuell sind alle Komponenten im Zielbereich.</p>
           <p>Es gibt keine kritischen Abweichungen oder Warnungen.</p>
         </div>
       </div>
-    </div>
-
-    <!-- right side of grid -->
-    <div class="grid-wrapper--right">
+    </template>
+    <template #right>
       <div class="performance-header">
         <h3>Performance des Gebäudes</h3>
         <TimeRangeDropdown />
@@ -111,8 +73,8 @@
           />
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </BaseLayout>
 </template>
 
 <script lang="ts">
@@ -144,6 +106,7 @@ import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
 import SymbolImage from '@/components/general/SymbolImage.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 
 import { AlertMessages } from '@/assets/json/AlertMessages';
 import BuildingPreviewImage from '@/assets/AutomationKlima.svg';
@@ -156,6 +119,7 @@ export default {
     TimeRangeDropdown,
     AlertElement,
     SymbolImage,
+    BaseLayout,
   },
 
   data() {
@@ -306,19 +270,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.grid-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 2fr auto;
-  grid-gap: $m;
-
-  &--left,
-  &--right {
-    display: flex;
-    flex-direction: column;
-    gap: $s;
-  }
-}
-
 :deep(.image-loading) {
   height: 300px;
 }
@@ -397,6 +348,7 @@ img {
   width: 100%;
   border-radius: $border-radius;
 }
+
 :deep(.problems-loading) {
   background-color: transparent;
 }

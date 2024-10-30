@@ -1,12 +1,12 @@
 <template>
-  <DigitalTwinLayout>
+  <BaseLayout>
     <template #left>
       <h2>{{ subsectionName }}</h2>
       <div class="twin-subsection__schema-image">
         <LoadingSpinner class="twin-subsection__schema-loading" v-if="isLoading" size="large" />
         <SymbolImage
           v-else
-          :src="SubsectionPreviewImage"
+          :src="SymbolImageHelper.getImage(subsection!.data.tradeType)"
           :alt="`Schema der Anlage ${subsectionName}`"
           :use-aspect-ratio="false"
         />
@@ -34,7 +34,7 @@
         </div>
       </div>
     </template>
-  </DigitalTwinLayout>
+  </BaseLayout>
 </template>
 
 <script lang="ts">
@@ -45,8 +45,11 @@ import Base64Helper from '@/helpers/Base64Helper';
 // Store imports
 import { useSubsectionStore } from '@/store/subsection';
 
+// Helper imports
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
+
 // Component imports
-import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 import ListElement from '@/components/general/ListElement.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
@@ -55,12 +58,10 @@ import SymbolImage from '@/components/general/SymbolImage.vue';
 // Type imports
 import type { Plant } from '@/types/global/plant/Plant';
 
-import SubsectionPreviewImage from '@/assets/AutomationHZG.svg';
-
 export default {
   name: 'DigitalTwinSubsection',
   components: {
-    DigitalTwinLayout,
+    BaseLayout,
     ListElement,
     LoadingSpinner,
     LoadingCards,
@@ -122,7 +123,7 @@ export default {
   },
   setup() {
     return {
-      SubsectionPreviewImage,
+      SymbolImageHelper,
     };
   },
 };

@@ -1,15 +1,14 @@
 <template>
-  <div class="grid-wrapper">
-    <div class="grid-wrapper--left">
+  <BaseLayout :show-sidebar="false">
+    <template #left>
       <h2>
         {{ siteName }}
       </h2>
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
-      <!-- TODO: The Image should be user based -->
       <img
         v-else
         :alt="site?.data.siteName || 'Site Name'"
-        :src="SitePreviewImage"
+        :src="site?.data.imagesrc || SymbolImageHelper.getImage('default', 'default')"
         class="site-image"
       />
 
@@ -37,8 +36,8 @@
           :isLoading="isLoading"
         />
       </div>
-    </div>
-    <div class="grid-wrapper--right">
+    </template>
+    <template #right>
       <div class="performance-header">
         <h3>Performance der Liegenschaft</h3>
         <TimeRangeDropdown />
@@ -60,8 +59,8 @@
           :moduleName="siteName"
         />
       </div>
-    </div>
-  </div>
+    </template>
+  </BaseLayout>
 </template>
 <script lang="ts">
 // Libraries
@@ -73,6 +72,7 @@ import type { DateTime } from 'luxon';
 
 // Helpers
 import Base64Helper from '@/helpers/Base64Helper';
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 // Components
 import StatusCard from '@/components/general/StatusCard.vue';
@@ -80,8 +80,7 @@ import ChartContainer from '@/components/monitoring/ChartContainer.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
-
-import SitePreviewImage from '@/assets/3_campus_deutz_iwz_sharon_nathan_th_koeln.png';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
@@ -97,6 +96,7 @@ export default {
     LoadingCards,
     TimeRangeDropdown,
     AlertElement,
+    BaseLayout,
   },
 
   setup() {
@@ -105,7 +105,7 @@ export default {
       ActionTypes,
       ModuleTypes,
       AlertMessages,
-      SitePreviewImage,
+      SymbolImageHelper,
     };
   },
 
@@ -190,19 +190,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.grid-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: $m;
-
-  &--left,
-  &--right {
-    display: flex;
-    flex-direction: column;
-    gap: $s;
-  }
-}
-
 .site-image {
   width: 100%;
   height: auto;

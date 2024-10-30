@@ -11,30 +11,32 @@
       />
     </template>
     <template #right>
-      <div class="grid-wrapper--right--header">
-        <h2>Performance in den Funktionsbereichen</h2>
-        <ChipComponent
-          v-if="subsection"
-          :status="getChipStatusByCondition(subsection.data.condition)"
-        />
-      </div>
-      <div class="grid-wrapper--right--content">
-        <LoadingCards v-if="isLoading" :card-count="3" />
-        <div v-else v-for="plantType in subsection?.data.plantsByType" :key="plantType.type">
-          <h3>{{ plantType.name }}</h3>
-          <div>
-            <StatusCard
-              v-for="plant in plantType.plants"
-              @click="openPlant(plant.data.plantName, plant.id)"
-              :key="plant.id"
-              :isLoading="false"
-              :title="plant.data.plantName"
-              subtitle=""
-              :isBordered="false"
-              :status="getModuleChipStatusByCondition(plant.data.condition)"
-              :actionType="ActionTypes.ARROW"
-              timestamp="2024-08-14T18:27:00"
-            />
+      <div class="plant-performance">
+        <div class="plant-performance__header">
+          <h2>Performance in den Funktionsbereichen</h2>
+          <ChipComponent
+            v-if="subsection"
+            :status="getChipStatusByCondition(subsection.data.condition)"
+          />
+        </div>
+        <div class="plant-performance__content">
+          <LoadingCards v-if="isLoading" :card-count="3" />
+          <div v-else v-for="plantType in subsection?.data.plantsByType" :key="plantType.type">
+            <h3>{{ plantType.name }}</h3>
+            <div>
+              <StatusCard
+                v-for="plant in plantType.plants"
+                @click="openPlant(plant.data.plantName, plant.id)"
+                :key="plant.id"
+                :isLoading="false"
+                :title="plant.data.plantName"
+                subtitle=""
+                :isBordered="false"
+                :status="getModuleChipStatusByCondition(plant.data.condition)"
+                :actionType="ActionTypes.ARROW"
+                timestamp="2024-08-14T18:27:00"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -71,7 +73,6 @@ import SubsectionPreviewImage from '@/assets/AutomationHZG.svg';
 export default {
   data() {
     return {
-      isSidebarOpen: false,
       subsectionName: '',
       subsectionId: '',
       siteName: '',
@@ -99,9 +100,6 @@ export default {
   },
 
   methods: {
-    toggleSidebar(state: boolean) {
-      this.isSidebarOpen = state;
-    },
     getChipStatusByCondition(condition: ConditionTypes): ChipStatusTypes {
       switch (condition) {
         case ConditionTypes.HEALTHY:
@@ -168,49 +166,32 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.grid-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 2fr 80px;
-  grid-gap: $m;
-  transition: grid-template-columns 0.3s ease;
+.plant-performance {
+  display: flex;
+  flex-direction: column;
+  gap: $m;
 
-  &--left {
+  &__header {
     display: flex;
-    flex-direction: column;
-    gap: $xl;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  &--right {
+  &__content {
     display: flex;
     flex-direction: column;
-    gap: $m;
+    gap: $l;
 
-    &--header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &--content {
+    & > div {
       display: flex;
       flex-direction: column;
-      gap: $l;
-
+      gap: $xxs;
       & > div {
         display: flex;
         flex-direction: column;
         gap: $xxs;
-        & > div {
-          display: flex;
-          flex-direction: column;
-          gap: $xxs;
-        }
       }
     }
-  }
-
-  &--sidebar-open {
-    grid-template-columns: 1fr 2fr 355px; // Sidebar open, width 355px
   }
 }
 

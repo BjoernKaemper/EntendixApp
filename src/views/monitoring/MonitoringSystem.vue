@@ -98,7 +98,6 @@ export default {
   },
   data() {
     return {
-      isSidebarOpen: false,
       subsectionName: '',
       subsectionId: '',
       siteName: '',
@@ -148,9 +147,6 @@ export default {
     },
   },
   methods: {
-    toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
-    },
     getChipStatusByCondition(condition: ConditionTypes | undefined): ChipStatusTypes {
       switch (condition) {
         case ConditionTypes.HEALTHY:

@@ -32,13 +32,15 @@
       <LoadingCards v-if="plantStore.isLoading || plantStore.moduleState.isLoading" />
       <div v-else class="digital-twin-plant__modules">
         <AccordionBase
-          v-for="module in plantStore.moduleState.modules"
+          v-for="module in filteredModules"
           :key="module.id"
           :title="module.data.moduleName"
         >
           <template #content>
             <div
-              v-for="medium in module.data.mediums"
+              v-for="medium in module.data.mediums?.filter(
+                (medium) => medium.data.aggregates?.length,
+              )"
               :key="medium.id"
               class="digital-twin-plant__medium"
             >
@@ -119,6 +121,24 @@ export default {
 
     plant() {
       return this.plantStore.plant;
+    },
+
+    /**
+     * Array of modules that contain at least one medium that also has at leas
+     * one aggregate
+     */
+    filteredModules() {
+      return this.plantStore.moduleState.modules.filter((module) => {
+        if (!module.data.mediums?.length) {
+          return false;
+        }
+
+        if (module.data.mediums.every((medium) => medium.data.aggregates?.length === 0)) {
+          return false;
+        }
+
+        return true;
+      });
     },
   },
   methods: {

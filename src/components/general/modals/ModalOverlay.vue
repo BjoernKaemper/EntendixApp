@@ -133,19 +133,24 @@ export default {
     width: 100%;
     max-width: 500px;
     margin: 0 $s;
-    padding: $m;
     z-index: 1001;
+    max-height: calc(100vh - 2 * $xxl);
+    overflow-y: auto;
 
     &--large {
       max-width: 1200px;
     }
 
     &__header {
-      margin-bottom: $s;
+      padding: $m;
+      background-color: $lightest;
+      position: sticky;
+      top: 0;
       @include content-subtitle;
       display: flex;
       justify-content: space-between;
       align-items: start;
+      z-index: 1;
 
       & > span {
         cursor: pointer;
@@ -156,7 +161,7 @@ export default {
       display: flex;
       flex-direction: column;
       gap: $m;
-      margin-bottom: $s;
+      padding: 0 $m;
       @include content;
     }
 
@@ -164,6 +169,11 @@ export default {
       display: flex;
       justify-content: flex-end;
       gap: $xxs;
+      padding: $m;
+      background-color: $lightest;
+      position: sticky;
+      bottom: 0;
+      z-index: 1;
       @include content;
 
       & > button {

@@ -1,5 +1,5 @@
 <template>
-  <DigitalTwinLayout layout="large">
+  <BaseLayout layout="large">
     <template #left>
       <h1>{{ plantName }}</h1>
       <LoadingSpinner
@@ -28,8 +28,18 @@
       <div v-if="plantStore.isLoading" class="digital-twin-plant__loading">
         <LoadingSpinner size="large" />
       </div>
+      <AlertElement
+        v-else-if="plantStore.error"
+        :alert="AlertMessages.CANNOT_LOAD"
+        :is-toast="false"
+      />
       <PlantDetails v-else-if="plant" :plant="plant" />
       <LoadingCards v-if="plantStore.isLoading || plantStore.moduleState.isLoading" />
+      <AlertElement
+        v-else-if="!plantStore.error && plantStore.moduleState.error"
+        :alert="AlertMessages.CANNOT_LOAD"
+        :is-toast="false"
+      />
       <div v-else class="digital-twin-plant__modules">
         <AccordionBase
           v-for="module in filteredModules"
@@ -60,7 +70,7 @@
         </AccordionBase>
       </div>
     </template>
-  </DigitalTwinLayout>
+  </BaseLayout>
   <AggregateModal
     v-if="aggregateModalData"
     v-model="aggregateModalOpen"
@@ -77,7 +87,7 @@ import { mapStores } from 'pinia';
 import { usePlantStore } from '@/store/plant';
 
 // Component imports
-import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 import ListElement from '@/components/general/ListElement.vue';
 import PlantDetails from '@/components/digitaltwins/PlantDetails.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
@@ -88,16 +98,20 @@ import AggregateModal, {
 import SymbolImage from '@/components/general/SymbolImage.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
+import AlertElement from '@/components/general/AlertElement.vue';
 
 // Type imports
 import type { Aggregate } from '@/types/global/aggregate/Aggregate';
+
+// Data imports
+import { AlertMessages } from '@/assets/json/AlertMessages';
 
 // Image imports
 import SystemPreviewImage from '@/assets/AutomationHeizkreis.svg';
 
 export default {
   components: {
-    DigitalTwinLayout,
+    BaseLayout,
     ListElement,
     PlantDetails,
     ButtonComponent,
@@ -106,6 +120,7 @@ export default {
     SymbolImage,
     LoadingSpinner,
     LoadingCards,
+    AlertElement,
   },
   data() {
     return {
@@ -114,6 +129,7 @@ export default {
       aggregateModalData: null as AggregateModalData | null,
       aggregateModalOpen: false,
       SystemPreviewImage,
+      AlertMessages,
     };
   },
   computed: {

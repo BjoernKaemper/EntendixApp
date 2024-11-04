@@ -34,6 +34,18 @@
         :is-toast="false"
       />
       <PlantDetails v-else-if="plant" :plant="plant" />
+
+      <AlertElement
+        v-if="
+          !plantStore.error &&
+          !plantStore.moduleState.error &&
+          !plantStore.isLoading &&
+          !plantStore.moduleState.isLoading &&
+          plantStore.moduleState.partialError
+        "
+        :alert="AlertMessages.PARTIAL_DATA"
+        :is-toast="false"
+      />
       <LoadingCards v-if="plantStore.isLoading || plantStore.moduleState.isLoading" />
       <AlertElement
         v-else-if="!plantStore.error && plantStore.moduleState.error"

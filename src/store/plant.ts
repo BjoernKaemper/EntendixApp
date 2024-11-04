@@ -22,6 +22,7 @@ interface PlantStoreState {
     isLoading: boolean;
     requestTimestamp: DateTime | null;
     error: boolean;
+    partialError: boolean;
   };
   kpiState: {
     kpis: Kpi[];
@@ -46,6 +47,7 @@ const defaultModuleState = {
   isLoading: false,
   requestTimestamp: null,
   error: false,
+  partialError: false,
 };
 
 const defaultStoreState = {
@@ -132,6 +134,8 @@ export const usePlantStore = defineStore('plant', {
       }
 
       this.moduleState.isLoading = true;
+      this.moduleState.error = false;
+      this.moduleState.partialError = false;
 
       const generalStore = useGeneralStore();
       const queryCombined = {
@@ -143,9 +147,25 @@ export const usePlantStore = defineStore('plant', {
         return FetchHelper.apiCall(`/modules/${Base64Helper.encode(module.id)}/mediums?${q}`, {});
       });
 
-      await Promise.all(modulePromises)
-        .then((modules) => {
-          this.moduleState.modules = modules.sort((a, b) =>
+      await Promise.allSettled(modulePromises)
+        .then((results) => {
+          results.forEach((result) => {
+            if (result.status === 'rejected') {
+              this.moduleState.partialError = true;
+              return;
+            }
+
+            this.moduleState.modules.push(result.value);
+          });
+
+          if (
+            this.moduleState.partialError &&
+            results.every((result) => result.status === 'rejected')
+          ) {
+            throw new Error("Couldn't fetch any module data");
+          }
+
+          this.moduleState.modules.sort((a, b) =>
             a.data.moduleName.localeCompare(b.data.moduleName),
           ) as Module[];
           this.moduleState.requestTimestamp = DateTime.now();

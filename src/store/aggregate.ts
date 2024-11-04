@@ -15,6 +15,14 @@ export const useAggregateStore = defineStore('aggregate', {
     aggregates: new Map(),
   }),
   actions: {
+    /**
+     * Get data for a specific aggregate\
+     * Returns local data if it is present or fetches it from the API\
+     * Throws errors to be handled in the component!
+     * @param id - The id of the aggregate
+     * @returns Full aggregate data
+     * @throws Error
+     */
     async getAggregate(id: string): Promise<Aggregate | null> {
       const presentAggregate = this.aggregates.get(id);
 
@@ -30,16 +38,10 @@ export const useAggregateStore = defineStore('aggregate', {
       };
       const q = QueryHelper.queryify(queryCombined);
 
-      try {
-        const aggregate = await FetchHelper.apiCall(`/aggregates/${Base64Helper.encode(id)}?${q}`);
-        this.aggregates.set(id, { ...aggregate, requestTimestamp: DateTime.now() });
+      const aggregate = await FetchHelper.apiCall(`/aggregates/${Base64Helper.encode(id)}?${q}`);
+      this.aggregates.set(id, { ...aggregate, requestTimestamp: DateTime.now() });
 
-        return aggregate;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to fetch aggregate', error);
-        return null;
-      }
+      return aggregate;
     },
   },
 });

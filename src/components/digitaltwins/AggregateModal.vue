@@ -7,6 +7,7 @@
       <div v-if="aggregateLoading">
         <LoadingSpinner />
       </div>
+      <AlertElement v-else-if="loadingError" :alert="AlertMessages.CANNOT_LOAD" :is-toast="false" />
       <div v-else-if="aggregate" class="aggregate-modal__content">
         <form class="aggregate-modal__section" ref="form" @submit.prevent="console.log('TODO')">
           <h6>Informationen anpassen</h6>
@@ -118,6 +119,9 @@
 // Store imports
 import { useAggregateStore } from '@/store/aggregate';
 
+// Library imports
+import type { PropType } from 'vue';
+
 // Hook imports
 import { useInput } from '@/hooks/useInput';
 import { useFormManager } from '@/hooks/useFormManager';
@@ -131,9 +135,14 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import FileInput from '@/components/general/forms/FileInput.vue';
 import FormInput from '@/components/general/forms/FormInput.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
-import { requiredValidator } from '@/helpers/FormValidators';
 import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
-import type { PropType } from 'vue';
+import AlertElement from '@/components/general/AlertElement.vue';
+
+// Helper imports
+import { requiredValidator } from '@/helpers/FormValidators';
+
+// Data import
+import { AlertMessages } from '@/assets/json/AlertMessages';
 
 export interface AggregateModalData {
   aggregateId: string;
@@ -153,6 +162,7 @@ export default {
     FormInput,
     ButtonComponent,
     InterceptionModal,
+    AlertElement,
   },
   props: {
     /**
@@ -198,7 +208,9 @@ export default {
   data() {
     return {
       aggregateLoading: false,
+      loadingError: false,
       aggregate: null as null | Aggregate,
+      AlertMessages,
     };
   },
   watch: {
@@ -213,6 +225,9 @@ export default {
           .getAggregate(this.data.aggregateId)
           .then((aggregate) => {
             this.aggregate = aggregate;
+          })
+          .catch(() => {
+            this.loadingError = true;
           })
           .finally(() => {
             this.aggregateLoading = false;

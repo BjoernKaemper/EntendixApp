@@ -11,6 +11,7 @@ import type { Alert } from '@/types/local/Alert';
 import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
+import { type SiteWithDataurl } from '@/types/local/Site';
 
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
@@ -35,7 +36,7 @@ interface GeneralStoreState {
   alerts: Alert[];
   baseInfoState: {
     companies: Company[];
-    sites: Site[];
+    sites: SiteWithDataurl[];
     requestTimestamp: DateTime | null;
     isLoading: boolean;
   };
@@ -230,7 +231,9 @@ export const useGeneralStore = defineStore('general', {
             requestOptions,
           );
           const blob = await resp.blob();
-          this.baseInfoState.sites[idx].data.imagesrc = (await UrlHelper.createURL(blob)) as string;
+          this.baseInfoState.sites[idx].data.imageDataUrl = (await UrlHelper.createURL(
+            blob,
+          )) as string;
         }
       });
     },

@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 // Types
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
 import type { Kpi } from '@/types/global/kpi/Kpi';
+import { type SiteWithBuildinginformationAndDataurl } from '@/types/local/Site';
 
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
@@ -16,7 +17,7 @@ import UrlHelper from '@/helpers/UrlHelper';
 import { useGeneralStore } from './general';
 
 interface SiteStoreState {
-  site: SiteWithBuildinginformation | null;
+  site: SiteWithBuildinginformationAndDataurl | null;
   kpiState: {
     kpis: Kpi[];
     requestTimestamp: DateTime | null;
@@ -138,7 +139,7 @@ export const useSiteStore = defineStore('site', {
           requestOptions,
         );
         const blob = await resp.blob();
-        this.site.data.imagesrc = (await UrlHelper.createURL(blob)) as string;
+        this.site.data.imageDataUrl = (await UrlHelper.createURL(blob)) as string;
       }
     },
   },

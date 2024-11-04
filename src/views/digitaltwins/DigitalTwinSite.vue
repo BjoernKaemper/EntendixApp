@@ -1,5 +1,5 @@
 <template>
-  <DigitalTwinLayout>
+  <BaseLayout>
     <template #left>
       <h1>{{ siteName || 'Loading' }}</h1>
       <div v-if="isLoading" class="digital-twin-site__site-loading">
@@ -34,7 +34,7 @@
         <NoBuildingsMessage />
       </div>
     </template>
-  </DigitalTwinLayout>
+  </BaseLayout>
   <AddBuildingModal v-model="addBuildingModalIsOpen" />
 </template>
 
@@ -47,7 +47,7 @@ import { mapStores } from 'pinia';
 import Base64Helper from '@/helpers/Base64Helper';
 
 // Component imports
-import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 import BuildingCard from '@/components/digitaltwins/BuildingCard.vue';
 import SiteDetails from '@/components/digitaltwins/SiteDetails.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
@@ -62,7 +62,7 @@ import { IconTypes } from '@/types/enums/IconTypes';
 
 export default {
   components: {
-    DigitalTwinLayout,
+    BaseLayout,
     BuildingCard,
     SiteDetails,
     ButtonComponent,

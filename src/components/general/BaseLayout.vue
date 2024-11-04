@@ -1,20 +1,21 @@
 <template>
   <div
     :class="[
-      'digital-twin-layout',
+      'base-layout',
       {
-        'digital-twin-layout--sidebar-open': isSidebarOpen,
-        [`digital-twin-layout--${layout}`]: layout,
+        [`base-layout--${layout}`]: layout,
+        'base-layout--sidebar-open': isSidebarOpen,
+        'base-layout--no-sidebar': !showSidebar,
       },
     ]"
   >
-    <div class="digital-twin-layout--left">
+    <div class="base-layout--left">
       <slot name="left" />
     </div>
-    <div class="digital-twin-layout--right">
+    <div class="base-layout--right">
       <slot name="right" />
     </div>
-    <SideBar @toggle-sidebar="toggleSidebar" :topic="sideBarTopic" />
+    <SideBar v-if="showSidebar" @toggle-sidebar="toggleSidebar" :topic="sideBarTopic" />
   </div>
 </template>
 
@@ -29,11 +30,15 @@ export default {
   props: {
     sideBarTopic: {
       type: String,
-      default: 'Wäremversorgung',
+      default: '',
     },
     layout: {
       type: String as PropType<'default' | 'large'>,
       default: 'default',
+    },
+    showSidebar: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -50,7 +55,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.digital-twin-layout {
+.base-layout {
   $self: &;
   display: grid;
   grid-template-columns: 1fr 2fr 80px; // Sidebar closed, width 0
@@ -58,8 +63,16 @@ export default {
   gap: 2rem;
   min-height: 100%;
 
+  &--no-sidebar {
+    grid-template-columns: 1fr 2fr;
+  }
+
   &--large {
     grid-template-columns: repeat(3, 1fr) repeat(8, 1fr) 80px;
+  }
+
+  &--large &--no-sidebar {
+    grid-template-columns: repeat(3, 1fr) repeat(8, 1fr);
   }
 
   &--large &--left {
@@ -68,6 +81,10 @@ export default {
 
   &--large &--right {
     grid-column: span 8;
+  }
+
+  &--large#{$self}--sidebar-open {
+    grid-template-columns: repeat(3, 1fr) repeat(8, 1fr) 355px;
   }
 
   &--sidebar-open {

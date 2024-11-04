@@ -1,30 +1,37 @@
 <template>
+  <!-- TODO: replace the or with an and, this is just for the Coming Soon Placeholder -->
   <aside
-    v-if="wissenssammlung && knowledgeItem"
+    v-if="wissenssammlung || knowledgeItem"
     ref="sidebar"
     class="sidebar"
     :class="{ 'sidebar--open': isOpen }"
     @click="toggleSidebar(true)"
     @keydown.enter="toggleSidebar(true)"
   >
-    <button
-      type="button"
-      class="sidebar--button"
-      @click.stop="toggleSidebar(false)"
-      @keydown.enter.stop="toggleSidebar(false)"
-    >
-      Schließen <MaterialSymbol :symbol="IconTypes.CLOSE" />
-    </button>
-    <div class="sidebar--header">
-      <MaterialSymbol :symbol="IconTypes.KNOWLEDGE" />
-      <h2 class="sidebar--header-headline">Wissens-Sammlung</h2>
-      <h2 class="sidebar--header-headline-topic">
-        Wissen über <br /><strong>{{ knowledgeItem.title }}</strong>
-      </h2>
+    <div class="sidebar__wrapper">
+      <button
+        type="button"
+        class="sidebar--button"
+        @click.stop="toggleSidebar(false)"
+        @keydown.enter.stop="toggleSidebar(false)"
+      >
+        Schließen <MaterialSymbol :symbol="IconTypes.CLOSE" />
+      </button>
+      <div class="sidebar--header">
+        <MaterialSymbol :symbol="IconTypes.KNOWLEDGE" size="x-large" />
+        <h2 class="sidebar--header-headline">Wissens-Sammlung</h2>
+        <h2 class="sidebar--header-headline-topic" v-if="knowledgeItem">
+          Wissen über <br /><strong>{{ knowledgeItem.title }}</strong>
+        </h2>
+        <h2 v-else class="sidebar--header-headline-topic">Wissens-Sammlung</h2>
+      </div>
+      <p class="sidebar--description" v-if="knowledgeItem">
+        {{ knowledgeItem.description[0].de }}
+      </p>
+      <p class="sidebar--description" v-else>
+        Hier finden Sie in Zukunft Wissen zu den verschiedenen Themenbereichen.
+      </p>
     </div>
-    <p class="sidebar--description" v-if="wissenssammlung">
-      {{ knowledgeItem.description[0].de }}
-    </p>
   </aside>
 </template>
 
@@ -66,8 +73,9 @@ export default {
     };
   },
   computed: {
-    knowledgeItem() {
-      return this.wissenssammlung.find((item) => item.title === this.topic);
+    knowledgeItem(): WissenssammlungItem | undefined {
+      // return this.wissenssammlung.find((item) => item.title === this.topic);
+      return undefined;
     },
   },
   mounted() {
@@ -75,8 +83,8 @@ export default {
   },
   methods: {
     toggleSidebar(state: boolean) {
-      this.isOpen = state;
       this.$emit('toggle-sidebar', state);
+      this.isOpen = state;
     },
   },
   setup() {
@@ -93,14 +101,26 @@ export default {
   width: 80px;
   padding: $xxl $m;
   color: $dark-purple;
-  transition: transform 0.3s;
+  transition: all 0.3s ease;
   cursor: pointer;
   position: sticky;
+  top: 0;
   margin: -#{$xxl} 0 -#{$xxl} #{$m};
 
   display: flex;
   flex-direction: column;
   align-items: start;
+
+  &__wrapper {
+    position: fixed;
+    width: 40px;
+    transition: all 0.3s ease;
+  }
+
+  &--open &__wrapper {
+    position: fixed;
+    width: 315px;
+  }
 
   &--button {
     display: none;
@@ -111,6 +131,7 @@ export default {
     align-items: center;
     gap: $l;
     margin-bottom: $l;
+    position: fixed;
 
     &-headline {
       transform: rotate(-180deg);
@@ -144,7 +165,9 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: flex-start;
+      gap: $xxs;
       width: 100%;
+      position: relative;
 
       &-headline {
         display: none;
@@ -167,29 +190,12 @@ export default {
       right: 0;
       display: flex;
       align-items: center;
+      justify-self: flex-end;
     }
 
     & .sidebar--description {
       display: block;
     }
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }
 </style>

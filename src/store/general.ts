@@ -16,6 +16,7 @@ import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import Base64Helper from '@/helpers/Base64Helper';
+import UrlHelper from '@/helpers/UrlHelper';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -138,6 +139,7 @@ export const useGeneralStore = defineStore('general', {
         `/sites?${q}`,
         requestOptions,
       )) as Site[];
+      this.loadSiteImages();
 
       // Fetching types Company Information
       this.baseInfoState.companies = (await FetchHelper.apiCall(
@@ -212,6 +214,25 @@ export const useGeneralStore = defineStore('general', {
       } catch (error) {
         throw error;
       }
+    },
+    async loadSiteImages(): Promise<void> {
+      this.baseInfoState.sites.forEach(async (site, idx) => {
+        if (site.data.imagesrc) {
+          const queryCombined = {
+            userId: this.getUserId(),
+          };
+          const q = QueryHelper.queryify(queryCombined);
+          const requestOptions = {
+            'Content-Type': 'image/jpeg',
+          } as RequestInit;
+          const resp = await FetchHelper.defaultApiCall(
+            `${site.data.imagesrc}?${q}`,
+            requestOptions,
+          );
+          const blob = await resp.blob();
+          this.baseInfoState.sites[idx].data.imagesrc = (await UrlHelper.createURL(blob)) as string;
+        }
+      });
     },
   },
 });

@@ -10,6 +10,7 @@ import type { Kpi } from '@/types/global/kpi/Kpi';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import Base64Helper from '@/helpers/Base64Helper';
+import UrlHelper from '@/helpers/UrlHelper';
 
 // Stores
 import { useGeneralStore } from './general';
@@ -57,6 +58,7 @@ export const useSiteStore = defineStore('site', {
 
       try {
         this.site = await this.fetchSiteInformation(siteId);
+        this.loadImage();
         this.requestTimestamp = DateTime.now();
       } catch (error) {
         this.error = true;
@@ -116,6 +118,28 @@ export const useSiteStore = defineStore('site', {
         this.kpiState.error = true;
       }
       this.kpiState.isLoading = false;
+    },
+    /**
+     * Load all images of the site
+     */
+    async loadImage(): Promise<void> {
+      const generalStore = useGeneralStore();
+
+      if (this.site && this.site.data.imagesrc) {
+        const queryCombined = {
+          userId: generalStore.getUserId(),
+        };
+        const q = QueryHelper.queryify(queryCombined);
+        const requestOptions = {
+          'Content-Type': 'image/jpeg',
+        } as RequestInit;
+        const resp = await FetchHelper.defaultApiCall(
+          `${this.site.data.imagesrc}?${q}`,
+          requestOptions,
+        );
+        const blob = await resp.blob();
+        this.site.data.imagesrc = (await UrlHelper.createURL(blob)) as string;
+      }
     },
   },
 });

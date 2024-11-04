@@ -11,7 +11,6 @@ import { type SiteWithBuildinginformationAndDataurl } from '@/types/local/Site';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import Base64Helper from '@/helpers/Base64Helper';
-import UrlHelper from '@/helpers/UrlHelper';
 
 // Stores
 import { useGeneralStore } from './general';
@@ -139,7 +138,7 @@ export const useSiteStore = defineStore('site', {
           requestOptions,
         );
         const blob = await resp.blob();
-        this.site.data.imageDataUrl = (await UrlHelper.createURL(blob)) as string;
+        this.site.data.imageDataUrl = URL.createObjectURL(blob);
       }
     },
   },

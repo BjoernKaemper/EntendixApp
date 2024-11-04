@@ -17,7 +17,6 @@ import { type SiteWithDataurl } from '@/types/local/Site';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import Base64Helper from '@/helpers/Base64Helper';
-import UrlHelper from '@/helpers/UrlHelper';
 
 // Authenticator definition
 const auth = useAuthenticator();
@@ -231,9 +230,7 @@ export const useGeneralStore = defineStore('general', {
             requestOptions,
           );
           const blob = await resp.blob();
-          this.baseInfoState.sites[idx].data.imageDataUrl = (await UrlHelper.createURL(
-            blob,
-          )) as string;
+          this.baseInfoState.sites[idx].data.imageDataUrl = URL.createObjectURL(blob);
         }
       });
     },

@@ -49,7 +49,9 @@
                 representationIcon="account_tree"
                 :title="aggregate.data.aggregateName"
                 interactionIcon="open_in_new"
-                @click="handleAggregateClick(aggregate)"
+                @click="
+                  handleAggregateClick(aggregate, module.data.moduleName, medium.data.mediumName)
+                "
               />
             </div>
           </template>
@@ -58,10 +60,10 @@
     </template>
   </DigitalTwinLayout>
   <AggregateModal
+    v-if="aggregateModalData"
     v-model="aggregateModalOpen"
-    :aggregateId="currentAggregateId"
-    :aggregateName="currenAggregateName"
-    :key="currentAggregateId"
+    :data="aggregateModalData"
+    :key="aggregateModalData?.aggregateId"
   />
 </template>
 
@@ -78,7 +80,9 @@ import ListElement from '@/components/general/ListElement.vue';
 import PlantDetails from '@/components/digitaltwins/PlantDetails.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import AccordionBase from '@/components/general/AccordionBase.vue';
-import AggregateModal from '@/components/digitaltwins/AggregateModal.vue';
+import AggregateModal, {
+  type AggregateModalData,
+} from '@/components/digitaltwins/AggregateModal.vue';
 import SymbolImage from '@/components/general/SymbolImage.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
@@ -104,8 +108,8 @@ export default {
   data() {
     return {
       plantName: '',
-      currentAggregateId: '',
-      currenAggregateName: '',
+      subSectionName: '',
+      aggregateModalData: null as AggregateModalData | null,
       aggregateModalOpen: false,
       SystemPreviewImage,
     };
@@ -118,15 +122,22 @@ export default {
     },
   },
   methods: {
-    handleAggregateClick(aggregate: Aggregate) {
-      this.currentAggregateId = aggregate.id;
-      this.currenAggregateName = aggregate.data.aggregateName;
+    handleAggregateClick(aggregate: Aggregate, moduleName: string, mediumName: string) {
+      this.aggregateModalData = {
+        aggregateId: aggregate.id,
+        aggregateName: aggregate.data.aggregateName,
+        mediumName,
+        moduleName,
+        plantName: this.plantName,
+        subSectionName: this.subSectionName,
+      };
       this.aggregateModalOpen = true;
     },
   },
   created() {
     const params = JSON.parse(this.$route.params.plantparams as string);
     this.plantName = params.plantName;
+    this.subSectionName = params.subsectionName;
   },
 };
 </script>

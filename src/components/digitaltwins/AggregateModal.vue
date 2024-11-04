@@ -1,7 +1,7 @@
 <template>
   <ModalOverlay :isOpen="modelValue" @close="handleClose" size="large">
     <template #header>
-      <h5>Aggregat "{{ aggregateName }}"</h5>
+      <h5>Aggregat "{{ data.aggregateName }}"</h5>
     </template>
     <template #body>
       <div v-if="aggregateLoading">
@@ -76,11 +76,11 @@
             >
               <td class="aggregate-modal__data-name">{{ dataPoint.dataPoint?.objectName }}</td>
               <td>{{ dataPoint.dataPoint?.description }}</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>{{ data.subSectionName }}</td>
+              <td>{{ data.plantName }}</td>
+              <td>{{ data.moduleName }}</td>
+              <td>{{ data.mediumName }}</td>
+              <td>{{ data.aggregateName }}</td>
               <td>{{ dataPoint.description.de }}</td>
             </tr>
           </table>
@@ -133,8 +133,16 @@ import FormInput from '@/components/general/forms/FormInput.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import { requiredValidator } from '@/helpers/FormValidators';
 import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
+import type { PropType } from 'vue';
 
-// Helpers
+export interface AggregateModalData {
+  aggregateId: string;
+  aggregateName: string;
+  mediumName: string;
+  moduleName: string;
+  plantName: string;
+  subSectionName: string;
+}
 
 export default {
   name: 'AggregateModal',
@@ -148,17 +156,10 @@ export default {
   },
   props: {
     /**
-     * The id of the aggregate to show.
+     * All required data to display current aggregate in the modal.
      */
-    aggregateId: {
-      type: String,
-      required: true,
-    },
-    /**
-     * The name of the aggregate to show.
-     */
-    aggregateName: {
-      type: String,
+    data: {
+      type: Object as PropType<AggregateModalData>,
       required: true,
     },
     /**
@@ -175,7 +176,7 @@ export default {
   setup(props) {
     const aggregateStore = useAggregateStore();
 
-    const name = useInput([requiredValidator], props.aggregateName);
+    const name = useInput([requiredValidator], props.data.aggregateName);
     const floor = useInput([], '');
     const room = useInput([], '');
 
@@ -203,9 +204,13 @@ export default {
   watch: {
     aggregateId: {
       handler() {
+        if (!this.data.aggregateId) {
+          return;
+        }
+
         this.aggregateLoading = true;
         this.aggregateStore
-          .getAggregate(this.aggregateId)
+          .getAggregate(this.data.aggregateId)
           .then((aggregate) => {
             this.aggregate = aggregate;
           })
@@ -214,9 +219,6 @@ export default {
           });
       },
       immediate: true,
-    },
-    aggregateName() {
-      this.name.value.value = this.aggregateName;
     },
   },
   methods: {

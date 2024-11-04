@@ -91,10 +91,6 @@ export default {
     grid-template-columns: 1fr 2fr 355px; // Sidebar open, width 355px
   }
 
-  &--large#{$self}--sidebar-open {
-    grid-template-columns: repeat(3, 1fr) repeat(8, 1fr) 355px;
-  }
-
   &--left {
     display: flex;
     flex-direction: column;

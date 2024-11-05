@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 // Types
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
 import type { Kpi } from '@/types/global/kpi/Kpi';
+import { type SiteWithBuildinginformationAndDataurl } from '@/types/local/Site';
 
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
@@ -15,7 +16,7 @@ import Base64Helper from '@/helpers/Base64Helper';
 import { useGeneralStore } from './general';
 
 interface SiteStoreState {
-  site: SiteWithBuildinginformation | null;
+  site: SiteWithBuildinginformationAndDataurl | null;
   kpiState: {
     kpis: Kpi[];
     requestTimestamp: DateTime | null;
@@ -57,6 +58,7 @@ export const useSiteStore = defineStore('site', {
 
       try {
         this.site = await this.fetchSiteInformation(siteId);
+        this.loadImage();
         this.requestTimestamp = DateTime.now();
       } catch (error) {
         this.error = true;
@@ -152,6 +154,28 @@ export const useSiteStore = defineStore('site', {
           description: 'Bitte versuche es zu einem späteren Zeitpunkt erneut.',
         });
         return false;
+      }
+    },
+    /**
+     * Load all images of the site
+     */
+    async loadImage(): Promise<void> {
+      const generalStore = useGeneralStore();
+
+      if (this.site && this.site.data.imagesrc) {
+        const queryCombined = {
+          userId: generalStore.getUserId(),
+        };
+        const q = QueryHelper.queryify(queryCombined);
+        const requestOptions = {
+          'Content-Type': 'image/jpeg',
+        } as RequestInit;
+        const resp = await FetchHelper.defaultApiCall(
+          `${this.site.data.imagesrc}?${q}`,
+          requestOptions,
+        );
+        const blob = await resp.blob();
+        this.site.data.imageDataUrl = URL.createObjectURL(blob);
       }
     },
   },

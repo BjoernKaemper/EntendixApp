@@ -19,7 +19,7 @@
             v-for="site in sites"
             :key="site.id"
             :name="site.data.siteName"
-            :imgsrc="site.data.imagesrc || SymbolImageHelper.getImage('default', 'default')"
+            :imgsrc="site.data.imageDataUrl || SymbolImageHelper.getImage('default', 'default')"
             :status="ChipStatusTypes.SUCCESS"
             :location="site.data.address.cityTown"
             @digitalTwinClicked="loadTwin(site)"
@@ -51,6 +51,7 @@ import AddSiteOverlayModal from '@/components/general/modals/AddSiteOverlayModal
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import type { Site } from '@/types/global/site/Site';
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { SiteWithDataurl } from '@/types/local/Site';
 
 // Helper imports
 import Base64Helper from '@/helpers/Base64Helper';
@@ -73,7 +74,7 @@ export default {
   computed: {
     ...mapStores(useGeneralStore),
 
-    sites(): Array<Site> {
+    sites(): Array<SiteWithDataurl> {
       return this.generalStore.baseInfoState.sites;
     },
 

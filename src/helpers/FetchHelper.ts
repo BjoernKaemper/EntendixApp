@@ -22,10 +22,7 @@ export default {
     const CONTENT_TYPE = 'content-type';
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_MIDDLEWARE_URL}${url}`, {
-        ...defaultOptions,
-        ...options,
-      });
+      const response = await this.defaultApiCall(url, { ...defaultOptions, ...options });
 
       if (response.headers.get(CONTENT_TYPE)?.includes('application/json')) {
         return await response.json();
@@ -33,6 +30,34 @@ export default {
 
       // @TODO: Implement global error handler
       throw new Error('API call failed, unexpected response type');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('API call failed', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Make an api call with default headers
+   * @param {string} url The URL to call
+   * @param {RequestInit} options Additional fetch request options
+   * @returns {Promise<Response>} The response of the fetch call
+   */
+  async defaultApiCall(url: string, options: RequestInit = {}): Promise<Response> {
+    const jwt = (await Auth.currentSession()).getIdToken().getJwtToken();
+
+    const defaultOptions: RequestInit = {
+      headers: {
+        Authorization: `${jwt}`,
+      },
+    };
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_MIDDLEWARE_URL}${url}`, {
+        ...defaultOptions,
+        ...options,
+      });
+      return response;
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('API call failed', error);

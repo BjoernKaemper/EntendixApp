@@ -11,6 +11,7 @@ import type { Alert } from '@/types/local/Alert';
 import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
+import { type SiteWithDataurl } from '@/types/local/Site';
 
 // Helpers
 import QueryHelper from '@/helpers/QueryHelper';
@@ -34,7 +35,7 @@ interface GeneralStoreState {
   alerts: Alert[];
   baseInfoState: {
     companies: Company[];
-    sites: Site[];
+    sites: SiteWithDataurl[];
     requestTimestamp: DateTime | null;
     isLoading: boolean;
   };
@@ -138,6 +139,7 @@ export const useGeneralStore = defineStore('general', {
         `/sites?${q}`,
         requestOptions,
       )) as Site[];
+      this.loadSiteImages();
 
       // Fetching types Company Information
       this.baseInfoState.companies = (await FetchHelper.apiCall(
@@ -212,6 +214,25 @@ export const useGeneralStore = defineStore('general', {
       } catch (error) {
         throw error;
       }
+    },
+    async loadSiteImages(): Promise<void> {
+      this.baseInfoState.sites.forEach(async (site, idx) => {
+        if (site.data.imagesrc) {
+          const queryCombined = {
+            userId: this.getUserId(),
+          };
+          const q = QueryHelper.queryify(queryCombined);
+          const requestOptions = {
+            'Content-Type': 'image/jpeg',
+          } as RequestInit;
+          const resp = await FetchHelper.defaultApiCall(
+            `${site.data.imagesrc}?${q}`,
+            requestOptions,
+          );
+          const blob = await resp.blob();
+          this.baseInfoState.sites[idx].data.imageDataUrl = URL.createObjectURL(blob);
+        }
+      });
     },
   },
 });

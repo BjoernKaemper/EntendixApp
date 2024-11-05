@@ -1,5 +1,4 @@
-<template>
-  <svg
+ <svg
     width="453"
     height="679"
     viewBox="0 0 453 679"
@@ -1210,11 +1209,3 @@
       />
     </defs>
   </svg>
-</template>
-
-<style scoped lang="scss">
-svg {
-  width: 100%;
-  background-color: #ffffff;
-}
-</style>

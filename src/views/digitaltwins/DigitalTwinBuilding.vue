@@ -1,5 +1,5 @@
 <template>
-  <DigitalTwinLayout>
+  <BaseLayout>
     <template #left>
       <h1>{{ buildingName }}</h1>
       <div v-if="buildingLoading" class="digital-twin-building__loading">
@@ -18,7 +18,17 @@
       />
     </template>
     <template #right>
-      <h2>Verwaltung des Gebäudes</h2>
+      <div class="digital-twin-building__head">
+        <h2>Verwaltung des Gebäudes</h2>
+        <ButtonComponent
+          state="secondary"
+          text="Einstellung des Gebäudes"
+          icon="manufacturing"
+          @click="buildingSettingsOpen = true"
+          disabled
+          title="Coming soon"
+        />
+      </div>
       <LoadingSpinner
         v-if="subSectionsLoading"
         size="large"
@@ -36,11 +46,17 @@
         />
       </div>
     </template>
-  </DigitalTwinLayout>
+  </BaseLayout>
+  <EditEdgeDeviceModal
+    v-model="buildingSettingsOpen"
+    :edgeDevices="dummyEdgeDevices"
+    :initialValue="initialEdgeDevice"
+    canEdit
+    @update:edge-device="handleEdgeDeviceChange"
+  />
 </template>
 
 <script lang="ts">
-// TODO: Building settings modal/button
 // TODO: Building details form handling
 // TODO: Edge device currently gathering data view
 // TODO: No Edge device connected to building view
@@ -54,28 +70,53 @@ import { useGeneralStore } from '@/store/general';
 import { useBuildingStore } from '@/store/building';
 
 // Component imports
-import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 import BuildingDetails from '@/components/digitaltwins/BuildingDetails.vue';
 import TradeCard from '@/components/digitaltwins/TradeCard.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
+import ButtonComponent from '@/components/general/ButtonComponent.vue';
+import EditEdgeDeviceModal from '@/components/digitaltwins/EditEdgeDeviceModal.vue';
 
 // config import
 import { tradesConfig } from '@/configs/trades';
+import type { DropdownOptionElement } from '@/types/local/DropdownOptions';
+
+// TODO: get actual edge devices
+const dummyEdgeDevices: DropdownOptionElement[] = [
+  {
+    value: '1',
+    label: 'Edge Device 1',
+  },
+  {
+    value: '2',
+    label: 'Edge Device 2',
+  },
+  {
+    value: '3',
+    label: 'Edge Device 3',
+  },
+];
 
 export default {
   components: {
-    DigitalTwinLayout,
+    BaseLayout,
     BuildingDetails,
     TradeCard,
     LoadingSpinner,
     LoadingCards,
+    ButtonComponent,
+    EditEdgeDeviceModal,
   },
   data() {
     return {
       buildingName: '',
       siteName: '',
       siteId: '',
+      buildingSettingsOpen: false,
+      dummyEdgeDevices,
+      initialEdgeDevice:
+        dummyEdgeDevices[Math.round(Math.random() * (dummyEdgeDevices.length - 1))].value,
     };
   },
   computed: {
@@ -149,12 +190,17 @@ export default {
         });
       }
     },
+    handleEdgeDeviceChange(value: string) {
+      // TODO: actually change edge device via middleware/store
+      this.initialEdgeDevice = value;
+      this.buildingSettingsOpen = false;
+    },
   },
   created() {
     const params = JSON.parse(this.$route.params.buildingparams as string);
     this.buildingName = params.buildingName;
     this.siteName = params.siteName;
-    this.siteId = decodeURIComponent(params.siteid);
+    this.siteId = Base64Helper.decode(params.siteid);
   },
 };
 </script>
@@ -176,6 +222,12 @@ export default {
   &__trades-loading {
     height: auto;
     padding: $xxl $m;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
   }
 }
 

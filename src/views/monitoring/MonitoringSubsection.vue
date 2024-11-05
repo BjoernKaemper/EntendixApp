@@ -1,20 +1,25 @@
 <template>
-  <div>
-    <div :class="['grid-wrapper', { 'grid-wrapper--sidebar-open': isSidebarOpen }]">
-      <div class="grid-wrapper--left">
-        <h2>{{ subsectionName }}</h2>
-        <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
-        <AutomationHZG v-else />
-      </div>
-      <div class="grid-wrapper--right">
-        <div class="grid-wrapper--right--header">
+  <BaseLayout>
+    <template #left>
+      <h2>{{ subsectionName }}</h2>
+      <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
+      <SymbolImage
+        v-else
+        :src="SymbolImageHelper.getImage(subsection!.data.tradeType)"
+        :alt="subsection?.data.tradeName || 'Subsection Name'"
+        :use-aspect-ratio="false"
+      />
+    </template>
+    <template #right>
+      <div class="plant-performance">
+        <div class="plant-performance__header">
           <h2>Performance in den Funktionsbereichen</h2>
           <ChipComponent
             v-if="subsection"
             :status="getChipStatusByCondition(subsection.data.condition)"
           />
         </div>
-        <div class="grid-wrapper--right--content">
+        <div class="plant-performance__content">
           <LoadingCards v-if="isLoading" :card-count="3" />
           <div v-else v-for="plantType in subsection?.data.plantsByType" :key="plantType.type">
             <h3>{{ plantType.name }}</h3>
@@ -35,9 +40,8 @@
           </div>
         </div>
       </div>
-      <SideBar @toggle-sidebar="toggleSidebar" :topic="subsection?.data.tradeType" />
-    </div>
-  </div>
+    </template>
+  </BaseLayout>
 </template>
 
 <script lang="ts">
@@ -50,13 +54,14 @@ import { useSubsectionStore } from '@/store/subsection';
 
 // Helper imports
 import Base64Helper from '@/helpers/Base64Helper';
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 // component imports
-import AutomationHZG from '@/assets/AutomationHZG.vue';
-import SideBar from '@/components/general/SideBar.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
+import SymbolImage from '@/components/general/SymbolImage.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 
 // type imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -67,7 +72,6 @@ import { ConditionTypes } from '@/types/global/enums/ConditionTypes';
 export default {
   data() {
     return {
-      isSidebarOpen: false,
       subsectionName: '',
       subsectionId: '',
       siteName: '',
@@ -78,11 +82,11 @@ export default {
   },
 
   components: {
-    AutomationHZG,
-    SideBar,
     StatusCard,
     ChipComponent,
     LoadingCards,
+    SymbolImage,
+    BaseLayout,
   },
   computed: {
     ...mapStores(useGeneralStore, useSubsectionStore),
@@ -95,9 +99,6 @@ export default {
   },
 
   methods: {
-    toggleSidebar(state: boolean) {
-      this.isSidebarOpen = state;
-    },
     getChipStatusByCondition(condition: ConditionTypes): ChipStatusTypes {
       switch (condition) {
         case ConditionTypes.HEALTHY:
@@ -148,6 +149,7 @@ export default {
       ChipStatusTypes,
       ComponentStatusTypes,
       ActionTypes,
+      SymbolImageHelper,
     };
   },
   async created() {
@@ -163,49 +165,32 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.grid-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 2fr 80px;
-  grid-gap: $m;
-  transition: grid-template-columns 0.3s ease;
+.plant-performance {
+  display: flex;
+  flex-direction: column;
+  gap: $m;
 
-  &--left {
+  &__header {
     display: flex;
-    flex-direction: column;
-    gap: $xl;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  &--right {
+  &__content {
     display: flex;
     flex-direction: column;
-    gap: $m;
+    gap: $l;
 
-    &--header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &--content {
+    & > div {
       display: flex;
       flex-direction: column;
-      gap: $l;
-
+      gap: $xxs;
       & > div {
         display: flex;
         flex-direction: column;
         gap: $xxs;
-        & > div {
-          display: flex;
-          flex-direction: column;
-          gap: $xxs;
-        }
       }
     }
-  }
-
-  &--sidebar-open {
-    grid-template-columns: 1fr 2fr 355px; // Sidebar open, width 355px
   }
 }
 

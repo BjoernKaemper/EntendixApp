@@ -13,46 +13,46 @@
             @click="toggleAddSiteModal"
           />
         </div>
-        <LoadingCards v-if="sitesAreLoading" :card-count="3" :grow-cards="false" />
-        <template v-else>
-          <LiegenschaftCard
-            v-for="site in sites"
-            :key="site.id"
-            :name="site.data.siteName"
-            :imgsrc="placeholderCampusDeutz"
-            :status="ChipStatusTypes.SUCCESS"
-            :location="site.data.address.cityTown"
-            @digitalTwinClicked="loadTwin(site)"
-            @monitoringClicked="loadSite(site)"
-            :isLoading="sitesAreLoading"
-          />
-        </template>
-      </div>
+      <LoadingCards v-if="sitesAreLoading" :card-count="3" :grow-cards="false" />
+      <template v-else>
+        <LiegenschaftCard
+          v-for="site in sites"
+          :key="site.id"
+          :name="site.data.siteName"
+          :imgsrc="site.data.imagesrc || SymbolImageHelper.getImage('default', 'default')"
+          :status="ChipStatusTypes.SUCCESS"
+          :location="site.data.address.cityTown"
+          @digitalTwinClicked="loadTwin(site)"
+          @monitoringClicked="loadSite(site)"
+          :isLoading="sitesAreLoading"
+        />
+      </template>
     </div>
     <AddSiteOverlayModal :isAddSiteModalOpen="addSiteModalOpen" @close="toggleAddSiteModal" />
   </div>
 </template>
 
 <script lang="ts">
-// Modules and Libraries
+// Library imports
 import { mapStores } from 'pinia';
 
-// Stores
+// Store imports
 import { useGeneralStore } from '@/store/general';
-import placeholderCampusDeutz from '@/assets/placeholder-campus-deutz.png';
 
-// Types
-import type { Site } from '@/types/global/site/Site';
-import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
-import { IconTypes } from '@/types/enums/IconTypes';
-
-// Components
+// Component imports
 import GoogleMaps from '@/components/general/GoogleMaps.vue';
 import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import AddSiteOverlayModal from '@/components/general/modals/AddSiteOverlayModal.vue';
+
+// Type imports
+import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
+import type { Site } from '@/types/global/site/Site';
+
+// Helper imports
 import Base64Helper from '@/helpers/Base64Helper';
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 export default {
   components: {
@@ -65,7 +65,6 @@ export default {
   data() {
     return {
       addSiteModalOpen: false,
-      placeholderCampusDeutz,
     };
   },
 
@@ -120,7 +119,7 @@ export default {
   setup() {
     return {
       ChipStatusTypes,
-      IconTypes,
+      SymbolImageHelper,
     };
   },
 };

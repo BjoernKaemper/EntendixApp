@@ -1,8 +1,9 @@
 <template>
   <div class="site-detail">
+    <!-- TODO: Should be a user Added image -->
     <img
       class="site-detail__image"
-      src="@/assets/placeholder-campus-deutz.png"
+      :src="site.data.imagesrc || SymbolImageHelper.getImage('default', 'default')"
       :alt="`image of ${site.data.siteName}`"
     />
     <form
@@ -83,6 +84,7 @@ import InterceptionModal from '@/components/general/modals/InterceptionModal.vue
 
 // Helper imports
 import { requiredValidator } from '@/helpers/FormValidators';
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 // Type imports
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
@@ -124,6 +126,7 @@ export default {
       countryInput,
       formState,
       leaveFormInterception,
+      SymbolImageHelper,
     };
   },
   data() {

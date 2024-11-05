@@ -66,8 +66,6 @@ export const usePlantStore = defineStore('plant', {
      * @returns {Promise<void>} The promise of the loading process
      */
     async loadPlantInformation(plantId: string): Promise<void> {
-      const generalStore = useGeneralStore();
-
       this.$state = defaultStoreState;
       this.isLoading = true;
 
@@ -77,15 +75,6 @@ export const usePlantStore = defineStore('plant', {
       } catch (error) {
         this.error = true;
       }
-
-      // Fetching KPIs
-      try {
-        this.kpiState.kpis = await generalStore.fetchKpiInformation(plantId);
-        this.kpiState.requestTimestamp = DateTime.now();
-      } catch (error) {
-        this.kpiState.error = true;
-      }
-      this.kpiState.isLoading = false;
 
       this.isLoading = false;
     },
@@ -122,9 +111,7 @@ export const usePlantStore = defineStore('plant', {
       // Fetching KPI Information
       this.kpiState.isLoading = true;
       try {
-        this.kpiState.kpis = await generalStore.fetchKpiInformation(
-          encodeURIComponent(this.plant!.id),
-        );
+        this.kpiState.kpis = await generalStore.fetchKpiInformation(this.plant!.id);
         this.kpiState.requestTimestamp = DateTime.now();
       } catch (error) {
         this.kpiState.error = true;

@@ -1,10 +1,15 @@
 <template>
-  <DigitalTwinLayout>
+  <BaseLayout>
     <template #left>
       <h2>{{ subsectionName }}</h2>
       <div class="twin-subsection__schema-image">
         <LoadingSpinner class="twin-subsection__schema-loading" v-if="isLoading" size="large" />
-        <AutomationHZG v-else />
+        <SymbolImage
+          v-else
+          :src="SymbolImageHelper.getImage(subsection!.data.tradeType)"
+          :alt="`Schema der Anlage ${subsectionName}`"
+          :use-aspect-ratio="false"
+        />
       </div>
     </template>
     <template #right>
@@ -29,7 +34,7 @@
         </div>
       </div>
     </template>
-  </DigitalTwinLayout>
+  </BaseLayout>
 </template>
 
 <script lang="ts">
@@ -40,12 +45,15 @@ import Base64Helper from '@/helpers/Base64Helper';
 // Store imports
 import { useSubsectionStore } from '@/store/subsection';
 
+// Helper imports
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
+
 // Component imports
-import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
-import AutomationHZG from '@/assets/AutomationHZG.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 import ListElement from '@/components/general/ListElement.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
+import SymbolImage from '@/components/general/SymbolImage.vue';
 
 // Type imports
 import type { Plant } from '@/types/global/plant/Plant';
@@ -53,11 +61,11 @@ import type { Plant } from '@/types/global/plant/Plant';
 export default {
   name: 'DigitalTwinSubsection',
   components: {
-    DigitalTwinLayout,
-    AutomationHZG,
+    BaseLayout,
     ListElement,
     LoadingSpinner,
     LoadingCards,
+    SymbolImage,
   },
   data() {
     return {
@@ -107,11 +115,16 @@ export default {
   created() {
     const params = JSON.parse(this.$route.params.subsectionparams as string);
     this.subsectionName = params.subsectionName;
-    this.subsectionId = decodeURIComponent(params.subsectionid);
+    this.subsectionId = Base64Helper.decode(params.subsectionid);
     this.siteName = params.siteName;
-    this.siteId = decodeURIComponent(params.siteid);
+    this.siteId = Base64Helper.decode(params.siteid);
     this.buildingName = params.buildingName;
-    this.buildingId = decodeURIComponent(params.buildingid);
+    this.buildingId = Base64Helper.decode(params.buildingid);
+  },
+  setup() {
+    return {
+      SymbolImageHelper,
+    };
   },
 };
 </script>

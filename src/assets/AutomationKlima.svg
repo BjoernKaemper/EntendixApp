@@ -1,5 +1,4 @@
-<template>
-  <svg
+<svg
     viewBox="0 0 453 362"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2015,10 +2014,3 @@
       />
     </defs>
   </svg>
-</template>
-
-<style scoped>
-svg {
-  width: 100%;
-}
-</style>

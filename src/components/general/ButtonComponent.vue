@@ -1,5 +1,5 @@
 <template>
-  <button :type="type" :class="[state, size, onlyIconClass]">
+  <button :type="type" :class="[state, size, onlyIconClass]" :title="title">
     {{ text }}
     <MaterialSymbol v-if="icon" :symbol="icon" />
   </button>
@@ -59,6 +59,13 @@ export default {
       type: String as PropType<ButtonHTMLAttributes['type']>,
       default: 'button',
     },
+    /**
+     * Title of the button
+     */
+    title: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     onlyIconClass(): string {
@@ -108,6 +115,10 @@ button {
   &.error {
     background-color: $orange;
     border-color: $orange;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }
 </style>

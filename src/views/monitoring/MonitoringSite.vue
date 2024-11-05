@@ -8,7 +8,7 @@
       <img
         v-else
         :alt="site?.data.siteName || 'Site Name'"
-        :src="site?.data.imagesrc || SymbolImageHelper.getImage('default', 'default')"
+        :src="site?.data.imageDataUrl || SymbolImageHelper.getImage('default', 'default')"
         class="site-image"
       />
 
@@ -84,7 +84,7 @@ import BaseLayout from '@/components/general/BaseLayout.vue';
 
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
-import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
+import { type SiteWithBuildinginformationAndDataurl } from '@/types/local/Site';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
 import { AlertMessages } from '@/assets/json/AlertMessages';
 import type { TimelineLookbackOptions } from '@/configs/timeRangeDropdown';
@@ -119,7 +119,7 @@ export default {
   computed: {
     ...mapStores(useGeneralStore, useSiteStore),
 
-    site(): SiteWithBuildinginformation | null {
+    site(): SiteWithBuildinginformationAndDataurl | null {
       return this.siteStore.site;
     },
 

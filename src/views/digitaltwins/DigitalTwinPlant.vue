@@ -10,7 +10,7 @@
       <SymbolImage
         v-else
         :alt="plantName || 'Plant Name'"
-        :src="SystemPreviewImage"
+        :src="SymbolImageHelper.getImage(plant!.data.parentType, plant?.data.plantType)"
         class="digital-twin-plant__image"
         :use-aspect-ratio="false"
       />
@@ -118,8 +118,8 @@ import type { Aggregate } from '@/types/global/aggregate/Aggregate';
 // Data imports
 import { AlertMessages } from '@/assets/json/AlertMessages';
 
-// Image imports
-import SystemPreviewImage from '@/assets/AutomationHeizkreis.svg';
+// Helper imports
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 export default {
   components: {
@@ -140,7 +140,6 @@ export default {
       subSectionName: '',
       aggregateModalData: null as AggregateModalData | null,
       aggregateModalOpen: false,
-      SystemPreviewImage,
       AlertMessages,
     };
   },
@@ -186,6 +185,11 @@ export default {
     const params = JSON.parse(this.$route.params.plantparams as string);
     this.plantName = params.plantName;
     this.subSectionName = params.subsectionName;
+  },
+  setup() {
+    return {
+      SymbolImageHelper,
+    };
   },
 };
 </script>

@@ -13,20 +13,21 @@
             @click="toggleAddSiteModal"
           />
         </div>
-      <LoadingCards v-if="sitesAreLoading" :card-count="3" :grow-cards="false" />
-      <template v-else>
-        <LiegenschaftCard
-          v-for="site in sites"
-          :key="site.id"
-          :name="site.data.siteName"
-          :imgsrc="site.data.imagesrc || SymbolImageHelper.getImage('default', 'default')"
-          :status="ChipStatusTypes.SUCCESS"
-          :location="site.data.address.cityTown"
-          @digitalTwinClicked="loadTwin(site)"
-          @monitoringClicked="loadSite(site)"
-          :isLoading="sitesAreLoading"
-        />
-      </template>
+        <LoadingCards v-if="sitesAreLoading" :card-count="3" :grow-cards="false" />
+        <template v-else>
+          <LiegenschaftCard
+            v-for="site in sites"
+            :key="site.id"
+            :name="site.data.siteName"
+            :imgsrc="site.data.imagesrc || SymbolImageHelper.getImage('default', 'default')"
+            :status="ChipStatusTypes.SUCCESS"
+            :location="site.data.address.cityTown"
+            @digitalTwinClicked="loadTwin(site)"
+            @monitoringClicked="loadSite(site)"
+            :isLoading="sitesAreLoading"
+          />
+        </template>
+      </div>
     </div>
     <AddSiteOverlayModal :isAddSiteModalOpen="addSiteModalOpen" @close="toggleAddSiteModal" />
   </div>
@@ -49,6 +50,7 @@ import AddSiteOverlayModal from '@/components/general/modals/AddSiteOverlayModal
 // Type imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import type { Site } from '@/types/global/site/Site';
+import { IconTypes } from '@/types/enums/IconTypes';
 
 // Helper imports
 import Base64Helper from '@/helpers/Base64Helper';
@@ -119,6 +121,7 @@ export default {
   setup() {
     return {
       ChipStatusTypes,
+      IconTypes,
       SymbolImageHelper,
     };
   },

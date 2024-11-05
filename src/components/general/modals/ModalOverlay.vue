@@ -7,7 +7,7 @@
       aria-label="Close modal"
     />
     <slot>
-      <div class="modal-overlay__content">
+      <div class="modal-overlay__content" :class="{ [`modal-overlay__content--${size}`]: size }">
         <div class="modal-overlay__content__header">
           <slot name="header" />
           <MaterialSymbol :symbol="IconTypes.CLOSE" @click="close" />
@@ -39,6 +39,7 @@
 import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { PropType } from 'vue';
 
 export default {
   components: {
@@ -64,15 +65,11 @@ export default {
       default: false,
     },
     /**
-     * The state of the metrics modal.
-     * @type {boolean}
-     * @required
-     * @default false
+     * Size of the modal
      */
-    isMetricsModalOpen: {
-      type: Boolean,
-      required: false,
-      default: false,
+    size: {
+      type: String as PropType<'default' | 'large'>,
+      default: 'default',
     },
   },
   watch: {
@@ -136,15 +133,24 @@ export default {
     width: 100%;
     max-width: 500px;
     margin: 0 $s;
-    padding: $m;
     z-index: 1001;
+    max-height: calc(100vh - 2 * $xxl);
+    overflow-y: auto;
+
+    &--large {
+      max-width: 1200px;
+    }
 
     &__header {
-      margin-bottom: $s;
+      padding: $m;
+      background-color: $lightest;
+      position: sticky;
+      top: 0;
       @include content-subtitle;
       display: flex;
       justify-content: space-between;
       align-items: start;
+      z-index: 1;
 
       & > span {
         cursor: pointer;
@@ -155,7 +161,7 @@ export default {
       display: flex;
       flex-direction: column;
       gap: $m;
-      margin-bottom: $s;
+      padding: 0 $m;
       @include content;
     }
 
@@ -163,6 +169,11 @@ export default {
       display: flex;
       justify-content: flex-end;
       gap: $xxs;
+      padding: $m;
+      background-color: $lightest;
+      position: sticky;
+      bottom: 0;
+      z-index: 1;
       @include content;
 
       & > button {

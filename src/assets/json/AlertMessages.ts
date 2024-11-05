@@ -14,4 +14,10 @@ export const AlertMessages: { [key: string]: Alert } = {
     description: 'Es gab ein Problem mit der Verbindung. Versuchen Sie es später noch einmal.',
     type: AlertTypes.WARNING,
   },
+  [AlertMessageTypes.PARTIAL_DATA]: {
+    title: 'Ein Teil der Daten konnte nicht geladen werden',
+    description:
+      'Einige Daten konnten nicht geladen werden. Die Darstellung könnte nicht vollständig sein. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.',
+    type: AlertTypes.WARNING,
+  },
 };

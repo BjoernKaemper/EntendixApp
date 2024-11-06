@@ -113,9 +113,10 @@ import { requiredValidator } from '@/helpers/FormValidators';
 
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
-
+import type { Site } from '@/types/global/site/Site';
 // Store import
 import { useSiteStore } from '@/store/site';
+import { useGeneralStore } from '@/store/general';
 
 export default {
   components: {
@@ -172,7 +173,7 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useSiteStore),
+    ...mapStores(useSiteStore, useGeneralStore),
   },
   methods: {
     submitForm() {
@@ -205,18 +206,31 @@ export default {
       }
 
       const body = new FormData();
-      this.files.value.value.forEach((file) => {
-        body.append('files', file);
-      });
-      body.append('name', this.nameInput.value.value);
+      if (this.files.value.value.length !== 0) {
+        body.append('image', this.files.value.value[0]);
+      }
+      body.append('siteName', this.nameInput.value.value);
       body.append('street', this.streetInput.value.value);
-      body.append('zip', this.zipCodeInput.value.value);
-      body.append('city', this.cityInput.value.value);
-      body.append('country', this.countryInput.value.value);
+      body.append('zipcode', this.zipCodeInput.value.value);
+      body.append('cityTown', this.cityInput.value.value);
+      body.append('nationalCode', this.countryInput.value.value);
+      // Add the Company ID to the body, this will be for the next few years always be the first company, cause we only have one company
+      body.append('companyId', this.generalStore.baseInfoState.companies[0].id);
       const result = await this.siteStore.addSite(body);
-      if (result) {
+      if (typeof result !== 'boolean') {
+        // The result is not a boolean, so it is a Site object
+        // Close the modal, reset the form and navigate to the new site page
         this.$emit('close');
         this.formState.reset();
+        this.$router.push({
+          name: 'DigitalTwins_Site',
+          params: {
+            siteparams: JSON.stringify({
+              siteid: result.id,
+              siteName: result.data.siteName,
+            }),
+          },
+        });
       }
     },
   },

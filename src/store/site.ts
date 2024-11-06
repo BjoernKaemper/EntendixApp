@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { DateTime } from 'luxon';
 
 // Types
-import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
+import type { Site, SiteWithBuildinginformation } from '@/types/global/site/Site';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 import { type SiteWithBuildinginformationAndDataurl } from '@/types/local/Site';
 
@@ -120,7 +120,7 @@ export const useSiteStore = defineStore('site', {
       this.kpiState.isLoading = false;
     },
 
-    async addSite(requestBody: FormData): Promise<boolean> {
+    async addSite(requestBody: FormData): Promise<boolean | Site> {
       const generalStore = useGeneralStore();
 
       // Build the query and the request
@@ -136,15 +136,17 @@ export const useSiteStore = defineStore('site', {
 
       // Try to post the data and add the site
       try {
-        const postResult = await FetchHelper.apiCall(`/sites?${q}`, requestOptions);
+        const postResult = await FetchHelper.defaultApiCall(`/sites?${q}`, requestOptions);
         if (postResult.ok) {
           generalStore.addAlert({
             type: 'success',
             title: 'Liegenschaft wurde hinzugefügt',
             description: '',
           });
-          // TODO: Change the view?
-          return true;
+          // Parse the result and add it to the store
+          const site = (await postResult.json()) as SiteWithBuildinginformation;
+          generalStore.baseInfoState.sites.push(site);
+          return site;
         }
         throw new Error('Failed to add site');
       } catch (error) {

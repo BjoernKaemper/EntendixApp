@@ -67,13 +67,11 @@ export const useBuildingStore = defineStore('building', {
      * @returns {Promise<void>} The promise of the loading process
      */
     async loadBuildingInformation(buildingId: string): Promise<void> {
-      const generalStore = useGeneralStore();
       const subsectionStore = useSubsectionStore();
 
       this.$state = defaultStoreState;
       this.isLoading = true;
       this.subsectionState.isLoading = true;
-      this.kpiState.isLoading = true;
 
       // Fetch the building information
       try {
@@ -83,15 +81,6 @@ export const useBuildingStore = defineStore('building', {
         this.error = true;
       }
       this.isLoading = false;
-
-      // Fetching KPIs
-      try {
-        this.kpiState.kpis = await generalStore.fetchKpiInformation(buildingId);
-        this.kpiState.requestTimestamp = DateTime.now();
-      } catch (error) {
-        this.kpiState.error = true;
-      }
-      this.kpiState.isLoading = false;
 
       // Fetching Subsection Information
       this.subsectionState.subsections = [];

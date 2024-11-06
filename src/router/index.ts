@@ -245,7 +245,11 @@ const routes = [
         JSON.parse(route.params.buildingparams as string).buildingid,
       );
       if (buildingStore.building?.id !== buildingid) {
-        buildingStore.loadBuildingInformation(buildingid);
+        buildingStore
+          .loadBuildingInformation(buildingid)
+          .then(() => buildingStore.fetchKpiChartData());
+      } else if (!buildingStore.kpiState.kpis.length) {
+        buildingStore.fetchKpiChartData();
       }
     },
   },

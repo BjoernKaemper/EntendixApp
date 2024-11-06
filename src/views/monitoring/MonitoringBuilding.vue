@@ -172,9 +172,7 @@ export default {
     },
 
     kpiIsLoading(): boolean {
-      return this.buildingStore.kpiState.isLoading === undefined
-        ? true
-        : this.buildingStore.isLoading;
+      return this.buildingStore.isLoading || this.buildingStore.kpiState.isLoading;
     },
 
     kpiAmount(): number {

@@ -168,6 +168,7 @@ export const useSiteStore = defineStore('site', {
         requestOptions,
       )) as Site;
 
+      // Merge the updated site data with current extended site data
       const mergedData = Object.assign(updatedSite.data, {
         buildings: this.site?.data.buildings,
         imageDataUrl: this.site?.data.imageDataUrl,

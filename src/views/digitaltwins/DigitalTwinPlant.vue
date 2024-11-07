@@ -136,7 +136,7 @@ export default {
   },
   data() {
     return {
-      plantName: '',
+      paramsPlantName: '',
       subSectionName: '',
       aggregateModalData: null as AggregateModalData | null,
       aggregateModalOpen: false,
@@ -167,6 +167,10 @@ export default {
         return true;
       });
     },
+
+    plantName() {
+      return this.plant?.data.plantName || this.paramsPlantName;
+    },
   },
   methods: {
     handleAggregateClick(aggregate: Aggregate, moduleName: string, mediumName: string) {
@@ -183,7 +187,7 @@ export default {
   },
   created() {
     const params = JSON.parse(this.$route.params.plantparams as string);
-    this.plantName = params.plantName;
+    this.paramsPlantName = params.plantName;
     this.subSectionName = params.subsectionName;
   },
   setup() {

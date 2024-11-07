@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { DateTime } from 'luxon';
 
 // Types
-import type { Plant } from '@/types/global/plant/Plant';
+import type { Plant, PlantUpdateData } from '@/types/global/plant/Plant';
 import type { Module } from '@/types/global/module/Module';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 
@@ -176,6 +176,43 @@ export const usePlantStore = defineStore('plant', {
         .finally(() => {
           this.moduleState.isLoading = false;
         });
+    },
+
+    /**
+     * Update props of a plant
+     * @param plantId - Plant to update props for
+     * @param updateData - props to change
+     * @returns Updated plant on success
+     * @throws Error on failure
+     */
+    async updatePlant(plantId: string, updateData: PlantUpdateData): Promise<Plant> {
+      const generalStore = useGeneralStore();
+
+      // Build the query and the request
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        method: 'PATCH',
+        body: JSON.stringify(updateData),
+      };
+
+      const updatedPlant = (await FetchHelper.apiCall(
+        `/plants/${Base64Helper.encode(plantId)}?${q}`,
+        requestOptions,
+      )) as Plant;
+
+      // Merge the updated plants data with current extended plants data
+      const mergedData = { ...this.plant?.data, ...updatedPlant.data };
+
+      this.plant = {
+        ...updatedPlant,
+        data: mergedData,
+      };
+
+      return this.plant;
     },
   },
 });

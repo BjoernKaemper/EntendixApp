@@ -55,6 +55,10 @@
 </template>
 
 <script lang="ts">
+// Store imports
+import { useGeneralStore } from '@/store/general';
+import { mapStores } from 'pinia';
+
 // Hook imports
 import { useInput } from '@/hooks/useInput';
 import { useFormManager } from '@/hooks/useFormManager';
@@ -130,10 +134,7 @@ export default {
         return;
       }
 
-      const user: string =
-        window.localStorage.getItem(
-          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
-        ) || 'User'; // @TODO get user from backend
+      const user: string = this.generalStore.getUserId();
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 
       // TODO: submit properly
@@ -144,6 +145,7 @@ export default {
     },
   },
   computed: {
+    ...mapStores(useGeneralStore),
     currentComments() {
       return this.comments.slice(0, this.commentCount);
     },

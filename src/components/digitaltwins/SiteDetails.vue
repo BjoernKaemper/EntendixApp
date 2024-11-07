@@ -6,59 +6,65 @@
       :src="site.data.imageDataUrl || SymbolImageHelper.getImage('default', 'default')"
       :alt="`image of ${site.data.siteName}`"
     />
-    <form
-      ref="form"
-      class="site-detail__info"
-      @submit.prevent="console.log('TODO')"
-      @focusin="formFocused = true"
-      @focusout="formFocused = false"
-      @reset="closeAndResetForm"
-    >
-      <h3>Informationen über die Liegenschaft</h3>
-      <FormInput
-        id="street-input"
-        label="Straße"
-        placeholder="Straße"
-        v-model="streetInput.value.value"
-        :hasError="!streetInput.isValid.value"
-        :errorMessage="streetInput.errorMessage.value"
-      />
-      <div class="site-detail__group">
-        <FormInput
-          id="plz-input"
-          label="PLZ"
-          placeholder="PLZ"
-          v-model="zipCodeInput.value.value"
-          :hasError="!zipCodeInput.isValid.value"
-          :errorMessage="zipCodeInput.errorMessage.value"
-        />
-        <FormInput
-          id="city-input"
-          label="Stadt"
-          placeholder="Stadt"
-          v-model="cityInput.value.value"
-          :hasError="!cityInput.isValid.value"
-          :errorMessage="cityInput.errorMessage.value"
-        />
+    <div class="site-detail__form-wrap">
+      <div class="site-detail__updating" v-if="updateLoading">
+        <LoadingSpinner size="large" />
       </div>
-      <FormInput
-        id="country-input"
-        label="Land"
-        placeholder="Land"
-        v-model="countryInput.value.value"
-        :hasError="!countryInput.isValid.value"
-        :errorMessage="countryInput.errorMessage.value"
-      />
-      <div class="site-detail__form-actions" v-if="formFocused || formState.isChanged.value">
-        <ButtonComponent type="reset" text="Abbrechen" state="secondary" />
-        <ButtonComponent
-          type="submit"
-          text="Speichern"
-          state="primary"
-          :icon="IconTypes.CHECK_MARK"
+      <form
+        ref="form"
+        class="site-detail__info"
+        :class="{ 'site-detail__info--loading': updateLoading }"
+        @submit.prevent="handleSubmit"
+        @focusin="formFocused = true"
+        @focusout="formFocused = false"
+        @reset="closeAndResetForm"
+      >
+        <h3>Informationen über die Liegenschaft</h3>
+        <FormInput
+          id="street-input"
+          label="Straße"
+          placeholder="Straße"
+          v-model="streetInput.value.value"
+          :hasError="!streetInput.isValid.value"
+          :errorMessage="streetInput.errorMessage.value"
         />
-      </div>
-    </form>
+        <div class="site-detail__group">
+          <FormInput
+            id="plz-input"
+            label="PLZ"
+            placeholder="PLZ"
+            v-model="zipCodeInput.value.value"
+            :hasError="!zipCodeInput.isValid.value"
+            :errorMessage="zipCodeInput.errorMessage.value"
+          />
+          <FormInput
+            id="city-input"
+            label="Stadt"
+            placeholder="Stadt"
+            v-model="cityInput.value.value"
+            :hasError="!cityInput.isValid.value"
+            :errorMessage="cityInput.errorMessage.value"
+          />
+        </div>
+        <FormInput
+          id="country-input"
+          label="Land"
+          placeholder="Land"
+          v-model="countryInput.value.value"
+          :hasError="!countryInput.isValid.value"
+          :errorMessage="countryInput.errorMessage.value"
+        />
+        <div class="site-detail__form-actions" v-if="formFocused || formState.isChanged.value">
+          <ButtonComponent type="reset" text="Abbrechen" state="secondary" />
+          <ButtonComponent
+            type="submit"
+            text="Speichern"
+            state="primary"
+            :icon="IconTypes.CHECK_MARK"
+          />
+        </div>
+      </form>
+    </div>
   </div>
   <InterceptionModal
     :isOpen="leaveFormInterception.isOpen.value"
@@ -71,6 +77,11 @@
 // TODO: connect to backend
 // TODO: handle page leave for unsaved changes
 
+// Store imports
+import { useSiteStore } from '@/store/site';
+import { useGeneralStore } from '@/store/general';
+import { mapStores } from 'pinia';
+
 // Hook import
 import { useInput } from '@/hooks/useInput';
 import { useFormManager } from '@/hooks/useFormManager';
@@ -81,6 +92,7 @@ import { usePageLeaveInterception } from '@/hooks/usePageLeaveInteception';
 import FormInput from '@/components/general/forms/FormInput.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // Helper imports
 import { requiredValidator } from '@/helpers/FormValidators';
@@ -88,8 +100,10 @@ import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 // Type imports
 import type { SiteWithBuildinginformationAndDataurl } from '@/types/local/Site';
+import type { FlatSiteData, SiteUpdateData } from '@/types/global/site/Site';
 import { type PropType } from 'vue';
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { EntendixInput } from '@/types/local/Inputs';
 
 export default {
   name: 'SiteDetails',
@@ -97,6 +111,7 @@ export default {
     FormInput,
     ButtonComponent,
     InterceptionModal,
+    LoadingSpinner,
   },
   props: {
     site: {
@@ -104,29 +119,33 @@ export default {
       required: true,
     },
   },
+  computed: {
+    ...mapStores(useSiteStore),
+    ...mapStores(useGeneralStore),
+  },
   setup(props) {
-    const streetInput = useInput<string>([requiredValidator], props.site.data.address.street);
-    const zipCodeInput = useInput<string>([requiredValidator], props.site.data.address.zipcode);
-    const cityInput = useInput<string>([requiredValidator], props.site.data.address.cityTown);
-    const countryInput = useInput<string>(
-      [requiredValidator],
-      props.site.data.address.nationalCode,
-    );
+    const inputs: { [key in keyof Omit<FlatSiteData, 'siteName'>]: EntendixInput<string> } = {
+      street: useInput<string>([requiredValidator], props.site.data.address.street),
+      zipcode: useInput<string>([requiredValidator], props.site.data.address.zipcode),
+      cityTown: useInput<string>([requiredValidator], props.site.data.address.cityTown),
+      nationalCode: useInput<string>([requiredValidator], props.site.data.address.nationalCode),
+    };
 
-    const formState = useFormManager([streetInput, zipCodeInput, cityInput, countryInput]);
+    const formState = useFormManager(Object.values(inputs));
 
     const leaveFormInterception = useModalInterception();
 
     usePageLeaveInterception(formState.isChanged, leaveFormInterception.interceptAction);
 
     return {
-      streetInput,
-      zipCodeInput,
-      cityInput,
-      countryInput,
+      streetInput: inputs.street,
+      zipCodeInput: inputs.zipcode,
+      cityInput: inputs.cityTown,
+      countryInput: inputs.nationalCode,
       formState,
       leaveFormInterception,
       SymbolImageHelper,
+      inputs,
     };
   },
   data() {
@@ -135,12 +154,62 @@ export default {
       // TODO: handle focus properly, when one looses focus and another one gets
       // it, the state flaps
       formFocused: false,
+      updateLoading: false,
     };
   },
   methods: {
     closeAndResetForm() {
       this.formState.reset();
       this.formFocused = false;
+    },
+    async handleSubmit() {
+      if (!this.formState.isValid.value) {
+        return;
+      }
+
+      this.updateLoading = true;
+
+      const updatedData: SiteUpdateData = {};
+
+      Object.entries(this.inputs).forEach(([key, input]) => {
+        if (input.isChanged.value) {
+          updatedData[key as keyof SiteUpdateData] = input.value.value;
+        }
+      });
+
+      this.siteStore
+        .updateSite(this.site.id, updatedData)
+        .then((updatedSite) => {
+          // Update initial values of inputs with new data from backend
+          Object.entries(updatedSite.data.address).forEach(([key, value]) => {
+            if (this.inputs[key as keyof typeof this.inputs]) {
+              this.inputs[key as keyof typeof this.inputs].updateInitialValue(value);
+            }
+          });
+
+          // Communicate success to user
+          this.closeAndResetForm();
+          const alertId = this.generalStore.addAlert({
+            type: 'success',
+            title: 'Änderungen gespeichert',
+            description: 'Die Liegenschaft wurde erfolgreich aktualisiert!',
+          });
+
+          setTimeout(() => {
+            this.generalStore.removeAlert(alertId);
+          }, 7000);
+        })
+        .catch(() => {
+          this.generalStore.addAlert({
+            type: 'error',
+            title: 'Fehler',
+            description:
+              'Die Liegenschaft konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut.',
+          });
+        })
+        .finally(() => {
+          this.updateLoading = false;
+        });
     },
   },
 };
@@ -157,10 +226,27 @@ export default {
     border-radius: $border-radius;
   }
 
+  &__form-wrap {
+    position: relative;
+  }
+
   &__info {
     display: flex;
     flex-direction: column;
     gap: $xxs;
+
+    &--loading {
+      opacity: 0.6;
+    }
+  }
+
+  &__updating {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
   }
 
   &__group {

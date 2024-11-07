@@ -6,7 +6,7 @@
       </div>
     </template>
     <template v-else>
-      <img :src="imgsrc" alt="Gebäudebild" />
+      <img :src="imgsrc" alt="Gebäudebild" class="card--image" />
       <div class="info">
         <ChipComponent v-if="status" :status="status" :isMini="true" />
         <div class="info--text">
@@ -142,9 +142,11 @@ export default {
     opacity: 0.6;
   }
 
-  > img {
+  &--image {
     height: 100%;
-    border-radius: 0 $base-size $base-size 0;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: $border-radius;
   }
 
   > .info {

@@ -1,5 +1,5 @@
 <template>
-  <DigitalTwinLayout>
+  <BaseLayout>
     <template #left>
       <h1>{{ buildingName }}</h1>
       <div v-if="buildingLoading" class="digital-twin-building__loading">
@@ -46,7 +46,7 @@
         />
       </div>
     </template>
-  </DigitalTwinLayout>
+  </BaseLayout>
   <EditEdgeDeviceModal
     v-model="buildingSettingsOpen"
     :edgeDevices="dummyEdgeDevices"
@@ -70,7 +70,7 @@ import { useGeneralStore } from '@/store/general';
 import { useBuildingStore } from '@/store/building';
 
 // Component imports
-import DigitalTwinLayout from '@/components/digitaltwins/DigitalTwinLayout.vue';
+import BaseLayout from '@/components/general/BaseLayout.vue';
 import BuildingDetails from '@/components/digitaltwins/BuildingDetails.vue';
 import TradeCard from '@/components/digitaltwins/TradeCard.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
@@ -100,7 +100,7 @@ const dummyEdgeDevices: DropdownOptionElement[] = [
 
 export default {
   components: {
-    DigitalTwinLayout,
+    BaseLayout,
     BuildingDetails,
     TradeCard,
     LoadingSpinner,

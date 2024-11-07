@@ -57,7 +57,7 @@
             name="values"
             v-model="selectedOption.value.value"
           />
-          <label for="InputC">Eigene Werte</label>
+          <label for="custom">Eigene Werte</label>
         </div>
         <div v-if="selectedOption.value.value === 'custom'" class="options">
           <div class="options--option">

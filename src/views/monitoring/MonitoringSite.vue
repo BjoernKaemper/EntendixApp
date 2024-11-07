@@ -42,7 +42,7 @@
         <h3>Performance der Liegenschaft</h3>
         <TimeRangeDropdown />
       </div>
-      <LoadingCards v-if="kpiIsLoading" :card-count="3" :grow-cards="true" />
+      <LoadingCards v-if="isLoading || kpiIsLoading" :card-count="3" :grow-cards="true" />
       <AlertElement
         v-else-if="kpiLoadingError"
         :alert="AlertMessages.CANNOT_LOAD"

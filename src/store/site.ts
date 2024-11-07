@@ -52,7 +52,6 @@ export const useSiteStore = defineStore('site', {
      * @returns {Promise<void>} The promise of the loading process
      */
     async loadSiteInformation(siteId: string): Promise<void> {
-      const generalStore = useGeneralStore();
       this.$state = defaultStoreState;
       this.isLoading = true;
 
@@ -64,16 +63,6 @@ export const useSiteStore = defineStore('site', {
         this.error = true;
       }
 
-      this.kpiState.isLoading = true;
-
-      // Start fetching of the KPIs
-      try {
-        this.kpiState.kpis = await generalStore.fetchKpiInformation(siteId);
-        this.kpiState.requestTimestamp = DateTime.now();
-      } catch (error) {
-        this.kpiState.error = true;
-      }
-      this.kpiState.isLoading = false;
       this.isLoading = false;
     },
 

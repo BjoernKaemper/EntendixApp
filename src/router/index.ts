@@ -210,7 +210,9 @@ const routes = [
       const siteStore = useSiteStore();
       const siteId = Base64Helper.decode(JSON.parse(route.params.siteparams as string).siteid);
       if (siteStore.site?.id !== siteId) {
-        siteStore.loadSiteInformation(siteId);
+        siteStore.loadSiteInformation(siteId).then(() => siteStore.fetchKpiChartData());
+      } else if (!siteStore.kpiState.kpis.length) {
+        siteStore.fetchKpiChartData();
       }
     },
   },
@@ -243,7 +245,11 @@ const routes = [
         JSON.parse(route.params.buildingparams as string).buildingid,
       );
       if (buildingStore.building?.id !== buildingid) {
-        buildingStore.loadBuildingInformation(buildingid);
+        buildingStore
+          .loadBuildingInformation(buildingid)
+          .then(() => buildingStore.fetchKpiChartData());
+      } else if (!buildingStore.kpiState.kpis.length) {
+        buildingStore.fetchKpiChartData();
       }
     },
   },

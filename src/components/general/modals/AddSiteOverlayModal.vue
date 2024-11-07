@@ -117,6 +117,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 // Helper imports
 import { requiredValidator } from '@/helpers/FormValidators';
 import CoordinatesHelper from '@/helpers/CoordinatesHelper';
+import Base64Helper from '@/helpers/Base64Helper';
 
 // Store import
 import { useSiteStore } from '@/store/site';
@@ -250,7 +251,7 @@ export default {
             name: 'DigitalTwins_Site',
             params: {
               siteparams: JSON.stringify({
-                siteid: result.id,
+                siteid: Base64Helper.encode(result.id),
                 siteName: result.data.siteName,
               }),
             },

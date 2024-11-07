@@ -4,72 +4,77 @@
       <h3>Neue Liegenschaft anlegen</h3>
     </template>
     <template #body>
-      <p id="">
-        Geben Sie die Informationen einer neuen Liegenschaft ein, um sie innerhalb von ENTENDIX zu
-        verwalten.
-      </p>
-      <form ref="form" @submit.prevent="handleSubmit">
-        <h4>Informationen pflegen</h4>
-        <FormInput
-          id="name"
-          label="Name"
-          placeholder="Name der Liegenschaft"
-          :required="true"
-          type="text"
-          v-model="nameInput.value.value"
-          :hasError="!nameInput.isValid.value && formState.showErrors.value"
-          :errorMessage="formState.showErrors.value ? nameInput.errorMessage.value : undefined"
-        />
-        <FormInput
-          id="street"
-          label="Straße"
-          placeholder="Straße"
-          :required="true"
-          type="text"
-          v-model="streetInput.value.value"
-          :hasError="!streetInput.isValid.value && formState.showErrors.value"
-          :errorMessage="formState.showErrors.value ? streetInput.errorMessage.value : undefined"
-        />
-        <div class="form-grid">
+      <LoadingSpinner v-if="isLoading" class="loading" />
+      <div :class="{ hideForm: isLoading }">
+        <p id="">
+          Geben Sie die Informationen einer neuen Liegenschaft ein, um sie innerhalb von ENTENDIX zu
+          verwalten.
+        </p>
+        <form ref="form" @submit.prevent="handleSubmit">
+          <h4>Informationen pflegen</h4>
           <FormInput
-            id="zip"
-            label="PLZ"
-            placeholder="PLZ"
+            id="name"
+            label="Name"
+            placeholder="Name der Liegenschaft"
             :required="true"
             type="text"
-            v-model="zipCodeInput.value.value"
-            :hasError="!zipCodeInput.isValid.value && formState.showErrors.value"
-            :errorMessage="formState.showErrors.value ? zipCodeInput.errorMessage.value : undefined"
+            v-model="nameInput.value.value"
+            :hasError="!nameInput.isValid.value && formState.showErrors.value"
+            :errorMessage="formState.showErrors.value ? nameInput.errorMessage.value : undefined"
           />
           <FormInput
-            id="city"
-            label="Stadt"
-            placeholder="Stadt"
+            id="street"
+            label="Straße"
+            placeholder="Straße"
             :required="true"
             type="text"
-            v-model="cityInput.value.value"
-            :hasError="!cityInput.isValid.value && formState.showErrors.value"
-            :errorMessage="formState.showErrors.value ? cityInput.errorMessage.value : undefined"
+            v-model="streetInput.value.value"
+            :hasError="!streetInput.isValid.value && formState.showErrors.value"
+            :errorMessage="formState.showErrors.value ? streetInput.errorMessage.value : undefined"
           />
-        </div>
-        <FormInput
-          id="country"
-          label="Land"
-          placeholder="Land"
-          :required="true"
-          type="text"
-          v-model="countryInput.value.value"
-          :hasError="!countryInput.isValid.value && formState.showErrors.value"
-          :errorMessage="formState.showErrors.value ? countryInput.errorMessage.value : undefined"
-        />
-        <FileInput
-          id="site-image"
-          label="Bild der Liegenschaft"
-          accepts="image/*"
-          selectPrompt="Datei auswählen"
-          @update:fileList="(e) => (files.value.value = e)"
-        />
-      </form>
+          <div class="form-grid">
+            <FormInput
+              id="zip"
+              label="PLZ"
+              placeholder="PLZ"
+              :required="true"
+              type="text"
+              v-model="zipCodeInput.value.value"
+              :hasError="!zipCodeInput.isValid.value && formState.showErrors.value"
+              :errorMessage="
+                formState.showErrors.value ? zipCodeInput.errorMessage.value : undefined
+              "
+            />
+            <FormInput
+              id="city"
+              label="Stadt"
+              placeholder="Stadt"
+              :required="true"
+              type="text"
+              v-model="cityInput.value.value"
+              :hasError="!cityInput.isValid.value && formState.showErrors.value"
+              :errorMessage="formState.showErrors.value ? cityInput.errorMessage.value : undefined"
+            />
+          </div>
+          <FormInput
+            id="country"
+            label="Land"
+            placeholder="Land"
+            :required="true"
+            type="text"
+            v-model="countryInput.value.value"
+            :hasError="!countryInput.isValid.value && formState.showErrors.value"
+            :errorMessage="formState.showErrors.value ? countryInput.errorMessage.value : undefined"
+          />
+          <FileInput
+            id="site-image"
+            label="Bild der Liegenschaft"
+            accepts="image/*"
+            selectPrompt="Datei auswählen"
+            @update:fileList="(e) => (files.value.value = e)"
+          />
+        </form>
+      </div>
     </template>
     <template #footer>
       <ButtonComponent type="reset" text="Abbrechen" state="secondary" @click="handleClose" />
@@ -107,6 +112,7 @@ import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
 import FormInput from '@/components/general/forms/FormInput.vue';
 import FileInput from '@/components/general/forms/FileInput.vue';
 import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // Helper imports
 import { requiredValidator } from '@/helpers/FormValidators';
@@ -127,6 +133,7 @@ export default {
     FormInput,
     FileInput,
     InterceptionModal,
+    LoadingSpinner,
   },
   props: {
     /**
@@ -139,6 +146,11 @@ export default {
       type: Boolean,
       required: true,
     },
+  },
+  data() {
+    return {
+      isLoading: false,
+    };
   },
   emits: ['close'],
   setup() {
@@ -206,6 +218,7 @@ export default {
         this.formState.showErrors.value = true;
         return;
       }
+      this.isLoading = true;
       try {
         // Get the coordinates for the address
         const addressWithCords = await CoordinatesHelper.getCoordinates({
@@ -252,6 +265,7 @@ export default {
           title: 'Fehler beim Anlegen der Liegenschaft',
         });
       }
+      this.isLoading = false;
     },
   },
 };
@@ -275,5 +289,15 @@ form {
     grid-template-columns: 1fr 1fr;
     gap: $xxs;
   }
+}
+.loading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.hideForm {
+  visibility: hidden;
 }
 </style>

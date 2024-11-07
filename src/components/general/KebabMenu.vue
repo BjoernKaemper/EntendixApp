@@ -5,7 +5,12 @@
     </button>
     <ul v-if="isOpen" class="menu-options">
       <li v-for="(option, idx) in options" :key="idx">
-        <button type="button" @click="optionSelected(option.emits)">
+        <button
+          type="button"
+          @click="optionSelected(option.emits)"
+          :disabled="option.disabled || false"
+          :title="option.disabled ? 'Coming soon' : undefined"
+        >
           <MaterialSymbol
             :symbol="option.icon"
             :class="{ [`menu-icon--${option.iconColor}`]: option.iconColor }"
@@ -28,6 +33,7 @@ export type Option = {
   text: string;
   emits: string;
   iconColor?: 'red' | 'purple';
+  disabled?: boolean;
 };
 
 export default {

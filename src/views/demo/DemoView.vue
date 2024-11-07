@@ -19,6 +19,9 @@
         @close="closeMetricsModal"
         modal-title="Title of Metrics Modal"
         modal-description="Description of Metrics Modal"
+        :critical-value="50"
+        :good-value="150"
+        unit="kWh"
       />
       <button type="button" @click="openModal">Open Modal</button>
       <ModalOverlay :isOpen="isModalOpen" @close="closeModal">

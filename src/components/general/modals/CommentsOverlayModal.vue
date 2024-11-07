@@ -1,5 +1,5 @@
 <template>
-  <ModalOverlay :isOpen="isCommentsModalOpen">
+  <ModalOverlay :isOpen="isCommentsModalOpen" @close="handleClose">
     <template #header>
       <div id="comments-modal-overlay__header">
         <h3>Kommentare für "{{ commentName }}"</h3>
@@ -20,33 +20,51 @@
       </div>
 
       <div id="comments-modal-overlay__body__form">
-        <form action="submit">
+        <form ref="form" @submit.prevent="handleSubmit">
           <h3 id="comments-modal-overlay__body__form__headline">Neuer Kommentar</h3>
           <div class="group">
-            <MaterialSymbol :symbol="IconTypes.NOTE" />
-            <textarea id="comment" placeholder="Kommentar zum Datenpunkt" />
+            <FormInput
+              id="comment"
+              :icon="IconTypes.NOTE"
+              type="textarea"
+              placeholder="Kommentar zum Datenpunkt"
+              :hasError="!newComment.isValid && formState.showErrors.value"
+              :error-message="
+                formState.showErrors.value ? newComment.errorMessage.value : undefined
+              "
+              v-model="newComment.value.value"
+              required
+              :rows="3"
+            />
           </div>
           <div class="date-inputs">
             <div class="group">
-              <MaterialSymbol :symbol="IconTypes.CALENDAR" />
-              <input
-                type="text"
-                onfocus="(this.type='date')"
-                onblur="(this.type='text')"
+              <FormInput
                 id="start-date"
+                :icon="IconTypes.CALENDAR"
+                type="date"
                 placeholder="Startdatum"
                 :value="getCurrentDate"
+                :hasError="!startDateInput.isValid && formState.showErrors.value"
+                :error-message="
+                  formState.showErrors.value ? startDateInput.errorMessage.value : undefined
+                "
+                v-model="startDateInput.value.value"
+                required
               />
               <p>bis</p>
             </div>
             <div class="group">
-              <MaterialSymbol :symbol="IconTypes.CALENDAR" />
-              <input
-                type="text"
-                onfocus="(this.type='date')"
-                onblur="(this.type='text')"
+              <FormInput
                 id="end-date"
+                :icon="IconTypes.CALENDAR"
+                type="date"
                 placeholder="Enddatum"
+                :hasError="!endDateInput.isValid && formState.showErrors.value"
+                :error-message="
+                  formState.showErrors.value ? endDateInput.errorMessage.value : undefined
+                "
+                v-model="endDateInput.value.value"
               />
             </div>
           </div>
@@ -55,32 +73,66 @@
     </template>
     <template #footer>
       <ButtonComponent
-        @click="submitComment"
+        type="submit"
+        @click="submitForm"
         state="primary"
         text="Kommentar hinzufügen"
         :icon="IconTypes.ADD"
+        title="Coming soon"
+        disabled
       />
     </template>
   </ModalOverlay>
+  <InterceptionModal
+    :isOpen="interceptLeave.isOpen.value"
+    @cancel="interceptLeave.abortAction"
+    @confirm="interceptLeave.confirmAction"
+    title="Änderungen verwerfen?"
+    confirmText="Änderungen verwerfen"
+  >
+    <template #body>
+      <p>
+        Sind Sie sicher, dass Sie den aktuellen Dialog schließen wollen? Die von Ihnen vorgenommenen
+        <strong>Änderungen gehen verloren.</strong>
+      </p>
+    </template>
+  </InterceptionModal>
 </template>
 
 <script lang="ts">
+// Store imports
+import { useGeneralStore } from '@/store/general';
+import { mapStores } from 'pinia';
+
+// Hook imports
+import { useInput } from '@/hooks/useInput';
+import { useFormManager } from '@/hooks/useFormManager';
+import { useModalInterception } from '@/hooks/useModalInterception';
+import { usePageLeaveInterception } from '@/hooks/usePageLeaveInteception';
+
+// Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
 import { ModuleTypes } from '@/types/enums/ModuleTypes';
 import type { Annotation } from '@/types/global/kpi/Kpi';
-import DateHelper from '@/helpers/DateHelper';
 
+// Helper imports
+import DateHelper from '@/helpers/DateHelper';
+import { requiredValidator } from '@/helpers/FormValidators';
+
+// Component imports
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
-import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
 import CommentsWrapper from '@/components/general/comments/CommentsWrapper.vue';
+import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
+import FormInput from '@/components/general/forms/FormInput.vue';
 
 export default {
   components: {
     ModalOverlay,
     ButtonComponent,
-    MaterialSymbol,
     CommentsWrapper,
+    InterceptionModal,
+    FormInput,
   },
   props: {
     /**
@@ -148,72 +200,73 @@ export default {
       default: () => [],
     },
   },
+  emits: ['close'],
   setup() {
+    const newComment = useInput<string>([requiredValidator], '');
+    const startDateInput = useInput<string>([requiredValidator], '');
+    const endDateInput = useInput<string>([], '');
+
+    const formState = useFormManager([newComment, startDateInput, endDateInput]);
+    const interceptLeave = useModalInterception();
+
+    usePageLeaveInterception(formState.isChanged, interceptLeave.interceptAction);
+
     return {
       IconTypes,
       DateHelper,
+      newComment,
+      startDateInput,
+      endDateInput,
+      formState,
+      interceptLeave,
     };
   },
   computed: {
+    ...mapStores(useGeneralStore),
     getCurrentDate(): string {
       return new Date().toISOString().split('T')[0];
     },
   },
   methods: {
-    validateComment(comment: string, startDate: Date): boolean {
-      // validate comment
-      if (!comment) {
-        // show error message
-        return false;
-      }
-      // validate start date
-      if (!startDate) {
-        // show error message
-        return false;
-      }
-      return true;
-    },
-    submitComment(): void {
-      // reference the comment
-      const comment = document.getElementById('comment') as HTMLInputElement;
-      // reference the start date
-      const startDate = document.getElementById('start-date') as HTMLInputElement;
-      // reference the end date
-      const endDate = document.getElementById('end-date') as HTMLInputElement;
-      // add a unique id to the comment using hash function
-      const id: number = Math.floor(Math.random() * 1000000);
-      const user: string =
-        window.localStorage.getItem(
-          'CognitoIdentityServiceProvider.72jdgrgeu89hiqvmaciibrdi4.LastAuthUser',
-        ) || 'User'; // @TODO get user from backend
-      const dateOfSubmission = new Date().toISOString().split('T')[0];
-
-      if (!this.validateComment(comment.value, new Date(startDate.value))) {
-        // TODO: show error message
+    submitForm() {
+      if (!this.$refs.form) {
         return;
       }
 
-      // when comment is submitted, write it to JSON file
-      const comments = JSON.parse(window.localStorage.getItem('comment') || '[]');
-      const submittedComment = {
-        id,
-        comment: comment.value,
-        startDate: startDate.value,
-        endDate: endDate.value,
-        user,
-        dateOfSubmission,
-      };
+      const form = this.$refs.form as HTMLFormElement;
 
-      comments.push(submittedComment);
+      form.requestSubmit();
+    },
+    handleClose() {
+      if (!this.formState.isChanged.value) {
+        this.$emit('close');
+        return;
+      }
 
-      // clear the form
-      comment.value = '';
-      startDate.value = '';
-      endDate.value = '';
+      this.interceptLeave.interceptAction(
+        () => {
+          this.$emit('close');
+          this.formState.reset();
+        },
+        () => {},
+      );
+    },
+    handleSubmit() {
+      if (!this.formState.isValid.value) {
+        this.formState.showErrors.value = true;
+        return;
+      }
 
-      // @TODO handle submission to backend in future implementations
-      // check local storage for comments
-      window.localStorage.setItem('comment', JSON.stringify(comments));
+      const user: string = this.generalStore.getUserId();
+      const dateOfSubmission = new Date().toISOString().split('T')[0];
+
+      // TODO: submit properly
+      const body = new FormData();
+      body.append('comment', this.newComment.value.value);
+      body.append('startDate', this.startDateInput.value.value);
+      body.append('endDate', this.endDateInput.value.value);
+      body.append('user', user);
+      body.append('dateOfSubmission', dateOfSubmission);
     },
     deleteComment(id: string): void {
       // @TODO handle deletion of comment
@@ -268,23 +321,6 @@ export default {
             position: absolute;
             left: $base-size;
             top: $base-size;
-          }
-
-          textarea {
-            // focus textarea right after icon
-            width: 100%;
-            padding: $base-size;
-            border: 1px solid $light-purple;
-            border-radius: $border-radius;
-            min-height: $xxxl;
-            padding-left: $l;
-
-            &::placeholder {
-              color: $light-purple;
-            }
-            &:focus {
-              outline: none;
-            }
           }
 
           input {

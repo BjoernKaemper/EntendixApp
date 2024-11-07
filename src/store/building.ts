@@ -177,7 +177,7 @@ export const useBuildingStore = defineStore('building', {
         data: mergedData,
       };
 
-      return updatedBuilding;
+      return this.building;
     },
   },
 });

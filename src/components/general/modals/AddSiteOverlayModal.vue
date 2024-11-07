@@ -110,13 +110,15 @@ import InterceptionModal from '@/components/general/modals/InterceptionModal.vue
 
 // Helper imports
 import { requiredValidator } from '@/helpers/FormValidators';
+import CoordinatesHelper from '@/helpers/CoordinatesHelper';
 
-// Type imports
-import { IconTypes } from '@/types/enums/IconTypes';
-import type { Site } from '@/types/global/site/Site';
 // Store import
 import { useSiteStore } from '@/store/site';
 import { useGeneralStore } from '@/store/general';
+
+// Type imports
+import { IconTypes } from '@/types/enums/IconTypes';
+import type { Address } from '@/types/global/general/Address';
 
 export default {
   components: {
@@ -204,32 +206,50 @@ export default {
         this.formState.showErrors.value = true;
         return;
       }
-
-      const body = new FormData();
-      if (this.files.value.value.length !== 0) {
-        body.append('image', this.files.value.value[0]);
-      }
-      body.append('siteName', this.nameInput.value.value);
-      body.append('street', this.streetInput.value.value);
-      body.append('zipcode', this.zipCodeInput.value.value);
-      body.append('cityTown', this.cityInput.value.value);
-      body.append('nationalCode', this.countryInput.value.value);
-      // Add the Company ID to the body, this will be for the next few years always be the first company, cause we only have one company
-      body.append('companyId', this.generalStore.baseInfoState.companies[0].id);
-      const result = await this.siteStore.addSite(body);
-      if (typeof result !== 'boolean') {
-        // The result is not a boolean, so it is a Site object
-        // Close the modal, reset the form and navigate to the new site page
-        this.$emit('close');
-        this.formState.reset();
-        this.$router.push({
-          name: 'DigitalTwins_Site',
-          params: {
-            siteparams: JSON.stringify({
-              siteid: result.id,
-              siteName: result.data.siteName,
-            }),
-          },
+      try {
+        // Get the coordinates for the address
+        const addressWithCords = await CoordinatesHelper.getCoordinates({
+          street: this.streetInput.value.value,
+          zipcode: this.zipCodeInput.value.value,
+          cityTown: this.cityInput.value.value,
+          nationalCode: this.countryInput.value.value,
+        } as Address);
+        const body = new FormData();
+        if (this.files.value.value.length !== 0) {
+          body.append('image', this.files.value.value[0]);
+        }
+        body.append('siteName', this.nameInput.value.value);
+        body.append('street', addressWithCords.street);
+        body.append('zipcode', addressWithCords.zipcode);
+        body.append('cityTown', addressWithCords.cityTown);
+        body.append('nationalCode', addressWithCords.nationalCode);
+        body.append('lattitude', addressWithCords.lattitude);
+        body.append('longitude', addressWithCords.longitude);
+        // Add the Company ID to the body, this will be for the next few years always be the first company, cause we only have one company
+        body.append('companyId', this.generalStore.baseInfoState.companies[0].id);
+        const result = await this.siteStore.addSite(body);
+        if (typeof result !== 'boolean') {
+          // The result is not a boolean, so it is a Site object
+          // Close the modal, reset the form and navigate to the new site page
+          this.$emit('close');
+          this.formState.reset();
+          this.$router.push({
+            name: 'DigitalTwins_Site',
+            params: {
+              siteparams: JSON.stringify({
+                siteid: result.id,
+                siteName: result.data.siteName,
+              }),
+            },
+          });
+        }
+      } catch (error) {
+        // TODO: Add alert
+        this.generalStore.addAlert({
+          type: 'error',
+          description:
+            'Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.',
+          title: 'Fehler beim Anlegen der Liegenschaft',
         });
       }
     },

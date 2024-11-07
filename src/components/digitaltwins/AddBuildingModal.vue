@@ -33,6 +33,7 @@
             id="building-usage"
             label="Allgemeine Nutzungszeit (optional)"
             type="textarea"
+            :rows="2"
             v-model="usage.value.value"
             placeholder="Allgemein Nutzungszeit"
             description="Geplante Nutzung des Gebäudes nach Uhrzeit, Wochentag und Saison"

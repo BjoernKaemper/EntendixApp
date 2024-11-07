@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { DateTime } from 'luxon';
 
 // Types
-import type { Building } from '@/types/global/building/Building';
+import type { Building, BuildingUpdateData } from '@/types/global/building/Building';
 import type { Subsection } from '@/types/global/subsections/Subsection';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 
@@ -141,6 +141,43 @@ export const useBuildingStore = defineStore('building', {
         this.kpiState.error = true;
       }
       this.kpiState.isLoading = false;
+    },
+
+    /**
+     * Update props of a building
+     * @param buildingId - Building to update props for
+     * @param updateData - props to change
+     * @returns Updated Building on success
+     * @throws Error on failure
+     */
+    async updateBuilding(buildingId: string, updateData: BuildingUpdateData): Promise<Building> {
+      const generalStore = useGeneralStore();
+
+      // Build the query and the request
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        method: 'PATCH',
+        body: JSON.stringify(updateData),
+      };
+
+      const updatedBuilding = (await FetchHelper.apiCall(
+        `/buildings/${Base64Helper.encode(buildingId)}?${q}`,
+        requestOptions,
+      )) as Building;
+
+      // Merge the updated buildings data with current extended buildings data
+      const mergedData = { ...this.building?.data, ...updatedBuilding.data };
+
+      this.building = {
+        ...updatedBuilding,
+        data: mergedData,
+      };
+
+      return updatedBuilding;
     },
   },
 });

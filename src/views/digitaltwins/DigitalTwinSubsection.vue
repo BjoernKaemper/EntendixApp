@@ -9,6 +9,7 @@
           :src="SymbolImageHelper.getImage(subsection!.data.tradeType)"
           :alt="`Schema der Anlage ${subsectionName}`"
           :use-aspect-ratio="false"
+          class="twin-subsection__image"
         />
       </div>
     </template>
@@ -139,6 +140,10 @@ export default {
     justify-content: center;
     align-items: center;
     padding: $s;
+  }
+
+  &__image {
+    width: 100%;
   }
 
   &__plants {

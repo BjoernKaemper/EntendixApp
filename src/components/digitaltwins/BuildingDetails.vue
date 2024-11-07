@@ -5,6 +5,7 @@
         :src="BuildingCardPreview"
         :alt="`Schema des Gebäudes ${buildingName}`"
         :use-aspect-ratio="false"
+        class="twin-building-details__image"
       />
     </figure>
     <form

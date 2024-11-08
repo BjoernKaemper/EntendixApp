@@ -57,33 +57,37 @@
         <section class="aggregate-modal__section">
           <h6>Funktionen nach BACnet & BACtwin</h6>
           <table class="aggregate-modal__table" cellspacing="0">
-            <tr>
-              <td colspan="2" class="aggregate-modal__table-sub-heading">BACnet</td>
-              <td colspan="6" class="aggregate-modal__table-sub-heading">BACtwin</td>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Beschreibung</th>
-              <th>Gewerk</th>
-              <th>Anlage</th>
-              <th>Baugruppe</th>
-              <th>Medium</th>
-              <th>Aggregat</th>
-              <th>Funktion</th>
-            </tr>
-            <tr
-              v-for="dataPoint in aggregate.data.dataPoints"
-              :key="dataPoint.dataPoint?.objectIdentifier"
-            >
-              <td class="aggregate-modal__data-name">{{ dataPoint.dataPoint?.objectName }}</td>
-              <td>{{ dataPoint.dataPoint?.description }}</td>
-              <td>{{ data.subSectionName }}</td>
-              <td>{{ data.plantName }}</td>
-              <td>{{ data.moduleName }}</td>
-              <td>{{ data.mediumName }}</td>
-              <td>{{ data.aggregateName }}</td>
-              <td>{{ dataPoint.description.de }}</td>
-            </tr>
+            <thead>
+              <tr>
+                <td colspan="2" class="aggregate-modal__table-sub-heading">BACnet</td>
+                <td colspan="6" class="aggregate-modal__table-sub-heading">BACtwin</td>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <th>Beschreibung</th>
+                <th>Gewerk</th>
+                <th>Anlage</th>
+                <th>Baugruppe</th>
+                <th>Medium</th>
+                <th>Aggregat</th>
+                <th>Funktion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="dataPoint in aggregate.data.dataPoints"
+                :key="dataPoint.dataPoint?.objectIdentifier"
+              >
+                <td class="aggregate-modal__data-name">{{ dataPoint.dataPoint?.objectName }}</td>
+                <td>{{ dataPoint.dataPoint?.description }}</td>
+                <td>{{ data.subSectionName }}</td>
+                <td>{{ data.plantName }}</td>
+                <td>{{ data.moduleName }}</td>
+                <td>{{ data.mediumName }}</td>
+                <td>{{ data.aggregateName }}</td>
+                <td>{{ dataPoint.description.de }}</td>
+              </tr>
+            </tbody>
           </table>
         </section>
       </div>

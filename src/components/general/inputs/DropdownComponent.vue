@@ -221,8 +221,10 @@ export default {
 .dropdown-input-list-wrapper {
   @include content;
   visibility: hidden;
+  display: none;
+  position: absolute;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   border: 1px solid $light-purple;
   border-radius: $border-radius;
   background: white;
@@ -256,6 +258,7 @@ export default {
 
   &.is-active {
     visibility: visible;
+    display: block;
   }
 }
 </style>

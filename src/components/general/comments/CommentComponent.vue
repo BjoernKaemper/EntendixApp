@@ -14,6 +14,7 @@
             text: 'Kommentar löschen',
             emits: 'delete',
             iconColor: 'red',
+            disabled: true,
           },
         ]"
         @delete="deleteComment('TODO: Add Identifier')"

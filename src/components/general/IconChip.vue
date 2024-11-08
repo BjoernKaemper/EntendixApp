@@ -1,5 +1,5 @@
 <template>
-  <div class="icon-chip" :class="colorClass">
+  <div class="icon-chip" :class="[colorClass, size]">
     <MaterialSymbol :symbol="icon" />
   </div>
 </template>
@@ -28,6 +28,14 @@ export default {
     status: {
       type: String as PropType<ChipStatusTypes | ComponentStatusTypes>,
       default: ChipStatusTypes.INFO,
+    },
+    /**
+     * The size of the iconChip
+     * @default 'medium'
+     */
+    size: {
+      type: String as PropType<'small' | 'medium'>,
+      default: 'medium',
     },
   },
   components: {
@@ -90,7 +98,12 @@ export default {
   padding: $base-size;
   border-radius: $border-radius;
   height: 100%;
-  padding: $xxs $xxxs;
+  &.small {
+    padding: $xxxs;
+  }
+  &.medium {
+    padding: $xxs $xxxs;
+  }
 
   &.success {
     background-color: $light-green;

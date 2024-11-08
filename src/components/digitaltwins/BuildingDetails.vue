@@ -5,6 +5,7 @@
         :src="BuildingCardPreview"
         :alt="`Schema des Gebäudes ${buildingName}`"
         :use-aspect-ratio="false"
+        class="twin-building-details__image"
       />
     </figure>
     <form
@@ -27,6 +28,7 @@
       <FormInput
         id="usageTime"
         type="textarea"
+        :rows="2"
         label="Allgemeine Nutzungszeit"
         placeholder="Allgemeine Nutzungszeit"
         v-model="usage.value.value"

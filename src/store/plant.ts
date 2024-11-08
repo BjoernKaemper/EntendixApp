@@ -22,6 +22,7 @@ interface PlantStoreState {
     isLoading: boolean;
     requestTimestamp: DateTime | null;
     error: boolean;
+    partialError: boolean;
   };
   kpiState: {
     kpis: Kpi[];
@@ -46,6 +47,7 @@ const defaultModuleState = {
   isLoading: false,
   requestTimestamp: null,
   error: false,
+  partialError: false,
 };
 
 const defaultStoreState = {
@@ -117,6 +119,63 @@ export const usePlantStore = defineStore('plant', {
         this.kpiState.error = true;
       }
       this.kpiState.isLoading = false;
+    },
+
+    /**
+     * Fetch detailed module data for current plant
+     */
+    async fetchModuleData(): Promise<void> {
+      if (!this.plant) {
+        throw new Error('Plant not loaded');
+      }
+
+      if (!this.plant.data.modules) {
+        throw new Error('No modules found');
+      }
+
+      this.moduleState.isLoading = true;
+      this.moduleState.error = false;
+      this.moduleState.partialError = false;
+
+      const generalStore = useGeneralStore();
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const modulePromises = this.plant.data.modules.map((module) => {
+        return FetchHelper.apiCall(`/modules/${Base64Helper.encode(module.id)}/mediums?${q}`, {});
+      });
+
+      await Promise.allSettled(modulePromises)
+        .then((results) => {
+          results.forEach((result) => {
+            if (result.status === 'rejected') {
+              this.moduleState.partialError = true;
+              return;
+            }
+
+            this.moduleState.modules.push(result.value);
+          });
+
+          if (
+            this.moduleState.partialError &&
+            results.every((result) => result.status === 'rejected')
+          ) {
+            throw new Error("Couldn't fetch any module data");
+          }
+
+          this.moduleState.modules.sort((a, b) =>
+            a.data.moduleName.localeCompare(b.data.moduleName),
+          ) as Module[];
+          this.moduleState.requestTimestamp = DateTime.now();
+        })
+        .catch(() => {
+          this.moduleState.error = true;
+        })
+        .finally(() => {
+          this.moduleState.isLoading = false;
+        });
     },
   },
 });

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { DateTime } from 'luxon';
 
 // Types
-import type { Building } from '@/types/global/building/Building';
+import type { Building, FlatBuildingCreateData } from '@/types/global/building/Building';
 import type { Subsection } from '@/types/global/subsections/Subsection';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 
@@ -141,6 +141,50 @@ export const useBuildingStore = defineStore('building', {
         this.kpiState.error = true;
       }
       this.kpiState.isLoading = false;
+    },
+
+    /**
+     * Add a new building
+     * @param {FormData} requestBody The form data of the Building to add
+     * @returns {Promise<boolean | Building>} The promise of the adding process
+     */
+    async addBuilding(requestBody: FlatBuildingCreateData): Promise<boolean | Building> {
+      const generalStore = useGeneralStore();
+
+      // Build the query and the request
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+      } as RequestInit;
+
+      // Try to post the data and add the site
+      try {
+        const postResult = await FetchHelper.apiCall(`/buildings?${q}`, requestOptions);
+        if (postResult.ok) {
+          generalStore.addAlert({
+            type: 'success',
+            title: 'Gebäude wurde hinzugefügt',
+            description: '',
+          });
+          // Parse the result and add it to the store
+          const building = (await postResult.json()) as Building;
+          this.building = building;
+          return building;
+        }
+        throw new Error('Failed to add Building');
+      } catch (error) {
+        generalStore.addAlert({
+          type: 'error',
+          title: 'Hinzufügen des Gebäudes fehlgeschlagen!',
+          description: 'Bitte versuche es zu einem späteren Zeitpunkt erneut.',
+        });
+        return false;
+      }
     },
   },
 });

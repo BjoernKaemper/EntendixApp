@@ -39,6 +39,8 @@
             description="Geplante Nutzung des Gebäudes nach Uhrzeit, Wochentag und Saison"
             :has-error="!usage.isValid && formState.showErrors.value"
             :error-message="formState.showErrors.value ? usage.errorMessage.value : undefined"
+            disabled
+            title="Coming soon"
           />
           <FileInput
             id="building-planning-data"
@@ -47,6 +49,8 @@
             multiple
             selectPrompt="Dateien auswählen"
             @update:fileList="(e) => (files.value.value = e)"
+            disabled
+            title="Coming soon"
           />
         </div>
         <div class="add-building__form-group">
@@ -57,6 +61,8 @@
               :options="dummyOptions"
               :currentValue="edgeDevice.value.value"
               @changed="(value) => (edgeDevice.value.value = value)"
+              disabled
+              title="Coming soon"
             />
           </div>
         </div>
@@ -96,6 +102,12 @@ import { useFormManager } from '@/hooks/useFormManager';
 import { useModalInterception } from '@/hooks/useModalInterception';
 import { usePageLeaveInterception } from '@/hooks/usePageLeaveInteception';
 
+// Store imports
+import { useSiteStore } from '@/store/site';
+import { useBuildingStore } from '@/store/building';
+import { useGeneralStore } from '@/store/general';
+import { mapStores } from 'pinia';
+
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
 import type { DropdownOptions } from '@/types/local/DropdownOptions';
@@ -110,6 +122,7 @@ import InterceptionModal from '@/components/general/modals/InterceptionModal.vue
 
 // Helper imports
 import { minValidator, requiredValidator } from '@/helpers/FormValidators';
+import Base64Helper from '@/helpers/Base64Helper';
 
 // TODO: get proper edge device options from middleware/backend
 const dummyOptions: DropdownOptions = [
@@ -133,7 +146,11 @@ export default {
     return {
       IconTypes,
       dummyOptions,
+      isLoading: false,
     };
+  },
+  computed: {
+    ...mapStores(useSiteStore, useBuildingStore, useGeneralStore),
   },
   props: {
     /**
@@ -192,25 +209,51 @@ export default {
         () => {},
       );
     },
-    handleSubmit() {
+    async handleSubmit() {
       if (!this.formState.isValid.value) {
         this.formState.showErrors.value = true;
         return;
       }
 
-      // TODO: submit properly
-      const body = new FormData();
-      this.files.value.value.forEach((file) => {
-        body.append('files', file);
-      });
-      body.append('name', this.name.value.value);
-      body.append('usableSpace', this.usableSpace.value.value);
-      body.append('usage', this.usage.value.value);
+      this.isLoading = true;
 
-      fetch('http://localhost:3000/la/le/lu', {
-        method: 'POST',
-        body,
-      });
+      try {
+        // TODO: Uncomment when file input and usage input are prioritized and handled in backend
+        const body = {
+          // usage: this.usage.value.value,
+          buildingName: this.name.value.value,
+          usableSpace: this.usableSpace.value.value,
+          siteId: this.siteStore.site!.id,
+        };
+
+        const result = await this.buildingStore.addBuilding(body);
+        if (typeof result !== 'boolean') {
+          // The result is not a boolean, so it is a Site object
+          // Close the modal, reset the form and navigate to the new site page
+          this.$emit('update:modelValue');
+          this.formState.reset();
+          this.$router.push({
+            name: 'DigitalTwins_Building',
+            params: {
+              buildingparams: JSON.stringify({
+                siteid: Base64Helper.encode(this.siteStore.site!.id),
+                siteName: this.siteStore.site!.data.siteName,
+                buildingid: Base64Helper.encode(result.id),
+                buildingName: result.data.buildingName,
+              }),
+            },
+          });
+        }
+      } catch (error) {
+        // TODO: Add alert
+        this.generalStore.addAlert({
+          type: 'error',
+          description:
+            'Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.',
+          title: 'Fehler beim Anlegen der Liegenschaft',
+        });
+      }
+      this.isLoading = false;
     },
   },
 };

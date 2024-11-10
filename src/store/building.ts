@@ -146,7 +146,8 @@ export const useBuildingStore = defineStore('building', {
     /**
      * Add a new building
      * @param {FormData} requestBody The form data of the Building to add
-     * @returns {Promise<boolean | Building>} The promise of the adding process
+     * @returns {Promise<Building>} The promise of the adding process
+     * @throws {Error} Throws an error if the adding process fails
      */
     async addBuilding(requestBody: FlatBuildingCreateData): Promise<boolean | Building> {
       const generalStore = useGeneralStore();
@@ -163,28 +164,17 @@ export const useBuildingStore = defineStore('building', {
       } as RequestInit;
 
       // Try to post the data and add the site
-      try {
-        const postResult = await FetchHelper.apiCall(`/buildings?${q}`, requestOptions);
-        if (postResult.ok) {
-          generalStore.addAlert({
-            type: 'success',
-            title: 'Gebäude wurde hinzugefügt',
-            description: '',
-          });
-          // Parse the result and add it to the store
-          const building = (await postResult.json()) as Building;
-          this.building = building;
-          return building;
-        }
-        throw new Error('Failed to add Building');
-      } catch (error) {
-        generalStore.addAlert({
-          type: 'error',
-          title: 'Hinzufügen des Gebäudes fehlgeschlagen!',
-          description: 'Bitte versuche es zu einem späteren Zeitpunkt erneut.',
-        });
-        return false;
-      }
+      const postResult = await FetchHelper.apiCall(`/buildings?${q}`, requestOptions);
+      generalStore.addAlert({
+        type: 'success',
+        title: 'Gebäude wurde hinzugefügt',
+        description: '',
+      });
+      // Parse the result and add it to the store
+
+      const building = postResult as Building;
+      this.building = building;
+      return building;
     },
   },
 });

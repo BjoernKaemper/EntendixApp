@@ -4,69 +4,74 @@
       <h5>Neues Gebäude zur Liegenschaft hinzufügen</h5>
     </template>
     <template #body>
-      <p>
-        Geben Sie die Informationen eines neuen Gebäudes ein. Falls das ENTENDIX Edge Device im
-        Gebäude angebracht wurde, können Sie es hier mit dem Digitalen Zwilling verknüpfen.
-      </p>
-      <form class="add-building__form" ref="form" @submit.prevent="handleSubmit">
-        <div class="add-building__form-group">
-          <h3>Informationen pflegen</h3>
-          <FormInput
-            id="building-name"
-            label="Name"
-            placeholder="Name"
-            v-model="name.value.value"
-            :hasError="!name.isValid && formState.showErrors.value"
-            :error-message="formState.showErrors.value ? name.errorMessage.value : undefined"
-            required
-          />
-          <FormInput
-            id="building-space"
-            label="Netto-Grundfläche [m²]"
-            type="number"
-            v-model="usableSpace.value.value"
-            :has-error="!usableSpace.isValid && formState.showErrors.value"
-            :error-message="formState.showErrors.value ? usableSpace.errorMessage.value : undefined"
-            required
-          />
-          <FormInput
-            id="building-usage"
-            label="Allgemeine Nutzungszeit (optional)"
-            type="textarea"
-            :rows="2"
-            v-model="usage.value.value"
-            placeholder="Allgemein Nutzungszeit"
-            description="Geplante Nutzung des Gebäudes nach Uhrzeit, Wochentag und Saison"
-            :has-error="!usage.isValid && formState.showErrors.value"
-            :error-message="formState.showErrors.value ? usage.errorMessage.value : undefined"
-            disabled
-            title="Coming soon"
-          />
-          <FileInput
-            id="building-planning-data"
-            label="Planungsdaten"
-            accepts="image/*"
-            multiple
-            selectPrompt="Dateien auswählen"
-            @update:fileList="(e) => (files.value.value = e)"
-            disabled
-            title="Coming soon"
-          />
-        </div>
-        <div class="add-building__form-group">
-          <h3>Physische Komponente verknüpfen</h3>
-          <div class="add-building__dropdown">
-            <label for="edge-device">ENTENDIX Edge Device (optional)</label>
-            <DropdownComponent
-              :options="dummyOptions"
-              :currentValue="edgeDevice.value.value"
-              @changed="(value) => (edgeDevice.value.value = value)"
+      <LoadingSpinner v-if="isLoading" class="loading" />
+      <div :class="{ hideForm: isLoading }">
+        <p>
+          Geben Sie die Informationen eines neuen Gebäudes ein. Falls das ENTENDIX Edge Device im
+          Gebäude angebracht wurde, können Sie es hier mit dem Digitalen Zwilling verknüpfen.
+        </p>
+        <form class="add-building__form" ref="form" @submit.prevent="handleSubmit">
+          <div class="add-building__form-group">
+            <h3>Informationen pflegen</h3>
+            <FormInput
+              id="building-name"
+              label="Name"
+              placeholder="Name"
+              v-model="name.value.value"
+              :hasError="!name.isValid && formState.showErrors.value"
+              :error-message="formState.showErrors.value ? name.errorMessage.value : undefined"
+              required
+            />
+            <FormInput
+              id="building-space"
+              label="Netto-Grundfläche [m²]"
+              type="number"
+              v-model="usableSpace.value.value"
+              :has-error="!usableSpace.isValid && formState.showErrors.value"
+              :error-message="
+                formState.showErrors.value ? usableSpace.errorMessage.value : undefined
+              "
+              required
+            />
+            <FormInput
+              id="building-usage"
+              label="Allgemeine Nutzungszeit (optional)"
+              type="textarea"
+              :rows="2"
+              v-model="usage.value.value"
+              placeholder="Allgemein Nutzungszeit"
+              description="Geplante Nutzung des Gebäudes nach Uhrzeit, Wochentag und Saison"
+              :has-error="!usage.isValid && formState.showErrors.value"
+              :error-message="formState.showErrors.value ? usage.errorMessage.value : undefined"
+              disabled
+              title="Coming soon"
+            />
+            <FileInput
+              id="building-planning-data"
+              label="Planungsdaten"
+              accepts="image/*"
+              multiple
+              selectPrompt="Dateien auswählen"
+              @update:fileList="(e) => (files.value.value = e)"
               disabled
               title="Coming soon"
             />
           </div>
-        </div>
-      </form>
+          <div class="add-building__form-group">
+            <h3>Physische Komponente verknüpfen</h3>
+            <div class="add-building__dropdown">
+              <label for="edge-device">ENTENDIX Edge Device (optional)</label>
+              <DropdownComponent
+                :options="dummyOptions"
+                :currentValue="edgeDevice.value.value"
+                @changed="(value) => (edgeDevice.value.value = value)"
+                disabled
+                title="Coming soon"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
     </template>
     <template #footer>
       <ButtonComponent text="Abbrechen" @click="handleClose" state="secondary" />
@@ -119,6 +124,7 @@ import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import FileInput from '@/components/general/forms/FileInput.vue';
 import DropdownComponent from '@/components/general/inputs/DropdownComponent.vue';
 import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
+import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // Helper imports
 import { minValidator, requiredValidator } from '@/helpers/FormValidators';
@@ -141,6 +147,7 @@ export default {
     FileInput,
     DropdownComponent,
     InterceptionModal,
+    LoadingSpinner,
   },
   data() {
     return {
@@ -233,7 +240,7 @@ export default {
           this.$emit('update:modelValue');
           this.formState.reset();
           this.$router.push({
-            name: 'DigitalTwins_Building',
+            name: 'DigitalTwins_Site_Building',
             params: {
               buildingparams: JSON.stringify({
                 siteid: Base64Helper.encode(this.siteStore.site!.id),
@@ -245,12 +252,11 @@ export default {
           });
         }
       } catch (error) {
-        // TODO: Add alert
         this.generalStore.addAlert({
           type: 'error',
           description:
             'Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.',
-          title: 'Fehler beim Anlegen der Liegenschaft',
+          title: 'Fehler beim Anlegen des Gebäudes',
         });
       }
       this.isLoading = false;
@@ -280,6 +286,17 @@ export default {
   }
 }
 
+.hideForm {
+  visibility: hidden;
+}
+
+.loading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
 h5 {
   @include content-subtitle;
   color: $dark-purple;

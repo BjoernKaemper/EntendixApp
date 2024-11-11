@@ -217,8 +217,8 @@ export default {
 
       Object.entries(this.inputs).forEach(([key, input]) => {
         if (input.isChanged.value) {
-          // I am ware that casting to any is not ideal, but i have no other
-          // solution right now as they original type defines props that are
+          // I am aware that casting to any is not ideal, but i have no other
+          // solution right now as the original type defines props that are
           // either string or number but ts can't properly keep reference to the
           // actual type of the value via its key in the inputs object. If a
           // given value needs to be a number, the backend will handle the

@@ -34,7 +34,7 @@
         size="large"
         class="digital-twin-building__trades-loading"
       />
-      <div v-else class="digital-twin-building__trades">
+      <div v-else-if="trades.length" class="digital-twin-building__trades">
         <TradeCard
           v-for="(trade, idx) in trades"
           :key="idx"
@@ -45,6 +45,7 @@
           :isLoading="subSectionsLoading"
         />
       </div>
+      <EdgeDeviceAggregatingTrades v-else class="digital-twin-building__no-trades" />
     </template>
   </BaseLayout>
   <EditEdgeDeviceModal
@@ -77,10 +78,12 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import EditEdgeDeviceModal from '@/components/digitaltwins/EditEdgeDeviceModal.vue';
+import EdgeDeviceAggregatingTrades from '@/components/digitaltwins/EdgeDeviceAggregatingTrades.vue';
 
 // config import
 import { tradesConfig } from '@/configs/trades';
 import type { DropdownOptionElement } from '@/types/local/DropdownOptions';
+import type { TradeWithPlantCounter } from '@/types/local/Trades';
 
 // TODO: get actual edge devices
 const dummyEdgeDevices: DropdownOptionElement[] = [
@@ -107,6 +110,7 @@ export default {
     LoadingCards,
     ButtonComponent,
     EditEdgeDeviceModal,
+    EdgeDeviceAggregatingTrades,
   },
   data() {
     return {
@@ -139,37 +143,39 @@ export default {
     },
 
     trades() {
-      return tradesConfig.map((trade) => {
-        const tradeId = this.building?.data.subsections?.find(
-          (subsection) => subsection.aasSemanticIdentifyer === trade.id,
-        )?.id;
+      return tradesConfig
+        .map((trade) => {
+          const tradeId = this.building?.data.subsections?.find(
+            (subsection) => subsection.aasSemanticIdentifyer === trade.id,
+          )?.id;
 
-        if (!tradeId) {
-          return trade;
-        }
-
-        const tradeData = this.subSections.find((subSection) => subSection.id === tradeId);
-
-        if (!tradeData) {
-          return trade;
-        }
-
-        const plantCounter: { [key: string]: number } = {};
-
-        tradeData.data.plants.forEach((plant) => {
-          if (plant.data.plantType in plantCounter) {
-            plantCounter[plant.data.plantType] += 1;
-          } else {
-            plantCounter[plant.data.plantType] = 1;
+          if (!tradeId) {
+            return undefined;
           }
-        });
 
-        return {
-          ...trade,
-          plantCounter,
-          openTrade: () => this.openSubsection(trade.title, tradeId),
-        };
-      });
+          const tradeData = this.subSections.find((subSection) => subSection.id === tradeId);
+
+          if (!tradeData?.data.plants.length) {
+            return undefined;
+          }
+
+          const plantCounter: { [key: string]: number } = {};
+
+          tradeData.data.plants.forEach((plant) => {
+            if (plant.data.plantType in plantCounter) {
+              plantCounter[plant.data.plantType] += 1;
+            } else {
+              plantCounter[plant.data.plantType] = 1;
+            }
+          });
+
+          return {
+            ...trade,
+            plantCounter,
+            openTrade: () => this.openSubsection(trade.title, tradeId),
+          };
+        })
+        .filter((trade) => trade) as TradeWithPlantCounter[];
     },
   },
   methods: {
@@ -211,6 +217,11 @@ export default {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
     gap: $m;
+  }
+
+  &__no-trades {
+    padding-left: 16.666%;
+    padding-right: 16.666%;
   }
 
   &__loading {

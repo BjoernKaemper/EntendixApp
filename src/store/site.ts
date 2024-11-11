@@ -126,18 +126,20 @@ export const useSiteStore = defineStore('site', {
       // Try to post the data and add the site
       try {
         const postResult = await FetchHelper.defaultApiCall(`/sites?${q}`, requestOptions);
-        if (postResult.ok) {
-          generalStore.addAlert({
-            type: 'success',
-            title: 'Liegenschaft wurde hinzugefügt',
-            description: '',
-          });
-          // Parse the result and add it to the store
-          const site = (await postResult.json()) as SiteWithBuildinginformation;
-          generalStore.baseInfoState.sites.push(site);
-          return site;
+        if (!postResult.ok) {
+          throw new Error('Failed to add site');
         }
-        throw new Error('Failed to add site');
+
+        generalStore.addAlert({
+          type: 'success',
+          title: 'Liegenschaft wurde hinzugefügt',
+          description: '',
+        });
+
+        // Parse the result and add it to the store
+        const site = (await postResult.json()) as SiteWithBuildinginformation;
+        generalStore.baseInfoState.sites.push(site);
+        return site;
       } catch (error) {
         generalStore.addAlert({
           type: 'error',

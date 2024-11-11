@@ -34,7 +34,7 @@
         size="large"
         class="digital-twin-building__trades-loading"
       />
-      <div v-else class="digital-twin-building__trades">
+      <div v-else-if="trades.length" class="digital-twin-building__trades">
         <TradeCard
           v-for="(trade, idx) in trades"
           :key="idx"
@@ -45,6 +45,7 @@
           :isLoading="subSectionsLoading"
         />
       </div>
+      <EdgeDeviceAggregatingTrades v-else class="digital-twin-building__no-trades" />
     </template>
   </BaseLayout>
   <EditEdgeDeviceModal
@@ -77,6 +78,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import EditEdgeDeviceModal from '@/components/digitaltwins/EditEdgeDeviceModal.vue';
+import EdgeDeviceAggregatingTrades from '@/components/digitaltwins/EdgeDeviceAggregatingTrades.vue';
 
 // config import
 import { tradesConfig } from '@/configs/trades';
@@ -108,6 +110,7 @@ export default {
     LoadingCards,
     ButtonComponent,
     EditEdgeDeviceModal,
+    EdgeDeviceAggregatingTrades,
   },
   data() {
     return {
@@ -214,6 +217,11 @@ export default {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
     gap: $m;
+  }
+
+  &__no-trades {
+    padding-left: 16.666%;
+    padding-right: 16.666%;
   }
 
   &__loading {

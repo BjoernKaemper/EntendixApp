@@ -81,6 +81,7 @@ import EditEdgeDeviceModal from '@/components/digitaltwins/EditEdgeDeviceModal.v
 // config import
 import { tradesConfig } from '@/configs/trades';
 import type { DropdownOptionElement } from '@/types/local/DropdownOptions';
+import type { TradeWithPlantCounter } from '@/types/local/Trades';
 
 // TODO: get actual edge devices
 const dummyEdgeDevices: DropdownOptionElement[] = [
@@ -139,37 +140,39 @@ export default {
     },
 
     trades() {
-      return tradesConfig.map((trade) => {
-        const tradeId = this.building?.data.subsections?.find(
-          (subsection) => subsection.aasSemanticIdentifyer === trade.id,
-        )?.id;
+      return tradesConfig
+        .map((trade) => {
+          const tradeId = this.building?.data.subsections?.find(
+            (subsection) => subsection.aasSemanticIdentifyer === trade.id,
+          )?.id;
 
-        if (!tradeId) {
-          return trade;
-        }
-
-        const tradeData = this.subSections.find((subSection) => subSection.id === tradeId);
-
-        if (!tradeData) {
-          return trade;
-        }
-
-        const plantCounter: { [key: string]: number } = {};
-
-        tradeData.data.plants.forEach((plant) => {
-          if (plant.data.plantType in plantCounter) {
-            plantCounter[plant.data.plantType] += 1;
-          } else {
-            plantCounter[plant.data.plantType] = 1;
+          if (!tradeId) {
+            return undefined;
           }
-        });
 
-        return {
-          ...trade,
-          plantCounter,
-          openTrade: () => this.openSubsection(trade.title, tradeId),
-        };
-      });
+          const tradeData = this.subSections.find((subSection) => subSection.id === tradeId);
+
+          if (!tradeData?.data.plants.length) {
+            return undefined;
+          }
+
+          const plantCounter: { [key: string]: number } = {};
+
+          tradeData.data.plants.forEach((plant) => {
+            if (plant.data.plantType in plantCounter) {
+              plantCounter[plant.data.plantType] += 1;
+            } else {
+              plantCounter[plant.data.plantType] = 1;
+            }
+          });
+
+          return {
+            ...trade,
+            plantCounter,
+            openTrade: () => this.openSubsection(trade.title, tradeId),
+          };
+        })
+        .filter((trade) => trade) as TradeWithPlantCounter[];
     },
   },
   methods: {

@@ -32,6 +32,7 @@ export default {
   gap: $m;
   padding: $xxl 0;
 
+  // TODO: add pulsing animation to icons as described in the design
   &__icons {
     display: flex;
     justify-content: center;

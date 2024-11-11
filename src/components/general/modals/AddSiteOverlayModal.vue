@@ -227,7 +227,20 @@ export default {
           zipcode: this.zipCodeInput.value.value,
           cityTown: this.cityInput.value.value,
           nationalCode: this.countryInput.value.value,
-        } as Address);
+        } as Address).catch(() => {
+          this.generalStore.addAlert({
+            type: 'error',
+            description:
+              'Die angegebene Adresse konnte nicht gefunden werden. Bitte geben Sie ein gültige Adresse ein.',
+            title: 'Fehler beim Anlegen der Liegenschaft',
+          });
+        });
+
+        if (!addressWithCoords) {
+          this.isLoading = false;
+          return;
+        }
+
         const body = new FormData();
         if (this.files.value.value.length !== 0) {
           body.append('image', this.files.value.value[0]);

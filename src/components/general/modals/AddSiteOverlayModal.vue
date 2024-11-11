@@ -222,7 +222,7 @@ export default {
       this.isLoading = true;
       try {
         // Get the coordinates for the address
-        const addressWithCords = await CoordinatesHelper.getCoordinates({
+        const addressWithCoords = await CoordinatesHelper.getCoordinates({
           street: this.streetInput.value.value,
           zipcode: this.zipCodeInput.value.value,
           cityTown: this.cityInput.value.value,
@@ -233,12 +233,12 @@ export default {
           body.append('image', this.files.value.value[0]);
         }
         body.append('siteName', this.nameInput.value.value);
-        body.append('street', addressWithCords.street);
-        body.append('zipcode', addressWithCords.zipcode);
-        body.append('cityTown', addressWithCords.cityTown);
-        body.append('nationalCode', addressWithCords.nationalCode);
-        body.append('lattitude', addressWithCords.lattitude);
-        body.append('longitude', addressWithCords.longitude);
+        body.append('street', addressWithCoords.street);
+        body.append('zipcode', addressWithCoords.zipcode);
+        body.append('cityTown', addressWithCoords.cityTown);
+        body.append('nationalCode', addressWithCoords.nationalCode);
+        body.append('lattitude', addressWithCoords.lattitude);
+        body.append('longitude', addressWithCoords.longitude);
         // Add the Company ID to the body, this will be for the next few years always be the first company, cause we only have one company
         body.append('companyId', this.generalStore.baseInfoState.companies[0].id);
         const result = await this.siteStore.addSite(body);
@@ -258,7 +258,6 @@ export default {
           });
         }
       } catch (error) {
-        // TODO: Add alert
         this.generalStore.addAlert({
           type: 'error',
           description:

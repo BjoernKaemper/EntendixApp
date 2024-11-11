@@ -18,14 +18,16 @@ export default {
       const result = await geocoder.geocode({
         address: `${address.street} ${address.zipcode} ${address.cityTown} ${address.nationalCode}`,
       });
-      if (result.results.length) {
-        return {
-          ...address,
-          lattitude: result.results[0].geometry.location.lat().toString(),
-          longitude: result.results[0].geometry.location.lng().toString(),
-        } as AddressWithGeoLatLong;
+
+      if (!result.results.length) {
+        throw new Error('No coordinates found');
       }
-      throw new Error('No coordinates found');
+
+      return {
+        ...address,
+        lattitude: result.results[0].geometry.location.lat().toString(),
+        longitude: result.results[0].geometry.location.lng().toString(),
+      };
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('No coordinates found: ', error);

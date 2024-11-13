@@ -242,28 +242,30 @@ export default {
         // Add the Company ID to the body, this will be for the next few years always be the first company, cause we only have one company
         body.append('companyId', this.generalStore.baseInfoState.companies[0].id);
         const result = await this.siteStore.addSite(body);
-        if (typeof result !== 'boolean') {
-          // The result is not a boolean, so it is a Site object
-          // Close the modal, reset the form and navigate to the new site page
-          this.$emit('close');
-          this.formState.reset();
-          this.$router.push({
-            name: 'DigitalTwins_Site',
-            params: {
-              siteparams: JSON.stringify({
-                siteid: Base64Helper.encode(result.id),
-                siteName: result.data.siteName,
-              }),
-            },
-          });
-        }
+        // Show a success alert
+        this.generalStore.addAlert({
+          type: 'success',
+          title: 'Liegenschaft wurde hinzugefügt',
+          description: '',
+        });
+        // Close the modal, reset the form and navigate to the new site page
+        this.$emit('close');
+        this.formState.reset();
+        this.$router.push({
+          name: 'DigitalTwins_Site',
+          params: {
+            siteparams: JSON.stringify({
+              siteid: Base64Helper.encode(result.id),
+              siteName: result.data.siteName,
+            }),
+          },
+        });
       } catch (error) {
-        // TODO: Add alert
         this.generalStore.addAlert({
           type: 'error',
           description:
             'Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.',
-          title: 'Fehler beim Anlegen der Liegenschaft',
+          title: 'Hinzufügen der Liegenschaft fehlgeschlagen!',
         });
       }
       this.isLoading = false;

@@ -109,7 +109,7 @@ export const useSiteStore = defineStore('site', {
       this.kpiState.isLoading = false;
     },
 
-    async addSite(requestBody: FormData): Promise<boolean | Site> {
+    async addSite(requestBody: FormData): Promise<Site> {
       const generalStore = useGeneralStore();
 
       // Build the query and the request
@@ -124,28 +124,12 @@ export const useSiteStore = defineStore('site', {
       } as RequestInit;
 
       // Try to post the data and add the site
-      try {
-        const postResult = await FetchHelper.defaultApiCall(`/sites?${q}`, requestOptions);
-        if (postResult.ok) {
-          generalStore.addAlert({
-            type: 'success',
-            title: 'Liegenschaft wurde hinzugefügt',
-            description: '',
-          });
-          // Parse the result and add it to the store
-          const site = (await postResult.json()) as SiteWithBuildinginformation;
-          generalStore.baseInfoState.sites.push(site);
-          return site;
-        }
-        throw new Error('Failed to add site');
-      } catch (error) {
-        generalStore.addAlert({
-          type: 'error',
-          title: 'Hinzufügen der Liegenschaft fehlgeschlagen!',
-          description: 'Bitte versuche es zu einem späteren Zeitpunkt erneut.',
-        });
-        return false;
-      }
+      const postResult = await FetchHelper.defaultApiCall(`/sites?${q}`, requestOptions);
+
+      // Parse the result and add it to the store
+      const site = (await postResult.json()) as SiteWithBuildinginformation;
+      generalStore.baseInfoState.sites.push(site);
+      return site;
     },
     /**
      * Load all images of the site

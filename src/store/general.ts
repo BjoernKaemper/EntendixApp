@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Types
 import type Company from '@/types/global/company/Company';
 import type { Site } from '@/types/global/site/Site';
-import type { Alert } from '@/types/local/Alert';
+import type { ActiveAlert, Alert } from '@/types/local/Alert';
 import { TimelineLookbackOptions, TimeRangeDropdownConfig } from '@/configs/timeRangeDropdown';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 import type { TimelineDataPoint } from '@/types/global/timeline/Timeline';
@@ -32,7 +32,7 @@ interface GeneralStoreState {
     width: number | null;
     height: number | null;
   };
-  alerts: Alert[];
+  alerts: ActiveAlert[];
   baseInfoState: {
     companies: Company[];
     sites: SiteWithDataurl[];
@@ -95,14 +95,28 @@ export const useGeneralStore = defineStore('general', {
     /**
      * Add a new alert to the alert list
      * @param {Alert} alert
+     * @param {boolean} autoClose - If the alert should be closed automatically
+     * after given time
+     * @param {number} timeout - The time in milliseconds after which the alert
+     * should be closed
      * @returns {string} The id of the alert
      */
-    addAlert(alert: Alert): string {
+    addAlert(alert: Alert, autoClose: boolean = false, timeout: number = 7000): string {
       const alertId = uuidv4();
+      let timeoutId: NodeJS.Timeout | undefined;
+
+      if (autoClose) {
+        timeoutId = setTimeout(() => {
+          this.removeAlert(alertId);
+        }, timeout);
+      }
+
       this.alerts.push({
         ...alert,
         id: alertId,
         time: DateTime.now().toFormat('HH:mm'),
+        timeoutId,
+        timeout,
       });
       return alertId;
     },

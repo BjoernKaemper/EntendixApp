@@ -77,7 +77,7 @@ export default {
 
 <style scoped lang="scss">
 button {
-  border: 1px solid $darken;
+  border: 1px solid $light-purple !important;
   border-radius: $border-radius;
   display: flex;
   justify-content: center;
@@ -105,7 +105,6 @@ button {
   }
   &.primary {
     background-color: $light-purple;
-    border-color: $light-purple;
   }
 
   &.secondary {

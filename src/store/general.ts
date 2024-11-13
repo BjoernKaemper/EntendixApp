@@ -38,6 +38,7 @@ interface GeneralStoreState {
     sites: SiteWithDataurl[];
     requestTimestamp: DateTime | null;
     isLoading: boolean;
+    error: boolean;
   };
 }
 
@@ -47,6 +48,7 @@ const defaultbaseInfoState = {
   sites: [],
   requestTimestamp: null,
   isLoading: false,
+  error: false,
 };
 
 const defaultWindowDimensionsState = {
@@ -134,20 +136,23 @@ export const useGeneralStore = defineStore('general', {
       const requestOptions = {
         // @TODO: Implement authentication
       } as RequestInit;
+      try {
+        this.baseInfoState.sites = (await FetchHelper.apiCall(
+          `/sites?${q}`,
+          requestOptions,
+        )) as Site[];
+        this.loadSiteImages();
 
-      this.baseInfoState.sites = (await FetchHelper.apiCall(
-        `/sites?${q}`,
-        requestOptions,
-      )) as Site[];
-      this.loadSiteImages();
+        // Fetching types Company Information
+        this.baseInfoState.companies = (await FetchHelper.apiCall(
+          `/companies?${q}`,
+          requestOptions,
+        )) as Company[];
 
-      // Fetching types Company Information
-      this.baseInfoState.companies = (await FetchHelper.apiCall(
-        `/companies?${q}`,
-        requestOptions,
-      )) as Company[];
-
-      this.baseInfoState.requestTimestamp = DateTime.now();
+        this.baseInfoState.requestTimestamp = DateTime.now();
+      } catch (error) {
+        this.baseInfoState.error = true;
+      }
       this.baseInfoState.isLoading = false;
     },
 

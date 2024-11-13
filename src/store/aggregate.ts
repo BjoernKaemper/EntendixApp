@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia';
-import type { Aggregate } from '@/types/global/aggregate/Aggregate';
+import type {
+  Aggregate,
+  AggregateUpdateData,
+  BasicAggregate,
+} from '@/types/global/aggregate/Aggregate';
 import { DateTime } from 'luxon';
 import { useGeneralStore } from '@/store/general';
 import QueryHelper from '@/helpers/QueryHelper';
@@ -42,6 +46,48 @@ export const useAggregateStore = defineStore('aggregate', {
       this.aggregates.set(id, { ...aggregate, requestTimestamp: DateTime.now() });
 
       return aggregate;
+    },
+
+    /**
+     * Update props of a aggregate
+     * @param buildingId - Aggregate to update props for
+     * @param updateData - props to change
+     * @returns Updated Aggregate on success
+     * @throws Error on failure
+     */
+    async updateAggregate(id: string, updateData: AggregateUpdateData): Promise<Aggregate> {
+      const generalStore = useGeneralStore();
+
+      // Build the query and the request
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        method: 'PATCH',
+        body: JSON.stringify(updateData),
+      };
+
+      const updatedAggregate = (await FetchHelper.apiCall(
+        `/aggregates/${Base64Helper.encode(id)}?${q}`,
+        requestOptions,
+      )) as BasicAggregate;
+
+      const currentAggregate = this.aggregates.get(id);
+
+      // Merge the updated buildings data with current extended buildings data
+      const mergedData = { ...currentAggregate?.data, ...updatedAggregate.data };
+
+      const fullAggregate = {
+        ...updatedAggregate,
+        data: mergedData,
+        requestTimestamp: DateTime.now(),
+      };
+
+      this.aggregates.set(id, fullAggregate);
+
+      return fullAggregate;
     },
   },
 });

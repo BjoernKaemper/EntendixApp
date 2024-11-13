@@ -160,8 +160,7 @@ export default {
     };
   },
   computed: {
-    ...mapStores(usePlantStore),
-    ...mapStores(useAggregateStore),
+    ...mapStores(usePlantStore, useAggregateStore),
 
     plant() {
       return this.plantStore.plant;

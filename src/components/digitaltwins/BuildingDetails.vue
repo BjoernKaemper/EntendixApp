@@ -182,8 +182,7 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useBuildingStore),
-    ...mapStores(useGeneralStore),
+    ...mapStores(useBuildingStore, useGeneralStore),
   },
   methods: {
     async uploadFiles(files: File[]) {

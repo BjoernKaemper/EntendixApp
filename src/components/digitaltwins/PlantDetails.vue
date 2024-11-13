@@ -58,7 +58,7 @@
       :class="{ 'plant-details__section--loading': updateLoading }"
     >
       <FileInput
-        id="fiel-upload"
+        id="file-upload"
         label="Technische Planungen und Datenblätter"
         select-prompt="Schemata oder Grundrisse auswählen..."
         disabled
@@ -157,8 +157,7 @@ export default {
     };
   },
   computed: {
-    ...mapStores(usePlantStore),
-    ...mapStores(useGeneralStore),
+    ...mapStores(usePlantStore, useGeneralStore),
   },
   methods: {
     closeAndResetForm() {

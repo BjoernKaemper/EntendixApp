@@ -108,6 +108,29 @@ export const useSiteStore = defineStore('site', {
       }
       this.kpiState.isLoading = false;
     },
+
+    async addSite(requestBody: FormData): Promise<Site> {
+      const generalStore = useGeneralStore();
+
+      // Build the query and the request
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        method: 'POST',
+        body: requestBody,
+      } as RequestInit;
+
+      // Try to post the data and add the site
+      const postResult = await FetchHelper.defaultApiCall(`/sites?${q}`, requestOptions);
+
+      // Parse the result and add it to the store
+      const site = (await postResult.json()) as SiteWithBuildinginformation;
+      generalStore.baseInfoState.sites.push(site);
+      return site;
+    },
     /**
      * Load all images of the site
      */

@@ -328,15 +328,14 @@ export default {
 
           // Communicate success to user
           this.formState.reset();
-          const alertId = this.generalStore.addAlert({
-            type: 'success',
-            title: 'Änderungen gespeichert',
-            description: 'Das Aggregat wurde erfolgreich aktualisiert!',
-          });
-
-          setTimeout(() => {
-            this.generalStore.removeAlert(alertId);
-          }, 7000);
+          this.generalStore.addAlert(
+            {
+              type: 'success',
+              title: 'Änderungen gespeichert',
+              description: 'Das Aggregat wurde erfolgreich aktualisiert!',
+            },
+            true,
+          );
 
           // Refetch module this aggregate belongs to. Don't do anything on
           // failure as partial error will be displayed anyways

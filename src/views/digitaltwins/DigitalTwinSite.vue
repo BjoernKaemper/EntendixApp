@@ -7,6 +7,7 @@
         <h3>Informationen über die Liegenschaft</h3>
         <LoadingSpinner />
       </div>
+      <AlertElement v-else-if="hasError" :alert="AlertMessages.CANNOT_LOAD" :is-toast="false" />
       <SiteDetails v-else-if="site" :site="site" />
     </template>
     <template #right>
@@ -22,6 +23,7 @@
       <div v-if="isLoading" class="digital-twin-site__buildings-loading">
         <LoadingSpinner size="large" />
       </div>
+      <AlertElement v-else-if="hasError" :alert="AlertMessages.CANNOT_LOAD" :is-toast="false" />
       <div v-else-if="site?.data.buildings?.length" class="digital-twin-site__buildings">
         <BuildingCard
           v-for="(building, idx) in site?.data.buildings"
@@ -55,10 +57,14 @@ import AddBuildingModal from '@/components/digitaltwins/AddBuildingModal.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import NoBuildingsMessage from '@/components/digitaltwins/NoBuildingsMessage.vue';
+import AlertElement from '@/components/general/AlertElement.vue';
 
 // Type imports
 import type { SiteWithBuildinginformation } from '@/types/global/site/Site';
 import { IconTypes } from '@/types/enums/IconTypes';
+
+// Data imports
+import { AlertMessages } from '@/assets/json/AlertMessages';
 
 export default {
   components: {
@@ -70,12 +76,14 @@ export default {
     LoadingCards,
     LoadingSpinner,
     NoBuildingsMessage,
+    AlertElement,
   },
   data() {
     return {
       siteName: '',
       IconTypes,
       addBuildingModalIsOpen: false,
+      AlertMessages,
     };
   },
   created() {
@@ -90,6 +98,10 @@ export default {
 
     isLoading(): boolean {
       return this.siteStore.isLoading;
+    },
+
+    hasError(): boolean {
+      return this.siteStore.error;
     },
   },
   methods: {

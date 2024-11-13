@@ -7,10 +7,15 @@
         v-if="plantStore.isLoading"
         size="large"
       />
+      <AlertElement
+        v-else-if="plantStore.error"
+        :alert="AlertMessages.CANNOT_LOAD"
+        :is-toast="false"
+      />
       <SymbolImage
-        v-else
+        v-else-if="plant"
         :alt="plantName || 'Plant Name'"
-        :src="SymbolImageHelper.getImage(plant!.data.parentType, plant?.data.plantType)"
+        :src="SymbolImageHelper.getImage(plant.data.parentType, plant.data.plantType)"
         class="digital-twin-plant__image"
         :use-aspect-ratio="false"
       />

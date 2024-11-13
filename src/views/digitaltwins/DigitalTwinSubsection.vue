@@ -2,7 +2,12 @@
   <BaseLayout>
     <template #left>
       <h2>{{ subsectionName }}</h2>
-      <div class="twin-subsection__schema-image">
+      <AlertElement
+        v-if="subsectionStore.error"
+        :alert="AlertMessages.CANNOT_LOAD"
+        :is-toast="false"
+      />
+      <div v-else class="twin-subsection__schema-image">
         <LoadingSpinner class="twin-subsection__schema-loading" v-if="isLoading" size="large" />
         <SymbolImage
           v-else
@@ -16,6 +21,11 @@
     <template #right>
       <h3>Verwaltung der Anlage</h3>
       <LoadingCards v-if="isLoading" />
+      <AlertElement
+        v-else-if="subsectionStore.error"
+        :alert="AlertMessages.CANNOT_LOAD"
+        :is-toast="false"
+      />
       <div v-else class="twin-subsection__plants">
         <div
           v-for="plantType in subsection?.data.plantsByType"
@@ -55,9 +65,13 @@ import ListElement from '@/components/general/ListElement.vue';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import SymbolImage from '@/components/general/SymbolImage.vue';
+import AlertElement from '@/components/general/AlertElement.vue';
 
 // Type imports
 import type { Plant } from '@/types/global/plant/Plant';
+
+// Data imports
+import { AlertMessages } from '@/assets/json/AlertMessages';
 
 export default {
   name: 'DigitalTwinSubsection',
@@ -67,6 +81,7 @@ export default {
     LoadingSpinner,
     LoadingCards,
     SymbolImage,
+    AlertElement,
   },
   data() {
     return {
@@ -76,6 +91,7 @@ export default {
       siteId: '',
       buildingName: '',
       buildingId: '',
+      AlertMessages,
     };
   },
   computed: {

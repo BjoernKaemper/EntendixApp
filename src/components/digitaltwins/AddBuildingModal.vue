@@ -23,8 +23,51 @@
               required
             />
             <FormInput
+              id="street"
+              label="Straße"
+              placeholder="Straße"
+              :required="true"
+              type="text"
+              v-model="street.value.value"
+              :hasError="!street.isValid.value && formState.showErrors.value"
+              :errorMessage="formState.showErrors.value ? street.errorMessage.value : undefined"
+            />
+            <div class="add-building__form-grid">
+              <FormInput
+                id="zip"
+                label="PLZ"
+                placeholder="PLZ"
+                :required="true"
+                type="text"
+                v-model="zipCode.value.value"
+                :hasError="!zipCode.isValid.value && formState.showErrors.value"
+                :errorMessage="formState.showErrors.value ? zipCode.errorMessage.value : undefined"
+              />
+              <FormInput
+                id="city"
+                label="Stadt"
+                placeholder="Stadt"
+                :required="true"
+                type="text"
+                v-model="city.value.value"
+                :hasError="!city.isValid.value && formState.showErrors.value"
+                :errorMessage="formState.showErrors.value ? city.errorMessage.value : undefined"
+              />
+            </div>
+            <FormInput
+              id="country"
+              label="Land"
+              placeholder="Land"
+              :required="true"
+              type="text"
+              v-model="country.value.value"
+              :hasError="!country.isValid.value && formState.showErrors.value"
+              :errorMessage="formState.showErrors.value ? country.errorMessage.value : undefined"
+            />
+            <FormInput
               id="building-space"
               label="Netto-Grundfläche [m²]"
+              placeholder="Netto-Grundfläche [m²]"
               type="number"
               v-model="usableSpace.value.value"
               :has-error="!usableSpace.isValid && formState.showErrors.value"
@@ -116,6 +159,8 @@ import { mapStores } from 'pinia';
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
 import type { DropdownOptions } from '@/types/local/DropdownOptions';
+import type { FlatBuildingCreateData } from '@/types/global/building/Building';
+import type { Address } from '@/types/global/general/Address';
 
 // Component imports
 import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
@@ -129,6 +174,7 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 // Helper imports
 import { minValidator, requiredValidator } from '@/helpers/FormValidators';
 import Base64Helper from '@/helpers/Base64Helper';
+import CoordinatesHelper from '@/helpers/CoordinatesHelper';
 
 // TODO: get proper edge device options from middleware/backend
 const dummyOptions: DropdownOptions = [
@@ -158,6 +204,9 @@ export default {
   },
   computed: {
     ...mapStores(useSiteStore, useBuildingStore, useGeneralStore),
+    siteAddress() {
+      return this.siteStore.site?.data.address;
+    },
   },
   props: {
     /**
@@ -171,12 +220,26 @@ export default {
   emits: ['update:modelValue'],
   setup() {
     const name = useInput<string>([requiredValidator], '');
+    const street = useInput<string>([requiredValidator], '');
+    const zipCode = useInput<string>([requiredValidator], '');
+    const city = useInput<string>([requiredValidator], '');
+    const country = useInput<string>([requiredValidator], '');
     const usableSpace = useInput<string>([requiredValidator, minValidator(0)], '');
     const usage = useInput<string>([], '');
     const files = useInput<File[]>([], []);
     const edgeDevice = useInput<string>([], '');
 
-    const formState = useFormManager([name, usableSpace, edgeDevice, files, usage]);
+    const formState = useFormManager([
+      name,
+      street,
+      zipCode,
+      city,
+      country,
+      usableSpace,
+      edgeDevice,
+      files,
+      usage,
+    ]);
 
     const interceptLeave = useModalInterception();
 
@@ -184,6 +247,10 @@ export default {
 
     return {
       name,
+      street,
+      zipCode,
+      city,
+      country,
       usableSpace,
       edgeDevice,
       files,
@@ -225,19 +292,33 @@ export default {
       this.isLoading = true;
 
       try {
+        // Get the coordinates for the address
+        const addressWithCords = await CoordinatesHelper.getCoordinates({
+          street: this.street.value.value,
+          zipcode: this.zipCode.value.value,
+          cityTown: this.city.value.value,
+          nationalCode: this.country.value.value,
+        } as Address);
+
         // TODO: Uncomment when file input and usage input are prioritized and handled in backend
         const body = {
           // usage: this.usage.value.value,
           buildingName: this.name.value.value,
-          usableSpace: this.usableSpace.value.value,
+          usableSpace: parseFloat(this.usableSpace.value.value),
           siteId: this.siteStore.site!.id,
-        };
+          street: this.street.value.value,
+          zipcode: this.zipCode.value.value,
+          cityTown: this.city.value.value,
+          nationalCode: this.country.value.value,
+          lattitude: addressWithCords.lattitude,
+          longitude: addressWithCords.longitude,
+        } as FlatBuildingCreateData;
 
         const result = await this.buildingStore.addBuilding(body);
         if (typeof result !== 'boolean') {
           // The result is not a boolean, so it is a Site object
           // Close the modal, reset the form and navigate to the new site page
-          this.$emit('update:modelValue');
+          this.$emit('update:modelValue', false);
           this.formState.reset();
           this.$router.push({
             name: 'DigitalTwins_Site_Building',
@@ -262,6 +343,22 @@ export default {
       this.isLoading = false;
     },
   },
+  watch: {
+    siteAddress() {
+      if (this.siteAddress) {
+        this.street.value.value =
+          this.street.value.value === '' ? this.siteAddress.street : this.street.value.value;
+        this.zipCode.value.value =
+          this.zipCode.value.value === '' ? this.siteAddress.zipcode : this.zipCode.value.value;
+        this.city.value.value =
+          this.city.value.value === '' ? this.siteAddress.cityTown : this.city.value.value;
+        this.country.value.value =
+          this.country.value.value === ''
+            ? this.siteAddress.nationalCode
+            : this.country.value.value;
+      }
+    },
+  },
 };
 </script>
 
@@ -271,6 +368,12 @@ export default {
     display: flex;
     flex-direction: column;
     gap: $m;
+  }
+
+  &__form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $xxs;
   }
 
   &__form-group {

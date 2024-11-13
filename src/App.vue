@@ -25,6 +25,7 @@
 import NavBar from '@/components/general/NavBar.vue';
 import Breadcrumbs from '@/components/general/BreadCrumbs.vue';
 import Alerts from '@/components/general/Alerts.vue';
+import 'floating-vue/dist/style.css';
 
 import { Authenticator, useAuthenticator, translations } from '@aws-amplify/ui-vue';
 // @TODO: Remove this import when the new styles are ready

@@ -315,23 +315,26 @@ export default {
         } as FlatBuildingCreateData;
 
         const result = await this.buildingStore.addBuilding(body);
-        if (typeof result !== 'boolean') {
-          // The result is not a boolean, so it is a Site object
-          // Close the modal, reset the form and navigate to the new site page
-          this.$emit('update:modelValue', false);
-          this.formState.reset();
-          this.$router.push({
-            name: 'DigitalTwins_Site_Building',
-            params: {
-              buildingparams: JSON.stringify({
-                siteid: Base64Helper.encode(this.siteStore.site!.id),
-                siteName: this.siteStore.site!.data.siteName,
-                buildingid: Base64Helper.encode(result.id),
-                buildingName: result.data.buildingName,
-              }),
-            },
-          });
-        }
+        // Show success alert
+        this.generalStore.addAlert({
+          type: 'success',
+          title: 'Gebäude wurde hinzugefügt',
+          description: '',
+        });
+        // Close the modal, reset the form and navigate to the new Building page
+        this.$emit('update:modelValue', false);
+        this.formState.reset();
+        this.$router.push({
+          name: 'DigitalTwins_Site_Building',
+          params: {
+            buildingparams: JSON.stringify({
+              siteid: Base64Helper.encode(this.siteStore.site!.id),
+              siteName: this.siteStore.site!.data.siteName,
+              buildingid: Base64Helper.encode(result.id),
+              buildingName: result.data.buildingName,
+            }),
+          },
+        });
       } catch (error) {
         this.generalStore.addAlert({
           type: 'error',

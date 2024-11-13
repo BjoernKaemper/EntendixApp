@@ -149,7 +149,7 @@ export const useBuildingStore = defineStore('building', {
      * @returns {Promise<Building>} The promise of the adding process
      * @throws {Error} Throws an error if the adding process fails
      */
-    async addBuilding(requestBody: FlatBuildingCreateData): Promise<boolean | Building> {
+    async addBuilding(requestBody: FlatBuildingCreateData): Promise<Building> {
       const generalStore = useGeneralStore();
 
       // Build the query and the request
@@ -165,12 +165,6 @@ export const useBuildingStore = defineStore('building', {
 
       // Try to post the data and add the site
       const postResult = await FetchHelper.apiCall(`/buildings?${q}`, requestOptions);
-      generalStore.addAlert({
-        type: 'success',
-        title: 'Gebäude wurde hinzugefügt',
-        description: '',
-      });
-      // Parse the result and add it to the store
 
       const building = postResult as Building;
       this.building = building;

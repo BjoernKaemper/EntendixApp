@@ -12,6 +12,7 @@ import { createApp } from 'vue';
 // Plugins
 import AmplifyVue from '@aws-amplify/ui-vue';
 import { registerPlugins } from '@/plugins';
+import FloatingVue from 'floating-vue';
 
 // AWS Amplify imports
 import { Amplify } from 'aws-amplify';
@@ -38,6 +39,7 @@ Amplify.configure({
 
 const app = createApp(App);
 app.use(AmplifyVue);
+app.use(FloatingVue);
 
 registerPlugins(app);
 

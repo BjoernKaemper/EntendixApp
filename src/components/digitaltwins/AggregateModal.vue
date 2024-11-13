@@ -69,7 +69,17 @@
               <th>Baugruppe</th>
               <th>Medium</th>
               <th>Aggregat</th>
-              <th>Funktion</th>
+              <th>
+                Funktion
+                <MaterialSymbol
+                  symbol="info"
+                  size="small"
+                  class="aggregate-modal__function-info"
+                  v-tooltip="
+                    'In einer zukünftigen Version wird es möglich sein, die erkannte Funktion manuell anzupassen.'
+                  "
+                />
+              </th>
             </tr>
             <tr
               v-for="dataPoint in aggregate.data.dataPoints"
@@ -137,6 +147,7 @@ import FormInput from '@/components/general/forms/FormInput.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import InterceptionModal from '@/components/general/modals/InterceptionModal.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
+import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 
 // Helper imports
 import { requiredValidator } from '@/helpers/FormValidators';
@@ -163,6 +174,7 @@ export default {
     ButtonComponent,
     InterceptionModal,
     AlertElement,
+    MaterialSymbol,
   },
   props: {
     /**
@@ -318,6 +330,11 @@ export default {
     min-width: 50px;
     display: flex;
     align-items: center;
+  }
+
+  &__function-info {
+    cursor: pointer;
+    vertical-align: middle;
   }
 }
 

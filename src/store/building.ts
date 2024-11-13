@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { DateTime } from 'luxon';
 
 // Types
-import type { Building } from '@/types/global/building/Building';
+import type { Building, FlatBuildingCreateData } from '@/types/global/building/Building';
 import type { Subsection } from '@/types/global/subsections/Subsection';
 import type { Kpi } from '@/types/global/kpi/Kpi';
 
@@ -141,6 +141,34 @@ export const useBuildingStore = defineStore('building', {
         this.kpiState.error = true;
       }
       this.kpiState.isLoading = false;
+    },
+
+    /**
+     * Add a new building
+     * @param {FormData} requestBody The form data of the Building to add
+     * @returns {Promise<Building>} The promise of the adding process
+     * @throws {Error} Throws an error if the adding process fails
+     */
+    async addBuilding(requestBody: FlatBuildingCreateData): Promise<Building> {
+      const generalStore = useGeneralStore();
+
+      // Build the query and the request
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const requestOptions = {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+      } as RequestInit;
+
+      // Try to post the data and add the site
+      const postResult = await FetchHelper.apiCall(`/buildings?${q}`, requestOptions);
+
+      const building = postResult as Building;
+      this.building = building;
+      return building;
     },
   },
 });

@@ -122,6 +122,66 @@ export const usePlantStore = defineStore('plant', {
     },
 
     /**
+     * Internal function to fetch a module
+     * @param moduleId - Module to fetch
+     * @returns Promise of module
+     * @throws Error
+     */
+    async fetchModule(moduleId: string): Promise<Module> {
+      const generalStore = useGeneralStore();
+
+      // Build the query and the request
+      const queryCombined = {
+        userId: generalStore.getUserId(),
+      };
+      const q = QueryHelper.queryify(queryCombined);
+
+      const module: Module = await FetchHelper.apiCall(
+        `/modules/${Base64Helper.encode(moduleId)}/mediums?${q}`,
+        {},
+      );
+
+      // Sort mediums and aggregates alphabetically
+      module.data.mediums?.sort((a, b) => a.data.mediumName.localeCompare(b.data.mediumName));
+
+      module.data.mediums?.forEach((medium) => {
+        medium.data.aggregates?.sort((a, b) =>
+          a.data.aggregateName.localeCompare(b.data.aggregateName),
+        );
+      });
+
+      const moduleIndex = this.moduleState.modules.findIndex((m) => m.id === module.id);
+
+      // Add or update module in store
+      if (moduleIndex !== -1) {
+        this.moduleState.modules[moduleIndex] = module;
+      } else {
+        this.moduleState.modules.push(module);
+      }
+
+      return module;
+    },
+
+    /**
+     * Action to call to refetch a single module\
+     * Manipulates the partialError state
+     * @param moduleId - Module to fetch
+     * @returns Fetched module
+     * @throws Error
+     */
+    async fetchSingleModule(moduleId: string): Promise<Module> {
+      this.moduleState.partialError = this.moduleState.partialError || false;
+
+      try {
+        const module = await this.fetchModule(moduleId);
+        return module;
+      } catch (error) {
+        this.moduleState.partialError = true;
+        throw error;
+      }
+    },
+
+    /**
      * Fetch detailed module data for current plant
      */
     async fetchModuleData(): Promise<void> {
@@ -137,25 +197,14 @@ export const usePlantStore = defineStore('plant', {
       this.moduleState.error = false;
       this.moduleState.partialError = false;
 
-      const generalStore = useGeneralStore();
-      const queryCombined = {
-        userId: generalStore.getUserId(),
-      };
-      const q = QueryHelper.queryify(queryCombined);
-
-      const modulePromises = this.plant.data.modules.map((module) => {
-        return FetchHelper.apiCall(`/modules/${Base64Helper.encode(module.id)}/mediums?${q}`, {});
-      });
+      const modulePromises = this.plant.data.modules.map((module) => this.fetchModule(module.id));
 
       await Promise.allSettled(modulePromises)
         .then((results) => {
           results.forEach((result) => {
             if (result.status === 'rejected') {
               this.moduleState.partialError = true;
-              return;
             }
-
-            this.moduleState.modules.push(result.value);
           });
 
           if (

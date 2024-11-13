@@ -181,6 +181,7 @@ export interface AggregateModalData {
   moduleName: string;
   plantName: string;
   subSectionName: string;
+  refetchModule: () => Promise<void>;
 }
 
 export default {
@@ -336,6 +337,10 @@ export default {
           setTimeout(() => {
             this.generalStore.removeAlert(alertId);
           }, 7000);
+
+          // Refetch module this aggregate belongs to. Don't do anything on
+          // failure as partial error will be displayed anyways
+          this.data.refetchModule();
         })
         .catch(() => {
           this.generalStore.addAlert({

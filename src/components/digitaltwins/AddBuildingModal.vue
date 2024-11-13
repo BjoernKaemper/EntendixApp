@@ -283,6 +283,8 @@ export default {
     display: flex;
     flex-direction: column;
     gap: $xxxs;
+    // TODO: Remove when edge device options are available
+    overflow: hidden;
   }
 }
 

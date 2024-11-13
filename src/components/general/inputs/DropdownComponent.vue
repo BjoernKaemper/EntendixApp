@@ -221,8 +221,6 @@ export default {
 .dropdown-input-list-wrapper {
   @include content;
   visibility: hidden;
-  display: none;
-  position: absolute;
   width: 100%;
   z-index: 2;
   border: 1px solid $light-purple;

@@ -11,6 +11,7 @@
         <h3>Informationen über das Gebäude</h3>
         <LoadingSpinner />
       </div>
+      <AlertElement v-else-if="hasError" :alert="AlertMessages.CANNOT_LOAD" :is-toast="false" />
       <BuildingDetails
         v-else-if="!buildingLoading && building"
         :buildingName="buildingName"
@@ -33,6 +34,11 @@
         v-if="subSectionsLoading"
         size="large"
         class="digital-twin-building__trades-loading"
+      />
+      <AlertElement
+        v-else-if="buildingStore.subsectionState.error"
+        :alert="AlertMessages.CANNOT_LOAD"
+        :is-toast="false"
       />
       <div v-else-if="trades.length" class="digital-twin-building__trades">
         <TradeCard
@@ -79,11 +85,17 @@ import LoadingCards from '@/components/general/LoadingCards.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import EditEdgeDeviceModal from '@/components/digitaltwins/EditEdgeDeviceModal.vue';
 import EdgeDeviceAggregatingTrades from '@/components/digitaltwins/EdgeDeviceAggregatingTrades.vue';
+import AlertElement from '@/components/general/AlertElement.vue';
 
 // config import
 import { tradesConfig } from '@/configs/trades';
+
+// Type imports
 import type { DropdownOptionElement } from '@/types/local/DropdownOptions';
 import type { TradeWithPlantCounter } from '@/types/local/Trades';
+
+// Data imports
+import { AlertMessages } from '@/assets/json/AlertMessages';
 
 // TODO: get actual edge devices
 const dummyEdgeDevices: DropdownOptionElement[] = [
@@ -111,6 +123,7 @@ export default {
     ButtonComponent,
     EditEdgeDeviceModal,
     EdgeDeviceAggregatingTrades,
+    AlertElement,
   },
   data() {
     return {
@@ -121,6 +134,7 @@ export default {
       dummyEdgeDevices,
       initialEdgeDevice:
         dummyEdgeDevices[Math.round(Math.random() * (dummyEdgeDevices.length - 1))].value,
+      AlertMessages,
     };
   },
   computed: {
@@ -176,6 +190,10 @@ export default {
           };
         })
         .filter((trade) => trade) as TradeWithPlantCounter[];
+    },
+
+    hasError() {
+      return this.buildingStore.error;
     },
   },
   methods: {

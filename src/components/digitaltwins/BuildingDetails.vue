@@ -238,15 +238,14 @@ export default {
 
           // Communicate success to user
           this.closeAndResetForm();
-          const alertId = this.generalStore.addAlert({
-            type: 'success',
-            title: 'Änderungen gespeichert',
-            description: 'Das Gebäude wurde erfolgreich aktualisiert!',
-          });
-
-          setTimeout(() => {
-            this.generalStore.removeAlert(alertId);
-          }, 7000);
+          this.generalStore.addAlert(
+            {
+              type: 'success',
+              title: 'Änderungen gespeichert',
+              description: 'Das Gebäude wurde erfolgreich aktualisiert!',
+            },
+            true,
+          );
         })
         .catch(() => {
           this.generalStore.addAlert({

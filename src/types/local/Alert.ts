@@ -15,3 +15,13 @@ export interface Alert {
   description: string;
   time?: string;
 }
+
+/**
+ * Initialized and pending alert
+ */
+export interface ActiveAlert extends Alert {
+  /** Initial timeout id, if alert is set to autoclose */
+  timeoutId?: NodeJS.Timeout;
+  /** Timeout period of alert in ms */
+  timeout: number;
+}

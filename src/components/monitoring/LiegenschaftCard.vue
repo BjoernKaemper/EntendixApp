@@ -144,6 +144,8 @@ export default {
 
   &--image {
     height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
     border-radius: $border-radius;
   }
 

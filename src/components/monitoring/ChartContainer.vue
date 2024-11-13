@@ -50,6 +50,9 @@
       @close="toggleSettings"
       :modal-title="kpi?.data.name?.de || topic"
       :modal-description="kpi?.data.context?.de"
+      :critical-value="kpi?.data.limits ? parseFloat(kpi?.data.limits[1]) : 50"
+      :good-value="kpi?.data.limits ? parseFloat(kpi?.data.limits[0]) : 150"
+      :unit="primaryKpiValueUnit"
     />
   </div>
 </template>

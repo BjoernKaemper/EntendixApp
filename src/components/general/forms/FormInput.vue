@@ -18,6 +18,7 @@
         @input="(e) => $emit('update:modelValue', (e.target as HTMLTextAreaElement).value)"
         :value="modelValue"
         :required="required"
+        :rows="rows"
       />
       <input
         v-else
@@ -145,6 +146,14 @@ export default {
     description: {
       type: String,
       default: undefined,
+    },
+    /**
+     * Number of rows for the textarea.
+     * @default 3
+     */
+    rows: {
+      type: Number,
+      default: 3,
     },
   },
   emits: ['update:modelValue'],

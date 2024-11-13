@@ -9,7 +9,9 @@
           :alt="plant?.data.plantName || 'Plant Name'"
           :use-aspect-ratio="false"
         />
-        <ButtonComponent text="im Digitalen Zwilling bearbeiten" />
+        <router-link class="image-link" :to="digitalTwinLink"
+          >im Digitalen Zwilling bearbeiten</router-link
+        >
       </div>
     </template>
     <template #right>
@@ -72,7 +74,6 @@ import type { Alert } from '@/types/local/Alert';
 import { AlertTypes } from '@/types/enums/AlertTypes';
 
 // component imports
-import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import ChipComponent from '@/components/general/ChipComponent.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
 import StatusCard from '@/components/general/StatusCard.vue';
@@ -91,7 +92,6 @@ export type Status = {
 
 export default {
   components: {
-    ButtonComponent,
     ChipComponent,
     AlertElement,
     StatusCard,
@@ -148,6 +148,10 @@ export default {
         }
       });
       return mappedKpis;
+    },
+    digitalTwinLink() {
+      const route = this.$route.path;
+      return route.replace('monitoring', 'digitaltwins');
     },
   },
   methods: {
@@ -217,13 +221,23 @@ export default {
   align-items: center;
   position: relative;
 
-  button {
+  .image-link {
     position: absolute;
     top: $m;
     right: $m;
     border: 1px solid $darken;
     @include meta-information;
     padding: $xxxs;
+    border: 1px solid $darken;
+    border-radius: $border-radius;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $xxxs;
+    width: fit-content;
+    cursor: pointer;
+    background-color: $lightest;
+    border: 1px solid $light-purple;
   }
 }
 

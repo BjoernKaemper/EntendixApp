@@ -33,4 +33,6 @@ export interface EntendixInput<T> {
   errorMessage: Ref<string | undefined>;
   /** Reset the input to its initial value */
   reset: () => void;
+  /** Set a new initial value for a living input to update it's 'isChanged` behavior */
+  updateInitialValue: (newValue: any) => void;
 }

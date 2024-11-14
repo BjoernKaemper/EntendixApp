@@ -164,6 +164,24 @@ export default {
       this.formState.reset();
       this.formFocused = false;
     },
+    updateRoute(newPlantName: string) {
+      const currentParams = this.$route.params.plantparams as string;
+
+      if (!currentParams) {
+        return;
+      }
+
+      const parsedParams = JSON.parse(currentParams);
+
+      parsedParams.plantName = newPlantName;
+
+      this.$router.replace({
+        name: 'DigitalTwins_Site_Building_Subsection_Plant',
+        params: {
+          plantparams: JSON.stringify(parsedParams),
+        },
+      });
+    },
     async handleSubmit() {
       if (!this.formState.isValid.value) {
         return;
@@ -199,6 +217,7 @@ export default {
             },
             true,
           );
+          this.updateRoute(updatedPlant.data.plantName);
         })
         .catch(() => {
           this.generalStore.addAlert({

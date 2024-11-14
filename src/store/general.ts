@@ -66,7 +66,6 @@ export const useGeneralStore = defineStore('general', {
   actions: {
     async getUserId(): Promise<string> {
       const session = await Auth.currentSession();
-      console.log(session.getIdToken().payload);
       return session.getIdToken().payload.sub;
     },
     /**
@@ -207,7 +206,7 @@ export const useGeneralStore = defineStore('general', {
      */
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
       const queryCombined = {
-        userId: this.getUserId(),
+        userId: await this.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -237,7 +236,7 @@ export const useGeneralStore = defineStore('general', {
       this.baseInfoState.sites.forEach(async (site, idx) => {
         if (site.data.imagesrc) {
           const queryCombined = {
-            userId: this.getUserId(),
+            userId: await this.getUserId(),
           };
           const q = QueryHelper.queryify(queryCombined);
           const requestOptions = {

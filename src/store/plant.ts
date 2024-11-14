@@ -132,7 +132,7 @@ export const usePlantStore = defineStore('plant', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -239,7 +239,7 @@ export const usePlantStore = defineStore('plant', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 

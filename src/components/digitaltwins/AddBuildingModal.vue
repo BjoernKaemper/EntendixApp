@@ -350,19 +350,28 @@ export default {
     },
   },
   watch: {
-    siteAddress() {
-      if (this.siteAddress) {
-        this.street.value.value =
-          this.street.value.value === '' ? this.siteAddress.street : this.street.value.value;
-        this.zipCode.value.value =
-          this.zipCode.value.value === '' ? this.siteAddress.zipcode : this.zipCode.value.value;
-        this.city.value.value =
-          this.city.value.value === '' ? this.siteAddress.cityTown : this.city.value.value;
-        this.country.value.value =
-          this.country.value.value === ''
-            ? this.siteAddress.nationalCode
-            : this.country.value.value;
-      }
+    siteAddress: {
+      handler() {
+        if (this.siteAddress) {
+          if (this.street.value.value === '') {
+            this.street.updateInitialValue(this.siteAddress.street);
+            this.street.reset();
+          }
+          if (this.zipCode.value.value === '') {
+            this.zipCode.updateInitialValue(this.siteAddress.zipcode);
+            this.zipCode.reset();
+          }
+          if (this.city.value.value === '') {
+            this.city.updateInitialValue(this.siteAddress.cityTown);
+            this.city.reset();
+          }
+          if (this.country.value.value === '') {
+            this.country.updateInitialValue(this.siteAddress.nationalCode);
+            this.country.reset();
+          }
+        }
+      },
+      immediate: true,
     },
   },
 };

@@ -20,6 +20,9 @@
           :alert="AlertMessages.CANNOT_LOAD"
           :is-toast="false"
         />
+        <p v-else-if="site?.data.buildings?.length === 0">
+          <NoBuildingsMessage />
+        </p>
         <StatusCard
           v-else
           v-for="(building, idx) in site?.data.buildings"
@@ -81,6 +84,7 @@ import LoadingCards from '@/components/general/LoadingCards.vue';
 import TimeRangeDropdown from '@/components/general/inputs/TimeRangeDropdown.vue';
 import AlertElement from '@/components/general/AlertElement.vue';
 import BaseLayout from '@/components/general/BaseLayout.vue';
+import NoBuildingsMessage from '@/components/digitaltwins/NoBuildingsMessage.vue';
 
 // Types
 import { ActionTypes } from '@/types/enums/ActionTypes';
@@ -97,6 +101,7 @@ export default {
     TimeRangeDropdown,
     AlertElement,
     BaseLayout,
+    NoBuildingsMessage,
   },
 
   setup() {

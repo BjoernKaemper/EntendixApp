@@ -76,6 +76,11 @@ export default {
           // We have to use the google object from the window because the google object is not
           // available so a new instance of google object is created and the linter ignored for this
           // eslint-disable-next-line no-new
+          if (Number.isNaN(coordinates.lat) || Number.isNaN(coordinates.lng)) {
+            return;
+          }
+
+          // eslint-disable-next-line no-new
           new google.maps.Marker({
             position: coordinates,
             map: this.map,

@@ -1,8 +1,9 @@
 <template>
   <div class="no-buildings">
     <MaterialSymbol symbol="add_home_work" size="x-large" />
-    <h4 class="not-buildings__title">
-      Aktuell sind keine Gebäude zugeordnet. Erstellen Sie ein neues, damit wir den Digitalen
+    <h4 class="no-buildings__title">
+      Aktuell sind keine Gebäude zugeordnet. Erstellen Sie
+      <a :href="path" v-if="path">im Digitalen Zwilling</a> ein Gebäude, damit wir den Digitalen
       Zwilling aufbauen können.
     </h4>
   </div>
@@ -15,6 +16,16 @@ export default {
   name: 'NoBuildingsMessage',
   components: {
     MaterialSymbol,
+  },
+  computed: {
+    /**
+     * Returns the path to the digital twins page if the current route is the monitoring page
+     */
+    path(): string | undefined {
+      return this.$route.path.includes('monitoring')
+        ? this.$route.path.replace('monitoring', 'digitaltwins')
+        : undefined;
+    },
   },
 };
 </script>
@@ -30,5 +41,12 @@ export default {
   padding: $xxl 0;
   grid-column-start: 2;
   grid-column-end: -2;
+  &__title {
+    text-align: center;
+    a {
+      color: $dark-purple;
+      text-decoration: underline;
+    }
+  }
 }
 </style>

@@ -76,7 +76,7 @@ export const useSiteStore = defineStore('site', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -114,7 +114,7 @@ export const useSiteStore = defineStore('site', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -139,7 +139,7 @@ export const useSiteStore = defineStore('site', {
 
       if (this.site && this.site.data.imagesrc) {
         const queryCombined = {
-          userId: generalStore.getUserId(),
+          userId: await generalStore.getUserId(),
         };
         const q = QueryHelper.queryify(queryCombined);
         const requestOptions = {
@@ -166,7 +166,7 @@ export const useSiteStore = defineStore('site', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 

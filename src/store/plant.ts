@@ -89,7 +89,7 @@ export const usePlantStore = defineStore('plant', {
     async fetchPlantInformation(plantId: string): Promise<Plant> {
       const generalStore = useGeneralStore();
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -139,7 +139,7 @@ export const usePlantStore = defineStore('plant', {
 
       const generalStore = useGeneralStore();
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 

@@ -6,7 +6,7 @@
       </div>
     </template>
     <template v-else>
-      <img :src="imgsrc" alt="Gebäudebild" class="card--image" />
+      <img :src="imgsrc" :onerror="useFallbackImage" alt="Gebäudebild" class="card--image" />
       <div class="info">
         <ChipComponent v-if="status" :status="status" :isMini="true" />
         <div class="info--text">
@@ -58,6 +58,9 @@ import MaterialSymbol from '@/components/general/MaterialSymbol.vue';
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
 import { type PropType } from 'vue';
 import { IconTypes } from '@/types/enums/IconTypes';
+
+// helper imports
+import SymbolImageHelper from '@/helpers/SymbolImageHelper';
 
 export default {
   props: {
@@ -120,6 +123,12 @@ export default {
     return {
       IconTypes,
     };
+  },
+  methods: {
+    useFallbackImage(event: Event) {
+      const target = event.target as HTMLImageElement;
+      target.src = SymbolImageHelper.getImage('default', 'default');
+    },
   },
 };
 </script>

@@ -9,15 +9,25 @@
       </div>
       <AlertElement v-else-if="loadingError" :alert="AlertMessages.CANNOT_LOAD" :is-toast="false" />
       <div v-else-if="aggregate" class="aggregate-modal__content">
-        <form class="aggregate-modal__section" ref="form" @submit.prevent="console.log('TODO')">
+        <div class="aggregate-modal__updating" v-if="updateLoading">
+          <LoadingSpinner size="large" />
+        </div>
+        <form
+          class="aggregate-modal__section"
+          :class="{ 'aggregate-modal__section--loading': updateLoading }"
+          ref="form"
+          @submit.prevent="handleSubmit"
+        >
           <h6>Informationen anpassen</h6>
           <FormInput
             id="aggregate-name"
             label="Bezeichnung des Aggregats"
             placeholder="Bezeichnung des Aggregats"
-            v-model="name.value.value"
-            :hasError="!name.isValid && formState.showErrors.value"
-            :error-message="formState.showErrors.value ? name.errorMessage.value : undefined"
+            v-model="inputs.aggregateName.value.value"
+            :hasError="!inputs.aggregateName.isValid && formState.showErrors.value"
+            :error-message="
+              formState.showErrors.value ? inputs.aggregateName.errorMessage.value : undefined
+            "
           />
           <div class="aggregate-modal__input-group">
             <legend>Versorgender Bereich (optional)</legend>
@@ -54,7 +64,10 @@
             accepts="image/*,.pdf"
           />
         </form>
-        <section class="aggregate-modal__section">
+        <section
+          class="aggregate-modal__section"
+          :class="{ 'aggregate-modal__section--loading': updateLoading }"
+        >
           <h6>Funktionen nach BACnet & BACtwin</h6>
           <table class="aggregate-modal__table" cellspacing="0">
             <tr>
@@ -99,14 +112,16 @@
       </div>
     </template>
     <template #footer>
-      <ButtonComponent text="Abbrechen" @click="handleClose" state="secondary" />
-      <ButtonComponent
-        type="submit"
-        text="Bestätigen"
-        state="primary"
-        icon="check"
-        @click="submitForm"
-      />
+      <template v-if="formState.isChanged.value">
+        <ButtonComponent text="Abbrechen" @click="handleClose" state="secondary" />
+        <ButtonComponent
+          type="submit"
+          text="Bestätigen"
+          state="primary"
+          icon="check"
+          @click="submitForm"
+        />
+      </template>
     </template>
   </ModalOverlay>
   <InterceptionModal
@@ -128,6 +143,7 @@
 <script lang="ts">
 // Store imports
 import { useAggregateStore } from '@/store/aggregate';
+import { useGeneralStore } from '@/store/general';
 
 // Library imports
 import type { PropType } from 'vue';
@@ -140,7 +156,7 @@ import { usePageLeaveInterception } from '@/hooks/usePageLeaveInteception';
 
 // Component imports
 import ModalOverlay from '@/components/general/modals/ModalOverlay.vue';
-import type { Aggregate } from '@/types/global/aggregate/Aggregate';
+import type { Aggregate, AggregateUpdateData } from '@/types/global/aggregate/Aggregate';
 import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 import FileInput from '@/components/general/forms/FileInput.vue';
 import FormInput from '@/components/general/forms/FormInput.vue';
@@ -155,6 +171,9 @@ import { requiredValidator } from '@/helpers/FormValidators';
 // Data import
 import { AlertMessages } from '@/assets/json/AlertMessages';
 
+// Type imports
+import type { EntendixInput } from '@/types/local/Inputs';
+
 export interface AggregateModalData {
   aggregateId: string;
   aggregateName: string;
@@ -162,6 +181,7 @@ export interface AggregateModalData {
   moduleName: string;
   plantName: string;
   subSectionName: string;
+  refetchModule: () => Promise<void>;
 }
 
 export default {
@@ -197,24 +217,32 @@ export default {
   },
   setup(props) {
     const aggregateStore = useAggregateStore();
+    const generalStore = useGeneralStore();
 
-    const name = useInput([requiredValidator], props.data.aggregateName);
+    const inputs: {
+      [key in keyof Pick<Required<AggregateUpdateData>, 'aggregateName'>]: EntendixInput<string>;
+    } = {
+      aggregateName: useInput([requiredValidator], props.data.aggregateName),
+    };
+
     const floor = useInput([], '');
     const room = useInput([], '');
 
-    const formState = useFormManager([name, floor, room]);
+    const formState = useFormManager([floor, room, ...Object.values(inputs)]);
 
     const interceptLeave = useModalInterception();
 
     usePageLeaveInterception(formState.isChanged, interceptLeave.interceptAction);
 
     return {
-      name,
+      name: inputs.aggregateName,
       floor,
       room,
       formState,
       aggregateStore,
       interceptLeave,
+      inputs,
+      generalStore,
     };
   },
   data() {
@@ -223,6 +251,7 @@ export default {
       loadingError: false,
       aggregate: null as null | Aggregate,
       AlertMessages,
+      updateLoading: false,
     };
   },
   watch: {
@@ -272,6 +301,58 @@ export default {
         () => {},
       );
     },
+    handleSubmit() {
+      if (!this.formState.isValid.value) {
+        return;
+      }
+
+      this.updateLoading = true;
+
+      const updateData: AggregateUpdateData = {};
+
+      Object.entries(this.inputs).forEach(([key, input]) => {
+        if (input.isChanged.value) {
+          updateData[key as keyof AggregateUpdateData] = input.value.value;
+        }
+      });
+
+      this.aggregateStore
+        .updateAggregate(this.data.aggregateId, updateData)
+        .then((updatedAggregate) => {
+          // Update initial values of inputs with new data from backend
+          Object.entries(updatedAggregate.data).forEach(([key, value]) => {
+            if (this.inputs[key as keyof typeof this.inputs]) {
+              this.inputs[key as keyof typeof this.inputs].updateInitialValue(value);
+            }
+          });
+
+          // Communicate success to user
+          this.formState.reset();
+          this.generalStore.addAlert(
+            {
+              type: 'success',
+              title: 'Änderungen gespeichert',
+              description: 'Das Aggregat wurde erfolgreich aktualisiert!',
+            },
+            true,
+          );
+
+          // Refetch module this aggregate belongs to. Don't do anything on
+          // failure as partial error will be displayed anyways
+          this.data.refetchModule();
+        })
+        .catch(() => {
+          this.generalStore.addAlert({
+            type: 'error',
+            title: 'Fehler',
+            description:
+              'Das Aggregat konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut.',
+          });
+        })
+        .finally(() => {
+          this.updateLoading = false;
+        });
+    },
   },
 };
 </script>
@@ -309,6 +390,10 @@ export default {
     display: flex;
     flex-direction: column;
     gap: $xxs;
+
+    &--loading {
+      opacity: 0.6;
+    }
   }
 
   &__input-group {
@@ -335,6 +420,15 @@ export default {
   &__function-info {
     cursor: pointer;
     vertical-align: middle;
+  }
+
+  &__updating {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
   }
 }
 

@@ -347,25 +347,28 @@ export default {
     },
   },
   watch: {
-    siteAddress() {
-      if (this.siteAddress) {
-        if (this.street.value.value === '') {
-          this.street.updateInitialValue(this.siteAddress.street);
-          this.street.reset();
+    siteAddress: {
+      handler() {
+        if (this.siteAddress) {
+          if (this.street.value.value === '') {
+            this.street.updateInitialValue(this.siteAddress.street);
+            this.street.reset();
+          }
+          if (this.zipCode.value.value === '') {
+            this.zipCode.updateInitialValue(this.siteAddress.zipcode);
+            this.zipCode.reset();
+          }
+          if (this.city.value.value === '') {
+            this.city.updateInitialValue(this.siteAddress.cityTown);
+            this.city.reset();
+          }
+          if (this.country.value.value === '') {
+            this.country.updateInitialValue(this.siteAddress.nationalCode);
+            this.country.reset();
+          }
         }
-        if (this.zipCode.value.value === '') {
-          this.zipCode.updateInitialValue(this.siteAddress.zipcode);
-          this.zipCode.reset();
-        }
-        if (this.city.value.value === '') {
-          this.city.updateInitialValue(this.siteAddress.cityTown);
-          this.city.reset();
-        }
-        if (this.country.value.value === '') {
-          this.country.updateInitialValue(this.siteAddress.nationalCode);
-          this.country.reset();
-        }
-      }
+      },
+      immediate: true,
     },
   },
 };

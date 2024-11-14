@@ -4,7 +4,7 @@
     <Authenticator>
       <template v-slot:header>
         <div style="padding: var(--amplify-space-large); text-align: center">
-          <img id="auth-logo" src="@/assets/plyteq_schriftzug.svg" alt="ENTENDIX" />
+          <EntendixLogo id="auth-logo" />
         </div>
       </template>
     </Authenticator>
@@ -25,6 +25,7 @@
 import NavBar from '@/components/general/NavBar.vue';
 import Breadcrumbs from '@/components/general/BreadCrumbs.vue';
 import Alerts from '@/components/general/Alerts.vue';
+import EntendixLogo from '@/components/icons/EntendixLogo.vue';
 import 'floating-vue/dist/style.css';
 
 import { Authenticator, useAuthenticator, translations } from '@aws-amplify/ui-vue';
@@ -79,6 +80,10 @@ generalStore.updateGlobalTime();
   margin-top: 50px;
   max-width: 50%;
   height: auto;
+
+  & path {
+    fill: $darkest;
+  }
 }
 header {
   width: 100vw;

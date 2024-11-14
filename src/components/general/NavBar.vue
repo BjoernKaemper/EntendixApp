@@ -1,6 +1,8 @@
 <template>
   <div class="header-bar">
-    <EntendixLogo />
+    <RouterLink to="/">
+      <EntendixLogo />
+    </RouterLink>
     <nav>
       <ul>
         <!-- eslint-disable-next-line vue/no-use-v-if-with-v-for -->

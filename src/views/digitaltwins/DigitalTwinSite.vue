@@ -18,6 +18,7 @@
           state="secondary"
           text="Neues Gebäude"
           @click="addBuildingModalIsOpen = true"
+          :disabled="isLoading"
         />
       </div>
       <div v-if="isLoading" class="digital-twin-site__buildings-loading">

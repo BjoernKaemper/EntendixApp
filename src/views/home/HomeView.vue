@@ -11,6 +11,7 @@
             class="add-site-button"
             @close="toggleAddSiteModal"
             @click="toggleAddSiteModal"
+            :disabled="sitesAreLoading"
           />
         </div>
         <LoadingCards v-if="sitesAreLoading" :card-count="3" :grow-cards="false" />

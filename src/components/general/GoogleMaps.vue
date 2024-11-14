@@ -96,7 +96,7 @@ export default {
     async initMapElement(googleInstance: typeof google): Promise<void> {
       this.map = new googleInstance.maps.Map(this.$refs.map as HTMLElement, {
         zoom: 10,
-        center: { lat: 0, lng: 0 },
+        center: { lat: 50.94, lng: 6.96 },
         styles: mapStyles,
       });
       this.loadMapCoordinates();

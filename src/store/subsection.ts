@@ -11,6 +11,7 @@ import FetchHelper from '@/helpers/FetchHelper';
 import Base64Helper from '@/helpers/Base64Helper';
 
 // Stores
+import type { Plant } from '@/types/global/plant/Plant';
 import { useGeneralStore } from './general';
 
 interface SubsectionStoreState {
@@ -97,6 +98,40 @@ export const useSubsectionStore = defineStore('subsection', {
         `/subsections/${Base64Helper.encode(subsectionId)}/plants?${q}`,
         requestOptions,
       )) as Subsection;
+    },
+
+    /**
+     * Locally update the data of a plant in the subsections plant and plantByType arrays\
+     * Used after updates of a plant to prevent refetch and keep the data up to date
+     * @param plantId - Id of plant to update
+     * @param updateData - Updated plant to replace the old one with
+     */
+    updatePlant(plantId: string, updateData: Plant): void {
+      if (!this.subsection) {
+        return;
+      }
+
+      const plantIndex = this.subsection.data.plants.findIndex((plant) => plant.id === plantId);
+      if (plantIndex === -1) {
+        return;
+      }
+
+      this.subsection.data.plants[plantIndex] = updateData;
+
+      // Update plant in plantsByType
+      if (!this.subsection.data.plantsByType) {
+        return;
+      }
+
+      this.subsection.data.plantsByType.forEach((plantsByType) => {
+        const { plants } = plantsByType;
+        const plantIndexByType = plants.findIndex((plant) => plant.id === plantId);
+        if (plantIndexByType === -1) {
+          return;
+        }
+
+        plants[plantIndexByType] = updateData;
+      });
     },
   },
 });

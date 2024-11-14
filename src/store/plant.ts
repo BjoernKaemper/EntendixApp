@@ -14,6 +14,7 @@ import Base64Helper from '@/helpers/Base64Helper';
 
 // Stores
 import { useGeneralStore } from './general';
+import { useSubsectionStore } from './subsection';
 
 interface PlantStoreState {
   plant: Plant | null;
@@ -236,6 +237,7 @@ export const usePlantStore = defineStore('plant', {
      */
     async updatePlant(plantId: string, updateData: PlantUpdateData): Promise<Plant> {
       const generalStore = useGeneralStore();
+      const subsectionStore = useSubsectionStore();
 
       // Build the query and the request
       const queryCombined = {
@@ -260,6 +262,9 @@ export const usePlantStore = defineStore('plant', {
         ...updatedPlant,
         data: mergedData,
       };
+
+      // Update the plant in the subsection store
+      subsectionStore.updatePlant(plantId, this.plant);
 
       return this.plant;
     },

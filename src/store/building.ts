@@ -114,7 +114,7 @@ export const useBuildingStore = defineStore('building', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -158,7 +158,7 @@ export const useBuildingStore = defineStore('building', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -187,7 +187,7 @@ export const useBuildingStore = defineStore('building', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 

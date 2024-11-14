@@ -38,7 +38,7 @@ export const useAggregateStore = defineStore('aggregate', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -60,7 +60,7 @@ export const useAggregateStore = defineStore('aggregate', {
 
       // Build the query and the request
       const queryCombined = {
-        userId: generalStore.getUserId(),
+        userId: await generalStore.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 

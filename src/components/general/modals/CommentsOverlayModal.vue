@@ -251,13 +251,13 @@ export default {
         () => {},
       );
     },
-    handleSubmit() {
+    async handleSubmit() {
       if (!this.formState.isValid.value) {
         this.formState.showErrors.value = true;
         return;
       }
 
-      const user: string = this.generalStore.getUserId();
+      const user: string = await this.generalStore.getUserId();
       const dateOfSubmission = new Date().toISOString().split('T')[0];
 
       // TODO: submit properly

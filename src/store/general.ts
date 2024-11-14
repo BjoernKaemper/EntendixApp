@@ -1,8 +1,8 @@
 // Modules
 import { DateTime } from 'luxon';
 import { defineStore } from 'pinia';
-import { useAuthenticator } from '@aws-amplify/ui-vue';
 import { v4 as uuidv4 } from 'uuid';
+import { Auth } from 'aws-amplify';
 
 // Types
 import type Company from '@/types/global/company/Company';
@@ -17,9 +17,6 @@ import { type SiteWithDataurl } from '@/types/local/Site';
 import QueryHelper from '@/helpers/QueryHelper';
 import FetchHelper from '@/helpers/FetchHelper';
 import Base64Helper from '@/helpers/Base64Helper';
-
-// Authenticator definition
-const auth = useAuthenticator();
 
 interface GeneralStoreState {
   time: DateTime;
@@ -67,8 +64,9 @@ export const useGeneralStore = defineStore('general', {
     alerts: [],
   }),
   actions: {
-    getUserId(): string {
-      return auth.user.signInUserSession.idToken.payload.sub;
+    async getUserId(): Promise<string> {
+      const session = await Auth.currentSession();
+      return session.getIdToken().payload.sub;
     },
     /**
      * Update the global time
@@ -143,7 +141,7 @@ export const useGeneralStore = defineStore('general', {
 
       // Fetching types Site Information
       const queryCombined = {
-        userId: auth.user.signInUserSession.idToken.payload.sub,
+        userId: await this.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -176,7 +174,7 @@ export const useGeneralStore = defineStore('general', {
       ].dateTransformer(this.time);
 
       const queryCombined = {
-        userId: auth.user.signInUserSession.idToken.payload.sub,
+        userId: await this.getUserId(),
         startTimestamp: startDate.toSeconds(),
         endTimestamp: this.time.toSeconds(),
         aasIdentifier: Base64Helper.encode(parentId),
@@ -208,7 +206,7 @@ export const useGeneralStore = defineStore('general', {
      */
     async fetchKpiInformation(parentId: string): Promise<Kpi[]> {
       const queryCombined = {
-        userId: this.getUserId(),
+        userId: await this.getUserId(),
       };
       const q = QueryHelper.queryify(queryCombined);
 
@@ -238,7 +236,7 @@ export const useGeneralStore = defineStore('general', {
       this.baseInfoState.sites.forEach(async (site, idx) => {
         if (site.data.imagesrc) {
           const queryCombined = {
-            userId: this.getUserId(),
+            userId: await this.getUserId(),
           };
           const q = QueryHelper.queryify(queryCombined);
           const requestOptions = {

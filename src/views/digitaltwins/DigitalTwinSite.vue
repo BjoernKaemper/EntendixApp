@@ -18,7 +18,7 @@
           state="secondary"
           text="Neues Gebäude"
           @click="addBuildingModalIsOpen = true"
-          :disabled="isLoading"
+          :disabled="isLoading || hasError"
         />
       </div>
       <div v-if="isLoading" class="digital-twin-site__buildings-loading">

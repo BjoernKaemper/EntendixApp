@@ -14,6 +14,11 @@
           />
         </div>
         <LoadingCards v-if="sitesAreLoading" :card-count="3" :grow-cards="false" />
+        <AlertElement
+          v-else-if="generalStore.baseInfoState.error"
+          :alert="AlertMessages.CANNOT_LOAD"
+          :is-toast="false"
+        />
         <template v-else>
           <LiegenschaftCard
             v-for="site in sites"
@@ -46,6 +51,7 @@ import LiegenschaftCard from '@/components/monitoring/LiegenschaftCard.vue';
 import LoadingCards from '@/components/general/LoadingCards.vue';
 import ButtonComponent from '@/components/general/ButtonComponent.vue';
 import AddSiteOverlayModal from '@/components/general/modals/AddSiteOverlayModal.vue';
+import AlertElement from '@/components/general/AlertElement.vue';
 
 // Type imports
 import { ChipStatusTypes } from '@/types/enums/ChipStatusTypes';
@@ -56,6 +62,7 @@ import type { SiteWithDataurl } from '@/types/local/Site';
 // Helper imports
 import Base64Helper from '@/helpers/Base64Helper';
 import SymbolImageHelper from '@/helpers/SymbolImageHelper';
+import { AlertMessages } from '@/assets/json/AlertMessages';
 
 export default {
   components: {
@@ -64,6 +71,7 @@ export default {
     LoadingCards,
     ButtonComponent,
     AddSiteOverlayModal,
+    AlertElement,
   },
   data() {
     return {
@@ -124,6 +132,7 @@ export default {
       ChipStatusTypes,
       IconTypes,
       SymbolImageHelper,
+      AlertMessages,
     };
   },
 };

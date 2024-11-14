@@ -256,11 +256,14 @@ export default {
         body.append('companyId', this.generalStore.baseInfoState.companies[0].id);
         const result = await this.siteStore.addSite(body);
         // Show a success alert
-        this.generalStore.addAlert({
-          type: 'success',
-          title: 'Liegenschaft wurde hinzugefügt',
-          description: '',
-        });
+        this.generalStore.addAlert(
+          {
+            type: 'success',
+            title: 'Liegenschaft wurde hinzugefügt',
+            description: '',
+          },
+          true,
+        );
         // Close the modal, reset the form and navigate to the new site page
         this.$emit('close');
         this.formState.reset();

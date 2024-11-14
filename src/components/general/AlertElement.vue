@@ -3,6 +3,8 @@
     class="alert-tiles--wrapper"
     :class="{ [alert.type]: true, 'is-toast': isToast }"
     ref="alert"
+    @pointerenter="clearTimeout"
+    @pointerleave="restartTimeout"
   >
     <MaterialSymbol :symbol="icon" />
     <div class="alert-tiles--wrapper--inner">
@@ -40,7 +42,7 @@ import { mapStores } from 'pinia';
 // type imports
 import { IconTypes } from '@/types/enums/IconTypes';
 import { AlertTypes } from '@/types/enums/AlertTypes';
-import type { Alert } from '@/types/local/Alert';
+import type { ActiveAlert, Alert } from '@/types/local/Alert';
 
 export default {
   name: 'AlertElement',
@@ -53,7 +55,7 @@ export default {
      * @type Alert
      */
     alert: {
-      type: Object as () => Alert,
+      type: Object as () => ActiveAlert | Alert,
       required: true,
     },
     /**
@@ -65,6 +67,11 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  data() {
+    return {
+      timeoutId: 'timeoutId' in this.alert ? this.alert.timeoutId : undefined,
+    };
   },
   computed: {
     ...mapStores(useGeneralStore),
@@ -90,6 +97,24 @@ export default {
       }
 
       this.generalStore.removeAlert(alertId);
+    },
+    clearTimeout() {
+      if (!this.isToast || !this.timeoutId) {
+        return;
+      }
+
+      clearTimeout(this.timeoutId);
+      this.timeoutId = undefined;
+    },
+    restartTimeout() {
+      // Don't restart timeout if alert doesn't have initial timeoutId (no
+      // autoClose set) or is not in toast
+      if (!this.isToast || !('timeout' in this.alert) || !this.alert.timeoutId) {
+        return;
+      }
+      this.timeoutId = setTimeout(() => {
+        this.closeAlert(this.alert.id);
+      }, this.alert.timeout);
     },
   },
   setup() {

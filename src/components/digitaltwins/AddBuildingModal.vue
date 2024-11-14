@@ -316,11 +316,14 @@ export default {
 
         const result = await this.buildingStore.addBuilding(body);
         // Show success alert
-        this.generalStore.addAlert({
-          type: 'success',
-          title: 'Gebäude wurde hinzugefügt',
-          description: '',
-        });
+        this.generalStore.addAlert(
+          {
+            type: 'success',
+            title: 'Gebäude wurde hinzugefügt',
+            description: '',
+          },
+          true,
+        );
         // Close the modal, reset the form and navigate to the new Building page
         this.$emit('update:modelValue', false);
         this.formState.reset();

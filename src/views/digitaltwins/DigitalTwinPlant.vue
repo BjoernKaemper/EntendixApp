@@ -62,14 +62,23 @@
           v-for="module in filteredModules"
           :key="module.id"
           :title="module.data.moduleName"
+          class="digital-twin-plant__module"
         >
           <template #content>
+            <LoadingSpinner
+              v-if="partialModuleLoadingId === module.id"
+              size="large"
+              class="digital-twin-plant__module-spinner"
+            />
             <div
               v-for="medium in module.data.mediums?.filter(
                 (medium) => medium.data.aggregates?.length,
               )"
               :key="medium.id"
               class="digital-twin-plant__medium"
+              :class="{
+                'digital-twin-plant__medium--loading': partialModuleLoadingId === module.id,
+              }"
             >
               <h4>{{ medium.data.mediumName }}</h4>
               <ListElement
@@ -79,7 +88,12 @@
                 :title="aggregate.data.aggregateName"
                 interactionIcon="open_in_new"
                 @click="
-                  handleAggregateClick(aggregate, module.data.moduleName, medium.data.mediumName)
+                  handleAggregateClick(
+                    aggregate,
+                    module.data.moduleName,
+                    module.id,
+                    medium.data.mediumName,
+                  )
                 "
               />
             </div>
@@ -102,6 +116,7 @@ import { mapStores } from 'pinia';
 
 // Store imports
 import { usePlantStore } from '@/store/plant';
+import { useAggregateStore } from '@/store/aggregate';
 
 // Component imports
 import BaseLayout from '@/components/general/BaseLayout.vue';
@@ -141,15 +156,16 @@ export default {
   },
   data() {
     return {
-      plantName: '',
+      paramsPlantName: '',
       subSectionName: '',
       aggregateModalData: null as AggregateModalData | null,
       aggregateModalOpen: false,
       AlertMessages,
+      partialModuleLoadingId: null as string | null,
     };
   },
   computed: {
-    ...mapStores(usePlantStore),
+    ...mapStores(usePlantStore, useAggregateStore),
 
     plant() {
       return this.plantStore.plant;
@@ -172,9 +188,31 @@ export default {
         return true;
       });
     },
+
+    plantName() {
+      return this.plant?.data.plantName || this.paramsPlantName;
+    },
   },
   methods: {
-    handleAggregateClick(aggregate: Aggregate, moduleName: string, mediumName: string) {
+    async handleModuleUpdate(moduleId: string) {
+      this.partialModuleLoadingId = moduleId;
+
+      // Refetch module data after update. Don't do anything on error, as
+      // partial error will be triggered and shown from store
+      await this.plantStore
+        .fetchSingleModule(moduleId)
+        .catch()
+        .finally(() => {
+          this.partialModuleLoadingId = null;
+        });
+    },
+
+    handleAggregateClick(
+      aggregate: Aggregate,
+      moduleName: string,
+      moduleId: string,
+      mediumName: string,
+    ) {
       this.aggregateModalData = {
         aggregateId: aggregate.id,
         aggregateName: aggregate.data.aggregateName,
@@ -182,13 +220,14 @@ export default {
         moduleName,
         plantName: this.plantName,
         subSectionName: this.subSectionName,
+        refetchModule: () => this.handleModuleUpdate(moduleId),
       };
       this.aggregateModalOpen = true;
     },
   },
   created() {
     const params = JSON.parse(this.$route.params.plantparams as string);
-    this.plantName = params.plantName;
+    this.paramsPlantName = params.plantName;
     this.subSectionName = params.subsectionName;
   },
   setup() {
@@ -223,14 +262,31 @@ export default {
     gap: $xl;
   }
 
+  &__module {
+    position: relative;
+  }
+
   &__medium {
     display: flex;
     flex-direction: column;
     gap: $xxs;
+
+    &--loading {
+      opacity: 0.6;
+    }
   }
 
   &__loading {
     padding: $xxl $m;
+  }
+
+  &__module-spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
   }
 }
 

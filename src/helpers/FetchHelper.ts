@@ -57,6 +57,11 @@ export default {
         ...defaultOptions,
         ...options,
       });
+
+      if (!response.ok) {
+        throw new Error(await response.text());
+      }
+
       return response;
     } catch (error) {
       // eslint-disable-next-line no-console

@@ -74,9 +74,6 @@
 </template>
 
 <script lang="ts">
-// TODO: connect to backend
-// TODO: handle page leave for unsaved changes
-
 // Store imports
 import { useSiteStore } from '@/store/site';
 import { useGeneralStore } from '@/store/general';

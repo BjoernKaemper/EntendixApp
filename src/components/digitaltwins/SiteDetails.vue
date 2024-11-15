@@ -5,6 +5,7 @@
       class="site-detail__image"
       :src="site.data.imageDataUrl || SymbolImageHelper.getImage('default', 'default')"
       :alt="`image of ${site.data.siteName}`"
+      :onerror="useFallbackImage"
     />
     <div class="site-detail__form-wrap">
       <div class="site-detail__updating" v-if="updateLoading">
@@ -207,6 +208,10 @@ export default {
         .finally(() => {
           this.updateLoading = false;
         });
+    },
+    useFallbackImage(event: Event) {
+      const target = event.target as HTMLImageElement;
+      target.src = SymbolImageHelper.getImage('default', 'default');
     },
   },
 };

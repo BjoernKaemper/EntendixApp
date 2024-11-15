@@ -9,6 +9,7 @@
         v-else
         :alt="site?.data.siteName || 'Site Name'"
         :src="site?.data.imageDataUrl || SymbolImageHelper.getImage('default', 'default')"
+        :onerror="useFallbackImage"
         class="site-image"
       />
 
@@ -189,6 +190,10 @@ export default {
           }),
         },
       });
+    },
+    useFallbackImage(event: Event) {
+      const target = event.target as HTMLImageElement;
+      target.src = SymbolImageHelper.getImage('default', 'default');
     },
   },
 };

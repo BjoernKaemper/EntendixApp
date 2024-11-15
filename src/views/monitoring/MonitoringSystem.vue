@@ -39,6 +39,7 @@
             :status="getChipStatusByCondition(status.condition)"
           />
         </div>
+        <AlertElement v-if="kpiError" :alert="AlertMessages.CANNOT_LOAD" :is-toast="false" />
         <div v-for="(kpiGroup, idx) in mappedKpis" :key="idx" class="system-overview--modules">
           <h2>
             {{ kpiGroup.title }}
@@ -82,7 +83,9 @@ import LoadingCards from '@/components/general/LoadingCards.vue';
 import SymbolImage from '@/components/general/SymbolImage.vue';
 import BaseLayout from '@/components/general/BaseLayout.vue';
 
+// Helper imports
 import SymbolImageHelper from '@/helpers/SymbolImageHelper';
+import { AlertMessages } from '@/assets/json/AlertMessages';
 
 export type Status = {
   title: string;
@@ -134,6 +137,9 @@ export default {
         },
       ];
     },
+    kpiError(): boolean {
+      return this.plantStore.kpiState.error;
+    },
     mappedKpis() {
       const mappedKpis: Array<any> = [];
       this.plantStore.kpiState.kpis.forEach((kpi: Kpi) => {
@@ -174,6 +180,7 @@ export default {
       IconTypes,
       ChipStatusTypes,
       SymbolImageHelper,
+      AlertMessages,
     };
   },
   created() {

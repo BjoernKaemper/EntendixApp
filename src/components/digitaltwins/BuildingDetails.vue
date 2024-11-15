@@ -57,7 +57,7 @@
     <div class="twin-building-details__input-group">
       <p>Planungsdaten</p>
       <div class="twin-building-details__files">
-        <FileEntry v-for="file in dummyFiles" :key="file.fileName" :file-name="file.fileName" />
+        <FileEntry v-for="file in files" :key="file.fileName" :file-name="file.fileName" />
         <FileInput
           id="files"
           accepts="image/*"
@@ -103,12 +103,18 @@ import LoadingSpinner from '@/components/general/LoadingSpinner.vue';
 
 // Type imports
 import { IconTypes } from '@/types/enums/IconTypes';
+import type { EntendixInput } from '@/types/local/Inputs';
 import type {
   Building,
   BuildingUpdateData,
   FlatBuildingData,
 } from '@/types/global/building/Building';
-import type { EntendixInput } from '@/types/local/Inputs';
+
+// If Fileuploads are possible move this into types submodule
+type EntendixFile = {
+  fileName: string;
+  url: string;
+};
 
 export default {
   components: {
@@ -165,16 +171,7 @@ export default {
       BuildingCardPreview,
       IconTypes,
       // TODO: get actual files
-      dummyFiles: [
-        {
-          fileName: 'gebäude-plan.pdf',
-          url: 'test',
-        },
-        {
-          fileName: 'Energieausweis.pdf',
-          url: 'test',
-        },
-      ],
+      files: [] as EntendixFile[],
       // TODO: handle focus properly, when one looses focus and another one gets
       // it, the state flaps
       formFocused: false,
@@ -199,7 +196,7 @@ export default {
         }, 250);
       });
 
-      this.dummyFiles.push(uploadResult);
+      this.files.push(uploadResult as EntendixFile);
     },
     closeAndResetForm() {
       this.formState.reset();

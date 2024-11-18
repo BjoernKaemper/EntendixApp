@@ -8,6 +8,7 @@
         :src="SymbolImageHelper.getImage(subsection!.data.tradeType)"
         :alt="subsection?.data.tradeName || 'Subsection Name'"
         :use-aspect-ratio="false"
+        class="subsection-image"
       />
     </template>
     <template #right>
@@ -206,5 +207,14 @@ h4 {
 
 :deep(.image-loading) {
   height: 300px;
+}
+:deep(.subsection-image) {
+  background-color: $lightest;
+  border-radius: $base-size;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $s;
 }
 </style>

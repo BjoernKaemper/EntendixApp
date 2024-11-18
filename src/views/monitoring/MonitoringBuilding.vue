@@ -3,12 +3,14 @@
     <template #left>
       <h2>{{ building?.data.buildingName || buildingName }}</h2>
       <LoadingCards v-if="isLoading" :card-count="1" card-class="image-loading" />
-      <SymbolImage
-        v-else
-        :src="BuildingPreviewImage"
-        :alt="building?.data.buildingName || 'Site Name'"
-        :use-aspect-ratio="false"
-      />
+      <figure v-else class="building-image">
+        <SymbolImage
+          :src="BuildingPreviewImage"
+          :alt="building?.data.buildingName || 'Site Name'"
+          :use-aspect-ratio="false"
+          class="building-image__image"
+        />
+      </figure>
       <div class="status-container">
         <h3>Funktionserfüllung Anlagentechnik</h3>
         <LoadingCards v-if="isLoading" :card-count="3" card-class="" />
@@ -349,5 +351,20 @@ img {
 
 :deep(.problems-loading) {
   background-color: transparent;
+}
+
+.building-image {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: $xxxl;
+  background-color: $lightest;
+  border-radius: $border-radius;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__image {
+    width: 100%;
+  }
 }
 </style>

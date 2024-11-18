@@ -224,6 +224,7 @@ export default {
   gap: $s;
 
   &__image {
+    width: 100%;
     aspect-ratio: 3 / 2;
     border-radius: $border-radius;
   }

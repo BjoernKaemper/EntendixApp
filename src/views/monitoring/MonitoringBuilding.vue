@@ -111,7 +111,7 @@ import SymbolImage from '@/components/general/SymbolImage.vue';
 import BaseLayout from '@/components/general/BaseLayout.vue';
 
 import { AlertMessages } from '@/assets/json/AlertMessages';
-import BuildingPreviewImage from '@/assets/AutomationKlima.svg';
+import BuildingPreviewImage from '@/assets/BuildingCardPreview.svg';
 
 export default {
   components: {

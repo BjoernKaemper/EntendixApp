@@ -202,10 +202,8 @@ export default {
 <style scoped lang="scss">
 .site-image {
   width: 100%;
-  height: auto;
-  border-radius: $border-radius;
   aspect-ratio: 3 / 2;
-  object-fit: cover;
+  border-radius: $border-radius;
 }
 
 .status-container {
